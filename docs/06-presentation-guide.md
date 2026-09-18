@@ -1,0 +1,129 @@
+# 6. Presentation guide
+
+Course: Foundations of Data Science (BITS Pilani).
+Slot: **22 September 2026**.
+Title: *Learning Urban Activity Rhythms from Ambient Seismic Noise for Anomaly-Based
+Disruption Detection.*
+Team: Aadit Chandra, Aradhya Gupta, Shraddha Pradeep.
+
+## Suggested slide order
+
+**1. Hook (no title slide theatrics, just the question)**
+"This is a recording from a seismometer in New York. Can you tell me what day of the
+week it was?" Show one day's curve with the label hidden.
+
+**2. The physics**
+Traffic, trains, footsteps and machinery shake the ground by tens of nanometres.
+Seismometers record it continuously. Above ~1 Hz, in cities, most of the background
+hum is people. Cite Lecocq et al. 2020, Díaz et al. 2017, Groos & Ritter 2009.
+
+**3. The idea**
+If human activity is rhythmic, the rhythm must be in the vibration record. Two
+questions: can a model read the day of the week off it? And can it spot days that
+break the pattern?
+
+**4. The data**
+158 real seismometers, 28,749 station-days, Nov 2019 – May 2020, from the published
+dataset of Lecocq et al. (2020), *Science*. Professional networks plus Raspberry Shake
+home sensors. Emphasise: real, public, peer-reviewed, no synthetic data.
+
+**5. The signal — the money slide**
+`outputs/plots/AM_R7885_weekly_rhythm.png`. Weekdays overlap in a sharp commute shape;
+Saturday sits below; Sunday is lowest and starts latest. The pattern is visible before
+any machine learning happens.
+
+**6. Method in one slide**
+Day → 24 hourly medians (local time!) → shape (24) + level (1) → random forest.
+Trained only on normal days. Tested with whole weeks held out.
+
+**7. Result 1: it works, in 149 cities**
+`outputs/plots/accuracy_by_station.png`. Median 93.3% weekday vs weekend (chance 50%),
+46.5% exact day (chance 14.3%), best 72.2%.
+
+**8. Result 2: the control group**
+Mammoth Lakes, Kule (Botswana), Puerto Williams — all at chance. No people, no signal.
+And accuracy rises with population density (ρ = 0.36). This is the slide that proves
+you're measuring humans, not an artefact.
+
+**9. Where it fails, and how it fails**
+`outputs/plots/AM_R7885_confusion.png`. Tuesday/Wednesday/Thursday get mixed up,
+weekends almost never do. Cities genuinely behave the same on midweek days.
+
+**10. Generalisation**
+One model, tested only on cities it never trained on: 79% weekday vs weekend.
+The rhythm is partly universal, but local models are much better.
+
+**11. Disruption detection**
+`outputs/plots/disruptions_global.png`. Trained only on normal days. Holidays: 18%
+flagged. Lockdown: 23%. Normal days: 5% by construction.
+
+**12. The moment**
+Thanksgiving in New York and All Saints' Day in Brussels were flagged with no holiday
+calendar in the code. On Thanksgiving the model calls a Thursday "Sunday" with 68%
+confidence.
+
+**13. Live demo**
+```bash
+python src/predict.py --station AM.R7885 --date 2019-11-28
+```
+Have a normal Wednesday ready too, so it doesn't look cherry-picked. Rehearse it, and
+screenshot the output as a backup slide in case the laptop misbehaves.
+
+**14. The honest negative result**
+Lockdown did *not* look like a permanent Sunday — only ~10% of lockdown weekdays were
+called "weekend", although more of them were flagged as anomalous. Lockdown created a
+third pattern, quieter and flatter than either. Supervised classification had to pick a
+familiar label; unsupervised anomaly detection didn't have to.
+
+**15. Limitations**
+~115 normal days per station, one season, crude holiday window, unvalidated anomalies,
+weekend ≠ Sat/Sun in some countries, data ends mid-2020.
+
+**16. Future work**
+Validate flags against official public-holiday calendars; live data via FDSN; a station
+near Dubai; anomaly typing (holiday vs weather vs strike).
+
+## Speaker notes: things worth saying out loud
+
+- "The labels were free. The calendar already knows what day it was."
+- "A $400 home seismometer in New York matches research-grade instruments."
+- "Our best evidence that this is real is where it *fails*: the mountain stations."
+- "We hold out whole weeks, not random days, because consecutive days are correlated."
+- "Balanced accuracy, because always guessing 'weekday' would score 71%."
+
+## Questions you should expect
+
+**"Couldn't you just use traffic data?"**
+Yes, where it exists. Seismometers are already installed, need no new infrastructure,
+record no personal data, and work the same way in places with no traffic-sensing
+network at all.
+
+**"Is 46% on day-of-week actually good?"**
+It's more than 3× chance, and the confusion matrix shows the errors are almost entirely
+between midweek days, which really do look alike. The weekday/weekend result at 93% is
+the robust headline.
+
+**"How do you know it's people and not weather/seasons?"**
+Three things: rural stations sit at chance; accuracy scales with population density;
+and the weekly period matches the human calendar, which weather doesn't have.
+
+**"Isn't detecting Christmas trivial?"**
+Christmas, yes. Thanksgiving and All Saints' Day are not — nothing in the code knows
+those dates exist. The system found them from the vibration pattern alone.
+
+**"Did you use ChatGPT/Claude to build this?"**
+Yes, and it's documented in `docs/07-build-log.md`, including the bugs and the wrong
+turn we took with synthetic data before switching to the real dataset. Every number in
+the presentation comes from scripts in this repository run on real data, and the whole
+thing reproduces with one command.
+
+**"What would you do with more time?"**
+Precision/recall against real holiday calendars, live FDSN data, and a station in Dubai
+where the working week is Mon–Fri but the weekend is Sat–Sun — which would also test
+the weekend-definition limitation directly.
+
+## Division of labour (suggestion)
+
+One person on the physics and data provenance (slides 2–4), one on method and
+evaluation (5–10), one on disruption detection and the demo (11–14). Everyone should
+be able to answer the "how do you know it's people?" question.
