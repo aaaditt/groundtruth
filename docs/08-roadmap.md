@@ -53,7 +53,8 @@ The dataset stops in May 2020. To go further:
 
 A station near **Dubai** would be a strong local angle — and a test of the
 weekend-definition limitation, since the UAE working week changed to Mon–Fri with a
-Sat–Sun weekend in 2022.
+Sat–Sun weekend in 2022. Note that this requires new acquisition: it is **not**
+possible with the dataset we have. See the section at the end of this document.
 
 ## 6. Anomaly typing *(research-level)*
 
@@ -73,3 +74,26 @@ overfitting, so it pairs naturally with the global model.
 - Deep learning for its own sake: the dataset is too small per station.
 - Predicting earthquakes: different problem, different frequency band, not what this is.
 - Real-time streaming infrastructure: out of scope for a course project.
+
+---
+
+## Not possible with the current dataset: the UAE working-week change
+
+On 1 January 2022 the UAE moved its official weekend from Friday–Saturday to
+Saturday–Sunday. As a natural experiment with a known date this would be ideal, but it
+cannot be done with the Lecocq companion dataset:
+
+1. **No UAE station exists in it.** `Table S1 - Lockdown stations.csv` lists 185
+   stations across 80 countries; there are no Emirates, Qatar, Kuwait or Bahrain
+   entries. The nearest are Jeddah (SA), Amatzia (IL), Salfit (PS), Qavazang (IR) and
+   Nilore (PK).
+2. **The dates do not overlap.** Recordings run ~31 Oct 2019 to late May 2020 — roughly
+   nineteen months before the change took effect.
+
+It remains valid future work via live FDSN web services, which would need a separate
+acquisition pipeline using the authors' SeismoRMS method. Until that exists it must not
+be presented as a result.
+
+The cross-country weekend signature (`docs/04-results.md`) tests the same hypothesis —
+that the pattern is human rather than an arbitrary weekly period — using data already
+in hand.

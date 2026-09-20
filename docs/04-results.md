@@ -174,3 +174,56 @@ interesting finding than a clean win would have been.
 - **Weekend ≠ Sat/Sun everywhere.** In countries with a Fri–Sat weekend the labels are
   simply wrong, which will depress scores for those stations.
 - **Data ends in mid-2020.** Nothing here is live.
+
+---
+
+## Cross-country weekend signature
+
+A sceptic could argue that any weekly pattern is just *a* pattern. To check that it is
+specifically human, we applied the same processing, unchanged, to countries that rest
+on different days. This section involves no machine learning — it is medians of the
+published recordings.
+
+For every station with at least 40 pre-lockdown days, we took the median 4–14 Hz RMS
+per day in local time, then the median per day-of-week, normalised to that station's
+busiest day. Scoring every adjacent two-day pair gives an inferred weekend.
+
+**156 stations qualified.** 132 are quietest on Sunday. Five are quietest on Friday.
+
+| Country | City | Days | Fri | Sat | Sun |
+|---|---|---:|---:|---:|---:|
+| State of Palestine | Salfit | 142 | **0.498** | 0.631 | **0.983** |
+| Israel | Station Amatzia | 123 | **0.757** | 0.755 | **0.951** |
+| Saudi Arabia | Jeddah | 124 | **0.887** | 0.919 | **0.966** |
+| Pakistan | Nilore | 114 | 0.860 | 0.889 | 0.906 |
+| Nepal | Myagdi | 137 | 0.770 | 0.546 | 0.838 |
+
+Israel, Palestine and Saudi Arabia all observe a Friday–Saturday weekend, with Sunday a
+full working day. The seismic profile reflects exactly that. Salfit is clearest:
+activity falls to half on Friday and returns to 98% of peak by Sunday.
+
+Median normalised Sunday activity: **0.966** for those three stations, **0.683** for the
+other 153. Mann-Whitney U, one-sided: p = 0.0032.
+
+![Weekend signature](../outputs/plots/weekend_signature.png)
+
+### Limitations of this section
+
+- **n = 3** for the Fri–Sat group. The direction and effect size are the claim; the
+  p-value rests on three stations.
+- **Nepal is a metric artifact.** Nepal's weekly holiday is Saturday alone. Because
+  Friday happens to sit below Sunday at Myagdi, the adjacent-pair metric labels it
+  Fri–Sat. The other two Nepal stations correctly return Saturday.
+- **Pakistan is a genuine middle case.** The official weekend is Sunday, but Friday
+  shows a dip, plausibly the Friday prayer break.
+- **Station count differs from the headline 158** because this analysis uses
+  pre-lockdown days only and requires >=40 days per station. The 158 figure describes
+  the full modelling dataset; 156 describes this analysis. They measure different
+  things.
+- **Date parsing matters here.** `Table S1` uses dd/mm/yyyy. Pandas' default parse
+  reads "08/03/2020" as 3 August 2020, months after the recordings end, which
+  silently disables the pre-lockdown trim for any date whose day and month are both
+  <= 12. `weekend_signature.py` forces `dayfirst=True`. The result is unchanged either
+  way — the same five Friday stations appear — but the day counts differ.
+
+Reproduce with `python src/weekend_signature.py`.

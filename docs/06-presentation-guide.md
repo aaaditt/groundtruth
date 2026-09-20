@@ -6,6 +6,12 @@ Title: *Learning Urban Activity Rhythms from Ambient Seismic Noise for Anomaly-B
 Disruption Detection.*
 Team: Aadit Chandra, Aradhya Gupta, Shraddha Pradeep.
 
+> **Superseded for the proposal presentation.** See
+> [`09-presentation-script.md`](09-presentation-script.md), which deliberately omits
+> all classifier results — the proposal should describe what we will build, not report
+> work that isn't part of the semester project yet. The slide order and Q&A prep below
+> remain useful background.
+
 ## Suggested slide order
 
 **1. Hook (no title slide theatrics, just the question)**
