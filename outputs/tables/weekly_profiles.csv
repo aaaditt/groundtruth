@@ -1,0 +1,157 @@
+country,city,code,ndays,quietest,Mon,Tue,Wed,Thu,Fri,Sat,Sun,inferred_weekend
+Albania,Vlore,AC.VLO,128,Sun,0.969,0.997,0.977,0.999,1.0,0.981,0.904,Sun-Mon
+Namibia,Rundu,AF.RUDU,133,Sun,0.905,0.885,0.933,0.988,1.0,0.723,0.638,Sat-Sun
+United States of America,Fairbanks,AK.FA12,137,Sun,0.859,0.934,0.963,1.0,0.884,0.647,0.571,Sat-Sun
+United Kingdom,London,AM.R091F,144,Sun,0.986,0.99,1.0,0.995,0.989,0.884,0.709,Sat-Sun
+Tanzania,Moshi,AM.R0AC9,65,Sun,0.935,0.891,0.964,0.927,1.0,0.89,0.775,Sat-Sun
+Nepal,Pokhara,AM.R0CEA,123,Sat,0.887,0.993,0.967,0.988,1.0,0.782,0.989,Sat-Sun
+United States of America,Ann Arbor,AM.R10DC,144,Sun,0.987,0.992,1.0,0.977,0.985,0.644,0.579,Sat-Sun
+Japan,Tokyo,AM.R1983,149,Sun,0.973,0.988,0.983,1.0,0.985,0.821,0.761,Sat-Sun
+Iceland,Reyjkavik,AM.R1AE4,137,Sun,0.944,1.0,0.947,0.908,0.892,0.703,0.684,Sat-Sun
+Honduras,Tegucigalpa,AM.R1D8F,111,Sun,0.974,1.0,0.998,0.994,0.993,0.821,0.62,Sat-Sun
+Canada,Vancouver,AM.R25AC,138,Sun,0.97,0.984,1.0,0.952,0.985,0.615,0.555,Sat-Sun
+Japan,Tokyo,AM.R2D80,159,Sun,0.965,0.983,0.981,0.984,1.0,0.891,0.671,Sat-Sun
+United States of America,San Francisco,AM.R31ED,138,Sun,0.96,0.986,0.967,0.982,1.0,0.833,0.792,Sat-Sun
+Colombia,La Cumbre,AM.R39DB,116,Sun,0.946,0.906,0.973,0.985,1.0,0.978,0.825,Sun-Mon
+South Korea,Pohang,AM.R3E8F,61,Sun,1.0,0.949,0.96,0.967,0.976,0.923,0.887,Sat-Sun
+Taiwan,Taipei City,AM.R3EE8,81,Sun,0.937,1.0,0.991,0.969,0.915,0.467,0.359,Sat-Sun
+Papua New Guinea,Biala,AM.R40AC,167,Sun,0.731,0.788,0.99,0.992,1.0,0.691,0.537,Sat-Sun
+United States of America,Washington,AM.R45D7,134,Sun,1.0,0.97,0.998,0.998,1.0,0.709,0.588,Sat-Sun
+United States of America,Orono,AM.R4989,139,Wed,0.985,0.989,0.975,1.0,0.999,0.991,0.981,Tue-Wed
+Haiti,Port-au-Prince,AM.R49B6,137,Sun,0.984,0.996,0.965,1.0,0.988,0.988,0.866,Sun-Mon
+United States of America,Seattle,AM.R5365,144,Sun,0.924,0.96,1.0,0.931,0.904,0.677,0.651,Sat-Sun
+Canada,Toronto,AM.R550B,120,Sun,0.997,0.98,0.991,0.994,1.0,0.934,0.895,Sat-Sun
+Colombia,Chapinero,AM.R5661,116,Sun,0.972,0.973,1.0,0.974,0.985,0.765,0.605,Sat-Sun
+United States of America,Boston,AM.R57EC,133,Fri,0.964,0.969,1.0,0.998,0.95,0.972,0.952,Sun-Mon
+Mexico,Querétaro,AM.R6BB7,136,Sun,0.849,0.935,0.951,1.0,0.939,0.767,0.611,Sat-Sun
+Nepal,Gaindakot,AM.R6EC4,144,Sun,0.997,0.987,1.0,0.998,0.973,0.978,0.932,Sat-Sun
+Sabah,Kota Kinabalu,AM.R7184,126,Sun,0.966,0.981,0.983,1.0,0.98,0.884,0.796,Sat-Sun
+United States of America,New York,AM.R7885,133,Sun,0.949,0.981,0.978,1.0,0.971,0.638,0.464,Sat-Sun
+United Kingdom,Truro School,AM.R7FA5,144,Sun,0.95,0.987,0.93,1.0,0.804,0.644,0.552,Sat-Sun
+Aruba,Oranjestard,AM.R8473,107,Sun,0.955,0.949,0.98,0.917,1.0,0.813,0.699,Sat-Sun
+United States of America,Chicago,AM.R85CD,142,Sun,0.914,0.921,0.941,0.968,1.0,0.617,0.459,Sat-Sun
+Honduras,Ocotepeque,AM.R86AD,110,Sun,0.921,0.987,0.966,1.0,0.999,0.937,0.75,Sun-Mon
+Faroe Islands,Faroe Islands,AM.R87FD,144,Fri,0.996,0.984,0.958,0.953,0.945,1.0,0.992,Thu-Fri
+Nepal,Chitwan,AM.R8C46,133,Sat,0.985,1.0,0.99,0.991,0.962,0.937,0.943,Sat-Sun
+Scotland,Stonehaven,AM.R92E0,144,Wed,0.605,0.488,0.486,0.679,0.563,0.972,1.0,Tue-Wed
+Panama,Boquete,AM.R940D,113,Sat,1.0,0.976,0.869,0.844,0.963,0.749,0.809,Sat-Sun
+Sweden,Gothenburg,AM.R99D0,131,Sat,0.965,0.996,0.915,0.986,1.0,0.865,0.868,Sat-Sun
+Poland,Warsaw,AM.R9F13,130,Sun,0.971,1.0,0.976,0.985,0.976,0.764,0.637,Sat-Sun
+United States of America,Boston,AM.RA2DE,133,Sun,0.913,0.991,0.945,0.91,1.0,0.871,0.87,Sat-Sun
+USA,Oakton,AM.RAC22,137,Sun,0.997,0.985,0.973,1.0,0.956,0.736,0.712,Sat-Sun
+United States of America,Denver,AM.RAE6A,137,Sun,0.933,0.988,0.977,0.959,1.0,0.803,0.669,Sat-Sun
+United States of America,Williamstown,AM.RB53D,124,Sun,0.998,0.99,0.97,1.0,0.967,0.907,0.891,Sat-Sun
+New Zealand,Ashburton,AM.RB669,139,Sun,0.971,1.0,0.95,0.857,0.866,0.63,0.529,Sat-Sun
+United States of America,Seattle,AM.RB77C,144,Sun,0.988,0.993,0.997,1.0,0.999,0.782,0.748,Sat-Sun
+Nepal,Myagdi,AM.RBB7B,137,Sat,0.911,0.907,1.0,0.886,0.77,0.546,0.838,Fri-Sat
+Dominica,Roseau,AM.RBC24,107,Sun,1.0,0.984,0.982,0.938,0.941,0.78,0.668,Sat-Sun
+Mexico,Mexico City,AM.RBFF6,108,Sun,0.967,0.987,0.997,1.0,0.954,0.651,0.544,Sat-Sun
+United States of America,Boston,AM.RCABD,133,Sun,0.983,1.0,1.0,0.994,0.992,0.784,0.745,Sat-Sun
+Colombia,Meddllin,AM.RCC68,116,Sun,0.986,0.992,0.996,1.0,0.982,0.884,0.66,Sat-Sun
+Puerto Rico,Ponce,AM.RCCD1,86,Sun,0.96,0.965,1.0,0.936,0.694,0.467,0.357,Sat-Sun
+Guam,Guam,AM.RD2D3,136,Sun,0.987,0.988,0.979,1.0,0.989,0.896,0.785,Sat-Sun
+United States of America,Ukiah,AM.RD6BB,138,Sun,0.891,0.906,1.0,0.891,0.82,0.703,0.597,Sat-Sun
+United States of America,"Trenton, NJ",AM.RDABA,134,Sat,1.0,0.931,0.94,0.925,0.895,0.813,0.84,Sat-Sun
+Hong Kong,Hong Kong,AM.REAF3,85,Sun,0.98,0.981,0.974,0.978,1.0,0.957,0.908,Sat-Sun
+Saudi Arabia,Jeddah,AM.RFBE4,124,Fri,0.963,0.969,0.975,1.0,0.887,0.919,0.966,Fri-Sat
+Portugal,Lisbon,AM.S0C34,133,Sun,1.0,0.748,0.944,0.6,0.962,0.268,0.255,Sat-Sun
+South Korea,Cheonan,AM.S4458,43,Sat,0.943,0.974,0.948,0.981,1.0,0.844,0.892,Sat-Sun
+Australia,Adelaide,AU.GHSS,133,Sun,0.986,1.0,0.994,0.985,0.989,0.953,0.932,Sat-Sun
+Belgium,Brussels,BE.UCC,134,Sun,0.991,1.0,0.996,0.99,0.987,0.746,0.683,Sat-Sun
+United States of America,Berkeley,BK.BKS,131,Sun,0.921,1.0,0.899,0.912,0.905,0.587,0.505,Sat-Sun
+United States of America,Berkeley,BK.BRK,131,Sun,0.985,1.0,0.986,0.978,0.953,0.77,0.754,Sat-Sun
+United States of America,Palo Alto,BK.JRSC,132,Sun,0.933,1.0,0.965,0.951,0.966,0.74,0.595,Sat-Sun
+Brasil,Sao Paulo,BL.VABB,108,Sun,0.954,0.977,1.0,0.984,0.981,0.767,0.627,Sat-Sun
+Germany,Munich,BW.MNH,136,Sun,1.0,0.99,0.985,0.989,0.936,0.762,0.696,Sat-Sun
+Germany,Zugspitze,BW.ZUGS,136,Wed,0.822,0.926,0.79,0.963,1.0,0.844,0.839,Sun-Mon
+Botswana,Kule,BX.KOOLE,128,Sun,0.935,0.876,0.845,0.886,1.0,0.81,0.669,Sat-Sun
+Chile,Puerto Williams,C1.MG01,146,Sun,0.915,0.883,1.0,0.903,0.879,0.826,0.666,Sat-Sun
+Chile,Santiago,C1.MT14,146,Sun,1.0,0.942,0.966,0.977,0.941,0.707,0.6,Sat-Sun
+Spain,Barcelona,CA.ICJA,135,Sun,0.984,0.995,1.0,0.99,0.976,0.642,0.571,Sat-Sun
+Spain,Poblet Monastery,CA.POBL,108,Sun,0.968,1.0,0.912,0.943,0.925,0.665,0.629,Sat-Sun
+Switzerland,Bern,CH.SBERN,134,Sun,0.992,1.0,0.993,0.997,0.978,0.837,0.76,Sat-Sun
+Switzerland,Lausanne,CH.SEPFL,134,Sun,0.956,0.976,1.0,0.98,0.962,0.552,0.516,Sat-Sun
+Switzerland,Genève,CH.SGEV,134,Sun,0.976,0.981,1.0,0.998,0.954,0.655,0.59,Sat-Sun
+Switzerland,Kloten,CH.SKLW,134,Sat,1.0,0.974,1.0,0.989,0.998,0.887,0.962,Sat-Sun
+Switzerland,Locarno,CH.SLOP,134,Sun,1.0,0.988,0.99,0.974,0.988,0.7,0.608,Sat-Sun
+Switzerland,Zuerich,CH.SZUZ,134,Sun,0.989,0.999,1.0,0.988,0.996,0.904,0.874,Sat-Sun
+United States of America,Santa Barbara,CI.SBC,140,Sun,0.892,0.88,1.0,0.92,0.873,0.726,0.609,Sat-Sun
+United States of America,Los Angeles,CI.USC,141,Sun,0.982,1.0,0.988,0.99,0.957,0.775,0.657,Sat-Sun
+Canada,Montreal,CN.MNTQ,134,Sun,0.93,1.0,0.992,0.991,0.945,0.74,0.636,Sat-Sun
+Cyprus,Nicosia,CQ.ATHA,133,Sun,0.964,0.968,1.0,0.979,1.0,0.754,0.639,Sat-Sun
+Cyprus,Maurovouni,CQ.MVOU,105,Sun,0.943,0.95,0.95,1.0,0.884,0.85,0.742,Sat-Sun
+Barbados,Bridgetown,CU.BBGH,119,Sun,0.973,0.95,0.957,0.986,1.0,0.889,0.772,Sat-Sun
+Honduras,Tegucigalpa,CU.TGUH,111,Sun,0.964,0.985,0.998,1.0,0.95,0.755,0.628,Sat-Sun
+Ireland,Dublin,EI.DSB,133,Sun,0.851,0.977,0.893,1.0,0.65,0.475,0.384,Sat-Sun
+France,Paris,FR.CURIE,120,Sun,0.979,0.985,1.0,0.982,0.964,0.817,0.73,Sat-Sun
+France,Martinique,G.FDFM,118,Sun,1.0,0.954,0.824,0.954,0.807,0.682,0.499,Sat-Sun
+United Kingdom,Edinburgh,GB.EDI,144,Sun,1.0,0.956,0.96,0.96,0.952,0.827,0.679,Sat-Sun
+United Kingdom,Gatwick,GB.GAT2,134,Sun,0.928,0.922,0.97,1.0,0.973,0.76,0.692,Sat-Sun
+Ghana,Accra,GE.ACRG,151,Sun,0.976,0.978,0.965,1.0,0.966,0.843,0.669,Sat-Sun
+State of Palestine,Salfit,GE.SALP,142,Fri,0.978,1.0,0.935,0.943,0.498,0.631,0.983,Fri-Sat
+Germany,Stuttgart,GE.STU,136,Sun,0.982,0.999,0.977,1.0,0.921,0.692,0.596,Sat-Sun
+Luxemburg,Walferdange,GE.WLF,137,Sun,0.928,1.0,0.957,0.977,0.955,0.69,0.529,Sat-Sun
+Georgia,Tbilisi,GO.TBLG,148,Sun,0.965,0.969,0.979,0.974,1.0,0.895,0.873,Sat-Sun
+Germany,Bochum,GR.BUG,136,Sun,0.974,0.968,1.0,0.878,0.843,0.425,0.374,Sat-Sun
+Finland,Helsinki,HE.HEL2,79,Sat,1.0,0.967,0.999,0.946,0.887,0.675,0.681,Sat-Sun
+Republic of China,Hong Kong,HK.HKPS,85,Sun,0.995,1.0,0.999,0.985,0.996,0.917,0.803,Sat-Sun
+Greece,Athens,HL.ATH,133,Sun,0.943,0.97,0.965,0.967,1.0,0.883,0.823,Sat-Sun
+Greece,Thessaloniki,HT.THE,133,Sun,0.983,0.979,0.983,1.0,0.982,0.87,0.818,Sat-Sun
+Falklands,Stanley,II.EFI,155,Sun,0.955,0.918,0.958,1.0,0.938,0.903,0.868,Sat-Sun
+Seychelles,Seychelles,II.MSEY,160,Sun,0.941,0.985,0.978,0.991,1.0,0.723,0.539,Sat-Sun
+Pakistan,Nilore,II.NIL,114,Fri,0.935,1.0,0.931,0.904,0.86,0.889,0.906,Fri-Sat
+Peru,Lima,II.NNA,134,Sun,0.952,0.987,1.0,0.997,0.957,0.895,0.662,Sat-Sun
+Sri Lanka,Kandy,II.PALK,132,Sun,0.957,0.997,0.971,1.0,0.992,0.941,0.794,Sat-Sun
+Cape Verde,Cape Verde,II.SACV,149,Sun,0.965,0.924,0.884,1.0,0.885,0.837,0.644,Sat-Sun
+Australia,Hobart,II.TAU,138,Sun,0.978,1.0,0.989,1.0,0.958,0.714,0.589,Sat-Sun
+India,Port Blair,IN.PBA,142,Sun,0.983,0.966,0.954,1.0,0.946,0.927,0.686,Sat-Sun
+India,Shillong,IN.SHL,144,Sun,0.944,0.995,0.991,1.0,0.992,0.994,0.794,Sun-Mon
+Israel,Station Amatzia,IS.AMAZ,123,Sat,0.952,0.963,1.0,0.99,0.757,0.755,0.951,Fri-Sat
+Bermuda,Bermuda,IU.BBSR,156,Sun,0.711,0.744,0.723,1.0,0.807,0.635,0.591,Sat-Sun
+Philippines,Dabaw,IU.DAV,107,Sun,0.942,0.976,0.991,1.0,0.976,0.972,0.83,Sun-Mon
+Norway,Kongsberg,IU.KONO,132,Sun,0.961,0.931,1.0,0.936,0.642,0.443,0.432,Sat-Sun
+Ecuador,Otavalo,IU.OTAV,107,Sun,1.0,0.961,0.938,0.959,0.918,0.756,0.513,Sat-Sun
+Italy,Napoli,IV.CMSN,129,Sun,0.967,0.999,1.0,0.982,0.999,0.827,0.721,Sat-Sun
+Italy,Firenze,IV.FIR,129,Sun,0.957,0.967,0.977,1.0,0.984,0.872,0.785,Sat-Sun
+Italy,Milano,IV.MILN,128,Sun,0.991,1.0,0.989,0.999,0.988,0.844,0.715,Sat-Sun
+Turkey,Antalya,KO.ANTB,136,Sun,0.985,0.981,1.0,0.97,0.984,0.958,0.809,Sat-Sun
+Turkey,Sakarya,KO.SAUV,136,Sun,1.0,0.987,0.97,0.989,0.993,0.72,0.634,Sat-Sun
+Democratic Republic of the Congo,Goma,KV.GOM,134,Sun,0.948,0.951,0.966,0.961,0.967,1.0,0.902,Sun-Mon
+United States of America,New York,LD.CPNY,143,Sun,0.998,0.998,1.0,0.994,0.984,0.81,0.741,Sat-Sun
+Moldova,Kishinev,MD.KIS,137,Sun,0.966,0.976,0.977,0.976,1.0,0.818,0.744,Sat-Sun
+Morocco,Rabat,MN.RTC,140,Sun,0.987,1.0,0.815,0.804,0.806,0.939,0.658,Sat-Sun
+France,Martinique,MQ.ZAM,131,Sun,0.973,0.954,0.942,1.0,0.839,0.586,0.452,Sat-Sun
+United States of America,Mammoth Lakes,NC.MCY,136,Thu,1.0,0.96,0.994,0.857,0.94,0.919,0.923,Thu-Fri
+United States of America,Mammoth Lakes,NC.MLI,136,Thu,0.792,0.859,0.885,0.706,1.0,0.995,0.968,Wed-Thu
+United States of America,Boston,NE.BCX,133,Sun,0.978,1.0,0.977,0.969,0.947,0.742,0.704,Sat-Sun
+United States of America,Boston,NE.WES,133,Sun,0.982,0.992,0.994,1.0,0.991,0.688,0.606,Sat-Sun
+United States of America,Connecticut,NE.WSPT,137,Sun,0.974,0.954,0.983,1.0,0.991,0.786,0.718,Sat-Sun
+The Netherlands,Alkmaar,NL.ALK1,114,Sun,0.898,0.906,0.962,0.97,1.0,0.878,0.641,Sat-Sun
+United States of America,San Jose,NP.1799,128,Sun,0.955,1.0,0.975,0.976,0.96,0.849,0.822,Sat-Sun
+Norway,Bergen,NS.BER,132,Sun,0.983,1.0,0.93,0.857,0.772,0.522,0.472,Sat-Sun
+Norway,Dombås,NS.DOMB,132,Sat,1.0,0.995,0.998,0.956,0.83,0.518,0.589,Sat-Sun
+Norway,Homborsund,NS.HOMB,132,Sun,0.816,1.0,0.932,0.957,0.871,0.56,0.531,Sat-Sun
+Norway,Trondheim,NS.ODLO,123,Sun,1.0,0.937,0.873,0.883,0.851,0.552,0.484,Sat-Sun
+Norway,Stavanger,NS.STAV,124,Sun,0.916,0.92,1.0,0.913,0.733,0.36,0.323,Sat-Sun
+Norway,Tromsø,NS.TRO,130,Sun,0.962,1.0,0.983,0.962,0.857,0.569,0.489,Sat-Sun
+New Zealand,Wellington,NZ.WEL,144,Sun,1.0,0.907,0.991,0.924,0.985,0.786,0.697,Sat-Sun
+Austria,Damuels,OE.DAVA,136,Mon,0.759,1.0,0.987,0.945,0.952,0.97,0.872,Sun-Mon
+Austria,Vienna,OE.VIE,136,Sun,0.986,0.989,1.0,1.0,0.95,0.733,0.663,Sat-Sun
+Brazil,Joinvile,ON.TIJ01,112,Sun,0.891,0.981,0.997,1.0,0.958,0.819,0.713,Sat-Sun
+Panama,Volcan,PA.BRU2,131,Sun,0.968,0.993,0.98,0.975,1.0,0.97,0.886,Sun-Mon
+France,Réunion,PF.PRO,137,Sun,0.997,0.992,0.985,1.0,0.939,0.768,0.558,Sat-Sun
+United States of America,Hilo,PT.HILB,137,Sun,0.963,0.986,0.989,1.0,0.997,0.751,0.678,Sat-Sun
+France,Mayotte,QM.KNKL,137,Sun,0.921,0.979,0.964,0.936,1.0,0.847,0.751,Sat-Sun
+Philippines,Santa Ilocos Sur,RM.SZP,107,Sun,0.953,0.992,1.0,0.98,0.981,0.936,0.826,Sat-Sun
+Romania,Bucharest,RO.BTMR,136,Sun,0.998,1.0,0.988,0.987,0.994,0.831,0.787,Sat-Sun
+Australia,Albany,S1.AUALB,135,Sun,0.895,0.941,0.99,1.0,0.978,0.774,0.636,Sat-Sun
+Australia,Canberra,S1.AUDAR,132,Sun,0.912,0.963,1.0,0.938,0.925,0.687,0.579,Sat-Sun
+Australia,Melbourne,S1.AUKSC,137,Sat,0.949,1.0,0.948,0.991,0.981,0.774,0.862,Sat-Sun
+Australia,Ulladulla,S1.AUUHS,137,Sun,0.959,0.973,1.0,0.986,0.945,0.695,0.607,Sat-Sun
+El Salvador,Cojutepeque,SV.PAVA,142,Tue,0.847,0.836,0.851,0.856,0.877,0.929,1.0,Mon-Tue
+Costa Rica,Heredia,TC.BELE,136,Sun,0.96,1.0,0.994,0.972,0.968,0.736,0.551,Sat-Sun
+Costa Rica,Heredia,TC.HEME,137,Sun,1.0,0.974,0.981,0.977,0.996,0.832,0.736,Sat-Sun
+Costa Rica,San José,TC.MEXI,137,Sun,0.994,0.995,0.996,0.992,1.0,0.925,0.789,Sat-Sun
+Costa Rica,San José,TC.SJS1,137,Sun,0.997,0.989,1.0,0.951,0.941,0.675,0.588,Sat-Sun
+United States of America,Ann Arbor,US.AAM,133,Sun,0.94,0.969,1.0,0.95,0.931,0.674,0.6,Sat-Sun
+Andorra,Andorra,YS.CN19,136,Sun,0.542,1.0,0.477,0.506,0.458,0.505,0.418,Sat-Sun
