@@ -13,7 +13,7 @@ There is no synthetic, simulated or generated data anywhere in the project.
 | **Size** | ~437 MB (git clone) |
 | **Source** | The official companion repository of Lecocq et al. (2020), *Science* — folder `PaperZero_RMS/` |
 | **Link** | https://github.com/ThomasLecocq/2020_Science_GlobalQuieting |
-| **How we get it** | `python src/get_data.py` (a shallow git clone into `data/external/`) |
+| **How we get it** | Committed in this repository under `data/external/` — see [`PROVENANCE.md`](../data/external/PROVENANCE.md). `python src/get_data.py` still exists and will fetch it if the folder is ever missing, but no download is needed |
 
 ### The metadata table
 

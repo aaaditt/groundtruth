@@ -99,14 +99,14 @@ git clone https://github.com/aaaditt/groundtruth.git
 cd groundtruth
 pip install -r requirements.txt
 
-./run_all.sh          # downloads the data and reproduces everything (~15 min)
+./run_all.sh          # reproduces everything (~15 min); the data is already in the repo
 ```
 
 `run_all.sh` is just these steps in order — run them individually if you prefer
 (on Windows, use Git Bash or run the Python lines one at a time):
 
 ```bash
-python src/get_data.py                              # ~440 MB clone of the source dataset
+python src/get_data.py                              # no-op: the dataset is committed under data/external/
 python src/build_dataset.py                          # -> data/processed/daily_features.csv
 python src/train_stations.py                         # per-city models (~5-8 min)
 python src/train_global.py                            # one model, tested on unseen cities
@@ -114,9 +114,15 @@ python src/showcase_city.py --station AM.R7885       # slide plots for one city
 python src/detect_disruptions.py --station AM.R7885  # holiday / lockdown anomaly detection
 ```
 
-**The processed dataset is already committed** (`data/processed/daily_features.csv`,
-158 stations × ~180 days), so you can skip the download and go straight to training if
-you just want to play with the models.
+**Both datasets are committed.** The raw recordings are vendored under
+`data/external/` (see [`data/external/PROVENANCE.md`](data/external/PROVENANCE.md)), so
+there is no download step — clone the repo and everything runs. The processed table
+(`data/processed/daily_features.csv`, 158 stations × ~180 days) is committed too, so you
+can skip straight to training if you just want to play with the models.
+
+This makes the clone large (~113 MB). The trade was deliberate: the exact bytes every
+result was computed from are pinned in history rather than fetched from an upstream
+repository that could move.
 
 ### The live demo
 
@@ -185,7 +191,7 @@ groundtruth/
 │   └── make_presentation_plots.py  the four proposal figures (no ML)
 │
 ├── data/
-│   ├── external/                 source dataset lands here (not committed, ~440 MB)
+│   ├── external/                 raw source dataset, committed (~333 MB; see PROVENANCE.md)
 │   └── processed/
 │       └── daily_features.csv    158 stations x ~180 days, 25 features each (committed)
 │

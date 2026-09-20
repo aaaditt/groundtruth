@@ -1,0 +1,8 @@
+# The vendored upstream dataset under data/external/ is raw scientific data and
+# must round-trip byte-for-byte. Its CSVs are CRLF-terminated as published, and
+# this repo sets core.autocrlf=true, which would otherwise rewrite the line
+# endings on commit and checkout -- silently producing files that no longer
+# match the published originals or their checksums.
+#
+# -text disables all end-of-line conversion for these paths. Do not remove it.
+data/external/** -text
