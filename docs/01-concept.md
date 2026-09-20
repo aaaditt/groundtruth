@@ -55,6 +55,10 @@ advance.
   nearby should show *no* signal. They don't. (See `docs/04-results.md`.)
 - **It has a real-world payoff.** Passive, privacy-preserving, infrastructure-free
   monitoring of whether a city is behaving normally.
+- **It could give something back to seismology.** A model of normal human noise is also
+  a model of what to subtract. Removing it should make *smaller earthquakes detectable*
+  in cities, where they are currently buried under traffic. This is future work, not
+  something we have built — see item 8 in `docs/08-roadmap.md`.
 
 ## What we claim, and what we don't
 
@@ -66,3 +70,8 @@ being shown one.
 **We don't claim:** that this replaces traffic sensors or mobility data, that it works
 everywhere (it doesn't — see the limitations in `docs/04-results.md`), or that any
 seismometer can do it (rural stations can't — there's nothing to hear).
+
+**And specifically not:** that this predicts earthquakes. It does not, and nothing does.
+The seismological direction in the roadmap is about *detecting* small events that have
+already occurred, by subtracting a learned noise floor — which is a different claim
+entirely, and still unimplemented.

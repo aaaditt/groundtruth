@@ -69,10 +69,63 @@ unrelated columns. A 1-D CNN or a small sequence model could exploit the shape
 directly. With ~115 days per station this needs pooling across stations to avoid
 overfitting, so it pairs naturally with the global model.
 
+## 8. Subtracting human noise to reveal small earthquakes *(research-level, not implemented)*
+
+Every other item on this list treats cultural noise as the signal. This one inverts the
+framing and hands a cleaner record back to seismology.
+
+Small earthquakes are hard to detect in cities for exactly the reason this project
+exists: a minor tremor is buried under rush-hour traffic. That is the main reason urban
+seismometers are considered less scientifically useful than remote ones — the
+anthropogenic noise that we are modelling is precisely what hides real events.
+
+**The idea.** If a model can learn what a station normally sounds like at a given hour,
+on a given day of the week, that prediction becomes a *learned, time-varying noise
+floor*. Subtract it from the recording and what remains is the residual — which should
+make smaller events detectable than a fixed threshold allows, because the threshold now
+moves with the city's own rhythm instead of being set for the worst case.
+
+**Why it is plausible.** Lecocq et al. (2020) report that during COVID lockdowns,
+earthquake signals normally concealed by human activity became visible on urban sensors,
+particularly during daytime hours. The pandemic demonstrated the effect by accident. The
+proposal is to recover part of it with a model rather than waiting for a lockdown.
+
+**How it would be evaluated.** Take a public earthquake catalogue (USGS or a regional
+network) listing small events near a chosen station during the recording window. Run
+detection on the same recordings twice — once raw, once after subtracting the learned
+noise floor — and compare how many catalogued events are recovered at a matched
+false-alarm rate. The catalogue is the ground truth; the comparison is against the
+station's own raw record, so the only variable is the subtraction.
+
+**Honest risks.**
+
+- **The residual may simply not be clean enough.** Traffic is not stationary and not
+  perfectly periodic. A model that predicts the *average* Tuesday 08:00 will not predict
+  the particular lorry that passed at 08:03, and that unpredicted variance may swamp the
+  events we are hoping to expose. This is the risk that decides the whole idea.
+- **Validation depends on there being events to find.** It needs a station with enough
+  catalogued small earthquakes nearby during Nov 2019 – May 2020. Seismically quiet
+  cities cannot test it at all, so station choice comes before method.
+- **Our current pipeline actively destroys the target signal.** `docs/03-methodology.md`
+  discards any 15-minute sample more than 100× above the station's median, then takes a
+  *median* per hour — both chosen so that a passing truck or a small earthquake cannot
+  dominate an hour. Those are the right choices for measuring rhythm and exactly the
+  wrong ones here. This work cannot reuse the committed 25-feature daily table; it would
+  need the raw 15-minute RMS, and realistically the underlying waveforms.
+- **Band suitability is an open question.** The 4–14 Hz band we use is reasonable for
+  *local* micro-earthquakes, whose energy is genuinely high-frequency. It is the wrong
+  band for distant or large events, so any claim would be scoped to small nearby ones.
+
+**Status: future work. Nothing here has been implemented and no numbers are attached to
+it.** It is recorded because it changes what the project is *for*, not because we have
+results.
+
 ## Things deliberately *not* on this list
 
 - Deep learning for its own sake: the dataset is too small per station.
-- Predicting earthquakes: different problem, different frequency band, not what this is.
+- **Predicting** earthquakes: nobody can, and claiming it would discredit the rest of
+  the work. Note this is a different thing from item 8, which is about *detecting*
+  small events that have already happened by removing a learned noise floor.
 - Real-time streaming infrastructure: out of scope for a course project.
 
 ---

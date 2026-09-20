@@ -184,7 +184,7 @@ Three speakers, **[A] [B] [C]**. Figure cues are marked `[SHOW: …]`.
 > But we wanted to check something before committing. A seven-day pattern could just be *a* pattern. How do we know it's specifically about people?
 
 > **[C]** `[SHOW: global_quietest_day.png]`
-> So we did the same thing for every city in the dataset — 156 of them — and asked a simple question. Which day is each city quietest?
+> So we did the same thing for every city with enough recording before lockdown — 156 of them — and asked a simple question. Which day is each city quietest?
 >
 > The answer is overwhelmingly Sunday. 132 out of 156.
 >
@@ -275,6 +275,9 @@ Then we report that honestly, and it's still a result — it would mean the loud
 
 **"What about the UAE weekend change in 2022?"**
 We looked into it, because it would be an ideal test. It isn't possible with this dataset — there's no UAE station in it, and the recordings stop in May 2020, well before the change. It's something we could do later with live data feeds, but we wouldn't present it as something we have.
+
+**"You said 158 stations, then 156. Which is it?"**
+Both, and they count different things. The dataset has 158 stations we can model. The weekend analysis uses only recording from *before* each city's lockdown and needs at least 40 such days per station, which 156 of them have. The per-station models use a third number, 149, because those need at least 70 normal days. Same data, three filters.
 
 **"Could this become a research paper?"**
 The cross-country weekend result is the closest. As far as we can tell nobody has used seismic rhythm as a way to measure cultural differences in working patterns. It would need more stations in the relevant countries to be solid.

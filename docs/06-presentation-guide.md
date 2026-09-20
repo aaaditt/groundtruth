@@ -126,7 +126,9 @@ thing reproduces with one command.
 **"What would you do with more time?"**
 Precision/recall against real holiday calendars, live FDSN data, and a station in Dubai
 where the working week is Mon–Fri but the weekend is Sat–Sun — which would also test
-the weekend-definition limitation directly.
+the weekend-definition limitation directly. Note this needs *new* acquisition: there is
+no UAE station in the current dataset and the recordings end in May 2020. See
+`docs/08-roadmap.md`.
 
 ## Division of labour (suggestion)
 
