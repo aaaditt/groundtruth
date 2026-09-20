@@ -24,7 +24,7 @@ OUT = os.path.join("data", "processed", "daily_features.csv")
 
 
 def main():
-    meta = pd.read_csv(TABLE_S1, encoding="latin-1")
+    meta = pd.read_csv(TABLE_S1, encoding="latin-1")  # latin-1, not UTF-8
     files = {os.path.basename(f).split(".")[0] + "." + os.path.basename(f).split(".")[1]: f
              for f in glob.glob(os.path.join(RMS_DIR, "*.csv"))}
     frames = []
@@ -38,6 +38,10 @@ def main():
         d = daily_features(s)
         if len(d) < 60:
             continue
+        # dayfirst=True is mandatory, not stylistic. Table S1 stores dates as
+        # dd/mm/yyyy, so pandas' default parse reads "08/03/2020" as 3 August
+        # 2020 -- months after the recordings end -- for any date whose day and
+        # month are both <= 12. That silently mislabels every period below.
         ld = pd.to_datetime(m["Date_LD1"], dayfirst=True)
         d["station"] = code
         d["city"] = m["City"]
