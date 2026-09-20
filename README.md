@@ -65,6 +65,7 @@ gotchas already solved.
 | [`docs/06-presentation-guide.md`](docs/06-presentation-guide.md) | Slide order, talking points, expected questions |
 | [`docs/07-build-log.md`](docs/07-build-log.md) | Honest record of how this was built, including the wrong turn and every bug |
 | [`docs/08-roadmap.md`](docs/08-roadmap.md) | What to do next, ordered by value for effort |
+| [`docs/09-presentation-script.md`](docs/09-presentation-script.md) | Proposal presentation script — 3 slides, 3 speakers, Q&A. Deliberately contains no classifier results |
 
 ---
 
@@ -167,7 +168,8 @@ groundtruth/
 │   ├── 05-ml-primer.md           ML explained for beginners
 │   ├── 06-presentation-guide.md  slides, talking points, Q&A
 │   ├── 07-build-log.md           how this was built, mistakes included
-│   └── 08-roadmap.md             next steps
+│   ├── 08-roadmap.md             next steps
+│   └── 09-presentation-script.md proposal talk script (no classifier results)
 │
 ├── src/
 │   ├── get_data.py               download the Lecocq et al. 2020 dataset
@@ -178,7 +180,9 @@ groundtruth/
 │   ├── train_global.py           one model, tested on unseen cities
 │   ├── showcase_city.py          presentation plots for one city
 │   ├── detect_disruptions.py     holiday / lockdown anomaly detection
-│   └── predict.py                live demo: one station, one date, one guess
+│   ├── predict.py                live demo: one station, one date, one guess
+│   ├── weekend_signature.py      cross-country weekend analysis (no ML)
+│   └── make_presentation_plots.py  the four proposal figures (no ML)
 │
 ├── data/
 │   ├── external/                 source dataset lands here (not committed, ~440 MB)
@@ -187,6 +191,8 @@ groundtruth/
 │
 └── outputs/
     ├── plots/                    all figures (presentation-ready)
+    ├── tables/
+    │   └── weekly_profiles.csv   per-station weekly profile, quietest day, inferred weekend
     ├── station_scores.csv        per-station accuracy for every station
     ├── global_model_unseen_city_scores.csv
     ├── disruption_summary.csv    holiday/lockdown detection rates per station
