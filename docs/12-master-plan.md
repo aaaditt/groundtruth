@@ -12,6 +12,12 @@
 > presentation + live demo; public dashboard approved) and the points where we
 > deliberately depart from this brief are recorded in `docs/10-work-log.md`, entry
 > "2026-11-03 — Master plan adopted".
+>
+> **Superseding note (same day):** Aadit asked to treat GroundTruth as a genuine
+> project, not a semester project. The phases below remain the source of detailed
+> requirements, but they are now ordered by dependency and quality gates rather than a
+> deadline, and the engineering base comes earlier. See `docs/10-work-log.md`, entry
+> "2026-11-03 — Reframed: a genuine project".
 
 ---
 

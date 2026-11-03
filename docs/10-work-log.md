@@ -156,6 +156,52 @@ number changes; keep the evaluation honest. Full list in `CLAUDE.md`.
   6. GitHub turns off scheduled workflows on repos inactive for 60 days. The daily data
      commit keeps the repo active.
 
+### 2026-11-03 — Reframed: a genuine project, not a semester project
+Aadit: "don't think of this as a sem project, treat this as a genuine interesting
+project". The day-by-day deadline schedule above is **replaced** by the plan below.
+The rules do not change: real data only, honest evaluation, cite sources, never mix
+data sources, report null results.
+
+**What GroundTruth is for.** Seismology throws away the everyday shaking of cities as
+"noise". GroundTruth turns that discarded signal into something useful and gives it
+back openly:
+1. **A tool:** City Pulse, a public dashboard that reads each city's daily rhythm from
+   public seismometers, every day.
+2. **Open data:** a daily, per-city "human activity rhythm" dataset (hourly index, day
+   guess, anomaly flag, model version), published openly so others can use it.
+3. **Science:** honest answers to real questions. Is the rhythm learnable? Is a day's
+   shape more informative than its loudness? Can confusion detect disruption? Does it
+   transfer between cities, and does it persist over years? Do natural experiments
+   (UAE weekend change, Ramadan, daylight saving) show up?
+
+**Stages, ordered by dependency (each ends at a quality gate, not a date):**
+1. **Correct foundations.** Per-country, date-aware weekends (`config/weekends.csv`,
+   cited); real public holidays (`holidays` package) removed from training; the festive
+   window kept as its own label; rerun with old vs new numbers logged.
+   *Gate:* the labels are verified against sources and the results are regenerated.
+2. **Engineering base, early** (because this is long-lived). `groundtruth/` package,
+   `config/stations.yaml`, CLI, pytest on real fixtures, CI.
+   *Gate:* green CI, and the old results reproduce exactly.
+3. **Data layer.** Route A (MUSTANG) and Route B (waveforms with SeismoRMS; Raspberry
+   Shake via `truststore`), with cached and polite fetching. Validate Route B against
+   Lecocq on `BE.UCC` (hourly correlation > 0.9), and Route A against B by day shape.
+   Then discover a **large** roster of live urban stations worldwide, not just 8.
+   *Gate:* both routes validated; the roster records sensor swaps.
+4. **Science core.** The five questions, run per source, plus temporal generalisation
+   (does the rhythm last across years?) and the pre-registered UAE weekend experiment.
+   *Gate:* every result, null or not, written up with its method.
+5. **City Pulse + open dataset.** Daily GitHub Actions job, public GitHub Pages
+   dashboard, published per-city data files with model version and source.
+   *Gate:* >= 8 stations update daily for 7 days without manual action, and every
+   number can be traced.
+6. **Research extensions.** Anomaly typing (strike vs holiday vs storm); a pooled
+   temporal model; the learned noise floor to reveal small earthquakes. That last one
+   gives cleaner data back to seismology, and is never framed as prediction.
+
+**Versioning instead of "frozen at the semester".** Results are tied to git tags
+(`v1.0`, `v1.1`, ...). Any number that changes gets the old and new values, and the
+reason, logged here. Whenever a snapshot is needed for coursework, it is just a tag.
+
 ## Next steps
-See the schedule above. Immediate: build `config/weekends.csv` with a cited source for
-every row, then make `is_weekend` depend on country and date.
+Stage 1: build `config/weekends.csv` with a cited source for every row, then make
+`is_weekend` depend on country and date.
