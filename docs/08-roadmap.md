@@ -35,7 +35,7 @@ the forest. Either way it shows you compared alternatives.
 
 ## 4. Frequency-band ablation *(~30 min)*
 
-`src/features.py` has `BAND = "4.0-14.0"`. The dataset also has 0.1–1 Hz (mostly ocean
+`groundtruth/features.py` has `BAND = "4.0-14.0"`. The dataset also has 0.1–1 Hz (mostly ocean
 microseism — should be *worse* if our reasoning is right), 1–20 and 4–20 Hz. Re-running
 with each band tests the physical claim that human activity lives in the high-frequency
 band.

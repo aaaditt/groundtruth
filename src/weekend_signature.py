@@ -128,7 +128,7 @@ def load_station(csv_path: Path, tz: str, lockdown) -> pd.Series | None:
 def weekly_profile(s: pd.Series):
     """Median per day, then median per day-of-week. Returns (profile, n_days)."""
     d = pd.DataFrame({"v": s.values}, index=s.index)
-    d["dow"] = d.index.dayofweek           # 0 = Monday
+    d["dow"] = d.index.day_of_week           # 0 = Monday
     d["date"] = d.index.date
     daily = d.groupby(["date", "dow"])["v"].median().reset_index()
     return daily.groupby("dow")["v"].median(), len(daily)

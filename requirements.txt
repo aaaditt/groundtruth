@@ -4,4 +4,6 @@ scikit-learn
 matplotlib
 joblib
 tzdata
+scipy
+pyyaml
 holidays==0.108   # pinned: holiday calendars change between versions, and labels depend on them

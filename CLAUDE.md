@@ -34,7 +34,10 @@ city's normal rhythm, using real data from Lecocq et al. (2020), *Science*.
 
 Pipeline: `get_data.py` → `build_dataset.py` → `train_stations.py` / `train_global.py` /
 `showcase_city.py` / `detect_disruptions.py`; `predict.py` for the live demo;
-`run_all.sh` runs the lot (~15 min). Headline numbers are in `README.md`; full results in
+`run_all.sh` runs the lot (~15 min).
+Shared logic lives in the `groundtruth/` package (features, calendars, models, stations);
+`src/` holds the experiment scripts. Run `pytest -q` before committing; CI also rebuilds
+`daily_features.csv` and fails if it changes. Headline numbers are in `README.md`; full results in
 `docs/04-results.md`.
 
 ## Gotchas already solved — do not undo these
@@ -44,7 +47,7 @@ Pipeline: `get_data.py` → `build_dataset.py` → `train_stations.py` / `train_
 - Stations store amplitude in **different units** (metres vs nanometres). Only compare a
   station against itself, or compare day *shapes*. Plots say "× typical level at this
   station" for this reason.
-- Sensor glitches (near-zero and huge values) are filtered in `features.py`, and
+- Sensor glitches (near-zero and huge values) are filtered in `groundtruth/features.py`, and
   `build_dataset.py` / `detect_disruptions.py` use **robust statistics** (median/MAD,
   z-scores clipped at ±10). Removing this brings back anomaly scores in the thousands.
 - Timestamps must be converted to **local** time before hourly aggregation.

@@ -14,8 +14,8 @@ import argparse, os, sys
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, os.path.dirname(__file__))
-from common import load, make_model, FEATURES, DAY_NAMES  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))  # repo root, for `import groundtruth`
+from groundtruth.models import load, make_model, FEATURES, DAY_NAMES  # noqa: E402
 
 
 def main():

@@ -58,7 +58,7 @@ def is_weekend(dates, iso2, rules):
     out = pd.Series(0, index=dates)
     for _, rule in r.iterrows():
         on = dates >= rule["valid_from"]
-        out[on] = dates[on].dayofweek.isin(rule["days"]).astype(int)
+        out[on] = dates[on].day_of_week.isin(rule["days"]).astype(int)
     return out.values
 
 

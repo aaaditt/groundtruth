@@ -19,9 +19,9 @@ import glob, os, sys
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, os.path.dirname(__file__))
-from features import load_station_rms, daily_features  # noqa: E402
-from calendars import load_weekend_rules, load_country_fixes, country_code, is_weekend, public_holidays  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))  # repo root, for `import groundtruth`
+from groundtruth.features import load_station_rms, daily_features  # noqa: E402
+from groundtruth.calendars import load_weekend_rules, load_country_fixes, country_code, is_weekend, public_holidays  # noqa: E402
 
 ROOT = os.path.join("data", "external", "2020_Science_GlobalQuieting")
 RMS_DIR = os.path.join(ROOT, "PaperZero_RMS")

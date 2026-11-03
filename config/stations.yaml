@@ -1,0 +1,77 @@
+# Station roster for RECENT / live data (Stage 3 onwards).
+#
+# This is NOT the list of stations behind the published results: that is the paper's
+# Table S1 (data/external/.../Table S1 - Lockdown stations.csv), read by
+# src/build_dataset.py. This file lists stations we want to fetch NEW data for.
+#
+# Only facts already checked go here (see docs/11-data-guide.md section 5, verified
+# 2026-11-03). Anything not yet checked is marked `unverified`, never guessed.
+#
+# Fields
+#   id        NET.STA.LOC.CHA  (FDSN naming; an empty location code is written as "")
+#   city, country (ISO 3166 alpha-2), timezone (IANA name, used for local-day features)
+#   provider  where recent data comes from: earthscope | eida | raspberryshake
+#   route     mustang  = pre-computed hourly power spectra (Route A, light)
+#             waveform = raw waveforms, we compute RMS ourselves (Route B, heavy)
+#   status    live | offline | unverified
+#   lecocq    the matching station in the Lecocq et al. (2020) data, if any
+#   notes     why this station is here / what to watch out for
+#
+# Rule (docs/12-master-plan.md): data from different routes or sources is never mixed
+# in one comparison. A station's live model is trained on that route's data only.
+
+stations:
+  - id: II.UOSS.10.BHZ
+    city: Sharjah
+    country: AE
+    timezone: Asia/Dubai
+    provider: earthscope
+    route: mustang
+    status: live
+    lecocq: null
+    notes: >
+      Continuous since 2020-02-13; MUSTANG noise-psd has Dec 2021 - Feb 2022, so the
+      UAE weekend switch (2022-01-01) can be tested. Use location 10, not 00 (sensor
+      swap on 2022-02-02). Sharjah's local government kept a Fri-Sun weekend.
+
+  - id: BE.UCC..HHZ
+    city: Brussels
+    country: BE
+    timezone: Europe/Brussels
+    provider: earthscope
+    route: mustang
+    status: unverified
+    lecocq: BE.UCC
+    notes: Station open on EarthScope; whether MUSTANG covers it is not yet checked.
+
+  - id: CN.MNTQ..HHZ
+    city: Montreal
+    country: CA
+    timezone: America/Montreal
+    provider: earthscope
+    route: mustang
+    status: unverified
+    lecocq: CN.MNTQ
+    notes: Station open on EarthScope; whether MUSTANG covers it is not yet checked.
+
+  - id: CH.SGEV..HGZ
+    city: Geneva
+    country: CH
+    timezone: Europe/Zurich
+    provider: eida
+    route: waveform
+    status: unverified
+    lecocq: CH.SGEV
+    notes: Station open via EIDA (no MUSTANG in Europe), so Route B only.
+
+  - id: AM.R7885.00.EHZ
+    city: New York
+    country: US
+    timezone: US/Eastern
+    provider: raspberryshake
+    route: waveform
+    status: offline
+    lecocq: AM.R7885
+    notes: >
+      The flagship city of the published results, but the station stopped on
+      2021-06-21. Kept here so the dashboard can say "no data" honestly.

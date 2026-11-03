@@ -1,0 +1,38 @@
+# Runs on every push and pull request.
+#   tests      : pytest (real-data fixtures, calendar rules, CV leak checks)
+#   reproduce  : rebuild data/processed/daily_features.csv from the raw recordings on a
+#                clean machine and fail if it differs from the committed file. This is
+#                what backs the claim "every number comes from the code in this repo".
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: pytest -q
+
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python src/build_dataset.py > /dev/null
+      - name: Rebuilt dataset must match the committed one
+        run: git diff --stat --exit-code data/processed/daily_features.csv

@@ -17,7 +17,7 @@ def load(f,tz,ld=None):
 tz='US/Eastern'
 s=load('AM.R7885.00.EHZ.csv',tz,pd.Timestamp('2020-03-12',tz=tz))
 df=pd.DataFrame({'v':s.values},index=s.index)
-df['dow']=df.index.dayofweek; df['hour']=df.index.hour; df['date']=df.index.date
+df['dow']=df.index.day_of_week; df['hour']=df.index.hour; df['date']=df.index.date
 nd=df['date'].nunique()
 p=df.groupby(['dow','hour'])['v'].median().unstack(); p=p/p.values.max()
 fig,ax=plt.subplots(figsize=(10,5.4))
@@ -38,7 +38,7 @@ print('1 weekly rhythm  |',nd,'days')
 # ---- 2. New York: every day, holidays marked ----
 s2=load('AM.R7885.00.EHZ.csv',tz)
 dly=pd.DataFrame({'v':s2.values},index=s2.index).resample('D')['v'].median().dropna()
-dly=dly/dly.max(); dw=dly.index.dayofweek
+dly=dly/dly.max(); dw=dly.index.day_of_week
 fig,ax=plt.subplots(figsize=(12,5))
 ax.plot(dly.index,dly.values,color='#b8cade',lw=0.9,zorder=1)
 ax.scatter(dly.index[dw<5],dly.values[dw<5],s=16,color='#1f77b4',label='Weekday',zorder=2)

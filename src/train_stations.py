@@ -21,11 +21,11 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from sklearn.model_selection import GroupKFold, cross_val_predict
+from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import balanced_accuracy_score, accuracy_score
 
-sys.path.insert(0, os.path.dirname(__file__))
-from common import load, make_model, FEATURES  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))  # repo root, for `import groundtruth`
+from groundtruth.models import load, make_model, FEATURES, make_cv  # noqa: E402
 
 
 def main():
@@ -36,7 +36,7 @@ def main():
         if len(g) < 70:
             continue
         X, groups = g[FEATURES].values, g["week"].values
-        cv = GroupKFold(5)
+        cv = make_cv()
         p2 = cross_val_predict(make_model(), X, g["is_weekend"].values, groups=groups, cv=cv)
         p7 = cross_val_predict(make_model(), X, g["day_of_week"].values, groups=groups, cv=cv)
         rows.append({

@@ -38,7 +38,7 @@ Two further tables in the same folder (`Table S2 - Stations without lockdown`,
 
 Lecocq et al. use 4–14 Hz as their main "human activity" band, because it sits above
 the natural microseism (ocean-generated noise, below ~1 Hz) and in the range where
-traffic and machinery radiate energy. We follow the paper's choice; `src/features.py`
+traffic and machinery radiate energy. We follow the paper's choice; `groundtruth/features.py`
 has `BAND = "4.0-14.0"` and it is a one-line change to test another band.
 
 ## Why this dataset and not raw waveforms

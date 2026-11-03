@@ -82,7 +82,7 @@ and against the old data on one station before trusting either.
 - **25 features per day:** convert to local time, take the median of the 4-14 Hz value
   for each hour → 24 numbers; subtract the day's mean → the day's **shape**; plus 1
   number for overall **level**.
-- **Random forest** (`src/common.py`, `random_state=0`) predicts weekday vs weekend and
+- **Random forest** (`groundtruth/models.py`, `random_state=0`) predicts weekday vs weekend and
   the exact day.
 - **Anomaly detection:** a day is flagged if its features fall beyond the 95th
   percentile of that station's normal days. No labels needed.

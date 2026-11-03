@@ -5,7 +5,7 @@ Every design choice below exists to stop the model from cheating.
 
 ## Step 1 — From 15-minute readings to one row per day
 
-`src/features.py`
+`groundtruth/features.py`
 
 1. **Pick the band.** Read the `4.0-14.0` Hz column (human-activity band, per Lecocq
    et al. 2020). Stations without that column are skipped.
@@ -65,7 +65,7 @@ training days. See `docs/10-work-log.md`.
 ### Weekend labels
 
 Not every country rests on Saturday and Sunday. `is_weekend` comes from
-`config/weekends.csv`, applied by `src/calendars.py`. The rule we use:
+`config/weekends.csv`, applied by `groundtruth/calendars.py`. The rule we use:
 
 > **The weekend is the set of days outside the country's standard workweek, as given
 > by the cited source.**

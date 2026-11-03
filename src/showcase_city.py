@@ -19,11 +19,11 @@ import joblib
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from sklearn.model_selection import GroupKFold, cross_val_predict
+from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import confusion_matrix, accuracy_score, balanced_accuracy_score
 
-sys.path.insert(0, os.path.dirname(__file__))
-from common import load, make_model, FEATURES, SHAPE_COLS, SHORT  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))  # repo root, for `import groundtruth`
+from groundtruth.models import load, make_model, FEATURES, SHAPE_COLS, SHORT, make_cv  # noqa: E402
 
 
 def main():
@@ -55,8 +55,8 @@ def main():
 
     # 2. honest evaluation
     X, y, w = g[FEATURES].values, g["day_of_week"].values, g["week"].values
-    p = cross_val_predict(make_model(), X, y, groups=w, cv=GroupKFold(5))
-    p2 = cross_val_predict(make_model(), X, g["is_weekend"].values, groups=w, cv=GroupKFold(5))
+    p = cross_val_predict(make_model(), X, y, groups=w, cv=make_cv())
+    p2 = cross_val_predict(make_model(), X, g["is_weekend"].values, groups=w, cv=make_cv())
     acc, bacc = accuracy_score(y, p), balanced_accuracy_score(g["is_weekend"], p2)
     cm = confusion_matrix(y, p, labels=range(7))
     fig, ax = plt.subplots(figsize=(6.5, 5.5))

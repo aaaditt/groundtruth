@@ -28,10 +28,10 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from sklearn.model_selection import GroupKFold, cross_val_predict
+from sklearn.model_selection import cross_val_predict
 
-sys.path.insert(0, os.path.dirname(__file__))
-from common import load, make_model, FEATURES  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))  # repo root, for `import groundtruth`
+from groundtruth.models import load, make_model, FEATURES, make_cv  # noqa: E402
 
 PERIODS = ["baseline", "holiday", "festive", "lockdown"]
 LABELS = ["Normal days", "Public holidays", "Christmas season", "COVID lockdown"]
@@ -53,7 +53,7 @@ def score_station(g):
     # A. weekend-likeness
     pred = np.full(len(g), np.nan)
     pred[base.values] = cross_val_predict(make_model(), X[base.values], g.loc[base, "is_weekend"].values,
-                                          groups=g.loc[base, "week"].values, cv=GroupKFold(5))
+                                          groups=g.loc[base, "week"].values, cv=make_cv())
     clf = make_model().fit(X[base.values], g.loc[base, "is_weekend"].values)
     if (~base).any():
         pred[~base.values] = clf.predict(X[~base.values])

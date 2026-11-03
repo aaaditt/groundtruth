@@ -110,7 +110,14 @@ cd groundtruth
 pip install -r requirements.txt
 
 ./run_all.sh          # reproduces everything (~15 min); the data is already in the repo
+
+pip install -r requirements-dev.txt
+pytest -q             # ~10 s: local time, DST, weekend rules, CV leak checks, all on real data
 ```
+
+GitHub Actions runs the tests on every push, and also **rebuilds the dataset from the
+raw recordings on a clean machine and checks it matches the committed file byte for
+byte** (`.github/workflows/tests.yml`).
 
 `run_all.sh` is just these steps in order — run them individually if you prefer
 (on Windows, use Git Bash or run the Python lines one at a time):
@@ -187,11 +194,24 @@ groundtruth/
 │   ├── 08-roadmap.md             next steps
 │   └── 09-presentation-script.md proposal talk script (no classifier results)
 │
-├── src/
-│   ├── get_data.py               download the Lecocq et al. 2020 dataset
+├── groundtruth/                 the reusable package (import groundtruth)
 │   ├── features.py               15-min RMS -> 24-hour daily features (local time)
+│   ├── calendars.py              weekends + public holidays per country (cited)
+│   ├── models.py                 the model, the CV splitter, dataset loading
+│   └── stations.py               loads + checks config/stations.yaml
+│
+├── config/
+│   ├── weekends.csv              weekend days per country, with source + start date
+│   ├── country_fixes.csv         corrections to Table S1 country codes
+│   └── stations.yaml             station roster for recent/live data (Stage 3)
+│
+├── tests/                        pytest on REAL data excerpts (no synthetic data)
+│   ├── make_fixtures.py          cuts the excerpts from data/external, verbatim
+│   └── fixtures/                 two weeks of New York incl. the DST switch
+│
+├── src/                          experiment scripts: every reported number comes from here
+│   ├── get_data.py               download the Lecocq et al. 2020 dataset
 │   ├── build_dataset.py          all stations + metadata + period labels
-│   ├── common.py                 shared loading and model settings
 │   ├── train_stations.py         per-city models, week-held-out cross-validation
 │   ├── train_global.py           one model, tested on unseen cities
 │   ├── showcase_city.py          presentation plots for one city
