@@ -293,7 +293,13 @@ needed a proper home and a safety net before we add new data sources.
   Scottish holidays; period precedence; no week (per-station) or station (global) is
   ever in both train and test; training days are baseline only.
 - **CI.** `.github/workflows/tests.yml`: pytest, plus a job that rebuilds
-  `daily_features.csv` from the raw data on clean Linux and fails on any difference.
+  `daily_features.csv` from the raw data on clean Linux and compares it with the
+  committed file (`tests/check_reproduction.py`). The first version demanded byte
+  equality and **failed**: 6,706 of 28,749 lines differed. The cause was the last
+  binary digit of the floating-point maths, which differs between the Windows and
+  Linux maths libraries (largest difference 2.15e-13, same numpy/pandas versions). The
+  check now requires every label and integer column to be identical and floats to
+  match within 1e-9, and prints the largest difference. Green on Linux.
 - **Small fixes.** `.dayofweek` → `.day_of_week` (pandas deprecation, same values);
   `scipy` and `pyyaml` added to `requirements.txt` (scipy was used but only arrived
   indirectly through scikit-learn).
