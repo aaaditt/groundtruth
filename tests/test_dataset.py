@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 from groundtruth.calendars import load_weekend_rules, is_weekend
-from groundtruth.models import load, make_cv, FEATURES
+from groundtruth.models import load, make_cv, week_id, FEATURES
 
 
 @pytest.fixture(scope="module")
@@ -21,11 +21,18 @@ def test_no_missing_features(df):
     assert df[FEATURES].notna().all().all()
 
 
-def test_data_spans_less_than_a_year(df):
-    # `week` is the ISO week number WITHOUT the year (see groundtruth/models.py).
-    # Safe only while no week number can repeat. When multi-year data arrives this
-    # fails, and the week id must become (year, week) -- a deliberate change.
-    assert (df["date"].max() - df["date"].min()).days < 364
+def test_week_number_groups_like_year_aware_week(df):
+    # `week` (no year) is kept so published numbers reproduce. Prove it groups the
+    # days exactly like the year-aware week_id(): same partition, different names.
+    wid = week_id(df["date"])
+    pairs = pd.DataFrame({"week": df["week"].values, "wid": wid}).drop_duplicates()
+    assert pairs["week"].is_unique and pairs["wid"].is_unique
+
+
+def test_week_id_separates_years():
+    # 2 Mar 2021 and 1 Mar 2022 are both in ISO week 9, but different weeks
+    a, b = week_id(pd.to_datetime(["2021-03-02", "2022-03-01"]))
+    assert (a, b) == (202109, 202209)
 
 
 def test_period_precedence(df):

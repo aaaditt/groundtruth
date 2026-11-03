@@ -18,12 +18,21 @@ FEATURES = SHAPE_COLS + ["level"]
 SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 
+def week_id(dates):
+    """Year-aware week label, e.g. 202003 = ISO week 3 of 2020. Use this for any data
+    that can span more than a year (all recent / live data)."""
+    iso = pd.DatetimeIndex(dates).isocalendar()
+    return (iso["year"].astype(int) * 100 + iso["week"].astype(int)).values
+
+
 def load(path=DATA):
+    """The Lecocq-based dataset behind the published results.
+
+    `week` here is the ISO week NUMBER without the year, kept exactly as it was so the
+    published numbers reproduce (GroupKFold's fold assignment depends on the labels).
+    For this data it groups days identically to week_id(): tests/test_dataset.py
+    checks that. New multi-year data must use week_id()."""
     df = pd.read_csv(path, parse_dates=["date"])
-    # NOTE: ISO week NUMBER only, no year. Fine for the Lecocq data (Oct 2019 - May
-    # 2020, so no week number repeats), but on multi-year data week 10 of 2021 and
-    # week 10 of 2022 would become one group. tests/test_dataset.py fails if the
-    # data ever spans more than a year, so this gets fixed on purpose, not by accident.
     df["week"] = df["date"].dt.isocalendar().week.astype(int)
     return df
 

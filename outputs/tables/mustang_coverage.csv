@@ -1,0 +1,104 @@
+station,target,city,country,mustang_2020-01-15,mustang_2026-10-01
+AC.VLO,AC.VLO..HHZ,Vlore,AL,True,False
+AF.RUDU,AF.RUDU.00.HHZ,Rundu,,True,False
+AK.FA12,AK.FA12..HNZ,Fairbanks,US,True,True
+AU.GHSS,AU.GHSS.00.SHZ,Adelaide,AU,True,False
+BE.UCC,BE.UCC..HHZ,Brussels,BE,True,True
+BK.BKS,BK.BKS.00.HHZ,Berkeley,US,False,False
+BK.BRK,BK.BRK.00.HHZ,Berkeley,US,False,False
+BK.JRSC,BK.JRSC.00.BHZ,Palo Alto,US,False,False
+BL.VABB,BL.VABB..HHZ,Sao Paulo,BR,True,True
+BW.MNH,BW.MNH..EHZ,Munich,DE,False,False
+BW.ZUGS,BW.ZUGS..HHZ,Zugspitze,DE,False,False
+BX.KOOLE,BX.KOOLE..BHZ,Kule,BW,True,False
+C1.MG01,C1.MG01..HHZ,Puerto Williams,CL,True,True
+C1.MT14,C1.MT14..HHZ,Santiago,CL,True,True
+CA.ICJA,CA.ICJA..HHZ,Barcelona,ES,False,False
+CA.POBL,CA.POBL..HHZ,Poblet Monastery,ES,False,False
+CH.SBERN,CH.SBERN..HGZ,Bern,CH,False,False
+CH.SEPFL,CH.SEPFL..HGZ,Lausanne,CH,False,False
+CH.SGEV,CH.SGEV..HGZ,Genève,CH,False,False
+CH.SKLW,CH.SKLW..HGZ,Kloten,CH,False,False
+CH.SLOP,CH.SLOP..HGZ,Locarno,CH,False,False
+CH.SZUZ,CH.SZUZ..HGZ,Zuerich,CH,False,False
+CI.SBC,CI.SBC..HHZ,Santa Barbara,US,True,True
+CI.USC,CI.USC..BHZ,Los Angeles,US,True,True
+CN.MNTQ,CN.MNTQ..HHZ,Montreal,CA,True,True
+CQ.ATHA,CQ.ATHA..HHZ,Nicosia,CY,False,False
+CQ.MVOU,CQ.MVOU..HHZ,Maurovouni,CY,False,False
+CU.BBGH,CU.BBGH.00.BHZ,Bridgetown,BB,True,True
+CU.TGUH,CU.TGUH.00.BHZ,Tegucigalpa,HN,True,True
+EI.DSB,EI.DSB..HHZ,Dublin,IE,True,True
+FR.CURIE,FR.CURIE.00.HHZ,Paris,FR,False,False
+G.FDFM,G.FDFM.00.HHZ,Martinique,FR,True,False
+GB.EDI,GB.EDI..HHZ,Edinburgh,GB,True,False
+GB.GAT2,GB.GAT2.00.HHZ,Gatwick,GB,False,False
+GE.ACRG,GE.ACRG..HHZ,Accra,GH,False,False
+GE.SALP,GE.SALP..HHZ,Salfit,PS,False,False
+GE.STU,GE.STU..HHZ,Stuttgart,DE,False,False
+GE.WLF,GE.WLF..HHZ,Walferdange,LU,False,False
+GO.TBLG,GO.TBLG..HHZ,Tbilisi,GE,True,False
+GR.BUG,GR.BUG..HHZ,Bochum,DE,False,False
+GT.LPAZ,GT.LPAZ.00.BHZ,La Paz,BO,True,True
+HE.HEL2,HE.HEL2..HHZ,Helsinki,FI,False,False
+HK.HKPS,HK.HKPS..HHZ,Hong Kong,HK,True,False
+HL.ATH,HL.ATH..HHZ,Athens,GR,False,False
+HT.THE,HT.THE..HHZ,Thessaloniki,GR,False,False
+II.EFI,II.EFI.00.BHZ,Stanley,FK,True,True
+II.MSEY,II.MSEY.10.BHZ,Seychelles,SC,True,True
+II.NIL,II.NIL.10.BHZ,Nilore,PK,True,True
+II.NNA,II.NNA.10.BHZ,Lima,PE,True,True
+II.PALK,II.PALK.10.BHZ,Kandy,LK,True,True
+II.SACV,II.SACV.00.BHZ,Cape Verde,CV,True,True
+II.TAU,II.TAU.10.BHZ,Hobart,AU,True,True
+IN.PBA,IN.PBA..HHZ,Port Blair,IN,True,True
+IN.SHL,IN.SHL..HHZ,Shillong,IN,True,True
+IS.AMAZ,IS.AMAZ..BHZ,Station Amatzia,IL,False,False
+IU.BBSR,IU.BBSR.00.BHZ,Bermuda,BM,True,True
+IU.DAV,IU.DAV.00.BHZ,Dabaw,PH,True,True
+IU.KONO,IU.KONO.10.BHZ,Kongsberg,NO,True,False
+IU.OTAV,IU.OTAV.10.BHZ,Otavalo,EC,True,True
+IV.CMSN,IV.CMSN..HHZ,Napoli,IT,False,False
+IV.FIR,IV.FIR..HHZ,Firenze,IT,False,False
+IV.MILN,IV.MILN..HHZ,Milano,IT,False,False
+KO.ANTB,KO.ANTB..BHZ,Antalya,TR,False,False
+KO.SAUV,KO.SAUV..HHZ,Sakarya,TR,False,False
+KV.GOM,KV.GOM..BHZ,Goma,CD,False,False
+LD.CPNY,LD.CPNY..BHZ,New York,US,True,False
+MD.KIS,MD.KIS..HHZ,Kishinev,MD,False,False
+MN.RTC,MN.RTC..BHZ,Rabat,MA,True,False
+MQ.ZAM,MQ.ZAM.00.HHZ,Martinique,FR,False,False
+NC.MCY,NC.MCY..EHZ,Mammoth Lakes,US,False,False
+NC.MLI,NC.MLI..HHZ,Mammoth Lakes,US,False,False
+NE.BCX,NE.BCX.00.HHZ,Boston,US,True,True
+NE.WES,NE.WES.00.HHZ,Boston,US,True,False
+NE.WSPT,NE.WSPT.00.HHZ,Connecticut,US,True,True
+NL.ALK1,NL.ALK1..HGZ,Alkmaar,NL,False,False
+NP.1799,NP.1799..HNZ,San Jose,US,False,False
+NS.BER,NS.BER.00.HHZ,Bergen,NO,False,False
+NS.DOMB,NS.DOMB.00.HHZ,Dombås,NO,False,False
+NS.HOMB,NS.HOMB.00.HHZ,Homborsund,NO,False,False
+NS.ODLO,NS.ODLO.00.HHZ,Trondheim,NO,False,False
+NS.STAV,NS.STAV.00.HHZ,Stavanger,NO,False,False
+NS.TRO,NS.TRO.00.HHZ,Tromsø,NO,False,False
+NZ.WEL,NZ.WEL.10.HHZ,Wellington,NZ,False,False
+OE.DAVA,OE.DAVA..HHZ,Damuels,AT,False,False
+OE.VIE,OE.VIE..HHZ,Vienna,AT,False,False
+ON.TIJ01,ON.TIJ01..HHZ,Joinvile,BR,True,True
+PA.BRU2,PA.BRU2..HHZ,Volcan,PA,True,False
+PF.PRO,PF.PRO.00.HHZ,Réunion,FR,False,False
+PT.HILB,PT.HILB..HHZ,Hilo,US,True,True
+QM.KNKL,QM.KNKL.00.HHZ,Mayotte,FR,False,False
+RM.SZP,RM.SZP..HHZ,Santa Ilocos Sur,PH,True,False
+RO.BTMR,RO.BTMR..HNZ,Bucharest,RO,False,False
+S1.AUALB,S1.AUALB..HHZ,Albany,AU,True,True
+S1.AUDAR,S1.AUDAR..HHZ,Canberra,AU,True,True
+S1.AUKSC,S1.AUKSC..HHZ,Melbourne,AU,True,True
+S1.AUUHS,S1.AUUHS..HHZ,Ulladulla,AU,True,False
+SV.PAVA,SV.PAVA..HHZ,Cojutepeque,SV,True,True
+TC.BELE,TC.BELE..EHZ,Heredia,CR,False,False
+TC.HEME,TC.HEME..EHZ,Heredia,CR,False,False
+TC.MEXI,TC.MEXI..EHZ,San José,CR,False,False
+TC.SJS1,TC.SJS1..HHZ,San José,CR,False,False
+US.AAM,US.AAM.00.BHZ,Ann Arbor,US,True,False
+YS.CN19,YS.CN19..HHZ,Andorra,AD,False,False

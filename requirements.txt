@@ -6,4 +6,6 @@ joblib
 tzdata
 scipy
 pyyaml
+requests
+truststore   # use the OS certificate store; certificate checks are never switched off
 holidays==0.108   # pinned: holiday calendars change between versions, and labels depend on them

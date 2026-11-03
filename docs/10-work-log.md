@@ -315,8 +315,73 @@ the year. Safe for Oct 2019 – May 2020, wrong for multi-year data (week 10 of 
 reproduction, so `test_data_spans_less_than_a_year` will fail as soon as multi-year
 data arrives, forcing a deliberate fix in Stage 3.
 
+### 2026-11-03 — Stage 3 done: recent data (Route A), validated
+
+**What and why.** The tool needs fresh data. Before building anything on it, we
+checked that MUSTANG's spectra see the same city rhythm as the published data.
+
+- **Polite client** (`groundtruth/client.py`). Generic User-Agent
+  `groundtruth/1.0 (+https://github.com/aaaditt/groundtruth)`, at most 1 request per
+  second, gentle retries on 429/5xx, OS certificate store via `truststore`
+  (verification never disabled).
+- **MUSTANG reader** (`groundtruth/mustang.py`). Downloads one month per request and
+  caches months older than 10 days in `data/cache/` (git-ignored, re-fetchable;
+  ~40 MB per station for 7 months). Each spectrum becomes 4-14 Hz **displacement RMS
+  in metres**: power ÷ (2πf)⁴, summed over 1/8-octave bins, square root. Then it goes
+  through the same `daily_features()` as the Lecocq data. Glitch filtering moved into
+  `clean_rms()` so both sources are filtered identically (golden test still passes).
+- **Coverage survey** (`src/survey_mustang.py` → `outputs/tables/mustang_coverage.csv`).
+  103 non-Raspberry-Shake stations from the dataset: MUSTANG has **48** on 2020-01-15
+  and **32** on 2026-10-01. Brussels and Montreal: covered. **Latency:** latest data on
+  2026-11-03 was 2026-11-01 (Sharjah), so about 2 days.
+- **Validation** (`src/validate_route_a.py` → `outputs/tables/route_a_validation.csv`,
+  `outputs/plots/route_a_*.png`). Same days, unit-free comparisons only, 5 cities +
+  1 control:
+
+  | Station | Day-specific shape r | Control | Daily level r | Weekend acc. Lecocq → MUSTANG |
+  |---|---|---|---|---|
+  | Brussels | 0.94 | 0.03 | 1.00 | 100.0% → 100.0% |
+  | Montreal | 0.91 | 0.02 | 0.97 | 100.0% → 95.7% |
+  | Los Angeles | 0.96 | 0.05 | 1.00 | 100.0% → 98.5% |
+  | Dublin | 0.98 | 0.02 | 1.00 | 99.4% → 98.8% |
+  | Melbourne | 0.91 | −0.00 | 0.99 | 95.6% → 97.2% |
+  | Puerto Williams (control) | 0.92 | −0.00 | 0.99 | 50.1% → 49.6% |
+
+  The control station's noise is tracked just as well, but neither source finds a
+  weekly rhythm there. MUSTANG doesn't invent rhythm.
+
+**A correction we made along the way (timestamps).** We first labelled each one-hour
+spectrum by its middle. The plots showed MUSTANG's weekday curve rising about half an
+hour *later* than Lecocq's. We tested three conventions on the 6 stations above:
+middle, MUSTANG's own start label, and "only the spectrum covering exactly that clock
+hour". The start label agreed best **at all 6 stations, including the control**
+(day-specific r, middle → start: Brussels 0.77 → 0.94, Montreal 0.68 → 0.91, Melbourne
+0.72 → 0.91). We now use MUSTANG's timestamp unchanged. Lecocq's timestamps
+(`hh:14:59`, `hh:29:59`, ...) suggest their windows start at the stamp, but their
+processing code is not in the vendored repository, so that remains a likely
+explanation, not a verified one. This choice was made on the same 6 stations it is
+reported on: treat the table as a validation of agreement, not an independent test.
+
+**Other findings.**
+- **Year-aware weeks.** New `week_id()` (e.g. 202209) for multi-year data. The published
+  pipeline keeps the old `week`; a test proves both group the Lecocq days identically,
+  so nothing changes there.
+- **Time-zone fix (live roster only).** Table S1 gives Puerto Williams (Chile)
+  `America/Argentina/Buenos_Aires`. The roster uses `America/Punta_Arenas`. Both are
+  UTC−3 all year on every date checked, so published results are unaffected.
+- **Raspberry Shake certificates.** The "certificate has expired" error from earlier
+  no longer reproduces: plain `requests` now connects too. `truststore` stays as a
+  safeguard. Station metadata confirms AM.R1F39 recorded in France (2021) and has
+  been in Dubai since 2023-10-09.
+- **Station roster.** `config/stations.yaml` now has 7 live MUSTANG stations (the 6
+  validated + Sharjah), Geneva (EIDA, unverified) and New York (offline).
+- **Network DOIs** (BE, CN, CI, EI, S1, C1, II) checked against the FDSN registry and
+  added to `docs/02`.
+- Tests: 32, all real data (new: a verbatim MUSTANG response from Sharjah, with the
+  unit conversion recomputed by hand).
+
 ## Next steps
-Stage 3 (data layer): MUSTANG noise-psd client (Route A) with caching, rate limiting,
-generic User-Agent and `truststore`; check MUSTANG coverage for BE.UCC / CN.MNTQ;
-validate Route A against the Lecocq day shapes on an overlapping station (unit-free
-comparison only); year-aware week ids.
+Stage 4 (science core): the five promises on the Lecocq data, including class
+weighting for one-day weekends. Then the pre-registered UAE experiment on
+`II.UOSS.10.BHZ` (hypothesis written here *before* downloading the Dec 2021 – Feb 2022
+data), and per-station live models trained on 12 months of MUSTANG normal days.

@@ -70,10 +70,12 @@ computed from live FDSN web services with the authors' own SeismoRMS notebook.
 - **Public holidays:** the `holidays` Python package, version 0.108 —
   https://github.com/vacanza/holidays . No DOI found (searched Zenodo 2026-11-03).
 
-## Candidate sources for recent data (not yet used for any result)
+## Sources for recent data
 
-Being evaluated for roadmap item 5. Details and live-check results in
-[`11-data-guide.md`](11-data-guide.md). No number in this repository comes from these yet.
+Details and live-check results in [`11-data-guide.md`](11-data-guide.md). **None of the
+headline results comes from these.** They are used only for the Route A validation
+(`outputs/tables/route_a_validation.csv`), the coverage survey
+(`outputs/tables/mustang_coverage.csv`) and, later, the live tool.
 
 - EarthScope FDSN web services — https://service.earthscope.org/
 - MUSTANG noise-psd (pre-computed hourly noise spectra) —
@@ -83,6 +85,13 @@ Being evaluated for roadmap item 5. Details and live-check results in
 - Network `II` (IRIS/IDA; station `UOSS`, Sharjah, UAE) — doi:[10.7914/SN/II](https://doi.org/10.7914/SN/II)
 - Network `AM` (Raspberry Shake) — https://data.raspberryshake.org/ ; doi:[10.7914/SN/AM](https://doi.org/10.7914/SN/AM)
 - Network `BE` (Belgian Seismic Network) — doi:[10.7914/SN/BE](https://doi.org/10.7914/SN/BE)
+- Network `CN` (Canadian National Seismograph Network) — doi:[10.7914/SN/CN](https://doi.org/10.7914/SN/CN)
+- Network `CI` (Southern California Seismic Network) — doi:[10.7914/SN/CI](https://doi.org/10.7914/SN/CI)
+- Network `EI` (Irish National Seismic Network) — doi:[10.7914/SN/EI](https://doi.org/10.7914/SN/EI)
+- Network `S1` (Australian Seismometers in Schools) — doi:[10.7914/SN/S1](https://doi.org/10.7914/SN/S1)
+- Network `C1` (Red Sismológica Nacional, Chile) — doi:[10.7914/SN/C1](https://doi.org/10.7914/SN/C1)
+- Network DOIs checked against the FDSN network registry,
+  https://www.fdsn.org/ws/networks/1/query (2026-11-03).
 - EIDA (European data centres) — https://www.orfeus-eu.org/data/eida/
 
 ## Papers this project builds on

@@ -34,15 +34,18 @@ stations:
       UAE weekend switch (2022-01-01) can be tested. Use location 10, not 00 (sensor
       swap on 2022-02-02). Sharjah's local government kept a Fri-Sun weekend.
 
+  # The next six were VALIDATED against Lecocq et al. on Oct 2019 - Jun 2020
+  # (src/validate_route_a.py, outputs/tables/route_a_validation.csv) and MUSTANG had
+  # data for them on 2026-10-01 (src/survey_mustang.py).
   - id: BE.UCC..HHZ
     city: Brussels
     country: BE
     timezone: Europe/Brussels
     provider: earthscope
     route: mustang
-    status: unverified
+    status: live
     lecocq: BE.UCC
-    notes: Station open on EarthScope; whether MUSTANG covers it is not yet checked.
+    notes: Route A validated (day-specific shape r 0.94, weekend accuracy 100% both sources).
 
   - id: CN.MNTQ..HHZ
     city: Montreal
@@ -50,9 +53,53 @@ stations:
     timezone: America/Montreal
     provider: earthscope
     route: mustang
-    status: unverified
+    status: live
     lecocq: CN.MNTQ
-    notes: Station open on EarthScope; whether MUSTANG covers it is not yet checked.
+    notes: Route A validated (day-specific shape r 0.91).
+
+  - id: CI.USC..BHZ
+    city: Los Angeles
+    country: US
+    timezone: America/Los_Angeles
+    provider: earthscope
+    route: mustang
+    status: live
+    lecocq: CI.USC
+    notes: Route A validated (day-specific shape r 0.96).
+
+  - id: EI.DSB..HHZ
+    city: Dublin
+    country: IE
+    timezone: Europe/Dublin
+    provider: earthscope
+    route: mustang
+    status: live
+    lecocq: EI.DSB
+    notes: Route A validated (day-specific shape r 0.98).
+
+  - id: S1.AUKSC..HHZ
+    city: Melbourne
+    country: AU
+    timezone: Australia/Melbourne
+    provider: earthscope
+    route: mustang
+    status: live
+    lecocq: S1.AUKSC
+    notes: Route A validated (day-specific shape r 0.91).
+
+  - id: C1.MG01..HHZ
+    city: Puerto Williams
+    country: CL
+    timezone: America/Punta_Arenas
+    provider: earthscope
+    route: mustang
+    status: live
+    lecocq: C1.MG01
+    notes: >
+      CONTROL station: a remote town where no weekly rhythm is expected; weekend
+      accuracy is at chance in both sources (50%). Table S1 lists
+      America/Argentina/Buenos_Aires; America/Punta_Arenas is the correct zone (same
+      UTC-3 offset all year since 2016-17, so the published results are unaffected).
 
   - id: CH.SGEV..HGZ
     city: Geneva

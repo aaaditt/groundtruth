@@ -54,10 +54,13 @@ Why this is the nice way:
   (24 hourly medians per day), so the rest of the pipeline fits.
 
 Limits (be honest about these):
-- **Different unit.** MUSTANG gives power in decibels, not displacement RMS in metres.
-  That is fine for us because we only ever compare a station with itself and we use
-  day **shapes** (`CLAUDE.md` gotcha). It means MUSTANG numbers must **not** be mixed
-  with the old Lecocq numbers for the same station without checking they agree.
+- **Different unit, solved.** MUSTANG gives acceleration power in decibels. We convert
+  it to 4-14 Hz **displacement RMS in metres**, the quantity Lecocq et al. used
+  (`groundtruth/mustang.py`: divide by (2πf)⁴, sum over the 4-14 Hz bins, square
+  root). Even so, MUSTANG numbers are **never mixed** with Lecocq numbers in one model;
+  only unit-free quantities are compared across the two.
+- **Different processing.** One-hour spectra every 30 minutes, versus Lecocq's
+  15-minute values. Each spectrum keeps MUSTANG's own timestamp (window start).
 - **Only EarthScope-archived stations.** Not Raspberry Shake; most European stations
   are **unverified**.
 - **Nyquist limit.** A channel sampling at 40 Hz covers up to 20 Hz, so 4-14 Hz is fine.
@@ -77,6 +80,32 @@ processing time.
 Option A is unavailable (Raspberry Shake, Europe), and check the two against each other
 and against the old data on one station before trusting either.
 
+### Option A is validated (2026-11-03)
+
+`src/validate_route_a.py` compared MUSTANG with the Lecocq data on the same days
+(Oct 2019 – Jun 2020), on 5 city stations plus 1 remote control station.
+
+| Station | Days | Day-specific shape r (control ≈ 0) | Daily level r | Weekend acc. Lecocq | Weekend acc. MUSTANG |
+|---|---|---|---|---|---|
+| `BE.UCC` Brussels | 188 | 0.94 | 1.00 | 100.0% | 100.0% |
+| `CN.MNTQ` Montreal | 196 | 0.91 | 0.97 | 100.0% | 95.7% |
+| `CI.USC` Los Angeles | 181 | 0.96 | 1.00 | 100.0% | 98.5% |
+| `EI.DSB` Dublin | 199 | 0.98 | 1.00 | 99.4% | 98.8% |
+| `S1.AUKSC` Melbourne | 169 | 0.91 | 0.99 | 95.6% | 97.2% |
+| `C1.MG01` Puerto Williams (control) | 197 | 0.92 | 0.99 | 50.1% | 49.6% |
+
+"Day-specific" means each source's average day shape is subtracted first, so the shared
+day/night cycle can't inflate the agreement; matching the wrong days gives r ≈ 0.00–0.05.
+The weekend models are trained separately on each source, with identical days and
+week-held-out folds. The control matters most. MUSTANG tracks the remote station's noise
+just as faithfully, but finds no weekly rhythm there, just like the Lecocq data. So
+it does not invent rhythm. It sees it where people make it.
+
+**Coverage** (`src/survey_mustang.py`, `outputs/tables/mustang_coverage.csv`). Of the
+103 non-Raspberry-Shake stations in the dataset, MUSTANG has 48 for 2020-01-15 and
+32 still have data for 2026-10-01. **Latency:** on 2026-11-03 the latest data for
+`II.UOSS.10.BHZ` was 2026-11-01, so about 2 days.
+
 ## 4. How the ML model uses the data (unchanged)
 
 - **25 features per day:** convert to local time, take the median of the 4-14 Hz value
@@ -88,16 +117,18 @@ and against the old data on one station before trusting either.
   percentile of that station's normal days. No labels needed.
 - **Honest testing:** train only on normal (baseline) days; hold out whole weeks for
   testing; never tune on holiday/lockdown days.
-- **Recent data is test-only.** It gets its own label (`period == "recent"`) and is never
-  used for training.
+- **Never mix sources in one model.** A model trained on Lecocq data is never fed
+  MUSTANG days, and the other way round. Live models are trained on each station's own
+  recent normal days from one route only (see `docs/12-master-plan.md`).
 
 ## 5. Station-by-station status (verified 2026-11-03)
 
 | Station | City | Old data? | Recent data? | Notes |
 |---|---|---|---|---|
 | `AM.R7885` | New York | Yes | **No** — stopped 2021-06-21 | Flagship demo city cannot be refreshed |
-| `BE.UCC` | Brussels | Yes | Station open on EarthScope | Whether MUSTANG covers it: **unverified** |
-| `CN.MNTQ` | Montreal | Yes | Station open on EarthScope | MUSTANG coverage **unverified** |
+| `BE.UCC` | Brussels | Yes | **Yes, MUSTANG** (checked 2026-10-01) | Route A validated, see above |
+| `CN.MNTQ` | Montreal | Yes | **Yes, MUSTANG** (checked 2026-10-01) | Route A validated, see above |
+| `CI.USC`, `EI.DSB`, `S1.AUKSC`, `C1.MG01` | Los Angeles, Dublin, Melbourne, Puerto Williams | Yes | **Yes, MUSTANG** | Route A validated; `C1.MG01` is the control. 26 more in `outputs/tables/mustang_coverage.csv` |
 | `CH.SGEV` | Geneva | Yes | Station open (via EIDA) | |
 | `HL.ATH`, `FR.CURIE`, `NS.DOMB` | Athens, Paris, Dombås | Yes | **Not found yet** | Likely other European data centres |
 | `II.UOSS` loc `10` | Sharjah, UAE | No | **Yes, continuous since 2020-02-13**; MUSTANG has Dec 2021, Jan 2022, Feb 2022 | **The UAE experiment is feasible.** Location `00` had a sensor swap on 2022-02-02 — avoid it. A university vault sensor may be quiet; whether it shows a weekly human rhythm is **untested** |

@@ -198,7 +198,9 @@ groundtruth/
 │   ├── features.py               15-min RMS -> 24-hour daily features (local time)
 │   ├── calendars.py              weekends + public holidays per country (cited)
 │   ├── models.py                 the model, the CV splitter, dataset loading
-│   └── stations.py               loads + checks config/stations.yaml
+│   ├── stations.py               loads + checks config/stations.yaml
+│   ├── client.py                 polite HTTP client (rate limit, retries, OS certificates)
+│   └── mustang.py                recent data: MUSTANG spectra -> 4-14 Hz displacement RMS
 │
 ├── config/
 │   ├── weekends.csv              weekend days per country, with source + start date
@@ -217,6 +219,8 @@ groundtruth/
 │   ├── showcase_city.py          presentation plots for one city
 │   ├── detect_disruptions.py     holiday / lockdown anomaly detection
 │   ├── predict.py                live demo: one station, one date, one guess
+│   ├── survey_mustang.py         which stations have recent data (needs internet)
+│   ├── validate_route_a.py       recent-data route vs the published data (needs internet)
 │   ├── weekend_signature.py      cross-country weekend analysis (no ML)
 │   └── make_presentation_plots.py  the four proposal figures (no ML)
 │
@@ -256,7 +260,10 @@ If you use this repository, please cite Lecocq et al. (2020) for the data.
 
 ## Honest notes
 
-- The data ends in **May 2020**. Nothing here is live.
+- The published results use data ending in **May 2020**. A route to recent data
+  (EarthScope's MUSTANG spectra, about 2 days behind real time) is built and
+  **validated against the published data on 6 stations** (`docs/11-data-guide.md`),
+  but no live model or dashboard exists yet.
 - Public holidays are **national** calendars only; regional holidays are not excluded.
 - Weekend labels follow a cited source per country, but involve judgement for
   Monday–Saturday countries (India, Mexico, ...). One-day weekends make the current

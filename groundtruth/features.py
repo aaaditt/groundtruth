@@ -32,12 +32,16 @@ def load_station_rms(path, tz):
     s = df[BAND].astype(float)
     idx = pd.to_datetime(df.index, utc=True, format="mixed")
     s.index = idx.tz_convert(tz)
+    return clean_rms(s)
+
+
+def clean_rms(s):
+    """Drop impossible values and glitches: samples >100x above or below the station's
+    typical level (sensor dropouts write near-zero values; clipping/spikes write huge
+    ones). Used for every data source, so all sources are filtered the same way."""
     s = s[(s > 0) & np.isfinite(s)]
-    # Drop glitches: samples >100x above or below the station's typical level
-    # (sensor dropouts write near-zero values; clipping/spikes write huge ones).
     med = s.median()
-    s = s[(s > med / 100) & (s < med * 100)]
-    return s
+    return s[(s > med / 100) & (s < med * 100)]
 
 
 def daily_features(s, min_hours=20):
