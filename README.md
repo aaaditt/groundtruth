@@ -68,6 +68,7 @@ gotchas already solved.
 | [`docs/09-presentation-script.md`](docs/09-presentation-script.md) | Proposal presentation script — 3 slides, 3 speakers, Q&A. Deliberately contains no classifier results |
 | [`docs/10-work-log.md`](docs/10-work-log.md) | Running log of the recent-data extension (post-presentation work) |
 | [`docs/11-data-guide.md`](docs/11-data-guide.md) | Where live seismic data lives (FDSN, EarthScope, MUSTANG, Raspberry Shake, EIDA), how fresh it is, how we plan to use it |
+| [`docs/12-master-plan.md`](docs/12-master-plan.md) | Master brief: semester deliverables (the five promises) and the City Pulse tool, phase by phase |
 
 ---
 

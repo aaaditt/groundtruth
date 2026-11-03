@@ -124,11 +124,38 @@ number changes; keep the evaluation honest. Full list in `CLAUDE.md`.
 - DOIs checked to resolve: `10.7914/SN/II`, `10.7914/SN/AM`, `10.7914/SN/BE`,
   `10.1785/0220170191`.
 
-## Next steps (plans, not done)
-1. Resolve which of the six showcase stations are available recent, and where.
-2. Write `src/get_recent_data.py` (waveform -> 15-min RMS, same CSV layout), output to
-   `data/recent/RMS/`.
-3. Validate: re-pull an overlapping window for a station that is also in the old data
-   (Brussels `BE.UCC` is the candidate, since New York is offline) and compare.
-4. Test the old model on recent days; test whether `II.UOSS` shows a weekend shift.
-5. Update `docs/02`, `docs/04`, `README.md` with sources and any results.
+### 2026-11-03 — Master plan adopted
+- A separate AI chat holding the original project vision wrote a master brief. Saved
+  verbatim as `docs/12-master-plan.md`. It has two goals: (1) deliver the five promises
+  from proposal slide 3 (checked: they match `docs/09`, lines 75-80); (2) build
+  "City Pulse", a public dashboard that updates daily.
+- Aadit's answers: final evaluation in **2-4 weeks**; format **written report +
+  presentation + live demo**; public GitHub Pages dashboard and GitHub Actions
+  **approved**. Aadit stressed that the tool should be genuinely useful and
+  open-source, not only something for marks.
+- **Schedule adopted** (working sessions, working back from ~day 21):
+  - Days 1-2: groundwork (weekend table, real public holidays, relabel, rerun).
+  - Days 3-8: the five promises.
+  - Days 9-11: extras and report; tag `v1.0-semester` (numbers frozen).
+  - Days 12-17: City Pulse v0 (MUSTANG stations, daily job, Pages site). This is the
+    live demo.
+  - Days 18-19: UAE weekend experiment, pre-registered.
+  - Days 20-21: buffer and writing.
+- **Where we depart from the brief, and why:**
+  1. The brief starts the tool only after the tag. Because a live demo is graded and
+     Aadit wants a real tool, a slim v0 is built before the deadline. It still cannot
+     change any frozen number.
+  2. MUSTANG (Route A) comes first and waveforms (Route B) after the deadline: MUSTANG is
+     light and verified working, while Raspberry Shake retention and latency are unverified.
+  3. **Retracted** our earlier idea of testing the Lecocq-trained model on recent
+     data. It mixes data sources, which the brief's rule 3 forbids, rightly.
+  4. Small-n caveats: region transfer may need merged regions; the Friday-weekend test
+     is n = 3.
+  5. Live models need about 12 months of history per station, so each station needs a
+     one-off MUSTANG backfill.
+  6. GitHub turns off scheduled workflows on repos inactive for 60 days. The daily data
+     commit keeps the repo active.
+
+## Next steps
+See the schedule above. Immediate: build `config/weekends.csv` with a cited source for
+every row, then make `is_weekend` depend on country and date.
