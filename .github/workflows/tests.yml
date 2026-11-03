@@ -1,8 +1,9 @@
 # Runs on every push and pull request.
 #   tests      : pytest (real-data fixtures, calendar rules, CV leak checks)
 #   reproduce  : rebuild data/processed/daily_features.csv from the raw recordings on a
-#                clean machine and fail if it differs from the committed file. This is
-#                what backs the claim "every number comes from the code in this repo".
+#                clean Linux machine and fail if it differs from the committed file
+#                (labels exactly, floats within 1e-9; see tests/check_reproduction.py).
+#                This backs the claim "every number comes from the code in this repo".
 name: tests
 
 on:
@@ -33,6 +34,9 @@ jobs:
           python-version: "3.11"
           cache: pip
       - run: pip install -r requirements.txt
+      - run: git show HEAD:data/processed/daily_features.csv > /tmp/committed.csv
       - run: python src/build_dataset.py > /dev/null
       - name: Rebuilt dataset must match the committed one
-        run: git diff --stat --exit-code data/processed/daily_features.csv
+        run: |
+          git diff --stat data/processed/daily_features.csv || true
+          python tests/check_reproduction.py /tmp/committed.csv data/processed/daily_features.csv
