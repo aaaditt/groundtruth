@@ -106,6 +106,24 @@ number changes; keep the evaluation honest. Full list in `CLAUDE.md`.
     they cannot show a before/after shift. They could still show the post-2022 weekend.
 - Nothing has been downloaded yet and no recent-data numbers exist.
 
+### 2026-11-03 — Data-source deep check (done, queried live)
+- **MUSTANG noise-psd works** (`service.earthscope.org/mustang/noise-psd/1/query`):
+  pre-computed hourly noise spectra, already available for `II.UOSS` on 2026-10-29.
+  This is a much lighter alternative to downloading raw waveforms. Explained in
+  `docs/11-data-guide.md`.
+- **`II.UOSS` sensor history:** location `00` swapped sensors on 2022-02-02 (bad for a
+  before/after test). Location `10` (STS-2.5, 40 Hz) runs **continuously since
+  2020-02-13**, and MUSTANG returned data for it on 2021-12-15, 2022-01-15 and
+  2022-02-15. **UAE experiment is feasible on `II.UOSS.10.BHZ`.**
+- **Raspberry Shake from Python fails:** "certificate has expired". `curl` via the
+  Windows store succeeds. Fix planned: use the OS trust store (`truststore`), not
+  disabling verification.
+- **EIDA routing:** `CH.SGEV` (Geneva) found, still open. `HL.ATH`, `FR.CURIE`,
+  `NS.DOMB` returned nothing. Still unresolved.
+- EarthScope `availability/extent` returned 404; not needed.
+- DOIs checked to resolve: `10.7914/SN/II`, `10.7914/SN/AM`, `10.7914/SN/BE`,
+  `10.1785/0220170191`.
+
 ## Next steps (plans, not done)
 1. Resolve which of the six showcase stations are available recent, and where.
 2. Write `src/get_recent_data.py` (waveform -> 15-min RMS, same CSV layout), output to
