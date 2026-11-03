@@ -116,8 +116,8 @@ pytest -q             # ~10 s: local time, DST, weekend rules, CV leak checks, a
 ```
 
 GitHub Actions runs the tests on every push, and also **rebuilds the dataset from the
-raw recordings on a clean machine and checks it matches the committed file byte for
-byte** (`.github/workflows/tests.yml`).
+raw recordings on a clean Linux machine and checks it matches the committed file**:
+every label identical, every number within 1e-9 (`.github/workflows/tests.yml`).
 
 `run_all.sh` is just these steps in order — run them individually if you prefer
 (on Windows, use Git Bash or run the Python lines one at a time):
