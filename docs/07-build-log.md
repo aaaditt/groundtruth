@@ -4,6 +4,11 @@
 > so it refers to the working folder as `seismic-rhythm` and to a single root
 > `README.md` / `CLAUDE.md`. The code is the same; only the folder layout changed, and
 > the documentation was split into `docs/`.
+>
+> **The numbers in this log are historical.** They were produced with the original
+> labels (Saturday–Sunday weekends everywhere, only 21 Dec – 6 Jan as "holiday").
+> Labels were corrected on 2026-11-03; current numbers are in `docs/04-results.md`,
+> and the change is recorded in `docs/10-work-log.md`.
 
 This is a record of everything done in this conversation, in order. It covers the websites and links used, the tools and commands run, the choices made, the mistakes and how they were fixed, and the final results. It aims to be honest about what was actually checked and what wasn't.
 

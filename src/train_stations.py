@@ -69,6 +69,22 @@ def main():
           f"{(r['weekend_bal_acc'] >= 0.9).mean():.0%} of stations >= 90%")
     print(f"Day-of-week accuracy: median {r['dow_acc'].median():.1%} (chance 14.3%), best {r['dow_acc'].max():.1%}")
     print("\nTop 10:\n" + r.head(10)[["station", "city", "weekend_bal_acc", "dow_acc"]].to_string(index=False))
+    control_and_density(r)
+
+
+def control_and_density(r):
+    """The sanity checks: (1) the worst stations should be places with few people,
+    sitting near chance; (2) accuracy should rise with population density.
+    `r` is the per-station table (same as outputs/station_scores.csv)."""
+    from scipy.stats import spearmanr
+    print("\nBottom 5 (the control group should sit near chance):\n"
+          + r.sort_values("weekend_bal_acc").head(5)[["station", "city", "country", "weekend_bal_acc", "dow_acc"]].to_string(index=False))
+    d = r.dropna(subset=["pop_density"]).copy()
+    d["density_third"] = pd.qcut(d["pop_density"].rank(method="first"), 3, labels=["least dense", "middle", "densest"])
+    print("\nMedian weekday/weekend balanced accuracy by population-density third:")
+    print(d.groupby("density_third", observed=True)["weekend_bal_acc"].median().map(lambda v: f"{v:.1%}").to_string())
+    rho, p = spearmanr(d["pop_density"], d["weekend_bal_acc"])
+    print(f"Spearman rho (density vs weekday/weekend accuracy) = {rho:.2f}, p = {p:.2g}, n = {len(d)}")
 
 
 if __name__ == "__main__":

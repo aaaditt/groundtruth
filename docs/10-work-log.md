@@ -50,9 +50,9 @@ All of this already exists and is verified; we are **not** changing it.
 - **Honest evaluation.** Train only on `period == "baseline"` days. Cross-validation holds
   out whole weeks (`GroupKFold`) per station, and whole stations for the global model.
   Never tune on holiday or lockdown days.
-- **Current results** (see `docs/04-results.md`): weekday/weekend 93.3% median balanced
-  accuracy over 149 stations (chance 50%); exact day 46.5% (chance 14.3%); unseen-city
-  global model 79.0%.
+- **Current results:** always in `docs/04-results.md`. (This section first quoted the
+  pre-correction numbers 93.3% / 46.5% / 79.0%; see the stage 1 entry below for old vs
+  new.)
 - **How recent data will be used.** Recent days get their own label (`period == "recent"`)
   and are **test-only**. Model is trained on old baseline days and scored on recent days.
   A drop in accuracy would be reported honestly, not tuned away.
@@ -202,6 +202,75 @@ back openly:
 (`v1.0`, `v1.1`, ...). Any number that changes gets the old and new values, and the
 reason, logged here. Whenever a snapshot is needed for coursework, it is just a tag.
 
+### 2026-11-03 — Stage 1 done: correct weekends and real public holidays
+
+**What we changed, in plain words.** Two labels were wrong. (1) "Weekend" was
+Saturday–Sunday everywhere, but some countries rest on other days. (2) The only
+"holiday" was 21 Dec – 6 Jan, so days like Thanksgiving were treated as normal days
+**and the model was trained on them**. Both now come from cited sources:
+- `config/weekends.csv`: weekend days per country with a `valid_from` date. Source:
+  Wikipedia *Workweek and weekend*, pinned to the 31 Dec 2019 revision (the middle of
+  our data). Rule: **the weekend is the days outside the standard workweek in that
+  source.**
+- Public holidays from the `holidays` package (v0.108, pinned), national calendars.
+- `config/country_fixes.csv`: Table S1's country codes had errors. Namibia's `NA`
+  was read by pandas as "missing"; Botswana had the network code `BX`; Iceland had
+  the 3-letter `ISL`.
+- New code: `src/calendars.py`. Changed: `src/build_dataset.py` (labels),
+  `src/features.py` (no longer sets weekends), `src/detect_disruptions.py` (groups days
+  by the country's weekend; adds a `festive` period, pooled rates and per-holiday
+  rates), `src/train_stations.py` (now prints the control-group and density check,
+  which before was computed by hand).
+
+**Where the source disagreed with the master brief.** Palestine is **Friday only**
+(Labour Law No. 7 of 2000: Saturday–Thursday workweek), not Friday–Saturday. Iran
+(Friday only) was missing from the brief. India, Hong Kong, Mexico, Bolivia and
+Honduras have a Monday–Saturday workweek in the source, so they are **Sunday only**:
+a judgement call, noted in the config.
+
+**Found along the way:** Sharjah (our UAE station `II.UOSS`) has had a Friday–Sunday
+weekend for local government since 2022, while the UAE federally moved to
+Saturday–Sunday. The UAE experiment must account for this.
+
+**Checks.** Same 158 stations and 28,749 days. The 24 shape features and `level_raw`
+are byte-identical; only `level` changed (it is scaled using normal days, which changed).
+Weekend labels changed on 558 station-days in 11 countries. Normal (training) days
+17,379 → 17,027. Public-holiday station-days: 1,127.
+
+**Old vs new numbers** (old = original labels):
+
+| Result | Old | New |
+|---|---|---|
+| Weekday/weekend, median of 149 stations | 93.3% | **94.6%** |
+| Stations ≥ 90% | 60% | **65%** |
+| Exact day, median | 46.5% | **47.0%** |
+| Exact day, best (Dombås) | 72.2% | **71.3%** |
+| Global model on unseen cities (pooled) | 79.0% / 29.7% | **80.9% / 30.8%** |
+| Density effect, Spearman ρ | 0.36 | **0.39** |
+| Density thirds (least / middle / densest) | 89 / 91 / 96% | **92 / 93 / 98%** |
+| New York (wk/we, exact) | 99.4 / 66.4% | **100.0 / 67.0%** |
+| Athens | 99.4 / 69.0% | **98.4 / 70.4%** |
+| Brussels | 99.4 / 47.9% | **100.0 / 47.0%** |
+| Thanksgiving demo | Sunday 68% | **Sunday 61%** |
+| "Holiday" days flagged (old = Christmas window) | 18% (median) | public holidays **46.2%**, festive 16.5% (pooled) |
+| Lockdown days flagged | 23% (median) | **34.5%** pooled / 24% median |
+
+**The key finding.** Fixing the weekend labels made the signal appear at the
+Friday-weekend stations: Jeddah 52.7% → 85.2%, Amatzia 72.8% → 96.9%, Salfit
+74.6% → 95.8%. And never having seen a holiday in training, the model calls
+**70.5% of weekday public holidays "weekend"** (n=634), against 2.7% of ordinary
+weekdays.
+
+**A problem found, not yet fixed.** La Paz and three Nepal stations now score
+exactly 50.0%. With a one-day weekend (1 day in 7), the random forest answers
+"weekday" every time. That is class imbalance, not absence of signal. The fix
+(class weighting) changes the model, so it belongs to the promise-1 work, done
+openly with before/after numbers.
+
+**Reporting choice.** For holidays we now report **pooled** rates with `n`, because
+most stations have only 1–5 weekday holidays and their per-station medians swing
+between 0% and 100%.
+
 ## Next steps
-Stage 1: build `config/weekends.csv` with a cited source for every row, then make
-`is_weekend` depend on country and date.
+Stage 2 (engineering base): `groundtruth/` package, `config/stations.yaml`, pytest on
+real fixtures, CI. Old results must reproduce exactly.

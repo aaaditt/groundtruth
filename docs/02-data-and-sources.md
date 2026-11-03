@@ -56,6 +56,20 @@ method. Using it means:
 If you ever want fresher data, see `docs/08-roadmap.md` — the same RMS values can be
 computed from live FDSN web services with the authors' own SeismoRMS notebook.
 
+## Calendar sources (used for labels)
+
+- **Weekend rules:** Wikipedia, *Workweek and weekend*, revision 933385566 of
+  2019-12-31 —
+  https://en.wikipedia.org/w/index.php?title=Workweek_and_weekend&oldid=933385566 .
+  For countries not in that revision, and for the UAE's 2022 change: revision
+  1381808266 of 2026-10-24 —
+  https://en.wikipedia.org/w/index.php?title=Workweek_and_weekend&oldid=1381808266 .
+  Pinned revisions, so the source can't silently change under us. No DOI exists. Where
+  the table cites a primary legal source (e.g. Saudi Royal Decree M/51; Palestinian
+  Labour Law No. 7 of 2000), that is noted in `config/weekends.csv`.
+- **Public holidays:** the `holidays` Python package, version 0.108 —
+  https://github.com/vacanza/holidays . No DOI found (searched Zenodo 2026-11-03).
+
 ## Candidate sources for recent data (not yet used for any result)
 
 Being evaluated for roadmap item 5. Details and live-check results in

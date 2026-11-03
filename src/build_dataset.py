@@ -3,10 +3,15 @@ build_dataset.py -- build data/processed/daily_features.csv from the real paper 
 
 One row = one station x one local calendar day. Also attaches, from the
 paper's Table S1: city, country, population density, and the official
-lockdown start date, so each day gets a `period` label:
-   baseline : normal life, before lockdown (and not a holiday)   <- used for training
-   holiday  : 21 Dec - 6 Jan (Christmas / New Year)               <- known disruption
+lockdown start date, so each day gets a `period` label. When several apply,
+the first one in this list wins:
    lockdown : on/after the station's first official lockdown date  <- known disruption
+   holiday  : an official public holiday in that country            <- known disruption
+   festive  : 21 Dec - 6 Jan (Christmas / New Year season), other days <- known disruption
+   baseline : everything else = normal life                         <- used for training
+
+`is_weekend` follows each country's own weekend (config/weekends.csv), not a
+fixed Saturday-Sunday. See src/calendars.py.
 
 Run:  python src/build_dataset.py
 """
@@ -16,6 +21,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(__file__))
 from features import load_station_rms, daily_features  # noqa: E402
+from calendars import load_weekend_rules, load_country_fixes, country_code, is_weekend, public_holidays  # noqa: E402
 
 ROOT = os.path.join("data", "external", "2020_Science_GlobalQuieting")
 RMS_DIR = os.path.join(ROOT, "PaperZero_RMS")
@@ -25,6 +31,7 @@ OUT = os.path.join("data", "processed", "daily_features.csv")
 
 def main():
     meta = pd.read_csv(TABLE_S1, encoding="latin-1")  # latin-1, not UTF-8
+    rules, fixes = load_weekend_rules(), load_country_fixes()
     files = {os.path.basename(f).split(".")[0] + "." + os.path.basename(f).split(".")[1]: f
              for f in glob.glob(os.path.join(RMS_DIR, "*.csv"))}
     frames = []
@@ -46,10 +53,20 @@ def main():
         d["station"] = code
         d["city"] = m["City"]
         d["country"] = m["Country name"]
+        iso2, subdiv = country_code(m["Country name"], m["Country code"], fixes)
+        d["country_code"] = iso2
         d["pop_density"] = m["pop_den_30s"]
         d["lockdown_date"] = ld.date()
-        hol = ((d.index.month == 12) & (d.index.day >= 21)) | ((d.index.month == 1) & (d.index.day <= 6))
-        d["period"] = np.where(d.index >= ld, "lockdown", np.where(hol, "holiday", "baseline"))
+        # weekend days for THIS country on THIS date (not always Sat-Sun)
+        d["is_weekend"] = is_weekend(d.index, iso2, rules)
+        # official public holidays (national calendar, from the `holidays` package)
+        cal = public_holidays(iso2, subdiv, sorted(set(d.index.year)))
+        d["holiday_name"] = [cal.get(t.date(), "") for t in d.index]
+        d["is_public_holiday"] = (d["holiday_name"] != "").astype(int)
+        festive = ((d.index.month == 12) & (d.index.day >= 21)) | ((d.index.month == 1) & (d.index.day <= 6))
+        d["period"] = np.select(
+            [d.index >= ld, d["is_public_holiday"].values == 1, festive],
+            ["lockdown", "holiday", "festive"], default="baseline")
         base = d.loc[d["period"] == "baseline", "level_raw"]
         # robust z-score (median / MAD) so a few broken days can't distort the scale
         mad = 1.4826 * (base - base.median()).abs().median() + 1e-9

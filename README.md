@@ -8,10 +8,11 @@ Seismometers record that shaking continuously, everywhere, for free. This projec
 that (1) read the **day of the week** off one day of ground vibration, and (2) flag days
 that **break a city's normal rhythm** — holidays, lockdowns, disruptions.
 
-It works. A random forest tells weekdays from weekends with **93% median accuracy**
-across 149 cities, names the exact weekday **3× better than chance**, and — with no
-holiday calendar anywhere in the code — flags **Thanksgiving in New York** and
-**All Saints' Day in Brussels** as anomalies.
+It works. A random forest tells weekdays from weekends with **95% median accuracy**
+across 149 cities, names the exact weekday **3× better than chance**, and — never
+having seen a holiday in training — calls **70% of weekday public holidays a
+"weekend"** (vs 3% of ordinary weekdays), including Thanksgiving in New York and
+All Saints' Day in Brussels.
 
 > Course project for Foundations of Data Science, BITS Pilani · presented 22 Sep 2026
 > Team: Aadit Chandra, Aradhya Gupta, Shraddha Pradeep
@@ -79,19 +80,25 @@ All scores are out-of-sample, with **whole weeks held out** (see
 
 | Result | Number | Chance |
 |---|---|---|
-| Weekday vs weekend, median over 149 stations | **93.3%** balanced accuracy | 50% |
-| Exact day of week, median | **46.5%** | 14.3% |
-| Exact day of week, best station (Dombås, Norway) | **72.2%** | 14.3% |
-| One global model, tested only on **cities it never saw** | **79.0%** | 50% |
-| Holiday days flagged as anomalous | **18%** | 5% by design |
-| Lockdown days flagged as anomalous | **23%** | 5% by design |
+| Weekday vs weekend, median over 149 stations | **94.6%** balanced accuracy | 50% |
+| Exact day of week, median | **47.0%** | 14.3% |
+| Exact day of week, best station (Dombås, Norway) | **71.3%** | 14.3% |
+| One global model, tested only on **cities it never saw** | **80.9%** | 50% |
+| Weekday public holidays the model calls "weekend" (never trained on any) | **70.5%** (n=634) | vs 2.7% of normal weekdays |
+| Public-holiday days flagged as anomalous | **46.2%** | 5% by design |
+| Lockdown days flagged as anomalous | **34.5%** | 5% by design |
 
-Showcase cities: New York `AM.R7885` (99.4% / 66.4%), Athens `HL.ATH` (99.4% / 69.0%),
-Brussels `BE.UCC` (99.4% / 47.9%).
+Showcase cities: New York `AM.R7885` (100.0% / 67.0%), Athens `HL.ATH` (98.4% / 70.4%),
+Brussels `BE.UCC` (100.0% / 47.0%).
 
 **The control group:** seismometers in Mammoth Lakes, the Kalahari and Puerto Williams
 score at chance — no people, no signal — and accuracy rises with population density
-(Spearman ρ = 0.36, p < 0.0001). That's the strongest evidence we're measuring humans.
+(Spearman ρ = 0.39, p < 10⁻⁶). And when weekends are labelled correctly per country,
+the Friday-weekend stations jump (Jeddah 53% → 85%, Amatzia 73% → 97%, Salfit
+75% → 96%). That's the strongest evidence we're measuring humans.
+
+*Weekends follow each country's own calendar, and official public holidays are
+excluded from training (labels corrected 2026-11-03; see `docs/03-methodology.md`).*
 
 ---
 
@@ -130,8 +137,8 @@ repository that could move.
 ### The live demo
 
 ```bash
-python src/predict.py --station AM.R7885 --date 2019-11-28   # Thanksgiving -> "Sunday" (68%)
-python src/predict.py --station AM.R7885 --date 2019-12-25   # Christmas    -> "Sunday" (96%)
+python src/predict.py --station AM.R7885 --date 2019-11-28   # Thanksgiving -> "Sunday" (61%)
+python src/predict.py --station AM.R7885 --date 2019-12-25   # Christmas    -> "Sunday" (97%)
 python src/predict.py --station AM.R7885 --date 2020-02-12   # ordinary Wednesday
 python src/predict.py --station BE.UCC   --date 2019-11-01   # All Saints' Day, Brussels
 ```
@@ -230,10 +237,11 @@ If you use this repository, please cite Lecocq et al. (2020) for the data.
 ## Honest notes
 
 - The data ends in **May 2020**. Nothing here is live.
-- Our holiday window (21 Dec – 6 Jan) is crude and Northern-Hemisphere-centric.
-- Thanksgiving and All Saints' Day were matched **by hand**; we have not yet scored the
-  anomaly flags against official holiday calendars (top item in the roadmap).
-- "Weekend" means Saturday and Sunday, which is wrong for some countries in the dataset.
+- Public holidays are **national** calendars only; regional holidays are not excluded.
+- Weekend labels follow a cited source per country, but involve judgement for
+  Monday–Saturday countries (India, Mexico, ...). One-day weekends make the current
+  model collapse to "always weekday" at a few stations (see `docs/04-results.md`).
+- Precision/recall of the anomaly flags against holiday calendars is not computed yet.
 - Two of the three cited papers were read as abstracts and citation records, not in full.
 - This project was built with AI assistance. The full process, including a discarded
   synthetic-data prototype and every bug along the way, is documented in

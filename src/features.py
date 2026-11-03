@@ -58,5 +58,6 @@ def daily_features(s, min_hours=20):
     out.index = pd.to_datetime(out.index)
     out.index.name = "date"
     out["day_of_week"] = out.index.dayofweek
-    out["is_weekend"] = (out["day_of_week"] >= 5).astype(int)
+    # is_weekend is NOT set here: weekends differ by country (and change over
+    # time), so build_dataset.py sets it from config/weekends.csv.
     return out

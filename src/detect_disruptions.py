@@ -2,10 +2,11 @@
 detect_disruptions.py -- the "Anomaly-Based Disruption Detection" part.
 
 Having learned each city's normal weekly rhythm, we ask: which days BREAK it?
-We have two real, independently-documented disruptions to check against:
-  * Christmas / New Year holidays (21 Dec - 6 Jan)
+We have real, independently-documented disruptions to check against:
+  * official public holidays (per country, `holidays` package)
+  * the Christmas / New Year season (21 Dec - 6 Jan, non-holiday days: "festive")
   * COVID-19 lockdowns (official start date per city, paper Table S1)
-The model never saw any holiday or lockdown day during training.
+The model never saw any holiday, festive or lockdown day during training.
 
 Two detectors, per station:
   A. "Did the weekday look like a weekend?"  Weekday/weekend classifier trained
@@ -32,11 +33,17 @@ from sklearn.model_selection import GroupKFold, cross_val_predict
 sys.path.insert(0, os.path.dirname(__file__))
 from common import load, make_model, FEATURES  # noqa: E402
 
-PERIODS = ["baseline", "holiday", "lockdown"]
+PERIODS = ["baseline", "holiday", "festive", "lockdown"]
+LABELS = ["Normal days", "Public holidays", "Christmas season", "COVID lockdown"]
+COLOURS = {"baseline": "#7f7f7f", "holiday": "#2ca02c", "festive": "#1f77b4", "lockdown": "#d62728"}
 
 
-def day_type(dow):
-    return np.where(dow < 5, 0, np.where(dow == 5, 1, 2))
+def day_type(dow, weekend):
+    """Group days that should look alike: all working days together (0), and each
+    weekend day on its own (1 + its weekday number), because Saturday and Sunday
+    usually differ. Uses the country's own weekend, so in Saudi Arabia Friday is a
+    weekend day and Sunday is a working day."""
+    return np.where(weekend == 1, 1 + dow, 0)
 
 
 def score_station(g):
@@ -52,9 +59,9 @@ def score_station(g):
         pred[~base.values] = clf.predict(X[~base.values])
     g["pred_weekend"] = pred
     # B. anomaly score
-    dt = day_type(g["day_of_week"].values)
+    dt = day_type(g["day_of_week"].values, g["is_weekend"].values)
     score = np.zeros(len(g))
-    for t in range(3):
+    for t in np.unique(dt):
         ref = X[base.values & (dt == t)]
         # robust centre/spread (median, MAD) and clipped z-scores: one glitchy
         # hour can't make a whole day look like a catastrophe
@@ -88,13 +95,30 @@ def main():
     summary = per_station.groupby("period")[["weekday_looks_like_weekend", "flag_rate"]].median().reindex(PERIODS)
     print(f"Stations: {scored.station.nunique()}   (median across stations)")
     print(summary.map(lambda v: f"{v:.0%}").to_string())
+    # Medians across stations can mislead when a station has only 1-3 days of a kind
+    # (e.g. weekday public holidays): each such station scores 0% or 100%. So we
+    # also report POOLED rates over all station-days, with how many days they rest on.
+    print("\nPooled over all station-days (with number of days):")
+    for p in PERIODS:
+        wdays, alldays = wk[wk["period"] == p], scored[scored["period"] == p]
+        print(f"  {p:9s} weekdays called weekend: {wdays['pred_weekend'].mean():5.1%} (n={len(wdays):5d})"
+              f" | days flagged: {alldays['flagged'].mean():5.1%} (n={len(alldays):5d})")
+    hol = wk[wk["period"] == "holiday"].groupby("holiday_name").agg(
+        n=("pred_weekend", "size"), called_weekend=("pred_weekend", "mean"), flagged=("flagged", "mean"))
+    print("\nWeekday public holidays with n >= 20 station-days:")
+    print(hol[hol["n"] >= 20].sort_values("n", ascending=False)
+          .to_string(formatters={"called_weekend": "{:.0%}".format, "flagged": "{:.0%}".format}))
+    pre = scored[scored["period"] != "lockdown"]
+    print("\nTop anomaly scores outside lockdown, showcase cities:")
+    for st in ["AM.R7885", "HL.ATH", "BE.UCC"]:
+        top = pre[pre["station"] == st].nlargest(5, "anomaly_score")
+        print(f"  {st}: " + ", ".join(f"{d:%a %d %b %Y} ({p})" for d, p in zip(top["date"], top["period"])))
 
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4))
-    cols = ["#7f7f7f", "#2ca02c", "#d62728"]
-    labels = ["Normal days", "Christmas/New Year", "COVID lockdown"]
-    axes[0].bar(labels, summary["weekday_looks_like_weekend"] * 100, color=cols)
+    fig, axes = plt.subplots(1, 2, figsize=(13, 4.5))
+    cols = [COLOURS[p] for p in PERIODS]
+    axes[0].bar(LABELS, summary["weekday_looks_like_weekend"] * 100, color=cols)
     axes[0].set(ylabel="% of weekdays", title="Weekdays the model thinks are weekends")
-    axes[1].bar(labels, summary["flag_rate"] * 100, color=cols)
+    axes[1].bar(LABELS, summary["flag_rate"] * 100, color=cols)
     axes[1].set(ylabel="% of days", title="Days flagged as anomalous")
     for ax in axes:
         for p in ax.patches:
@@ -106,13 +130,13 @@ def main():
     if not s.empty:
         city, tag = s["city"].iloc[0], a.station.replace(".", "_")
         fig, ax = plt.subplots(figsize=(12, 4.5))
-        c = s["period"].map({"baseline": "#7f7f7f", "holiday": "#2ca02c", "lockdown": "#d62728"})
+        c = s["period"].map(COLOURS)
         ax.scatter(s["date"], s["anomaly_score"], c=c, s=18)
         ax.plot(s["date"], s["anomaly_score"].rolling(7, center=True).median(), color="k", lw=1)
         ax.axvline(pd.Timestamp(df.loc[df.station == a.station, "lockdown_date"].iloc[0]), color="#d62728", ls="--")
         ax.axhline(np.quantile(s.loc[s.period == "baseline", "anomaly_score"], 0.95), color="k", ls=":", lw=1)
         ax.set(title=f"{city} ({a.station}): how unusual was each day's vibration rhythm?  "
-                     f"grey = normal, green = holidays, red = after lockdown (dashed)",
+                     f"grey = normal, green = public holiday, blue = Christmas season, red = after lockdown (dashed)",
                ylabel="anomaly score", xlabel="date")
         fig.tight_layout(); fig.savefig(f"outputs/plots/{tag}_timeline.png", dpi=150); plt.close(fig)
         print(f"\n{a.station} {city}:")

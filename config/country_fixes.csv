@@ -1,0 +1,7 @@
+table_s1_country,iso2,holiday_subdiv,note
+Namibia,NA,,"Table S1 code is 'NA', which pandas reads as a missing value"
+Botswana,BW,,"Table S1 code 'BX' is the seismic network code, not the country code"
+Iceland,IS,,"Table S1 code 'ISL' is ISO alpha-3; alpha-2 is 'IS'"
+Scotland,GB,SCT,"Table S1 names the subdivision, so Scottish public holidays are used"
+Sabah,MY,12,"Table S1 names the state; ISO 3166-2:MY-12 is Sabah"
+Republic of China,HK,,"Station HK.HKPS is in Hong Kong (22.28N, 114.14E); Table S1 code HK is correct, only the country name is odd"

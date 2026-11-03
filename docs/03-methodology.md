@@ -44,16 +44,69 @@ station" rather than in physical units.
 
 ## Step 3 — Labelling the calendar
 
-`src/build_dataset.py` tags every station-day with a `period`:
+`src/build_dataset.py` tags every station-day with a `period`. When more than one
+applies, the first row in this table wins:
 
 | Period | Definition | Role |
 |---|---|---|
-| `baseline` | Before that city's official lockdown date, and not in 21 Dec – 6 Jan | **The only days models ever train on** |
-| `holiday` | 21 Dec – 6 Jan (Christmas / New Year) | Held out — a known disruption to test against |
-| `lockdown` | On or after the city's official COVID lockdown start date (Table S1) | Held out — a second known disruption |
+| `lockdown` | On or after the city's official COVID lockdown start date (Table S1) | Held out: a known disruption |
+| `holiday` | An official **public holiday** in that country (national calendar) | Held out: a known disruption |
+| `festive` | 21 Dec – 6 Jan (Christmas / New Year season), on days that aren't public holidays | Held out: kept separate so the original comparison can still be shown |
+| `baseline` | Everything else | **The only days models ever train on** |
 
-Result: **158 stations, 28,749 station-days**, of which ~17,400 are baseline days
-(roughly 115 normal days per station).
+Result: **158 stations, 28,749 station-days**, of which **17,027** are baseline days
+(roughly 108 normal days per station). 1,127 station-days are public holidays (735
+of them before lockdown; the rest fall inside lockdowns and are labelled `lockdown`).
+
+*History:* before 2026-11-03, `holiday` meant only the 21 Dec – 6 Jan window, and other
+public holidays (Thanksgiving, All Saints' Day, ...) were wrongly counted as normal
+training days. See `docs/10-work-log.md`.
+
+### Weekend labels
+
+Not every country rests on Saturday and Sunday. `is_weekend` comes from
+`config/weekends.csv`, applied by `src/calendars.py`. The rule we use:
+
+> **The weekend is the set of days outside the country's standard workweek, as given
+> by the cited source.**
+
+The source is Wikipedia's *Workweek and weekend* table, pinned to the revision of
+31 Dec 2019 (the middle of our recordings), so it describes the rules in force during
+the data period. For countries that revision doesn't list, we used the current
+revision. Departures from Saturday–Sunday in our data:
+
+| Weekend | Countries (stations) |
+|---|---|
+| Friday–Saturday | Saudi Arabia, Israel |
+| Friday only | Iran, Palestine |
+| Saturday only | Nepal |
+| Sunday only (standard workweek Monday–Saturday) | India, Hong Kong, Mexico, Bolivia, Honduras |
+
+Rules carry a `valid_from` date because they change: the UAE moved from
+Friday–Saturday to Saturday–Sunday on 2022-01-01 (no UAE station is in this dataset,
+but the rule is there for the recent-data work).
+
+**Known limits.** The labels are judgement calls in places. "Sunday only" for India or
+Mexico follows the source, but many offices there also close on Saturday. Colombia,
+Pakistan and the Philippines are listed as Monday–Friday, with notes that many
+businesses open Saturday. Countries the source doesn't list (Andorra, Aruba, Barbados,
+Bermuda, Botswana, Cape Verde, Cyprus, Ecuador, El Salvador, Falklands, Faroe Islands,
+Georgia, Guam, Haiti, Iceland, Moldova, Namibia, Panama, Papua New Guinea, Peru,
+Puerto Rico) are assumed Saturday–Sunday. Each row's reasoning is in the `note` column
+of `config/weekends.csv`.
+
+**Labels never come from the seismic data.** Deciding "Friday is the weekend here"
+because Fridays look quiet would grade the model with its own answers.
+
+### Public holidays
+
+Public holidays come from the `holidays` Python package (national calendars; English
+names where available). We use a regional calendar only where Table S1 itself names a
+region (Scotland, Sabah). Regional holidays elsewhere, such as Swiss cantonal or US
+state holidays, are **not** included, so a few regional holidays may still sit in the
+training data. Table S1's country codes have a few errors, corrected in
+`config/country_fixes.csv` (for example, Namibia's code `NA` is read by pandas as a
+missing value).
 
 ## Step 4 — The models
 
@@ -91,8 +144,8 @@ This is where most student ML projects quietly cheat. Three safeguards:
    answers a much harder question — does the rhythm generalise to a city the model has
    never seen?
 
-We also never train on holiday or lockdown days, so the disruption results below are
-genuinely out-of-sample.
+We also never train on public-holiday, festive-season or lockdown days, so the
+disruption results below are genuinely out-of-sample.
 
 ## Step 6 — Disruption detection
 

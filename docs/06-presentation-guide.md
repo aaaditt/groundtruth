@@ -43,30 +43,33 @@ Day → 24 hourly medians (local time!) → shape (24) + level (1) → random fo
 Trained only on normal days. Tested with whole weeks held out.
 
 **7. Result 1: it works, in 149 cities**
-`outputs/plots/accuracy_by_station.png`. Median 93.3% weekday vs weekend (chance 50%),
-46.5% exact day (chance 14.3%), best 72.2%.
+`outputs/plots/accuracy_by_station.png`. Median 94.6% weekday vs weekend (chance 50%),
+47.0% exact day (chance 14.3%), best 71.3%.
 
 **8. Result 2: the control group**
 Mammoth Lakes, Kule (Botswana), Puerto Williams — all at chance. No people, no signal.
-And accuracy rises with population density (ρ = 0.36). This is the slide that proves
-you're measuring humans, not an artefact.
+And accuracy rises with population density (ρ = 0.39). Plus: label the weekend
+correctly per country and Jeddah jumps 53% → 85%, Amatzia 73% → 97%. This is the slide
+that proves you're measuring humans, not an artefact.
 
 **9. Where it fails, and how it fails**
 `outputs/plots/AM_R7885_confusion.png`. Tuesday/Wednesday/Thursday get mixed up,
 weekends almost never do. Cities genuinely behave the same on midweek days.
 
 **10. Generalisation**
-One model, tested only on cities it never trained on: 79% weekday vs weekend.
+One model, tested only on cities it never trained on: 81% weekday vs weekend.
 The rhythm is partly universal, but local models are much better.
 
 **11. Disruption detection**
-`outputs/plots/disruptions_global.png`. Trained only on normal days. Holidays: 18%
-flagged. Lockdown: 23%. Normal days: 5% by construction.
+`outputs/plots/disruptions_global.png`. Trained only on normal days, never a holiday.
+On weekday public holidays the model says "weekend" 70.5% of the time, vs 2.7% for
+ordinary weekdays. Flagged as anomalous: public holidays 46%, lockdown 35%, normal
+days 5% by construction.
 
 **12. The moment**
-Thanksgiving in New York and All Saints' Day in Brussels were flagged with no holiday
-calendar in the code. On Thanksgiving the model calls a Thursday "Sunday" with 68%
-confidence.
+Thanksgiving in New York and All Saints' Day in Brussels are among each city's most
+anomalous days, and the anomaly score uses no calendar at all. On Thanksgiving the
+model calls a Thursday "Sunday" with 61% confidence.
 
 **13. Live demo**
 ```bash
@@ -76,14 +79,15 @@ Have a normal Wednesday ready too, so it doesn't look cherry-picked. Rehearse it
 screenshot the output as a backup slide in case the laptop misbehaves.
 
 **14. The honest negative result**
-Lockdown did *not* look like a permanent Sunday — only ~10% of lockdown weekdays were
-called "weekend", although more of them were flagged as anomalous. Lockdown created a
+Lockdown did *not* look like a permanent Sunday — only 20% of lockdown weekdays were
+called "weekend" (vs 70% of holiday weekdays), although 35% of lockdown days were
+flagged as anomalous. Lockdown created a
 third pattern, quieter and flatter than either. Supervised classification had to pick a
 familiar label; unsupervised anomaly detection didn't have to.
 
 **15. Limitations**
-~115 normal days per station, one season, crude holiday window, unvalidated anomalies,
-weekend ≠ Sat/Sun in some countries, data ends mid-2020.
+~108 normal days per station, one season, national (not regional) holidays only, no
+precision/recall yet, one-day weekends defeat the current model, data ends mid-2020.
 
 **16. Future work**
 Validate flags against official public-holiday calendars; live data via FDSN; a station
@@ -104,9 +108,9 @@ Yes, where it exists. Seismometers are already installed, need no new infrastruc
 record no personal data, and work the same way in places with no traffic-sensing
 network at all.
 
-**"Is 46% on day-of-week actually good?"**
+**"Is 47% on day-of-week actually good?"**
 It's more than 3× chance, and the confusion matrix shows the errors are almost entirely
-between midweek days, which really do look alike. The weekday/weekend result at 93% is
+between midweek days, which really do look alike. The weekday/weekend result at 95% is
 the robust headline.
 
 **"How do you know it's people and not weather/seasons?"**
