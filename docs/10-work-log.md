@@ -380,8 +380,22 @@ reported on: treat the table as a validation of agreement, not an independent te
 - Tests: 32, all real data (new: a verbatim MUSTANG response from Sharjah, with the
   unit conversion recomputed by hand).
 
+### 2026-11-04 — UAE experiment pre-registered (no data downloaded)
+
+The hypothesis, data, test and decision rules are fixed in
+[`docs/14-uae-preregistration.md`](14-uae-preregistration.md), committed on its own
+before any Sharjah data is fetched.
+- **Hypothesis, in one line:** from 1 Jan 2022 Sunday became a rest day in Sharjah, so
+  Sunday's ground vibration should fall relative to Mon–Thu.
+- **How it is checked:** an exact week-level permutation test, one-sided, α = 0.05.
+- **Controls:** a gatekeeper check (is there a weekly rhythm at all?), Saturday as a
+  placebo day, and the same analysis one year earlier as a placebo year.
+- **Changes from the earlier plan:** the window is wider than the Dec 2021 – Feb 2022
+  first planned, Oct 2021 – Mar 2022, so there are enough "before" weeks. Sharjah's own
+  Fri–Sat–Sun weekend (Gulf News, 9 Dec 2021) is taken into account. The school winter
+  break is excluded.
+
 ## Next steps
-Stage 4 (science core): the five promises on the Lecocq data, including class
-weighting for one-day weekends. Then the pre-registered UAE experiment on
-`II.UOSS.10.BHZ` (hypothesis written here *before* downloading the Dec 2021 – Feb 2022
-data), and per-station live models trained on 12 months of MUSTANG normal days.
+Stage 4 (science core), in progress: the five promises on the Lecocq data, including
+class weighting for one-day weekends. Then run the pre-registered UAE experiment, and
+per-station live models trained on 12 months of MUSTANG normal days.
