@@ -139,3 +139,34 @@ no UAE station in the current dataset and the recordings end in May 2020. See
 One person on the physics and data provenance (slides 2–4), one on method and
 evaluation (5–10), one on disruption detection and the demo (11–14). Everyone should
 be able to answer the "how do you know it's people?" question.
+
+---
+
+## Final evaluation: the live demo (added 2026-11-04)
+
+Open https://aaaditt.github.io/groundtruth/ on the projector. Suggested 4-minute path:
+
+1. **City Pulse home.** "Every morning a GitHub Action downloads yesterday's ground
+   vibration for 7 cities. Every day on this page is one the model never trained on."
+   Point at a card: which weekday it looked like, the track record next to the
+   training score. Show Dublin's October Bank Holiday spike (called Sunday, P = 1.00).
+2. **Predictions board** (scroll down). "We wrote these down *before* the days and
+   committed them to the public repository. The site grades them by itself, and wrong
+   ones stay up." Thanksgiving (26 Nov) is the headline one.
+3. **Guess the day** (`game.html`). Ask the audience to call out the weekday for one
+   day, then reveal. Tick "Holidays only" for a Christmas or Thanksgiving: the ground
+   sounds like a Sunday. LA's Veterans Day sounds like a Monday, and the model knows.
+4. **Research map** (`research.html`). 158 seismometers; dark = rhythm easy to read. The
+   band chart: ocean waves (0.1–1 Hz) at chance, which is the proof that we measure
+   people, not nature.
+
+**Backup:** screenshot each page the day before. If the venue's internet fails, the
+repo's `site/` folder holds the same pages (they need a web address to load their data,
+so screenshots are the safer fallback).
+
+**Likely questions**
+- *"Isn't 25% of Montreal's days flagged a failure?"* It's drift, shown honestly: the
+  training year misses Feb–May, and a regional holiday isn't in the national calendar.
+- *"Could the model just be learning the date?"* No: it sees only the 25 numbers
+  describing one day's vibration, and whole weeks are held out.
+- *"Privacy?"* Neighbourhood-scale vibration, hourly. It can't identify anyone.

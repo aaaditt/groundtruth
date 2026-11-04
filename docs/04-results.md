@@ -541,6 +541,64 @@ checks that the scores above reproduce from it exactly.
 
 ---
 
+## Result 12 — Which frequencies carry the rhythm? (`src/band_test.py`)
+
+The published files contain only 4–14 Hz, but MUSTANG spectra contain every frequency.
+So on the 7 live stations (same 12 months, same days per station, same model) we
+rebuilt the features from five frequency bands:
+
+| Band | What it is | Weekday vs weekend (median) | Exact day (median) |
+|---|---|---|---|
+| 0.1–1 Hz | ocean microseism: waves on coastlines | **51.4%** (chance) | 15.1% (chance) |
+| 1–4 Hz | low end of cultural noise | 98.4% | 50.9% |
+| **4–14 Hz** | **the band Lecocq et al. used** | **98.6%** | **58.1%** |
+| 14–19.7 Hz | high end (top bin at 40 sample/s) | 95.3% | 56.6% |
+| 1–19.7 Hz | everything above the microseism | 95.3% | 49.7% |
+
+- **The natural control works.** Ocean waves have no weekly rhythm, and the model finds
+  none there (45–59% at every station). The method reads people, not nature.
+- **4–14 Hz is the best band overall**, which supports the paper's choice.
+- **Dublin needs the narrow band.** It scores 98.6% at 4–14 Hz but **50.0% at 1–4 Hz and
+  47.9% at 1–19.7 Hz**. Something steady at low frequency swamps the rhythm, and
+  because displacement weights low frequencies by 1/f⁴, it also swamps the wide band.
+- **Puerto Williams does best at 14–19.7 Hz** (74.6%): its human noise is local and
+  high-pitched.
+
+![Band test](../outputs/plots/band_test.png)
+
+---
+
+## Result 13 — City Pulse: the first month on days no model had seen
+
+The dashboard (https://aaaditt.github.io/groundtruth/, `src/pulse.py`) scores every
+day since the training window ended (1 Oct 2026). Snapshot of the run on
+**2026-11-04** (`site/data/pulse.json`; the live page updates daily):
+
+| City | New normal days | Weekday vs weekend | Exact day | Days flagged anomalous |
+|---|---|---|---|---|
+| Brussels | 32 | 100% | 56.2% | 3% |
+| Los Angeles | 30 | 100% | 76.7% | 6% |
+| Dublin | 32 | 100% | 53.1% | 9% |
+| Melbourne | 31 | 100% | 77.4% | 6% |
+| Montreal | 32 | 80.0% | 43.8% | **25%** |
+| Puerto Williams (control) | 30 | 86.4% | 33.3% | 0% |
+| Sharjah | 32 | 63.2% | 28.1% | 3% |
+
+- **Dublin's October Bank Holiday (Mon 26 Oct 2026)** was called *Sunday*,
+  P(weekend) 1.00, and flagged by both detectors. Puerto Williams' 12 Oct holiday was
+  also called Sunday.
+- **Montreal is drifting**: a quarter of its days are flagged (≈5% expected). Its
+  training year misses Feb–May 2026. Canadian Thanksgiving (12 Oct) is also not marked
+  as a holiday, because the national `holidays` calendar for Canada leaves it out.
+- One month is a small sample; these numbers will move.
+
+**18 predictions are pre-registered** in `config/predictions.csv` (commit `6294930`,
+before the dates) and graded automatically on the dashboard: Thanksgiving and Christmas
+should look like weekends, LA's Veterans Day should *not*, and the day after
+Thanksgiving should be flagged.
+
+---
+
 ## An honest negative result
 
 **Lockdown did not make every day look like a Sunday.**

@@ -556,7 +556,31 @@ dashboard text is built with `textContent`, never by pasting data into HTML.
 
 Tests: 57 (5 new), all pass.
 
+### 2026-11-04 — Extras: band test, research map, game, predictions, final report
+
+**Band test** (`src/band_test.py`, `docs/04` Result 12). Five frequency bands on the 7
+live stations, from the MUSTANG cache (no new downloads). Median weekday vs weekend:
+0.1–1 Hz **51.4%** (ocean waves: the natural control works), 1–4 Hz 98.4%, **4–14 Hz
+98.6%**, 14–19.7 Hz 95.3%, 1–19.7 Hz 95.3%. Dublin loses its rhythm below 4 Hz (50.0%)
+and across the wide band (47.9%).
+
+**Predictions board.** 18 predictions in `config/predictions.csv`, committed in
+`6294930` before their dates (P01, Melbourne Cup Day, was registered the day after but
+before its data arrived; the file says so). `src/pulse.py` grades them daily.
+
+**Website.** `game.html` (guess the weekday from a real day's shape; the model's
+answers are its out-of-fold guesses, checked by a test), `research.html` (all 158
+stations coloured by accuracy, band chart), predictions board on the dashboard, shared
+`common.js`. Checked in a browser at desktop and phone widths; fixed clipped labels,
+overlapping end labels, and the legend covering data in `band_test.png`.
+
+**Final report.** `docs/13-final-report.md`. Every number copied from `docs/04`;
+reference details checked against `docs/02`.
+
+Tests: 59, all pass.
+
 ## Next steps
-Watch the dashboard for 7 days of unattended updates. Then: `docs/13-final-report.md`;
-frequency-band test and station map (promise extras 1.6); a Thanksgiving (26 Nov) check
-for Los Angeles and Montreal-style regional-holiday handling.
+Watch the dashboard for 7 days of unattended updates and the first graded predictions
+(Melbourne Cup Day, 11 Nov). Thanksgiving (26 Nov) is the headline live test.
+Later: regional holiday calendars (Quebec, Victoria); automatic retraining with a
+fixed rule; more stations (EIDA / Raspberry Shake, Route B).

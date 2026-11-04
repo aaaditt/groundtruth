@@ -19,6 +19,10 @@ Montreal.
 **Live: [City Pulse](https://aaaditt.github.io/groundtruth/)** — every day, a GitHub
 Action downloads yesterday's seismic noise for 7 cities, guesses the weekday, and flags
 days that broke the city's rhythm. Every day shown is one the model never trained on.
+Also: [**play "guess the day"**](https://aaaditt.github.io/groundtruth/game.html)
+against the model, the [158-city research map](https://aaaditt.github.io/groundtruth/research.html),
+and a board of **18 predictions committed before the day** and graded automatically.
+The written report is [`docs/13-final-report.md`](docs/13-final-report.md).
 
 > Course project for Foundations of Data Science, BITS Pilani · presented 22 Sep 2026
 > Team: Aadit Chandra, Aradhya Gupta, Shraddha Pradeep
@@ -76,6 +80,8 @@ gotchas already solved.
 | [`docs/10-work-log.md`](docs/10-work-log.md) | Running log of the recent-data extension (post-presentation work) |
 | [`docs/11-data-guide.md`](docs/11-data-guide.md) | Where live seismic data lives (FDSN, EarthScope, MUSTANG, Raspberry Shake, EIDA), how fresh it is, how we plan to use it |
 | [`docs/12-master-plan.md`](docs/12-master-plan.md) | Master brief: semester deliverables (the five promises) and the City Pulse tool, phase by phase |
+| [`docs/13-final-report.md`](docs/13-final-report.md) | **The final written report**: question, data, method, every headline result, limits, ethics |
+| [`docs/14-uae-preregistration.md`](docs/14-uae-preregistration.md) | The pre-registered UAE weekend experiment, frozen before any data was downloaded, then its results |
 
 ---
 
@@ -220,7 +226,10 @@ groundtruth/
 │   └── pulse.py                  scores new days for the dashboard (reuses detect.py)
 │
 ├── site/                         City Pulse: static dashboard on GitHub Pages
-│   ├── index.html, app.js, style.css, about.html
+│   ├── index.html, app.js        dashboard + predictions board
+│   ├── game.html, game.js        "guess the day" against the model
+│   ├── research.html, research.js  158-station map + band chart
+│   ├── about.html, common.js, style.css
 │   └── data/                     pulse.json + pulse_days.csv, updated daily by
 │                                 .github/workflows/pulse.yml (the open dataset)
 │
@@ -251,6 +260,8 @@ groundtruth/
 │   ├── uae_experiment.py         pre-registered UAE weekend experiment (needs internet)
 │   ├── train_live.py             live models, Oct 2025 - Sep 2026 (needs internet)
 │   ├── pulse.py                  the daily dashboard job (needs internet)
+│   ├── band_test.py              which frequency bands carry the rhythm (MUSTANG cache)
+│   ├── export_site_research.py   data for the research map and the game
 │   ├── survey_mustang.py         which stations have recent data (needs internet)
 │   ├── validate_route_a.py       recent-data route vs the published data (needs internet)
 │   ├── weekend_signature.py      cross-country weekend analysis (no ML)

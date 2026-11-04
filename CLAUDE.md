@@ -65,8 +65,11 @@ See `docs/12-master-plan.md` and the "Next steps" at the end of `docs/10-work-lo
 The five promises (Results 5–9 in `docs/04`) and the pre-registered UAE experiment
 (`docs/14`, Result 10) are done, and so are the live models (Result 11) and the City
 Pulse dashboard (`site/`, `src/pulse.py`, `.github/workflows/pulse.yml`, live at
-https://aaaditt.github.io/groundtruth/). Next: final report; then the frequency-band
-test and a station map.
+https://aaaditt.github.io/groundtruth/), the band test (Result 12), the research map,
+game and predictions board, and the final report (`docs/13`). Tagged `v1.0-semester`.
+
+- `config/predictions.csv` is pre-registration: never edit or delete a row after its
+  commit. Add new predictions as new rows, committed before their date.
 
 - `site/data/` is written by the daily Action; don't hand-edit it. New days are scored
   with period = "live" so they can never enter training.
