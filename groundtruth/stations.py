@@ -25,6 +25,8 @@ class Station:
     route: str
     status: str
     lecocq: str | None
+    lat: float
+    lon: float
     notes: str
 
     @property
@@ -56,6 +58,8 @@ def load_stations(path=CONFIG):
             problems.append(f"provider must be one of {sorted(PROVIDERS)}")
         if s.route not in ROUTES:
             problems.append(f"route must be one of {sorted(ROUTES)}")
+        if not (-90 <= s.lat <= 90 and -180 <= s.lon <= 180):
+            problems.append("lat/lon out of range")
         if s.status not in STATUSES:
             problems.append(f"status must be one of {sorted(STATUSES)}")
         if problems:

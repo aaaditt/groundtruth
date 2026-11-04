@@ -63,8 +63,14 @@ Shared logic lives in the `groundtruth/` package (features, calendars, models, s
 
 See `docs/12-master-plan.md` and the "Next steps" at the end of `docs/10-work-log.md`.
 The five promises (Results 5–9 in `docs/04`) and the pre-registered UAE experiment
-(`docs/14`, Result 10) are done, and so are the live models (Result 11). Next: the City
-Pulse dashboard; then the frequency-band test and a station map.
+(`docs/14`, Result 10) are done, and so are the live models (Result 11) and the City
+Pulse dashboard (`site/`, `src/pulse.py`, `.github/workflows/pulse.yml`, live at
+https://aaaditt.github.io/groundtruth/). Next: final report; then the frequency-band
+test and a station map.
+
+- `site/data/` is written by the daily Action; don't hand-edit it. New days are scored
+  with period = "live" so they can never enter training.
+- Dashboard JS builds DOM with `textContent` only (no innerHTML with data).
 
 - Live data uses `week_id()` (year + week), never the bare week number.
 - The MUSTANG cache is gzip (`.txt.gz`); `outputs/tables/live_days.csv` is saved at full

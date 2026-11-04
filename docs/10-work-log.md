@@ -518,7 +518,45 @@ Montreal 97.6 / 58.4, Sharjah 71.6 / 41.3, Puerto Williams (control) 64.9 / 25.0
 
 Tests: 52 (6 new), all pass.
 
+### 2026-11-04 — Stage 5: City Pulse dashboard
+
+**What.** A public web page, https://aaaditt.github.io/groundtruth/, updated every day
+by a GitHub Action (`.github/workflows/pulse.yml`, 06:00 UTC):
+1. `src/pulse.py` downloads MUSTANG from 1 Oct 2026 to today for each live station.
+2. `groundtruth/pulse.py` scores each new day with `detect.score_station` — the same
+   honest scorer as Result 8. Models are rebuilt from the committed `live_days.csv`
+   each run (seconds, identical forests thanks to `random_state=0`), so no model
+   files are committed.
+3. Results go to `site/data/pulse.json` and `site/data/pulse_days.csv` (the open
+   dataset), are committed, and `site/` is published to GitHub Pages.
+
+**What a card shows.** Which weekday yesterday looked like (7 probabilities, true day
+marked); a badge "Normal rhythm" / "Unusual day"; the unusualness score over time
+with the 95% line and public holidays marked; the **live track record** on new normal
+days next to the training score; a table view. Offline stations say "no data", never
+a guess.
+
+**First month, all days never seen in training (run of 2026-11-04).**
+- Dublin's **October Bank Holiday (Mon 26 Oct)** was called *Sunday*, P(weekend) 1.00,
+  flagged by both detectors.
+- Puerto Williams' 12 Oct holiday was called Sunday and flagged.
+- Weekday vs weekend on new normal days: 100% in Brussels, LA, Dublin, Melbourne.
+- **Montreal is drifting:** 25% of days flagged anomalous (5% expected), weekday vs
+  weekend 80%. Its training year misses Feb–May. And 12 Oct (Canadian Thanksgiving) is
+  not marked as a holiday: the national `holidays` calendar for Canada leaves it out.
+
+**Found along the way.** The station service puts II.UOSS ("Univ. of Sharjah") at
+24.9453° N, 56.2042° E, ~90 km east of Sharjah city. Added to `docs/14` §7 and
+`docs/04` Result 10 as a limit. The Sunday result stands; how Friday is read depends on
+which emirate's rules apply there, which we have not verified.
+
+**Other.** Station coordinates added to `config/stations.yaml` (checked by the
+loader). Leaflet is pinned with integrity hashes computed from the files. All
+dashboard text is built with `textContent`, never by pasting data into HTML.
+
+Tests: 57 (5 new), all pass.
+
 ## Next steps
-Stage 5: City Pulse dashboard (daily GitHub Action scores yesterday for each live
-station with these models; static GitHub Pages site) and the open dataset. Optional
-before the report: frequency-band test and station map (promise extras 1.6).
+Watch the dashboard for 7 days of unattended updates. Then: `docs/13-final-report.md`;
+frequency-band test and station map (promise extras 1.6); a Thanksgiving (26 Nov) check
+for Los Angeles and Montreal-style regional-holiday handling.

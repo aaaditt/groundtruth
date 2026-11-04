@@ -16,6 +16,10 @@ All Saints' Day in Brussels. The same method on **current data (Oct 2025 – Sep
 reads weekday vs weekend at 98–100% in Brussels, Los Angeles, Melbourne, Dublin and
 Montreal.
 
+**Live: [City Pulse](https://aaaditt.github.io/groundtruth/)** — every day, a GitHub
+Action downloads yesterday's seismic noise for 7 cities, guesses the weekday, and flags
+days that broke the city's rhythm. Every day shown is one the model never trained on.
+
 > Course project for Foundations of Data Science, BITS Pilani · presented 22 Sep 2026
 > Team: Aadit Chandra, Aradhya Gupta, Shraddha Pradeep
 > Registered title: *Learning Urban Activity Rhythms from Ambient Seismic Noise for
@@ -212,7 +216,13 @@ groundtruth/
 │   ├── stations.py               loads + checks config/stations.yaml
 │   ├── client.py                 polite HTTP client (rate limit, retries, OS certificates)
 │   ├── mustang.py                recent data: MUSTANG spectra -> 4-14 Hz displacement RMS
-│   └── live.py                   per-station live models on 12 months of MUSTANG data
+│   ├── live.py                   per-station live models on 12 months of MUSTANG data
+│   └── pulse.py                  scores new days for the dashboard (reuses detect.py)
+│
+├── site/                         City Pulse: static dashboard on GitHub Pages
+│   ├── index.html, app.js, style.css, about.html
+│   └── data/                     pulse.json + pulse_days.csv, updated daily by
+│                                 .github/workflows/pulse.yml (the open dataset)
 │
 ├── config/
 │   ├── weekends.csv              weekend days per country, with source + start date
@@ -240,6 +250,7 @@ groundtruth/
 │   ├── transfer.py               promise 5: cross-region transfer and its failures
 │   ├── uae_experiment.py         pre-registered UAE weekend experiment (needs internet)
 │   ├── train_live.py             live models, Oct 2025 - Sep 2026 (needs internet)
+│   ├── pulse.py                  the daily dashboard job (needs internet)
 │   ├── survey_mustang.py         which stations have recent data (needs internet)
 │   ├── validate_route_a.py       recent-data route vs the published data (needs internet)
 │   ├── weekend_signature.py      cross-country weekend analysis (no ML)
@@ -285,8 +296,10 @@ If you use this repository, please cite Lecocq et al. (2020) for the data.
   (EarthScope's MUSTANG spectra, about 2 days behind real time) is built and
   **validated against the published data on 6 stations** (`docs/11-data-guide.md`)
   and used for one pre-registered experiment (`docs/14`). Live models for 7 stations
-  are trained on Oct 2025 – Sep 2026 (`docs/04`, Result 11); the dashboard that uses
-  them does not exist yet. Montreal and Puerto Williams have months of missing data.
+  are trained on Oct 2025 – Sep 2026 (`docs/04`, Result 11) and power the City Pulse
+  dashboard (`site/`). Montreal and Puerto Williams have months of missing data.
+- The UAE station II.UOSS is named "Univ. of Sharjah" but its official coordinates are
+  ~90 km east of Sharjah city (`docs/14`, section 7).
 - Public holidays are **national** calendars only; regional holidays are not excluded.
 - Weekend labels follow a cited source per country, but involve judgement for
   Monday–Saturday countries (India, Mexico, ...). A few one-day-weekend stations

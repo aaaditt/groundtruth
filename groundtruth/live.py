@@ -60,9 +60,11 @@ def label_days(feats, country, rules=None):
     return d
 
 
-def station_days(station, start=TRAIN_START, end=TRAIN_END):
+def station_days(station, start=TRAIN_START, end=TRAIN_END, level_ref=None):
     """One row per local day for a live station: 25 features + labels.
-    `level` is scaled against this station's own baseline days in [start, end)."""
+    `level` is scaled against `level_ref` (the level_raw of the TRAINING baseline days)
+    when given -- that is how new days must be scaled; otherwise against this
+    window's own baseline days (used when building the training set itself)."""
     s = rms_series(station.id, start, end)
     if s.empty:
         return pd.DataFrame()
@@ -71,8 +73,8 @@ def station_days(station, start=TRAIN_START, end=TRAIN_END):
     # The first/last local day can be cut off by the UTC download window; drop them
     # if they fall outside [start, end).
     d = d[(d.index >= pd.Timestamp(start)) & (d.index < pd.Timestamp(end))]
-    base = d["period"] == "baseline"
-    d["level"] = robust_scale(d["level_raw"], d.loc[base, "level_raw"])
+    ref = d.loc[d["period"] == "baseline", "level_raw"] if level_ref is None else level_ref
+    d["level"] = robust_scale(d["level_raw"], ref)
     return d
 
 

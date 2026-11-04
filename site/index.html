@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>City Pulse</title>
+  <meta name="description" content="What public seismometers say about each city's day: which weekday it looked like, and whether it was unusual.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>City Pulse</h1>
+      <p class="lede">Traffic, trains and footsteps shake the ground. Public seismometers record it.
+        Each day, a model trained on a year of that shaking guesses <b>which weekday it was</b>
+        in each city, and flags days that <b>broke the city's normal rhythm</b>.</p>
+      <p class="meta" id="meta">Loading…</p>
+      <nav>
+        <a href="about.html">How it works &amp; limits</a>
+        <a href="data/pulse_days.csv" download>Download the data (CSV)</a>
+        <a href="https://github.com/aaaditt/groundtruth">Source code</a>
+      </nav>
+    </header>
+    <div id="map" role="img" aria-label="Map of the stations"></div>
+    <main class="grid" id="cards"></main>
+    <footer>
+      Seismic data: EarthScope MUSTANG noise spectra (Casey et al. 2018,
+      <a href="https://doi.org/10.1785/0220170191">doi:10.1785/0220170191</a>). Method after
+      Lecocq et al. 2020, <i>Science</i> (<a href="https://doi.org/10.1126/science.abd2438">doi:10.1126/science.abd2438</a>).
+      Only city-scale vibration is used; it cannot identify any person.
+    </footer>
+  </div>
+  <div id="tip" role="tooltip"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+</html>

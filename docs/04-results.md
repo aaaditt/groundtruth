@@ -482,6 +482,12 @@ schools still take Friday off. But Friday became 53% busier relative to Mon–Th
 consistent with federal and private-sector Friday working, though one seismometer can't
 say who.
 
+> **Location correction (2026-11-04).** The station's official coordinates
+> (24.9453° N, 56.2042° E) are ~90 km east of Sharjah city, in the Hajar mountains,
+> although its site name is "Univ. of Sharjah". The Sunday result stands as measured
+> at this sensor; which emirate's weekend rules apply around it is not verified, which
+> matters for how Friday is read. Details: `docs/14`, section 7, Limits.
+
 ![UAE weekend switch](../outputs/plots/uae_weekend_switch.png)
 
 ---
@@ -517,7 +523,8 @@ What this shows:
 - **Melbourne names the exact day 74.9% of the time**, above any station in the
   published results (best: 73.9%).
 - **Sharjah is harder (71.6%).** The labels follow the federal Saturday–Sunday weekend,
-  but Sharjah's government and schools take Friday off too (Result 10). The plot shows
+  but Sharjah's government and schools take Friday off too (Result 10), and the sensor
+  is ~90 km east of the city (see the location correction there). The plot shows
   Friday has its own midday dip, so "weekend" here is genuinely mixed.
 - **The control town is no longer at chance.** Puerto Williams scores 64.9%, above
   all 200 week-shuffled permutations (p = 0.005); in 2019–20 it was 56.4%. A weak

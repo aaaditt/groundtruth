@@ -18,6 +18,7 @@ def test_bad_timezone_is_rejected(tmp_path):
     p.write_text(
         "stations:\n"
         "  - {id: II.UOSS.10.BHZ, city: Sharjah, country: AE, timezone: Asia/Dubay,\n"
-        "     provider: earthscope, route: mustang, status: live, lecocq: null, notes: x}\n")
+        "     provider: earthscope, route: mustang, status: live, lecocq: null,\n"
+        "     lat: 24.9453, lon: 56.2042, notes: x}\n")
     with pytest.raises(ValueError, match="time zone"):
         load_stations(p)

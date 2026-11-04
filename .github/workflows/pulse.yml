@@ -1,0 +1,65 @@
+# City Pulse: score yesterday for every live station and publish the dashboard.
+#
+#   1. download new MUSTANG data and score it   (python src/pulse.py)
+#   2. commit site/data/ so the history lives in git (and keeps the repo "active":
+#      GitHub pauses scheduled workflows on repos with no activity for 60 days)
+#   3. publish site/ to GitHub Pages
+#
+# Downloaded months are kept in an Actions cache, so old months are never fetched twice.
+name: pulse
+
+on:
+  schedule:
+    - cron: "0 6 * * *"        # every day, 06:00 UTC
+  workflow_dispatch:            # "Run workflow" button
+  push:
+    branches: [main]
+    paths: ["site/**", "src/pulse.py", "groundtruth/**", ".github/workflows/pulse.yml"]
+
+permissions:
+  contents: write               # commit site/data
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pulse
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - uses: actions/cache@v4
+        with:
+          path: data/cache/mustang
+          key: mustang-${{ github.run_id }}
+          restore-keys: mustang-
+      - run: python src/pulse.py
+      - name: Commit today's data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/data
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "pulse: data $(date -u +%F)"
+          git pull --rebase
+          git push
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

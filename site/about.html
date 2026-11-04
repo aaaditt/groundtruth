@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>City Pulse: how it works</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap prose">
+    <header>
+      <h1>How City Pulse works</h1>
+      <nav><a href="index.html">← Back to the dashboard</a>
+        <a href="https://github.com/aaaditt/groundtruth">Source code</a></nav>
+    </header>
+
+    <h2>The idea</h2>
+    <p>Seismometers are built to record earthquakes, but between quakes they record people:
+      traffic, trains, machinery and footsteps shake the ground by a few nanometres, mostly at
+      4–14 Hz. During the 2020 lockdowns, Lecocq et al. showed this "human noise" dropped
+      worldwide. City Pulse turns that discarded signal into a daily reading of each city's rhythm.</p>
+
+    <h2>What happens every day</h2>
+    <ol>
+      <li>A GitHub Action downloads the latest hourly noise spectra from EarthScope's free MUSTANG
+        service (they arrive about 2 days late).</li>
+      <li>Each local day becomes 25 numbers: the <b>shape</b> of its 24 hours (when the city was busy)
+        and its overall <b>level</b>, scaled against that station's own normal days.</li>
+      <li>Two random-forest models per station, trained on <b>1 Oct 2025 – 30 Sep 2026</b>, guess the
+        weekday and whether it was a weekend. Every day on the dashboard is <b>after</b> that window, so
+        the model has never seen it.</li>
+      <li>A day is marked <b>unusual</b> if it is further from normal than 95% of the training year's
+        normal days were (scored with those days' own weeks held out). So about 1 normal day in 20
+        is flagged by chance: one flag means little; a cluster means something.</li>
+    </ol>
+
+    <h2>How good is it?</h2>
+    <p>Tested with whole weeks held out on the training year: weekday vs weekend 98–100% in Brussels,
+      Los Angeles, Melbourne, Dublin and Montreal; 72% at the UAE station; 65% at the remote control
+      town. Each card also shows the <b>live track record</b>: how the model has done on the new days
+      since 1 Oct 2026. Full results: <a href="https://github.com/aaaditt/groundtruth/blob/main/docs/04-results.md">docs/04-results.md</a>.</p>
+
+    <h2>Limits — please read</h2>
+    <ul>
+      <li><b>No data means no data.</b> If a station is down, its card says so. We never fill gaps.</li>
+      <li>Public holidays are national calendars only. Regional holidays (e.g. Quebec's) are not marked.</li>
+      <li>Montreal's training year misses most of Feb–May 2026, and its first live month is noisier
+        than its training scores suggest.</li>
+      <li>The UAE station (II.UOSS, site name "Univ. of Sharjah") sits ~90 km east of Sharjah city per
+        its official coordinates. The weekend labels follow the federal Saturday–Sunday rule.</li>
+      <li>"Unusual" says the ground was different, not why. Weather, construction or a sensor problem
+        can all cause it.</li>
+      <li>Models are not retrained automatically; the version and training window are shown on the page.</li>
+    </ul>
+
+    <h2>Privacy</h2>
+    <p>The data is the combined vibration of a whole neighbourhood, summarised per hour. It cannot
+      identify, locate or follow any person, and we don't try to.</p>
+
+    <h2>Sources</h2>
+    <ul>
+      <li>Lecocq, T., Hicks, S. P., Van Noten, K., et al. (2020). Global quieting of high-frequency seismic
+        noise due to COVID-19 pandemic lockdown measures. <i>Science</i> 369, 1338–1343.
+        <a href="https://doi.org/10.1126/science.abd2438">doi:10.1126/science.abd2438</a></li>
+      <li>Casey, R., et al. (2018). Assuring the Quality of IRIS Data with
+        MUSTANG. <i>Seismological Research Letters</i> 89(2A), 630.
+        <a href="https://doi.org/10.1785/0220170191">doi:10.1785/0220170191</a></li>
+      <li>Station coordinates: FDSN station web service at EarthScope, and Table S1 of Lecocq et al. (2020).</li>
+      <li>Weekends: <a href="https://github.com/aaaditt/groundtruth/blob/main/config/weekends.csv">config/weekends.csv</a>
+        (cited per country). Holidays: the <code>holidays</code> Python package, version 0.108.</li>
+      <li>Map tiles © OpenStreetMap contributors.</li>
+    </ul>
+  </div>
+</body>
+</html>

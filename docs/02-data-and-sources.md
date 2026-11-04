@@ -93,6 +93,15 @@ headline results comes from these.** They are used only for the Route A validati
 - Network DOIs checked against the FDSN network registry,
   https://www.fdsn.org/ws/networks/1/query (2026-11-03).
 - EIDA (European data centres) — https://www.orfeus-eu.org/data/eida/
+- Station coordinates for the dashboard map (`config/stations.yaml`): EarthScope FDSN
+  station service, https://service.earthscope.org/fdsnws/station/1/query (queried
+  2026-11-04); for CH.SGEV and AM.R7885, Table S1 of Lecocq et al. (2020).
+
+### City Pulse dashboard (`site/`)
+
+- Map: Leaflet 1.9.4 — https://leafletjs.com/ (loaded from unpkg with a pinned
+  integrity hash); tiles © OpenStreetMap contributors,
+  https://www.openstreetmap.org/copyright . No DOI.
 
 ### UAE weekend experiment (`docs/14`)
 

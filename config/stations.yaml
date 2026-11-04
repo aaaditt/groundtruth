@@ -15,6 +15,9 @@
 #             waveform = raw waveforms, we compute RMS ourselves (Route B, heavy)
 #   status    live | offline | unverified
 #   lecocq    the matching station in the Lecocq et al. (2020) data, if any
+#   lat, lon  station coordinates (for the dashboard map). EarthScope stations: from the
+#             FDSN station service (service.earthscope.org/fdsnws/station), queried
+#             2026-11-04. Others: from Table S1 of Lecocq et al. (2020).
 #   notes     why this station is here / what to watch out for
 #
 # Rule (docs/12-master-plan.md): data from different routes or sources is never mixed
@@ -29,10 +32,16 @@ stations:
     route: mustang
     status: live
     lecocq: null
+    lat: 24.9453
+    lon: 56.2042
     notes: >
       Continuous since 2020-02-13; MUSTANG noise-psd has Dec 2021 - Feb 2022, so the
       UAE weekend switch (2022-01-01) can be tested. Use location 10, not 00 (sensor
       swap on 2022-02-02). Sharjah's local government kept a Fri-Sun weekend.
+      LOCATION: the station service names the site "Univ. of Sharjah, Sharjah", but its
+      coordinates (same for every sensor epoch) are ~90 km EAST of Sharjah city, in
+      the Hajar mountains. Which emirate the sensor sits in is not verified, so the
+      "city" here is the operator's site name, not a measured fact.
 
   # The next six were VALIDATED against Lecocq et al. on Oct 2019 - Jun 2020
   # (src/validate_route_a.py, outputs/tables/route_a_validation.csv) and MUSTANG had
@@ -45,6 +54,8 @@ stations:
     route: mustang
     status: live
     lecocq: BE.UCC
+    lat: 50.797241
+    lon: 4.36038
     notes: Route A validated (day-specific shape r 0.94, weekend accuracy 100% both sources).
 
   - id: CN.MNTQ..HHZ
@@ -55,6 +66,8 @@ stations:
     route: mustang
     status: live
     lecocq: CN.MNTQ
+    lat: 45.5003
+    lon: -73.6228
     notes: Route A validated (day-specific shape r 0.91).
 
   - id: CI.USC..BHZ
@@ -65,6 +78,8 @@ stations:
     route: mustang
     status: live
     lecocq: CI.USC
+    lat: 34.01919
+    lon: -118.28631
     notes: Route A validated (day-specific shape r 0.96).
 
   - id: EI.DSB..HHZ
@@ -75,6 +90,8 @@ stations:
     route: mustang
     status: live
     lecocq: EI.DSB
+    lat: 53.24519
+    lon: -6.37619
     notes: Route A validated (day-specific shape r 0.98).
 
   - id: S1.AUKSC..HHZ
@@ -85,6 +102,8 @@ stations:
     route: mustang
     status: live
     lecocq: S1.AUKSC
+    lat: -37.9684
+    lon: 145.1584
     notes: Route A validated (day-specific shape r 0.91).
 
   - id: C1.MG01..HHZ
@@ -95,6 +114,8 @@ stations:
     route: mustang
     status: live
     lecocq: C1.MG01
+    lat: -54.9322
+    lon: -67.63
     notes: >
       CONTROL station: a remote town where no weekly rhythm is expected; weekend
       accuracy is at chance in both sources (50%). Table S1 lists
@@ -109,6 +130,8 @@ stations:
     route: waveform
     status: unverified
     lecocq: CH.SGEV
+    lat: 46.20062
+    lon: 6.13676
     notes: Station open via EIDA (no MUSTANG in Europe), so Route B only.
 
   - id: AM.R7885.00.EHZ
@@ -119,6 +142,8 @@ stations:
     route: waveform
     status: offline
     lecocq: AM.R7885
+    lat: 40.711712
+    lon: -73.92972
     notes: >
       The flagship city of the published results, but the station stopped on
       2021-06-21. Kept here so the dashboard can say "no data" honestly.

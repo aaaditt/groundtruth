@@ -152,6 +152,13 @@ from one seismometer *who* is now active on Fridays.
 
 ### Limits
 
+- **Where the sensor is (found 2026-11-04, after the analysis).** The FDSN station
+  service names the site "Univ. of Sharjah, Sharjah", but gives coordinates
+  24.9453° N, 56.2042° E for every sensor epoch: about 90 km **east** of Sharjah city,
+  in the Hajar mountains. We have not verified which emirate that point is in. The
+  pre-registered test (Sunday vs Mon–Thu) does not depend on this; the *reading* of
+  Friday does, since "Sharjah's government takes Friday off" only applies if the
+  sensor's surroundings follow Sharjah's rules.
 - **One station,** one change.
 - **Short "before" period.** Only 9–10 weeks (Oct–Dec 2021).
 - **Expo 2020 Dubai** (Oct 2021 – Mar 2022) spans both periods, so it can't explain a
