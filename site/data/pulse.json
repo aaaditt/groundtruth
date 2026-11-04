@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-04T05:01:47Z",
+ "generated_utc": "2026-11-04T05:05:12Z",
  "model_version": "live-1",
  "train_window": [
   "2025-10-01",
@@ -48,7 +48,7 @@
      "anomaly": 0.68,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (25%) -- correct."
+     "summary": "Looked like a Thursday (25%) — correct."
     },
     {
      "date": "2026-10-02",
@@ -72,7 +72,7 @@
      "anomaly": 1.495,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (95%) -- correct."
+     "summary": "Looked like a Friday (95%) — correct."
     },
     {
      "date": "2026-10-03",
@@ -96,7 +96,7 @@
      "anomaly": 0.698,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (22%) -- it was a Saturday."
+     "summary": "Looked like a Thursday (22%) — it was a Saturday."
     },
     {
      "date": "2026-10-04",
@@ -120,7 +120,7 @@
      "anomaly": 0.58,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (25%) -- it was a Sunday."
+     "summary": "Looked like a Monday (25%) — it was a Sunday."
     },
     {
      "date": "2026-10-05",
@@ -144,7 +144,7 @@
      "anomaly": 0.865,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (27%) -- it was a Monday."
+     "summary": "Looked like a Tuesday (27%) — it was a Monday."
     },
     {
      "date": "2026-10-06",
@@ -168,7 +168,7 @@
      "anomaly": 1.051,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (25%) -- correct."
+     "summary": "Looked like a Tuesday (25%) — correct."
     },
     {
      "date": "2026-10-07",
@@ -192,7 +192,7 @@
      "anomaly": 1.908,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (27%) -- it was a Wednesday."
+     "summary": "Looked like a Tuesday (27%) — it was a Wednesday."
     },
     {
      "date": "2026-10-08",
@@ -216,7 +216,7 @@
      "anomaly": 1.605,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (26%) -- it was a Thursday."
+     "summary": "Looked like a Tuesday (26%) — it was a Thursday."
     },
     {
      "date": "2026-10-09",
@@ -240,7 +240,7 @@
      "anomaly": 1.111,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (100%) -- correct."
+     "summary": "Looked like a Friday (100%) — correct."
     },
     {
      "date": "2026-10-10",
@@ -264,7 +264,7 @@
      "anomaly": 3.856,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Wednesday (28%) -- it was a Saturday. Unusual day."
+     "summary": "Looked like a Wednesday (28%) — it was a Saturday. Unusual day."
     },
     {
      "date": "2026-10-11",
@@ -288,7 +288,7 @@
      "anomaly": 2.673,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (27%) -- it was a Sunday."
+     "summary": "Looked like a Tuesday (27%) — it was a Sunday."
     },
     {
      "date": "2026-10-12",
@@ -312,7 +312,7 @@
      "anomaly": 1.125,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (24%) -- it was a Monday."
+     "summary": "Looked like a Wednesday (24%) — it was a Monday."
     },
     {
      "date": "2026-10-13",
@@ -336,7 +336,7 @@
      "anomaly": 0.702,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (29%) -- it was a Tuesday."
+     "summary": "Looked like a Saturday (29%) — it was a Tuesday."
     },
     {
      "date": "2026-10-14",
@@ -360,7 +360,7 @@
      "anomaly": 1.571,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (26%) -- it was a Wednesday."
+     "summary": "Looked like a Thursday (26%) — it was a Wednesday."
     },
     {
      "date": "2026-10-15",
@@ -384,7 +384,7 @@
      "anomaly": 2.201,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (28%) -- it was a Thursday."
+     "summary": "Looked like a Monday (28%) — it was a Thursday."
     },
     {
      "date": "2026-10-16",
@@ -408,7 +408,7 @@
      "anomaly": 1.504,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (20%) -- it was a Friday. Unusual day."
+     "summary": "Looked like a Thursday (20%) — it was a Friday. Unusual day."
     },
     {
      "date": "2026-10-17",
@@ -432,7 +432,7 @@
      "anomaly": 2.492,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (34%) -- it was a Saturday. Unusual day."
+     "summary": "Looked like a Friday (34%) — it was a Saturday. Unusual day."
     },
     {
      "date": "2026-10-18",
@@ -456,7 +456,7 @@
      "anomaly": 2.42,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (29%) -- it was a Sunday."
+     "summary": "Looked like a Friday (29%) — it was a Sunday."
     },
     {
      "date": "2026-10-19",
@@ -480,7 +480,7 @@
      "anomaly": 0.647,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (32%) -- it was a Monday."
+     "summary": "Looked like a Sunday (32%) — it was a Monday."
     },
     {
      "date": "2026-10-20",
@@ -504,7 +504,7 @@
      "anomaly": 0.6,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (31%) -- it was a Tuesday."
+     "summary": "Looked like a Sunday (31%) — it was a Tuesday."
     },
     {
      "date": "2026-10-21",
@@ -528,7 +528,7 @@
      "anomaly": 0.946,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (21%) -- it was a Wednesday."
+     "summary": "Looked like a Monday (21%) — it was a Wednesday."
     },
     {
      "date": "2026-10-22",
@@ -552,7 +552,7 @@
      "anomaly": 2.144,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (27%) -- correct."
+     "summary": "Looked like a Thursday (27%) — correct."
     },
     {
      "date": "2026-10-23",
@@ -576,7 +576,7 @@
      "anomaly": 2.182,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (72%) -- correct."
+     "summary": "Looked like a Friday (72%) — correct."
     },
     {
      "date": "2026-10-24",
@@ -600,7 +600,7 @@
      "anomaly": 0.73,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (44%) -- correct."
+     "summary": "Looked like a Saturday (44%) — correct."
     },
     {
      "date": "2026-10-25",
@@ -624,7 +624,7 @@
      "anomaly": 0.791,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (35%) -- correct."
+     "summary": "Looked like a Sunday (35%) — correct."
     },
     {
      "date": "2026-10-26",
@@ -648,7 +648,7 @@
      "anomaly": 0.695,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (21%) -- it was a Monday."
+     "summary": "Looked like a Tuesday (21%) — it was a Monday."
     },
     {
      "date": "2026-10-27",
@@ -672,7 +672,7 @@
      "anomaly": 1.062,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (37%) -- it was a Tuesday."
+     "summary": "Looked like a Sunday (37%) — it was a Tuesday."
     },
     {
      "date": "2026-10-28",
@@ -696,7 +696,7 @@
      "anomaly": 2.624,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (30%) -- it was a Wednesday."
+     "summary": "Looked like a Thursday (30%) — it was a Wednesday."
     },
     {
      "date": "2026-10-29",
@@ -720,7 +720,7 @@
      "anomaly": 1.565,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (22%) -- it was a Thursday."
+     "summary": "Looked like a Tuesday (22%) — it was a Thursday."
     },
     {
      "date": "2026-10-30",
@@ -744,7 +744,7 @@
      "anomaly": 1.051,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (78%) -- correct."
+     "summary": "Looked like a Friday (78%) — correct."
     },
     {
      "date": "2026-10-31",
@@ -768,7 +768,7 @@
      "anomaly": 2.008,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (24%) -- it was a Saturday."
+     "summary": "Looked like a Tuesday (24%) — it was a Saturday."
     },
     {
      "date": "2026-11-01",
@@ -792,7 +792,7 @@
      "anomaly": 2.456,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (28%) -- it was a Sunday."
+     "summary": "Looked like a Tuesday (28%) — it was a Sunday."
     }
    ],
    "latest": "2026-11-01",
@@ -848,7 +848,7 @@
      "anomaly": 2.07,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (27%) -- it was a Thursday."
+     "summary": "Looked like a Tuesday (27%) — it was a Thursday."
     },
     {
      "date": "2026-10-02",
@@ -872,7 +872,7 @@
      "anomaly": 0.854,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (40%) -- it was a Friday."
+     "summary": "Looked like a Wednesday (40%) — it was a Friday."
     },
     {
      "date": "2026-10-03",
@@ -896,7 +896,7 @@
      "anomaly": 1.249,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (95%) -- correct."
+     "summary": "Looked like a Saturday (95%) — correct."
     },
     {
      "date": "2026-10-04",
@@ -920,7 +920,7 @@
      "anomaly": 0.782,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (59%) -- correct."
+     "summary": "Looked like a Sunday (59%) — correct."
     },
     {
      "date": "2026-10-05",
@@ -944,7 +944,7 @@
      "anomaly": 0.854,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (62%) -- correct."
+     "summary": "Looked like a Monday (62%) — correct."
     },
     {
      "date": "2026-10-06",
@@ -968,7 +968,7 @@
      "anomaly": 1.623,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (38%) -- it was a Tuesday. Unusual day."
+     "summary": "Looked like a Friday (38%) — it was a Tuesday. Unusual day."
     },
     {
      "date": "2026-10-07",
@@ -992,7 +992,7 @@
      "anomaly": 1.524,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (32%) -- correct."
+     "summary": "Looked like a Wednesday (32%) — correct."
     },
     {
      "date": "2026-10-08",
@@ -1016,7 +1016,7 @@
      "anomaly": 1.551,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (40%) -- it was a Thursday."
+     "summary": "Looked like a Friday (40%) — it was a Thursday."
     },
     {
      "date": "2026-10-09",
@@ -1040,7 +1040,7 @@
      "anomaly": 1.747,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (27%) -- it was a Friday."
+     "summary": "Looked like a Thursday (27%) — it was a Friday."
     },
     {
      "date": "2026-10-10",
@@ -1064,7 +1064,7 @@
      "anomaly": 3.435,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Saturday (40%) -- correct. Unusual day."
+     "summary": "Looked like a Saturday (40%) — correct. Unusual day."
     },
     {
      "date": "2026-10-11",
@@ -1088,7 +1088,7 @@
      "anomaly": 1.389,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (85%) -- correct."
+     "summary": "Looked like a Sunday (85%) — correct."
     },
     {
      "date": "2026-10-12",
@@ -1112,7 +1112,7 @@
      "anomaly": 1.751,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (36%) -- it was a Monday."
+     "summary": "Looked like a Tuesday (36%) — it was a Monday."
     },
     {
      "date": "2026-10-13",
@@ -1136,7 +1136,7 @@
      "anomaly": 2.12,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (35%) -- it was a Tuesday. Unusual day."
+     "summary": "Looked like a Friday (35%) — it was a Tuesday. Unusual day."
     },
     {
      "date": "2026-10-14",
@@ -1160,7 +1160,7 @@
      "anomaly": 1.66,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (30%) -- correct."
+     "summary": "Looked like a Wednesday (30%) — correct."
     },
     {
      "date": "2026-10-15",
@@ -1184,7 +1184,7 @@
      "anomaly": 2.314,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (31%) -- it was a Thursday."
+     "summary": "Looked like a Friday (31%) — it was a Thursday."
     },
     {
      "date": "2026-10-16",
@@ -1208,7 +1208,7 @@
      "anomaly": 1.762,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (28%) -- correct."
+     "summary": "Looked like a Friday (28%) — correct."
     },
     {
      "date": "2026-10-17",
@@ -1232,7 +1232,7 @@
      "anomaly": 2.215,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (81%) -- correct."
+     "summary": "Looked like a Saturday (81%) — correct."
     },
     {
      "date": "2026-10-18",
@@ -1256,7 +1256,7 @@
      "anomaly": 0.988,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (67%) -- correct."
+     "summary": "Looked like a Sunday (67%) — correct."
     },
     {
      "date": "2026-10-19",
@@ -1280,7 +1280,7 @@
      "anomaly": 0.8,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (42%) -- correct."
+     "summary": "Looked like a Monday (42%) — correct."
     },
     {
      "date": "2026-10-20",
@@ -1304,7 +1304,7 @@
      "anomaly": 1.652,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (32%) -- it was a Tuesday."
+     "summary": "Looked like a Friday (32%) — it was a Tuesday."
     },
     {
      "date": "2026-10-21",
@@ -1328,7 +1328,7 @@
      "anomaly": 1.612,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (40%) -- it was a Wednesday."
+     "summary": "Looked like a Friday (40%) — it was a Wednesday."
     },
     {
      "date": "2026-10-22",
@@ -1352,7 +1352,7 @@
      "anomaly": 2.062,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (35%) -- it was a Thursday."
+     "summary": "Looked like a Friday (35%) — it was a Thursday."
     },
     {
      "date": "2026-10-23",
@@ -1376,7 +1376,7 @@
      "anomaly": 1.14,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (40%) -- correct."
+     "summary": "Looked like a Friday (40%) — correct."
     },
     {
      "date": "2026-10-24",
@@ -1400,7 +1400,7 @@
      "anomaly": 1.085,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (84%) -- correct."
+     "summary": "Looked like a Saturday (84%) — correct."
     },
     {
      "date": "2026-10-25",
@@ -1424,7 +1424,7 @@
      "anomaly": 0.877,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (78%) -- correct."
+     "summary": "Looked like a Sunday (78%) — correct."
     },
     {
      "date": "2026-10-26",
@@ -1448,7 +1448,7 @@
      "anomaly": 0.69,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (39%) -- it was a Monday. Unusual day."
+     "summary": "Looked like a Friday (39%) — it was a Monday. Unusual day."
     },
     {
      "date": "2026-10-27",
@@ -1472,7 +1472,7 @@
      "anomaly": 1.58,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (33%) -- it was a Tuesday."
+     "summary": "Looked like a Wednesday (33%) — it was a Tuesday."
     },
     {
      "date": "2026-10-28",
@@ -1496,7 +1496,7 @@
      "anomaly": 1.388,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (33%) -- correct."
+     "summary": "Looked like a Wednesday (33%) — correct."
     },
     {
      "date": "2026-10-29",
@@ -1520,7 +1520,7 @@
      "anomaly": 1.252,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (30%) -- correct."
+     "summary": "Looked like a Thursday (30%) — correct."
     },
     {
      "date": "2026-10-30",
@@ -1544,7 +1544,7 @@
      "anomaly": 1.692,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (41%) -- correct."
+     "summary": "Looked like a Friday (41%) — correct."
     },
     {
      "date": "2026-10-31",
@@ -1568,7 +1568,7 @@
      "anomaly": 1.86,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (65%) -- correct."
+     "summary": "Looked like a Saturday (65%) — correct."
     },
     {
      "date": "2026-11-01",
@@ -1592,7 +1592,7 @@
      "anomaly": 0.768,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (86%) -- correct. Public holiday: All Saints' Day."
+     "summary": "Looked like a Sunday (86%) — correct. Public holiday: All Saints' Day."
     },
     {
      "date": "2026-11-02",
@@ -1616,7 +1616,7 @@
      "anomaly": 1.144,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (30%) -- it was a Monday."
+     "summary": "Looked like a Friday (30%) — it was a Monday."
     }
    ],
    "latest": "2026-11-02",
@@ -1672,7 +1672,7 @@
      "anomaly": 1.944,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (34%) -- it was a Thursday. Unusual day."
+     "summary": "Looked like a Tuesday (34%) — it was a Thursday. Unusual day."
     },
     {
      "date": "2026-10-02",
@@ -1696,7 +1696,7 @@
      "anomaly": 2.299,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Friday (31%) -- correct. Unusual day."
+     "summary": "Looked like a Friday (31%) — correct. Unusual day."
     },
     {
      "date": "2026-10-03",
@@ -1720,7 +1720,7 @@
      "anomaly": 2.365,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Wednesday (30%) -- it was a Saturday. Unusual day."
+     "summary": "Looked like a Wednesday (30%) — it was a Saturday. Unusual day."
     },
     {
      "date": "2026-10-04",
@@ -1744,7 +1744,7 @@
      "anomaly": 1.416,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (73%) -- correct."
+     "summary": "Looked like a Sunday (73%) — correct."
     },
     {
      "date": "2026-10-05",
@@ -1768,7 +1768,7 @@
      "anomaly": 2.113,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Wednesday (33%) -- it was a Monday. Unusual day."
+     "summary": "Looked like a Wednesday (33%) — it was a Monday. Unusual day."
     },
     {
      "date": "2026-10-06",
@@ -1792,7 +1792,7 @@
      "anomaly": 2.331,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Wednesday (35%) -- it was a Tuesday. Unusual day."
+     "summary": "Looked like a Wednesday (35%) — it was a Tuesday. Unusual day."
     },
     {
      "date": "2026-10-07",
@@ -1816,7 +1816,7 @@
      "anomaly": 1.974,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (30%) -- correct."
+     "summary": "Looked like a Wednesday (30%) — correct."
     },
     {
      "date": "2026-10-08",
@@ -1840,7 +1840,7 @@
      "anomaly": 2.039,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (42%) -- it was a Thursday. Unusual day."
+     "summary": "Looked like a Wednesday (42%) — it was a Thursday. Unusual day."
     },
     {
      "date": "2026-10-09",
@@ -1864,7 +1864,7 @@
      "anomaly": 1.74,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (32%) -- it was a Friday."
+     "summary": "Looked like a Monday (32%) — it was a Friday."
     },
     {
      "date": "2026-10-10",
@@ -1888,7 +1888,7 @@
      "anomaly": 2.132,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Friday (19%) -- it was a Saturday. Unusual day."
+     "summary": "Looked like a Friday (19%) — it was a Saturday. Unusual day."
     },
     {
      "date": "2026-10-11",
@@ -1912,7 +1912,7 @@
      "anomaly": 1.558,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (78%) -- correct."
+     "summary": "Looked like a Sunday (78%) — correct."
     },
     {
      "date": "2026-10-12",
@@ -1936,7 +1936,7 @@
      "anomaly": 2.537,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Wednesday (26%) -- it was a Monday. Unusual day."
+     "summary": "Looked like a Wednesday (26%) — it was a Monday. Unusual day."
     },
     {
      "date": "2026-10-13",
@@ -1960,7 +1960,7 @@
      "anomaly": 2.0,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (38%) -- correct."
+     "summary": "Looked like a Tuesday (38%) — correct."
     },
     {
      "date": "2026-10-14",
@@ -1984,7 +1984,7 @@
      "anomaly": 1.858,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (32%) -- correct."
+     "summary": "Looked like a Wednesday (32%) — correct."
     },
     {
      "date": "2026-10-15",
@@ -2008,7 +2008,7 @@
      "anomaly": 2.019,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (22%) -- it was a Thursday."
+     "summary": "Looked like a Monday (22%) — it was a Thursday."
     },
     {
      "date": "2026-10-16",
@@ -2032,7 +2032,7 @@
      "anomaly": 1.915,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (23%) -- it was a Friday."
+     "summary": "Looked like a Wednesday (23%) — it was a Friday."
     },
     {
      "date": "2026-10-17",
@@ -2056,7 +2056,7 @@
      "anomaly": 2.599,
      "confusion_flag": true,
      "anomaly_flag": true,
-     "summary": "Looked like a Wednesday (35%) -- it was a Saturday. Unusual day."
+     "summary": "Looked like a Wednesday (35%) — it was a Saturday. Unusual day."
     },
     {
      "date": "2026-10-18",
@@ -2080,7 +2080,7 @@
      "anomaly": 1.581,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (75%) -- correct."
+     "summary": "Looked like a Sunday (75%) — correct."
     },
     {
      "date": "2026-10-19",
@@ -2104,7 +2104,7 @@
      "anomaly": 1.229,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (35%) -- correct."
+     "summary": "Looked like a Monday (35%) — correct."
     },
     {
      "date": "2026-10-20",
@@ -2128,7 +2128,7 @@
      "anomaly": 1.8,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (32%) -- it was a Tuesday."
+     "summary": "Looked like a Monday (32%) — it was a Tuesday."
     },
     {
      "date": "2026-10-21",
@@ -2152,7 +2152,7 @@
      "anomaly": 1.336,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (36%) -- it was a Wednesday."
+     "summary": "Looked like a Tuesday (36%) — it was a Wednesday."
     },
     {
      "date": "2026-10-22",
@@ -2176,7 +2176,7 @@
      "anomaly": 1.353,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (43%) -- correct."
+     "summary": "Looked like a Thursday (43%) — correct."
     },
     {
      "date": "2026-10-23",
@@ -2200,7 +2200,7 @@
      "anomaly": 1.228,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (34%) -- it was a Friday."
+     "summary": "Looked like a Tuesday (34%) — it was a Friday."
     },
     {
      "date": "2026-10-24",
@@ -2224,7 +2224,7 @@
      "anomaly": 2.991,
      "confusion_flag": true,
      "anomaly_flag": true,
-     "summary": "Looked like a Monday (28%) -- it was a Saturday. Unusual day."
+     "summary": "Looked like a Monday (28%) — it was a Saturday. Unusual day."
     },
     {
      "date": "2026-10-25",
@@ -2248,7 +2248,7 @@
      "anomaly": 1.021,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (82%) -- correct."
+     "summary": "Looked like a Sunday (82%) — correct."
     },
     {
      "date": "2026-10-26",
@@ -2272,7 +2272,7 @@
      "anomaly": 1.328,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (32%) -- it was a Monday."
+     "summary": "Looked like a Friday (32%) — it was a Monday."
     },
     {
      "date": "2026-10-27",
@@ -2296,7 +2296,7 @@
      "anomaly": 1.591,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (36%) -- correct."
+     "summary": "Looked like a Tuesday (36%) — correct."
     },
     {
      "date": "2026-10-28",
@@ -2320,7 +2320,7 @@
      "anomaly": 1.09,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (33%) -- it was a Wednesday."
+     "summary": "Looked like a Tuesday (33%) — it was a Wednesday."
     },
     {
      "date": "2026-10-29",
@@ -2344,7 +2344,7 @@
      "anomaly": 1.186,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (46%) -- correct."
+     "summary": "Looked like a Thursday (46%) — correct."
     },
     {
      "date": "2026-10-30",
@@ -2368,7 +2368,7 @@
      "anomaly": 0.961,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (36%) -- correct."
+     "summary": "Looked like a Friday (36%) — correct."
     },
     {
      "date": "2026-10-31",
@@ -2392,7 +2392,7 @@
      "anomaly": 1.158,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (58%) -- it was a Saturday."
+     "summary": "Looked like a Sunday (58%) — it was a Saturday."
     },
     {
      "date": "2026-11-01",
@@ -2416,7 +2416,7 @@
      "anomaly": 1.176,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (85%) -- correct."
+     "summary": "Looked like a Sunday (85%) — correct."
     }
    ],
    "latest": "2026-11-01",
@@ -2472,7 +2472,7 @@
      "anomaly": 0.663,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (40%) -- correct."
+     "summary": "Looked like a Thursday (40%) — correct."
     },
     {
      "date": "2026-10-02",
@@ -2496,7 +2496,7 @@
      "anomaly": 1.012,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (32%) -- correct."
+     "summary": "Looked like a Friday (32%) — correct."
     },
     {
      "date": "2026-10-03",
@@ -2520,7 +2520,7 @@
      "anomaly": 1.138,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (73%) -- correct."
+     "summary": "Looked like a Saturday (73%) — correct."
     },
     {
      "date": "2026-10-04",
@@ -2544,7 +2544,7 @@
      "anomaly": 1.238,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (93%) -- correct."
+     "summary": "Looked like a Sunday (93%) — correct."
     },
     {
      "date": "2026-10-05",
@@ -2568,7 +2568,7 @@
      "anomaly": 1.396,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (33%) -- it was a Monday."
+     "summary": "Looked like a Tuesday (33%) — it was a Monday."
     },
     {
      "date": "2026-10-06",
@@ -2592,7 +2592,7 @@
      "anomaly": 1.281,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (28%) -- correct."
+     "summary": "Looked like a Tuesday (28%) — correct."
     },
     {
      "date": "2026-10-07",
@@ -2616,7 +2616,7 @@
      "anomaly": 0.919,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (42%) -- it was a Wednesday."
+     "summary": "Looked like a Thursday (42%) — it was a Wednesday."
     },
     {
      "date": "2026-10-08",
@@ -2640,7 +2640,7 @@
      "anomaly": 1.091,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (55%) -- it was a Thursday."
+     "summary": "Looked like a Friday (55%) — it was a Thursday."
     },
     {
      "date": "2026-10-09",
@@ -2664,7 +2664,7 @@
      "anomaly": 2.588,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Friday (32%) -- correct. Unusual day."
+     "summary": "Looked like a Friday (32%) — correct. Unusual day."
     },
     {
      "date": "2026-10-10",
@@ -2688,7 +2688,7 @@
      "anomaly": 0.892,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (85%) -- correct."
+     "summary": "Looked like a Saturday (85%) — correct."
     },
     {
      "date": "2026-10-11",
@@ -2712,7 +2712,7 @@
      "anomaly": 0.678,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (99%) -- correct."
+     "summary": "Looked like a Sunday (99%) — correct."
     },
     {
      "date": "2026-10-12",
@@ -2736,7 +2736,7 @@
      "anomaly": 1.58,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (32%) -- correct. Public holiday: Columbus Day."
+     "summary": "Looked like a Monday (32%) — correct. Public holiday: Columbus Day."
     },
     {
      "date": "2026-10-13",
@@ -2760,7 +2760,7 @@
      "anomaly": 1.168,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (60%) -- it was a Tuesday."
+     "summary": "Looked like a Monday (60%) — it was a Tuesday."
     },
     {
      "date": "2026-10-14",
@@ -2784,7 +2784,7 @@
      "anomaly": 1.269,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (32%) -- it was a Wednesday."
+     "summary": "Looked like a Thursday (32%) — it was a Wednesday."
     },
     {
      "date": "2026-10-15",
@@ -2808,7 +2808,7 @@
      "anomaly": 1.432,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (40%) -- correct."
+     "summary": "Looked like a Thursday (40%) — correct."
     },
     {
      "date": "2026-10-16",
@@ -2832,7 +2832,7 @@
      "anomaly": 1.301,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (41%) -- correct."
+     "summary": "Looked like a Friday (41%) — correct."
     },
     {
      "date": "2026-10-17",
@@ -2856,7 +2856,7 @@
      "anomaly": 0.94,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (50%) -- correct."
+     "summary": "Looked like a Saturday (50%) — correct."
     },
     {
      "date": "2026-10-18",
@@ -2880,7 +2880,7 @@
      "anomaly": 1.03,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (97%) -- correct."
+     "summary": "Looked like a Sunday (97%) — correct."
     },
     {
      "date": "2026-10-19",
@@ -2904,7 +2904,7 @@
      "anomaly": 1.129,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (66%) -- correct."
+     "summary": "Looked like a Monday (66%) — correct."
     },
     {
      "date": "2026-10-20",
@@ -2928,7 +2928,7 @@
      "anomaly": 0.884,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (38%) -- it was a Tuesday."
+     "summary": "Looked like a Wednesday (38%) — it was a Tuesday."
     },
     {
      "date": "2026-10-21",
@@ -2952,7 +2952,7 @@
      "anomaly": 1.269,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (38%) -- correct."
+     "summary": "Looked like a Wednesday (38%) — correct."
     },
     {
      "date": "2026-10-22",
@@ -2976,7 +2976,7 @@
      "anomaly": 1.777,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (22%) -- correct."
+     "summary": "Looked like a Thursday (22%) — correct."
     },
     {
      "date": "2026-10-23",
@@ -3000,7 +3000,7 @@
      "anomaly": 1.869,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (46%) -- correct."
+     "summary": "Looked like a Friday (46%) — correct."
     },
     {
      "date": "2026-10-24",
@@ -3024,7 +3024,7 @@
      "anomaly": 1.345,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (71%) -- correct."
+     "summary": "Looked like a Saturday (71%) — correct."
     },
     {
      "date": "2026-10-25",
@@ -3048,7 +3048,7 @@
      "anomaly": 1.319,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (96%) -- correct."
+     "summary": "Looked like a Sunday (96%) — correct."
     },
     {
      "date": "2026-10-26",
@@ -3072,7 +3072,7 @@
      "anomaly": 1.192,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (62%) -- correct."
+     "summary": "Looked like a Monday (62%) — correct."
     },
     {
      "date": "2026-10-27",
@@ -3096,7 +3096,7 @@
      "anomaly": 4.079,
      "confusion_flag": true,
      "anomaly_flag": true,
-     "summary": "Looked like a Monday (44%) -- it was a Tuesday. Unusual day."
+     "summary": "Looked like a Monday (44%) — it was a Tuesday. Unusual day."
     },
     {
      "date": "2026-10-28",
@@ -3120,7 +3120,7 @@
      "anomaly": 1.354,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (29%) -- correct."
+     "summary": "Looked like a Wednesday (29%) — correct."
     },
     {
      "date": "2026-10-29",
@@ -3144,7 +3144,7 @@
      "anomaly": 1.246,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (43%) -- correct."
+     "summary": "Looked like a Thursday (43%) — correct."
     },
     {
      "date": "2026-10-30",
@@ -3168,7 +3168,7 @@
      "anomaly": 1.313,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (32%) -- correct."
+     "summary": "Looked like a Friday (32%) — correct."
     },
     {
      "date": "2026-10-31",
@@ -3192,7 +3192,7 @@
      "anomaly": 1.397,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (74%) -- correct."
+     "summary": "Looked like a Saturday (74%) — correct."
     }
    ],
    "latest": "2026-10-31",
@@ -3248,7 +3248,7 @@
      "anomaly": 2.243,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (24%) -- correct."
+     "summary": "Looked like a Thursday (24%) — correct."
     },
     {
      "date": "2026-10-02",
@@ -3272,7 +3272,7 @@
      "anomaly": 1.667,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (75%) -- correct."
+     "summary": "Looked like a Friday (75%) — correct."
     },
     {
      "date": "2026-10-03",
@@ -3296,7 +3296,7 @@
      "anomaly": 1.189,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (82%) -- correct."
+     "summary": "Looked like a Saturday (82%) — correct."
     },
     {
      "date": "2026-10-04",
@@ -3320,7 +3320,7 @@
      "anomaly": 1.581,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (50%) -- correct."
+     "summary": "Looked like a Sunday (50%) — correct."
     },
     {
      "date": "2026-10-05",
@@ -3344,7 +3344,7 @@
      "anomaly": 0.755,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (27%) -- it was a Monday."
+     "summary": "Looked like a Thursday (27%) — it was a Monday."
     },
     {
      "date": "2026-10-06",
@@ -3368,7 +3368,7 @@
      "anomaly": 1.147,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (32%) -- it was a Tuesday."
+     "summary": "Looked like a Thursday (32%) — it was a Tuesday."
     },
     {
      "date": "2026-10-07",
@@ -3392,7 +3392,7 @@
      "anomaly": 0.943,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (34%) -- it was a Wednesday."
+     "summary": "Looked like a Tuesday (34%) — it was a Wednesday."
     },
     {
      "date": "2026-10-08",
@@ -3416,7 +3416,7 @@
      "anomaly": 1.154,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (48%) -- it was a Thursday."
+     "summary": "Looked like a Friday (48%) — it was a Thursday."
     },
     {
      "date": "2026-10-09",
@@ -3440,7 +3440,7 @@
      "anomaly": 2.132,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (40%) -- it was a Friday."
+     "summary": "Looked like a Saturday (40%) — it was a Friday."
     },
     {
      "date": "2026-10-10",
@@ -3464,7 +3464,7 @@
      "anomaly": 1.894,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (88%) -- correct."
+     "summary": "Looked like a Saturday (88%) — correct."
     },
     {
      "date": "2026-10-11",
@@ -3488,7 +3488,7 @@
      "anomaly": 0.429,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (100%) -- correct."
+     "summary": "Looked like a Sunday (100%) — correct."
     },
     {
      "date": "2026-10-12",
@@ -3512,7 +3512,7 @@
      "anomaly": 1.486,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (32%) -- it was a Monday."
+     "summary": "Looked like a Wednesday (32%) — it was a Monday."
     },
     {
      "date": "2026-10-13",
@@ -3536,7 +3536,7 @@
      "anomaly": 1.552,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (37%) -- correct."
+     "summary": "Looked like a Tuesday (37%) — correct."
     },
     {
      "date": "2026-10-14",
@@ -3560,7 +3560,7 @@
      "anomaly": 1.701,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (35%) -- it was a Wednesday."
+     "summary": "Looked like a Tuesday (35%) — it was a Wednesday."
     },
     {
      "date": "2026-10-15",
@@ -3584,7 +3584,7 @@
      "anomaly": 1.937,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (26%) -- it was a Thursday."
+     "summary": "Looked like a Tuesday (26%) — it was a Thursday."
     },
     {
      "date": "2026-10-16",
@@ -3608,7 +3608,7 @@
      "anomaly": 2.802,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Friday (47%) -- correct. Unusual day."
+     "summary": "Looked like a Friday (47%) — correct. Unusual day."
     },
     {
      "date": "2026-10-17",
@@ -3632,7 +3632,7 @@
      "anomaly": 1.354,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (72%) -- correct."
+     "summary": "Looked like a Saturday (72%) — correct."
     },
     {
      "date": "2026-10-18",
@@ -3656,7 +3656,7 @@
      "anomaly": 0.938,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (93%) -- correct."
+     "summary": "Looked like a Sunday (93%) — correct."
     },
     {
      "date": "2026-10-19",
@@ -3680,7 +3680,7 @@
      "anomaly": 1.066,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (28%) -- correct."
+     "summary": "Looked like a Monday (28%) — correct."
     },
     {
      "date": "2026-10-20",
@@ -3704,7 +3704,7 @@
      "anomaly": 1.196,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (33%) -- correct."
+     "summary": "Looked like a Tuesday (33%) — correct."
     },
     {
      "date": "2026-10-21",
@@ -3728,7 +3728,7 @@
      "anomaly": 1.554,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (28%) -- it was a Wednesday."
+     "summary": "Looked like a Thursday (28%) — it was a Wednesday."
     },
     {
      "date": "2026-10-22",
@@ -3752,7 +3752,7 @@
      "anomaly": 1.536,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (40%) -- it was a Thursday."
+     "summary": "Looked like a Tuesday (40%) — it was a Thursday."
     },
     {
      "date": "2026-10-23",
@@ -3776,7 +3776,7 @@
      "anomaly": 1.378,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (63%) -- correct."
+     "summary": "Looked like a Friday (63%) — correct."
     },
     {
      "date": "2026-10-24",
@@ -3800,7 +3800,7 @@
      "anomaly": 1.895,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (56%) -- it was a Saturday."
+     "summary": "Looked like a Sunday (56%) — it was a Saturday."
     },
     {
      "date": "2026-10-25",
@@ -3824,7 +3824,7 @@
      "anomaly": 2.865,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Saturday (60%) -- it was a Sunday. Unusual day."
+     "summary": "Looked like a Saturday (60%) — it was a Sunday. Unusual day."
     },
     {
      "date": "2026-10-26",
@@ -3848,7 +3848,7 @@
      "anomaly": 4.093,
      "confusion_flag": true,
      "anomaly_flag": true,
-     "summary": "Looked like a Sunday (70%) -- it was a Monday. Public holiday: October Bank Holiday. Unusual day."
+     "summary": "Looked like a Sunday (70%) — it was a Monday. Public holiday: October Bank Holiday. Unusual day."
     },
     {
      "date": "2026-10-27",
@@ -3872,7 +3872,7 @@
      "anomaly": 2.055,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (26%) -- it was a Tuesday."
+     "summary": "Looked like a Thursday (26%) — it was a Tuesday."
     },
     {
      "date": "2026-10-28",
@@ -3896,7 +3896,7 @@
      "anomaly": 2.214,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (26%) -- it was a Wednesday."
+     "summary": "Looked like a Thursday (26%) — it was a Wednesday."
     },
     {
      "date": "2026-10-29",
@@ -3920,7 +3920,7 @@
      "anomaly": 1.493,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (36%) -- it was a Thursday."
+     "summary": "Looked like a Tuesday (36%) — it was a Thursday."
     },
     {
      "date": "2026-10-30",
@@ -3944,7 +3944,7 @@
      "anomaly": 1.598,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (69%) -- correct."
+     "summary": "Looked like a Friday (69%) — correct."
     },
     {
      "date": "2026-10-31",
@@ -3968,7 +3968,7 @@
      "anomaly": 1.661,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (65%) -- correct."
+     "summary": "Looked like a Saturday (65%) — correct."
     },
     {
      "date": "2026-11-01",
@@ -3992,7 +3992,7 @@
      "anomaly": 0.9,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (84%) -- correct."
+     "summary": "Looked like a Sunday (84%) — correct."
     },
     {
      "date": "2026-11-02",
@@ -4016,7 +4016,7 @@
      "anomaly": 0.724,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (32%) -- correct."
+     "summary": "Looked like a Monday (32%) — correct."
     }
    ],
    "latest": "2026-11-02",
@@ -4072,7 +4072,7 @@
      "anomaly": 1.7,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (38%) -- correct."
+     "summary": "Looked like a Friday (38%) — correct."
     },
     {
      "date": "2026-10-03",
@@ -4096,7 +4096,7 @@
      "anomaly": 3.807,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Sunday (44%) -- it was a Saturday. Unusual day."
+     "summary": "Looked like a Sunday (44%) — it was a Saturday. Unusual day."
     },
     {
      "date": "2026-10-04",
@@ -4120,7 +4120,7 @@
      "anomaly": 1.147,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (56%) -- correct."
+     "summary": "Looked like a Sunday (56%) — correct."
     },
     {
      "date": "2026-10-05",
@@ -4144,7 +4144,7 @@
      "anomaly": 0.762,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (38%) -- it was a Monday."
+     "summary": "Looked like a Friday (38%) — it was a Monday."
     },
     {
      "date": "2026-10-06",
@@ -4168,7 +4168,7 @@
      "anomaly": 0.849,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (54%) -- it was a Tuesday."
+     "summary": "Looked like a Friday (54%) — it was a Tuesday."
     },
     {
      "date": "2026-10-07",
@@ -4192,7 +4192,7 @@
      "anomaly": 1.639,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (48%) -- it was a Wednesday."
+     "summary": "Looked like a Monday (48%) — it was a Wednesday."
     },
     {
      "date": "2026-10-08",
@@ -4216,7 +4216,7 @@
      "anomaly": 1.127,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (32%) -- correct."
+     "summary": "Looked like a Thursday (32%) — correct."
     },
     {
      "date": "2026-10-09",
@@ -4240,7 +4240,7 @@
      "anomaly": 1.136,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (80%) -- correct."
+     "summary": "Looked like a Friday (80%) — correct."
     },
     {
      "date": "2026-10-10",
@@ -4264,7 +4264,7 @@
      "anomaly": 0.926,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (90%) -- correct."
+     "summary": "Looked like a Saturday (90%) — correct."
     },
     {
      "date": "2026-10-11",
@@ -4288,7 +4288,7 @@
      "anomaly": 0.945,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (90%) -- correct."
+     "summary": "Looked like a Sunday (90%) — correct."
     },
     {
      "date": "2026-10-12",
@@ -4312,7 +4312,7 @@
      "anomaly": 0.981,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (54%) -- correct."
+     "summary": "Looked like a Monday (54%) — correct."
     },
     {
      "date": "2026-10-13",
@@ -4336,7 +4336,7 @@
      "anomaly": 0.684,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (33%) -- correct."
+     "summary": "Looked like a Tuesday (33%) — correct."
     },
     {
      "date": "2026-10-14",
@@ -4360,7 +4360,7 @@
      "anomaly": 1.032,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (36%) -- correct."
+     "summary": "Looked like a Wednesday (36%) — correct."
     },
     {
      "date": "2026-10-15",
@@ -4384,7 +4384,7 @@
      "anomaly": 0.788,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (34%) -- correct."
+     "summary": "Looked like a Thursday (34%) — correct."
     },
     {
      "date": "2026-10-16",
@@ -4408,7 +4408,7 @@
      "anomaly": 0.735,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (47%) -- correct."
+     "summary": "Looked like a Friday (47%) — correct."
     },
     {
      "date": "2026-10-17",
@@ -4432,7 +4432,7 @@
      "anomaly": 1.618,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (64%) -- correct."
+     "summary": "Looked like a Saturday (64%) — correct."
     },
     {
      "date": "2026-10-18",
@@ -4456,7 +4456,7 @@
      "anomaly": 0.776,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (92%) -- correct."
+     "summary": "Looked like a Sunday (92%) — correct."
     },
     {
      "date": "2026-10-19",
@@ -4480,7 +4480,7 @@
      "anomaly": 0.616,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (47%) -- correct."
+     "summary": "Looked like a Monday (47%) — correct."
     },
     {
      "date": "2026-10-20",
@@ -4504,7 +4504,7 @@
      "anomaly": 1.376,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (36%) -- it was a Tuesday."
+     "summary": "Looked like a Monday (36%) — it was a Tuesday."
     },
     {
      "date": "2026-10-21",
@@ -4528,7 +4528,7 @@
      "anomaly": 2.603,
      "confusion_flag": false,
      "anomaly_flag": true,
-     "summary": "Looked like a Wednesday (30%) -- correct. Unusual day."
+     "summary": "Looked like a Wednesday (30%) — correct. Unusual day."
     },
     {
      "date": "2026-10-22",
@@ -4552,7 +4552,7 @@
      "anomaly": 1.626,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (34%) -- it was a Thursday."
+     "summary": "Looked like a Monday (34%) — it was a Thursday."
     },
     {
      "date": "2026-10-23",
@@ -4576,7 +4576,7 @@
      "anomaly": 1.069,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (74%) -- correct."
+     "summary": "Looked like a Friday (74%) — correct."
     },
     {
      "date": "2026-10-24",
@@ -4600,7 +4600,7 @@
      "anomaly": 0.685,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (65%) -- correct."
+     "summary": "Looked like a Saturday (65%) — correct."
     },
     {
      "date": "2026-10-25",
@@ -4624,7 +4624,7 @@
      "anomaly": 0.78,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (95%) -- correct."
+     "summary": "Looked like a Sunday (95%) — correct."
     },
     {
      "date": "2026-10-26",
@@ -4648,7 +4648,7 @@
      "anomaly": 0.767,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (46%) -- correct."
+     "summary": "Looked like a Monday (46%) — correct."
     },
     {
      "date": "2026-10-27",
@@ -4672,7 +4672,7 @@
      "anomaly": 1.616,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (27%) -- it was a Tuesday."
+     "summary": "Looked like a Wednesday (27%) — it was a Tuesday."
     },
     {
      "date": "2026-10-28",
@@ -4696,7 +4696,7 @@
      "anomaly": 0.809,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (38%) -- correct."
+     "summary": "Looked like a Wednesday (38%) — correct."
     },
     {
      "date": "2026-10-29",
@@ -4720,7 +4720,7 @@
      "anomaly": 0.726,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (37%) -- correct."
+     "summary": "Looked like a Thursday (37%) — correct."
     },
     {
      "date": "2026-10-30",
@@ -4744,7 +4744,7 @@
      "anomaly": 0.59,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (37%) -- correct."
+     "summary": "Looked like a Friday (37%) — correct."
     },
     {
      "date": "2026-10-31",
@@ -4768,7 +4768,7 @@
      "anomaly": 0.721,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (79%) -- correct."
+     "summary": "Looked like a Saturday (79%) — correct."
     },
     {
      "date": "2026-11-01",
@@ -4792,7 +4792,7 @@
      "anomaly": 0.714,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (88%) -- correct."
+     "summary": "Looked like a Sunday (88%) — correct."
     }
    ],
    "latest": "2026-11-01",
@@ -4848,7 +4848,7 @@
      "anomaly": 0.485,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (26%) -- it was a Thursday."
+     "summary": "Looked like a Friday (26%) — it was a Thursday."
     },
     {
      "date": "2026-10-02",
@@ -4872,7 +4872,7 @@
      "anomaly": 1.217,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (26%) -- it was a Friday."
+     "summary": "Looked like a Thursday (26%) — it was a Friday."
     },
     {
      "date": "2026-10-03",
@@ -4896,7 +4896,7 @@
      "anomaly": 0.864,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (26%) -- correct."
+     "summary": "Looked like a Saturday (26%) — correct."
     },
     {
      "date": "2026-10-04",
@@ -4920,7 +4920,7 @@
      "anomaly": 0.791,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (66%) -- correct."
+     "summary": "Looked like a Sunday (66%) — correct."
     },
     {
      "date": "2026-10-05",
@@ -4944,7 +4944,7 @@
      "anomaly": 1.097,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (23%) -- it was a Monday."
+     "summary": "Looked like a Thursday (23%) — it was a Monday."
     },
     {
      "date": "2026-10-06",
@@ -4968,7 +4968,7 @@
      "anomaly": 0.55,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (24%) -- it was a Tuesday."
+     "summary": "Looked like a Friday (24%) — it was a Tuesday."
     },
     {
      "date": "2026-10-07",
@@ -4992,7 +4992,7 @@
      "anomaly": 0.609,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (28%) -- it was a Wednesday."
+     "summary": "Looked like a Monday (28%) — it was a Wednesday."
     },
     {
      "date": "2026-10-08",
@@ -5016,7 +5016,7 @@
      "anomaly": 0.588,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (33%) -- correct."
+     "summary": "Looked like a Thursday (33%) — correct."
     },
     {
      "date": "2026-10-09",
@@ -5040,7 +5040,7 @@
      "anomaly": 0.728,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (21%) -- it was a Friday."
+     "summary": "Looked like a Thursday (21%) — it was a Friday."
     },
     {
      "date": "2026-10-10",
@@ -5064,7 +5064,7 @@
      "anomaly": 1.101,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (34%) -- correct."
+     "summary": "Looked like a Saturday (34%) — correct."
     },
     {
      "date": "2026-10-11",
@@ -5088,7 +5088,7 @@
      "anomaly": 0.822,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (81%) -- correct."
+     "summary": "Looked like a Sunday (81%) — correct."
     },
     {
      "date": "2026-10-12",
@@ -5112,7 +5112,7 @@
      "anomaly": 1.138,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (39%) -- it was a Monday. Public holiday: Meeting of Two Worlds' Day. Unusual day."
+     "summary": "Looked like a Sunday (39%) — it was a Monday. Public holiday: Meeting of Two Worlds' Day. Unusual day."
     },
     {
      "date": "2026-10-13",
@@ -5136,7 +5136,7 @@
      "anomaly": 1.01,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Tuesday (18%) -- correct."
+     "summary": "Looked like a Tuesday (18%) — correct."
     },
     {
      "date": "2026-10-14",
@@ -5160,7 +5160,7 @@
      "anomaly": 1.336,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (27%) -- it was a Wednesday."
+     "summary": "Looked like a Saturday (27%) — it was a Wednesday."
     },
     {
      "date": "2026-10-15",
@@ -5184,7 +5184,7 @@
      "anomaly": 0.877,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (18%) -- it was a Thursday."
+     "summary": "Looked like a Wednesday (18%) — it was a Thursday."
     },
     {
      "date": "2026-10-16",
@@ -5208,7 +5208,7 @@
      "anomaly": 0.865,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (24%) -- it was a Friday."
+     "summary": "Looked like a Saturday (24%) — it was a Friday."
     },
     {
      "date": "2026-10-17",
@@ -5232,7 +5232,7 @@
      "anomaly": 0.819,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (24%) -- it was a Saturday."
+     "summary": "Looked like a Sunday (24%) — it was a Saturday."
     },
     {
      "date": "2026-10-18",
@@ -5256,7 +5256,7 @@
      "anomaly": 0.623,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (49%) -- correct."
+     "summary": "Looked like a Sunday (49%) — correct."
     },
     {
      "date": "2026-10-19",
@@ -5280,7 +5280,7 @@
      "anomaly": 0.975,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (22%) -- it was a Monday."
+     "summary": "Looked like a Wednesday (22%) — it was a Monday."
     },
     {
      "date": "2026-10-20",
@@ -5304,7 +5304,7 @@
      "anomaly": 1.338,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (41%) -- it was a Tuesday."
+     "summary": "Looked like a Friday (41%) — it was a Tuesday."
     },
     {
      "date": "2026-10-21",
@@ -5328,7 +5328,7 @@
      "anomaly": 0.857,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (25%) -- correct."
+     "summary": "Looked like a Wednesday (25%) — correct."
     },
     {
      "date": "2026-10-22",
@@ -5352,7 +5352,7 @@
      "anomaly": 1.092,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (28%) -- it was a Thursday."
+     "summary": "Looked like a Monday (28%) — it was a Thursday."
     },
     {
      "date": "2026-10-23",
@@ -5376,7 +5376,7 @@
      "anomaly": 0.973,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Friday (26%) -- correct."
+     "summary": "Looked like a Friday (26%) — correct."
     },
     {
      "date": "2026-10-24",
@@ -5400,7 +5400,7 @@
      "anomaly": 0.932,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (27%) -- it was a Saturday."
+     "summary": "Looked like a Sunday (27%) — it was a Saturday."
     },
     {
      "date": "2026-10-25",
@@ -5424,7 +5424,7 @@
      "anomaly": 0.91,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (24%) -- it was a Sunday."
+     "summary": "Looked like a Saturday (24%) — it was a Sunday."
     },
     {
      "date": "2026-10-26",
@@ -5448,7 +5448,7 @@
      "anomaly": 1.01,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (26%) -- it was a Monday."
+     "summary": "Looked like a Wednesday (26%) — it was a Monday."
     },
     {
      "date": "2026-10-27",
@@ -5472,7 +5472,7 @@
      "anomaly": 0.803,
      "confusion_flag": true,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (27%) -- it was a Tuesday. Unusual day."
+     "summary": "Looked like a Wednesday (27%) — it was a Tuesday. Unusual day."
     },
     {
      "date": "2026-10-28",
@@ -5496,7 +5496,7 @@
      "anomaly": 0.796,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Wednesday (25%) -- correct."
+     "summary": "Looked like a Wednesday (25%) — correct."
     },
     {
      "date": "2026-10-29",
@@ -5520,7 +5520,7 @@
      "anomaly": 1.261,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Monday (30%) -- it was a Thursday."
+     "summary": "Looked like a Monday (30%) — it was a Thursday."
     },
     {
      "date": "2026-10-30",
@@ -5544,7 +5544,7 @@
      "anomaly": 1.043,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Thursday (26%) -- it was a Friday."
+     "summary": "Looked like a Thursday (26%) — it was a Friday."
     },
     {
      "date": "2026-10-31",
@@ -5568,7 +5568,7 @@
      "anomaly": 1.114,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (37%) -- correct. Public holiday: Reformation Day."
+     "summary": "Looked like a Saturday (37%) — correct. Public holiday: Reformation Day."
     },
     {
      "date": "2026-11-01",
@@ -5592,7 +5592,7 @@
      "anomaly": 0.712,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (34%) -- correct. Public holiday: All Saints' Day."
+     "summary": "Looked like a Sunday (34%) — correct. Public holiday: All Saints' Day."
     },
     {
      "date": "2026-11-02",
@@ -5616,7 +5616,7 @@
      "anomaly": 0.943,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Sunday (24%) -- it was a Monday."
+     "summary": "Looked like a Sunday (24%) — it was a Monday."
     }
    ],
    "latest": "2026-11-02",
