@@ -31,6 +31,7 @@ II.UOSS.10.BHZ,Sharjah,2026-10-29,3,0,baseline,,1,0.165,0.379,0.835,1.565,False,
 II.UOSS.10.BHZ,Sharjah,2026-10-30,4,0,baseline,,4,0.784,0.218,0.216,1.051,False,False
 II.UOSS.10.BHZ,Sharjah,2026-10-31,5,1,baseline,,1,0.203,0.316,0.797,2.008,False,False
 II.UOSS.10.BHZ,Sharjah,2026-11-01,6,1,baseline,,1,0.094,0.403,0.906,2.456,False,False
+II.UOSS.10.BHZ,Sharjah,2026-11-02,0,0,baseline,,5,0.135,0.454,0.865,0.748,False,False
 BE.UCC..HHZ,Brussels,2026-10-01,3,0,baseline,,1,0.193,0.0,0.807,2.07,False,False
 BE.UCC..HHZ,Brussels,2026-10-02,4,0,baseline,,2,0.209,0.0,0.791,0.854,False,False
 BE.UCC..HHZ,Brussels,2026-10-03,5,1,baseline,,5,0.951,1.0,0.049,1.249,False,False
@@ -127,6 +128,7 @@ CI.USC..BHZ,Los Angeles,2026-10-28,2,0,baseline,,2,0.286,0.328,0.714,1.354,False
 CI.USC..BHZ,Los Angeles,2026-10-29,3,0,baseline,,3,0.434,0.226,0.566,1.246,False,False
 CI.USC..BHZ,Los Angeles,2026-10-30,4,0,baseline,,4,0.325,0.015,0.675,1.313,False,False
 CI.USC..BHZ,Los Angeles,2026-10-31,5,1,baseline,,5,0.74,0.988,0.26,1.397,False,False
+CI.USC..BHZ,Los Angeles,2026-11-01,6,1,baseline,,6,0.99,1.0,0.01,0.92,False,False
 EI.DSB..HHZ,Dublin,2026-10-01,3,0,baseline,,3,0.243,0.202,0.757,2.243,False,False
 EI.DSB..HHZ,Dublin,2026-10-02,4,0,baseline,,4,0.753,0.04,0.247,1.667,False,False
 EI.DSB..HHZ,Dublin,2026-10-03,5,1,baseline,,5,0.818,0.995,0.182,1.189,False,False
@@ -191,6 +193,7 @@ S1.AUKSC..HHZ,Melbourne,2026-10-29,3,0,baseline,,3,0.371,0.0,0.629,0.726,False,F
 S1.AUKSC..HHZ,Melbourne,2026-10-30,4,0,baseline,,4,0.371,0.0,0.629,0.59,False,False
 S1.AUKSC..HHZ,Melbourne,2026-10-31,5,1,baseline,,5,0.793,1.0,0.207,0.721,False,False
 S1.AUKSC..HHZ,Melbourne,2026-11-01,6,1,baseline,,6,0.875,0.968,0.125,0.714,False,False
+S1.AUKSC..HHZ,Melbourne,2026-11-02,0,0,baseline,,0,0.356,0.117,0.644,1.289,False,False
 C1.MG01..HHZ,Puerto Williams,2026-10-01,3,0,baseline,,4,0.225,0.353,0.775,0.485,False,False
 C1.MG01..HHZ,Puerto Williams,2026-10-02,4,0,baseline,,3,0.259,0.336,0.741,1.217,False,False
 C1.MG01..HHZ,Puerto Williams,2026-10-03,5,1,baseline,,5,0.263,0.546,0.738,0.864,False,False
