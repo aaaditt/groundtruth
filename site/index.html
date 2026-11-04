@@ -19,12 +19,21 @@
         in each city, and flags days that <b>broke the city's normal rhythm</b>.</p>
       <p class="meta" id="meta">Loading…</p>
       <nav>
+        <a href="game.html"><b>Play: guess the day</b></a>
+        <a href="research.html">158-city research map</a>
         <a href="about.html">How it works &amp; limits</a>
         <a href="data/pulse_days.csv" download>Download the data (CSV)</a>
         <a href="https://github.com/aaaditt/groundtruth">Source code</a>
       </nav>
     </header>
     <div id="map" role="img" aria-label="Map of the stations"></div>
+    <section class="card board" id="predictions" aria-labelledby="pred-h">
+      <h2 id="pred-h">Predictions made before the day</h2>
+      <p class="sub">Written down and committed to the public repository <i>before</i> each date
+        (<a href="https://github.com/aaaditt/groundtruth/blob/main/config/predictions.csv">the list</a>),
+        then graded automatically when the day's data arrives. Wrong ones stay on the board.</p>
+      <div id="pred-body">Loading…</div>
+    </section>
     <main class="grid" id="cards"></main>
     <footer>
       Seismic data: EarthScope MUSTANG noise spectra (Casey et al. 2018,
@@ -36,6 +45,7 @@
   <div id="tip" role="tooltip"></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+  <script src="common.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

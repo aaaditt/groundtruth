@@ -51,7 +51,8 @@ jobs:
           git pull --rebase
           git push
       - name: Stamp asset URLs with the commit, so browsers never mix old code with new data
-        run: sed -i "s/app\.js\"/app.js?v=${GITHUB_SHA::7}\"/; s/style\.css\"/style.css?v=${GITHUB_SHA::7}\"/" site/index.html site/about.html
+        # only our own files (src="name.js"), never the CDN URLs, whose integrity hashes are pinned
+        run: sed -i "s/src=\"\([a-z]*\)\.js\"/src=\"\1.js?v=${GITHUB_SHA::7}\"/g; s/href=\"style\.css\"/href=\"style.css?v=${GITHUB_SHA::7}\"/" site/*.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

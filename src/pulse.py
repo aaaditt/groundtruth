@@ -33,6 +33,36 @@ CSV_COLS = ["station", "city", "date", "dow", "is_weekend", "calendar", "holiday
             "p_true_dow", "p_weekend", "confusion", "anomaly", "confusion_flag", "anomaly_flag"]
 
 
+PREDICTIONS = os.path.join("config", "predictions.csv")
+
+
+def grade_predictions(stations):
+    """Check each pre-registered prediction (config/predictions.csv) against the day's
+    score, once that day's data exists. The file is committed BEFORE the dates, so git
+    history shows the predictions were not written after the fact.
+      weekend : P(weekend) > 0.5      workday : P(weekend) <= 0.5
+      unusual : flagged by either detector"""
+    by_id = {s["id"]: s for s in stations}
+    out = []
+    for _, p in pd.read_csv(PREDICTIONS).iterrows():
+        st = by_id.get(p["station"], {"days": [], "latest": None, "city": p["station"]})
+        day = next((d for d in st["days"] if d["date"] == p["date"]), None)
+        rec = {"id": p["id"], "station": p["station"], "city": st.get("city"), "date": p["date"],
+               "event": p["event"], "prediction": p["prediction"], "reason": p["reason"]}
+        if day is None:
+            gone = st["latest"] is not None and st["latest"] > p["date"]
+            rec.update(status="no data" if gone else "pending", observed=None)
+        else:
+            unusual = day["anomaly_flag"] or day["confusion_flag"]
+            ok = {"weekend": day["p_weekend"] > .5, "workday": day["p_weekend"] <= .5,
+                  "unusual": unusual}[p["prediction"]]
+            rec.update(status="correct" if ok else "wrong",
+                       observed=f"P(weekend) {day['p_weekend']:.2f}; looked like a "
+                                f"{pulse.DOW_NAMES[day['pred_dow']]}; {'unusual' if unusual else 'not flagged'}")
+        out.append(rec)
+    return out
+
+
 def track_record(days):
     """How the model has done on NEW normal days so far (never seen in training).
     Holidays/festive days are excluded: they are what the detectors should flag."""
@@ -94,7 +124,8 @@ def main():
            "model_version": live.MODEL_VERSION,
            "train_window": [str(live.TRAIN_START), str(live.TRAIN_END)],
            "dow_names": pulse.DOW_NAMES,
-           "stations": stations}
+           "stations": stations,
+           "predictions": grade_predictions(stations)}
     with open(os.path.join(OUT, "pulse.json"), "w", encoding="utf-8") as f:
         json.dump(doc, f, indent=1, ensure_ascii=False)
     pd.DataFrame(rows, columns=CSV_COLS).to_csv(os.path.join(OUT, "pulse_days.csv"), index=False)

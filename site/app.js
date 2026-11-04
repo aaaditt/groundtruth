@@ -1,44 +1,7 @@
-// City Pulse front end. Reads data/pulse.json (written daily by src/pulse.py) and draws
-// one card per station. Plain JavaScript + SVG; the only library is Leaflet (map).
+// City Pulse dashboard. Reads data/pulse.json (written daily by src/pulse.py) and draws
+// one card per station. Plain JavaScript + SVG (helpers in common.js); the only
+// library is Leaflet (map).
 "use strict";
-
-const SVGNS = "http://www.w3.org/2000/svg";
-const SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const tip = document.getElementById("tip");
-
-function el(tag, attrs = {}, ...kids) {
-  const n = document.createElement(tag);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (k === "class") n.className = v; else n.setAttribute(k, v);
-  }
-  for (const k of kids) n.append(k);
-  return n;
-}
-function svg(tag, attrs = {}) {
-  const n = document.createElementNS(SVGNS, tag);
-  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
-  return n;
-}
-const pct = (x) => `${Math.round(x * 100)}%`;
-const fmtDate = (s) => new Date(s + "T12:00:00Z").toLocaleDateString("en-GB",
-  { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
-
-function showTip(evt, lines) {
-  tip.replaceChildren(...lines.map((l, i) => el(i ? "div" : "b", {}, l)));
-  tip.style.display = "block";
-  const x = Math.min(evt.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
-  const y = Math.min(evt.clientY + 14, window.innerHeight - tip.offsetHeight - 8);
-  tip.style.left = `${x}px`; tip.style.top = `${y}px`;
-}
-const hideTip = () => { tip.style.display = "none"; };
-function hover(node, lines) {
-  node.addEventListener("mousemove", (e) => showTip(e, lines));
-  node.addEventListener("mouseleave", hideTip);
-  node.addEventListener("focus", (e) => { const r = node.getBoundingClientRect();
-    showTip({ clientX: r.right, clientY: r.top }, lines); });
-  node.addEventListener("blur", hideTip);
-  node.setAttribute("tabindex", "0");
-}
 
 // "Which day did it look like?" -- 7 bars for one day, the true day marked.
 function probChart(day, names) {
@@ -204,6 +167,30 @@ function drawMap(stations) {
   }
 }
 
+const PRED_TEXT = { weekend: "looks like a weekend", workday: "looks like a working day",
+  unusual: "flagged as unusual" };
+const STATUS = { correct: ["ok", "✓ correct"], wrong: ["unusual", "✗ wrong"],
+  pending: ["nodata", "⏳ waiting for data"], "no data": ["nodata", "– no data"] };
+
+function predictionsBoard(preds) {
+  const graded = preds.filter((p) => p.status === "correct" || p.status === "wrong");
+  const right = graded.filter((p) => p.status === "correct").length;
+  const head = el("p", { class: "hero" }, graded.length
+    ? `${right} of ${graded.length} graded predictions correct so far · ${preds.length - graded.length} still to come`
+    : `${preds.length} predictions waiting for their day`);
+  const rows = preds.map((p) => {
+    const [kind, label] = STATUS[p.status];
+    const b = el("span", { class: `badge ${kind}` }, el("span", { class: "dot", "aria-hidden": "true" }), label);
+    const tr = el("tr", {}, el("td", {}, fmtDate(p.date)), el("td", {}, p.city || p.station),
+      el("td", {}, p.event), el("td", {}, PRED_TEXT[p.prediction]), el("td", {}, b));
+    hover(tr, [p.event, `Why: ${p.reason}`, p.observed ? `Observed: ${p.observed}` : "Not graded yet"]);
+    return tr;
+  });
+  const table = el("table", {}, el("thead", {}, el("tr", {},
+    ...["Date", "City", "Event", "Prediction", "Result"].map((h) => el("th", {}, h)))), el("tbody", {}, ...rows));
+  document.getElementById("pred-body").replaceChildren(head, el("div", { class: "scroll" }, table));
+}
+
 async function main() {
   let data;
   try {
@@ -221,5 +208,6 @@ async function main() {
   for (const st of data.stations)
     cards.append(st.status === "live" ? liveCard(st, data.dow_names) : offlineCard(st));
   drawMap(data.stations);
+  if (data.predictions) predictionsBoard(data.predictions);
 }
 main();

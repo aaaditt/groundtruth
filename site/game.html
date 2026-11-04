@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guess the Day</title>
+  <meta name="description" content="Can you beat a machine-learning model at reading the day of the week from a city's ground vibrations?">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap game">
+    <header>
+      <h1>Guess the day</h1>
+      <p class="lede">Below is one real day of ground vibration in a city, hour by hour, recorded
+        by a seismometer. <b>Which day of the week was it?</b> A machine-learning model made its
+        guess without ever training on that week. Can you beat it?</p>
+      <nav><a href="index.html">← City Pulse</a><a href="research.html">Research map</a>
+        <a href="about.html">How it works</a></nav>
+    </header>
+
+    <section class="card">
+      <div class="game-top">
+        <div>
+          <h2 id="g-city">…</h2>
+          <div class="sub" id="g-when"></div>
+        </div>
+        <div class="score" aria-live="polite">
+          <div>You <b id="s-you">0/0</b></div>
+          <div>Model <b id="s-model">0/0</b></div>
+        </div>
+      </div>
+      <div id="g-chart"></div>
+      <div class="legend" id="g-legend"></div>
+      <div class="choices" id="g-choices" role="group" aria-label="Your guess"></div>
+      <div id="g-reveal" class="reveal" aria-live="polite"></div>
+      <div class="game-controls">
+        <button id="g-next" class="btn primary" type="button">Next day →</button>
+        <label><input type="checkbox" id="g-hints" checked> Show average Wednesday &amp; Sunday</label>
+        <label><input type="checkbox" id="g-holidays"> Holidays only</label>
+      </div>
+    </section>
+
+    <section class="card how">
+      <h2>How to read it</h2>
+      <ul>
+        <li><b>Weekdays</b> have a sharp morning rise (the commute) and a busy, flat working day.</li>
+        <li><b>Saturdays</b> start later and lower.</li>
+        <li><b>Sundays</b> are the quietest and latest of all.</li>
+        <li>Telling Tuesday from Wednesday is genuinely hard, for you and for the model.</li>
+        <li>Public holidays usually look like a Sunday. When they do, the model is "wrong" about the
+          weekday but right about the city: people were behaving as if it were Sunday.</li>
+      </ul>
+      <p class="note">Real data from Lecocq et al. (2020), <i>Science</i>,
+        <a href="https://doi.org/10.1126/science.abd2438">doi:10.1126/science.abd2438</a>, Oct 2019 – Mar 2020.
+        The model's guesses are out-of-fold: it never saw any day from the same week.</p>
+    </section>
+  </div>
+  <div id="tip" role="tooltip"></div>
+  <script src="common.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

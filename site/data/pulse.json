@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-04T05:07:15Z",
+ "generated_utc": "2026-11-04T05:26:35Z",
  "model_version": "live-1",
  "train_window": [
   "2025-10-01",
@@ -5666,6 +5666,206 @@
    "days": [],
    "latest": null,
    "error": null
+  }
+ ],
+ "predictions": [
+  {
+   "id": "P01",
+   "station": "S1.AUKSC..HHZ",
+   "city": "Melbourne",
+   "date": "2026-11-03",
+   "event": "Melbourne Cup Day (Victoria only)",
+   "prediction": "weekend",
+   "reason": "Regional holiday; the sensor is at a school. NOTE: registered 2026-11-04, the day AFTER, but before any data for that day had arrived (latest day available: 2026-11-01).",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P02",
+   "station": "BE.UCC..HHZ",
+   "city": "Brussels",
+   "date": "2026-11-11",
+   "event": "Armistice Day",
+   "prediction": "weekend",
+   "reason": "National public holiday; Brussels' All Saints' Day looked like a Sunday in 2019.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P03",
+   "station": "CI.USC..BHZ",
+   "city": "Los Angeles",
+   "date": "2026-11-11",
+   "event": "Veterans Day",
+   "prediction": "workday",
+   "reason": "Federal holiday but most businesses and schools stay open; New York's 2019 Veterans Day looked like a Monday.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P04",
+   "station": "CI.USC..BHZ",
+   "city": "Los Angeles",
+   "date": "2026-11-26",
+   "event": "Thanksgiving Day",
+   "prediction": "weekend",
+   "reason": "New York's 2019 Thanksgiving looked like a Sunday.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P05",
+   "station": "CI.USC..BHZ",
+   "city": "Los Angeles",
+   "date": "2026-11-27",
+   "event": "Day after Thanksgiving (not a public holiday)",
+   "prediction": "unusual",
+   "reason": "New York's 2019 day after Thanksgiving was one of its most confusing days.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P06",
+   "station": "II.UOSS.10.BHZ",
+   "city": "Sharjah",
+   "date": "2026-12-02",
+   "event": "UAE National Day",
+   "prediction": "weekend",
+   "reason": "National holiday; uncertain, because the sensor is ~90 km from Sharjah city and its weekday/weekend score is only 72%.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P07",
+   "station": "C1.MG01..HHZ",
+   "city": "Puerto Williams",
+   "date": "2026-12-08",
+   "event": "Immaculate Conception",
+   "prediction": "weekend",
+   "reason": "Control town; uncertain. Its 12 Oct 2026 holiday looked like a Sunday.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P08",
+   "station": "BE.UCC..HHZ",
+   "city": "Brussels",
+   "date": "2026-12-25",
+   "event": "Christmas Day",
+   "prediction": "weekend",
+   "reason": "Christmas is the strongest holiday signal in the 2019-20 data (85% called weekend).",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P09",
+   "station": "CI.USC..BHZ",
+   "city": "Los Angeles",
+   "date": "2026-12-25",
+   "event": "Christmas Day",
+   "prediction": "weekend",
+   "reason": "Same as P08.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P10",
+   "station": "CN.MNTQ..HHZ",
+   "city": "Montreal",
+   "date": "2026-12-25",
+   "event": "Christmas Day",
+   "prediction": "weekend",
+   "reason": "Same as P08, despite Montreal's drift in October.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P11",
+   "station": "EI.DSB..HHZ",
+   "city": "Dublin",
+   "date": "2026-12-25",
+   "event": "Christmas Day",
+   "prediction": "weekend",
+   "reason": "Same as P08.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P12",
+   "station": "S1.AUKSC..HHZ",
+   "city": "Melbourne",
+   "date": "2026-12-25",
+   "event": "Christmas Day",
+   "prediction": "weekend",
+   "reason": "Same as P08 (summer holidays in Australia too).",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P13",
+   "station": "BE.UCC..HHZ",
+   "city": "Brussels",
+   "date": "2027-01-01",
+   "event": "New Year's Day",
+   "prediction": "weekend",
+   "reason": "New Year is the strongest holiday type in the 2019-20 data (90% called weekend).",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P14",
+   "station": "CI.USC..BHZ",
+   "city": "Los Angeles",
+   "date": "2027-01-01",
+   "event": "New Year's Day",
+   "prediction": "weekend",
+   "reason": "Same as P13.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P15",
+   "station": "CN.MNTQ..HHZ",
+   "city": "Montreal",
+   "date": "2027-01-01",
+   "event": "New Year's Day",
+   "prediction": "weekend",
+   "reason": "Same as P13.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P16",
+   "station": "EI.DSB..HHZ",
+   "city": "Dublin",
+   "date": "2027-01-01",
+   "event": "New Year's Day",
+   "prediction": "weekend",
+   "reason": "Same as P13.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P17",
+   "station": "S1.AUKSC..HHZ",
+   "city": "Melbourne",
+   "date": "2027-01-01",
+   "event": "New Year's Day",
+   "prediction": "weekend",
+   "reason": "Same as P13.",
+   "status": "pending",
+   "observed": null
+  },
+  {
+   "id": "P18",
+   "station": "II.UOSS.10.BHZ",
+   "city": "Sharjah",
+   "date": "2027-01-01",
+   "event": "New Year's Day",
+   "prediction": "weekend",
+   "reason": "UAE public holiday; uncertain, as P06.",
+   "status": "pending",
+   "observed": null
   }
  ]
 }

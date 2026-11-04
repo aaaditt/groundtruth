@@ -56,6 +56,32 @@ def test_day_record_is_plain_json(brussels):
     assert len(rec["probs"]) == 7
 
 
+def test_predictions_file_is_well_formed():
+    from groundtruth.stations import load_stations
+    p = pd.read_csv(os.path.join(REPO, "config", "predictions.csv"))
+    assert p["id"].is_unique
+    assert set(p["station"]) <= {s.id for s in load_stations()}
+    assert set(p["prediction"]) <= {"weekend", "workday", "unusual"}
+    pd.to_datetime(p["date"], format="%Y-%m-%d")          # every date parses
+
+
+def test_game_uses_the_out_of_fold_guesses():
+    """The game must show the model's HONEST guess (from day_scores.csv), never one from
+    a model that trained on that day."""
+    path = os.path.join(REPO, "site", "data", "game.json")
+    if not os.path.exists(path):
+        pytest.skip("run src/export_site_research.py first")
+    with open(path, encoding="utf-8") as f:
+        game = json.load(f)
+    sc = load(os.path.join(REPO, "outputs", "tables", "day_scores.csv")).set_index(["station", "date"])
+    for d in game["days"]:
+        r = sc.loc[(d["station"], pd.Timestamp(d["date"]))]
+        assert d["pred_dow"] == r["pred_dow"] and d["dow"] == r["day_of_week"]
+        assert len(d["shape"]) == 24
+        if d["holiday"]:
+            assert r["period"] == "holiday" and r["is_weekend"] == 0
+
+
 def test_published_pulse_file():
     if not os.path.exists(PULSE):
         pytest.skip("run src/pulse.py first")
