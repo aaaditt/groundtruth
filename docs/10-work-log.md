@@ -595,6 +595,11 @@ Idea: a globe on the site with a date slider over the last few years. First, a p
 
 If it fails, the globe would be built on data we can't trust, and we stop there.
 
+**Result: 6/6 pass, every city within 0.7 points** (`docs/04` Result 14). Download took
+about 75 minutes; cache now 501 MB. Surprises: Sharjah's level jumps 1.5×+ for months
+(probably the site, not the city), and Puerto Williams is missing most of Jul 2020 –
+Oct 2021. So the globe must compare each day with recent weeks, not a fixed year.
+
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions
 (Melbourne Cup Day, 11 Nov). Thanksgiving (26 Nov) is the headline live test.

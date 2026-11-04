@@ -1,0 +1,7 @@
+station,city,lockdown,n_before,n_during,lecocq_change_pct,mustang_change_pct,pass
+BE.UCC..HHZ,Brussels,2020-03-14,49,20,-17.7,-17.0,True
+CN.MNTQ..HHZ,Montreal,2020-03-13,46,20,-19.3,-19.5,True
+CI.USC..BHZ,Los Angeles,2020-03-20,51,20,-21.7,-21.0,True
+EI.DSB..HHZ,Dublin,2020-03-13,48,19,-40.6,-40.7,True
+S1.AUKSC..HHZ,Melbourne,2020-03-18,47,18,-12.7,-12.9,True
+C1.MG01..HHZ,Puerto Williams,2020-03-25,56,19,-43.2,-43.4,True

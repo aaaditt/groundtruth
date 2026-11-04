@@ -25,5 +25,6 @@ python src/make_presentation_plots.py
 python src/uae_experiment.py
 python src/train_live.py
 python src/band_test.py
+python src/history_pilot.py       # first run downloads ~500 MB (about 75 min)
 python src/export_site_research.py
 echo "ALL DONE"

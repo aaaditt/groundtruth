@@ -599,6 +599,49 @@ Thanksgiving should be flagged.
 
 ---
 
+## Result 14 — Seven years of history, and the lockdown seen twice
+
+`src/history_pilot.py` downloads MUSTANG for the 7 live stations, **Jan 2019 – Sep
+2026** (~500 MB compressed cache). Usable days: 2,656–2,825 per city, except Puerto
+Williams (1,929; most of Jul 2020 – Oct 2021 is missing).
+
+**The check, written down before downloading** (`docs/10`, commit `e6404c3`): the %
+change in working-day vibration from early 2020 to the first 4 weeks of lockdown,
+computed in each source separately, on the same dates. Pass = same sign, within 10
+percentage points.
+
+| City | Lockdown | Lecocq et al. (published) | MUSTANG (our live source) | Pass |
+|---|---|---|---|---|
+| Brussels | 14 Mar 2020 | −17.7% | −17.0% | yes |
+| Montreal | 13 Mar 2020 | −19.3% | −19.5% | yes |
+| Los Angeles | 20 Mar 2020 | −21.7% | −21.0% | yes |
+| Dublin | 13 Mar 2020 | −40.6% | −40.7% | yes |
+| Melbourne | 18 Mar 2020 | −12.7% | −12.9% | yes |
+| Puerto Williams | 25 Mar 2020 | −43.2% | −43.4% | yes |
+
+**6/6 pass; the largest gap is 0.7 points.** The two sources are processed by
+different people with different code from the same instruments, so the live data
+source reproduces the published lockdown effect. (Table:
+`outputs/tables/history_lockdown_check.csv`.)
+
+![Seven years](../outputs/plots/history_pilot.png)
+
+**What the plot also shows (exploratory, not part of the check):**
+- Brussels, Montreal and Los Angeles dip in March 2020 and recover over months.
+- Dublin and Melbourne show further long dips after 2020. These were not in the
+  pre-written check and are not yet matched to sourced dates.
+- **Sharjah's level jumps by 1.5× or more for months at a time** (2019–20, 2022,
+  2024–25). That looks like site or instrument changes, not city life, so its raw
+  level cannot be compared across years.
+- Melbourne runs ~1.25× louder through 2022–24, again possibly local.
+
+**Consequence for the planned globe:** a city's level over years mixes human activity
+with slow changes at the site. Any multi-year colouring must compare each day with
+recent weeks at the same station (or use the unit-free day shape), not with one fixed
+year, and must say so on the page.
+
+---
+
 ## An honest negative result
 
 **Lockdown did not make every day look like a Sunday.**

@@ -117,6 +117,11 @@ Sunday at a seismometer in Sharjah got **20% quieter** relative to Mon–Thu (ex
 permutation p = 0.003), with no such change in a placebo year. Hypothesis committed
 before the data was downloaded: [`docs/14`](docs/14-uae-preregistration.md).
 
+**The live data source sees the same lockdown:** seven years of MUSTANG history
+(2019–2026) for 6 cities reproduces the published 2020 lockdown quieting within 0.7
+percentage points at every one (e.g. Dublin −40.6% published vs −40.7%), a check
+written down before the download (`docs/04` Result 14).
+
 *Weekends follow each country's own calendar, official public holidays are excluded
 from training, and the forest uses class weighting (labels corrected 2026-11-03,
 weighting added 2026-11-04; see `docs/04-results.md`).*
@@ -261,6 +266,7 @@ groundtruth/
 │   ├── train_live.py             live models, Oct 2025 - Sep 2026 (needs internet)
 │   ├── pulse.py                  the daily dashboard job (needs internet)
 │   ├── band_test.py              which frequency bands carry the rhythm (MUSTANG cache)
+│   ├── history_pilot.py          2019-2026 history + lockdown cross-check (needs internet)
 │   ├── export_site_research.py   data for the research map and the game
 │   ├── survey_mustang.py         which stations have recent data (needs internet)
 │   ├── validate_route_a.py       recent-data route vs the published data (needs internet)
