@@ -126,6 +126,11 @@ population-density third, against population density from Table S1 (printed by
 
 Spearman ρ = 0.39, p = 9.2 × 10⁻⁷, n = 149.
 
+*Check added 2026-11-04:* Table S1 puts two stations in the wrong place (Nilore and
+Davao; see `docs/02`), so their density values may be wrong too (Nilore, near Islamabad,
+is listed at 2 people/km²). Leaving both out: ρ = 0.385, p = 1.5 × 10⁻⁶, n = 147. The
+result does not depend on them.
+
 ---
 
 ## Result 3 — One model for cities it has never seen
@@ -639,6 +644,47 @@ source reproduces the published lockdown effect. (Table:
 with slow changes at the site. Any multi-year colouring must compare each day with
 recent weeks at the same station (or use the unit-free day shape), not with one fixed
 year, and must say so on the page.
+
+---
+
+## Result 15 — Seven years, 33 cities: the time-travel globe
+
+`src/history.py` extends the history to **33 stations**: every station of the published
+study that MUSTANG served in both 2020 and 2026 (32), plus Sharjah. None was chosen by
+its results; weak-signal towns are kept and shown faded. Jan 2019 – Sep 2026, 2.2 GB of
+compressed spectra, 736–2,798 days with a value per station (`history_summary.csv`).
+
+**The number on the globe** (fixed before the download, `groundtruth/history.py`): each
+day's level vs the median of the **same weekday over the previous 8 weeks**, ordinary
+days only. No model, no weekend definition, and slow site drift cancels out.
+
+**Does it mean anything? Held-out check on public holidays** (holidays are never
+reference days, and nothing was tuned on them):
+
+| | Median change | ≥10% quieter |
+|---|---|---|
+| Weekday public holidays (median over 33 stations) | **−19.4%** | **83%** |
+| Ordinary weekdays | 0.0% | 16% |
+
+At 31 of 33 stations, the median holiday is quieter than the median ordinary weekday
+(Shillong only just: −5.8%). The two exceptions: **La Paz** (+3.8%; a weak-signal
+station, 54% in the published study) and **Cojutepeque, El Salvador, where holidays are
+14% *louder*** although the weekly rhythm is clear there (86%).
+We cannot explain Cojutepeque; local festivities are a guess, not a finding.
+
+**The lockdowns, as synchrony.** Of the 24 clearly-measured cities (published accuracy
+≥ 80%), the number 15%+ quieter than their recent normal: **5** on Mon 16 Mar 2020,
+**12** on Mon 23 Mar, **17** on Mon 30 Mar. Christmas Day 2020: 19 of 22 with data.
+New Year's Day 2025: 19 of 21.
+
+**Coordinates.** Table S1 places Nilore (II.NIL) 13,737 km away, in Paraguay, and Davao
+(IU.DAV) 808 km away, in Malaysia; the FDSN station service agrees with Table S1 within
+0.6 km for the other 31. The globe and the research map now use the station service.
+The density correlation (Result 2) barely moves without these two (ρ 0.389 → 0.385).
+
+**Limits.** Europe is thin (European stations are archived by EIDA, not MUSTANG). The
+8-week reference makes long events fade and makes recoveries look loud. National holiday
+calendars only. The history stops at 30 Sep 2026; newer days are on City Pulse.
 
 ---
 

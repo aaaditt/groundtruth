@@ -67,6 +67,17 @@ The five promises (Results 5–9 in `docs/04`) and the pre-registered UAE experi
 Pulse dashboard (`site/`, `src/pulse.py`, `.github/workflows/pulse.yml`, live at
 https://aaaditt.github.io/groundtruth/), the band test (Result 12), the research map,
 game and predictions board, and the final report (`docs/13`). Tagged `v1.0-semester`.
+After the tag: 2019–2026 history (Result 14 lockdown cross-check, `src/history_pilot.py`)
+and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`,
+`site/globe.html`, MapLibre + OpenFreeMap).
+
+- Station coordinates for anything new come from the FDSN station service, not Table S1:
+  Table S1 puts II.NIL (Nilore) in Paraguay and IU.DAV (Davao) in Malaysia.
+  `outputs/tables/history_station_coords.csv` holds the checked values.
+- The globe's colour is "vs the same weekday over the previous 8 weeks", deliberately not
+  vs a fixed year: stations drift over years (Sharjah's level jumps 1.5× for months).
+- `groundtruth/mustang.parse` is the fast one-read_csv parser; it must stay bit-identical
+  to `_parse_per_spectrum` (tested).
 
 - `config/predictions.csv` is pre-registration: never edit or delete a row after its
   commit. Add new predictions as new rows, committed before their date.

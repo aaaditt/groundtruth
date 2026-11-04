@@ -97,6 +97,33 @@ headline results comes from these.** They are used only for the Route A validati
   station service, https://service.earthscope.org/fdsnws/station/1/query (queried
   2026-11-04); for CH.SGEV and AM.R7885, Table S1 of Lecocq et al. (2020).
 
+### History and the time-travel globe (`src/history.py`, `site/globe.html`)
+
+- Same MUSTANG noise-psd service, Jan 2019 – Sep 2026, for the 32 stations of Lecocq et al.
+  (2020) that it served on both 2020-01-15 and 2026-10-01
+  (`outputs/tables/mustang_coverage.csv`), plus II.UOSS. Networks not listed above, with
+  DOIs from the FDSN network registry (https://www.fdsn.org/ws/networks/1/query, checked
+  2026-11-04):
+  - `AK` Alaska Geophysical Network — doi:[10.7914/SN/AK](https://doi.org/10.7914/SN/AK)
+  - `CU` Caribbean Network — doi:[10.7914/SN/CU](https://doi.org/10.7914/SN/CU)
+  - `GT` Global Telemetered Seismograph Network — doi:[10.7914/SN/GT](https://doi.org/10.7914/SN/GT)
+  - `IU` Global Seismograph Network (IRIS/USGS) — doi:[10.7914/SN/IU](https://doi.org/10.7914/SN/IU)
+  - `NE` New England Seismic Network — doi:[10.7914/SN/NE](https://doi.org/10.7914/SN/NE)
+  - `ON` Rede Sismográfica do Sul e do Sudeste — doi:[10.7914/SN/ON](https://doi.org/10.7914/SN/ON)
+  - `PT` Pacific Tsunami Warning Seismic System — doi:[10.7914/SN/PT](https://doi.org/10.7914/SN/PT)
+  - `BL` Brazilian Lithospheric Seismic Project, `IN` National Seismic Network of India,
+    `SV` SNET El Salvador — the registry lists no DOI.
+- **Station coordinates:** EarthScope FDSN station service (latest epoch), queried
+  2026-11-04, saved in `outputs/tables/history_station_coords.csv`. Table S1 of Lecocq
+  et al. (2020) places two stations far from where the station service puts them:
+  II.NIL (Nilore, Pakistan) by 13,737 km and IU.DAV (Davao, Philippines) by 808 km;
+  the other 31 agree within 0.6 km. The globe and the research map use the station
+  service coordinates.
+- Globe: MapLibre GL JS 5.6.0 — https://maplibre.org/ (BSD-3-Clause; loaded from unpkg
+  with a pinned integrity hash). Basemap tiles: OpenFreeMap (positron and dark styles) —
+  https://openfreemap.org/ , © OpenMapTiles, data © OpenStreetMap contributors
+  (https://www.openstreetmap.org/copyright). No API key, no DOI.
+
 ### City Pulse dashboard (`site/`)
 
 - Map: Leaflet 1.9.4 — https://leafletjs.com/ (loaded from unpkg with a pinned

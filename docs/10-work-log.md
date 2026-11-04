@@ -600,6 +600,31 @@ about 75 minutes; cache now 501 MB. Surprises: Sharjah's level jumps 1.5×+ for 
 (probably the site, not the city), and Puerto Williams is missing most of Jul 2020 –
 Oct 2021. So the globe must compare each day with recent weeks, not a fixed year.
 
+### 2026-11-04 — The time-travel globe (33 cities, 2019–2026)
+
+**Decided before downloading:** stations = every published-study station MUSTANG served
+in 2020 and 2026 (no picking by results) + Sharjah; colour = level vs the same weekday
+over the previous 8 weeks, ordinary days only (`groundtruth/history.py`).
+
+**Done:**
+- Downloaded 26 more stations (3 workers, each 1 request/second; ~2 hours; cache 2.2 GB).
+- **Found two misplaced stations in Table S1** while checking coordinates against the
+  FDSN station service: Nilore (in Paraguay instead of Pakistan) and Davao (in Malaysia
+  instead of the Philippines). Fixed on the globe and the research map. Density result
+  unchanged (ρ 0.389 → 0.385 without them).
+- Made the MUSTANG parser 8× faster (one `read_csv` instead of one per spectrum),
+  checked bit-identical on 44 real months and in a test.
+- `site/globe.html`: MapLibre 3D globe (OpenFreeMap tiles, no key), date slider and
+  play, jump buttons, fly-to, per-city year calendar, shareable links
+  (`globe.html#2020-03-23/BE.UCC..HHZ`). Checked in a browser at desktop and phone width,
+  light and dark. Fixed: a colour expression MapLibre rejected, a "Loudest" list that
+  showed quieter cities, an over-long holiday line.
+- Result 15: weekday holidays −19.4% vs ordinary weekdays 0.0%; 5 → 12 → 17 of 24
+  cities quiet on the three Mondays from 16 Mar 2020. Cojutepeque's holidays are louder,
+  unexplained.
+
+Tests: 66, all pass.
+
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions
 (Melbourne Cup Day, 11 Nov). Thanksgiving (26 Nov) is the headline live test.

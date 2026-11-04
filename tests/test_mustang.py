@@ -51,3 +51,12 @@ def test_magnitude_is_physically_plausible(psd):
     # Ambient 4-14 Hz ground motion: ~0.01 - 100 nanometres.
     s = band_rms(psd)
     assert ((s > 1e-11) & (s < 1e-7)).all()
+
+
+def test_fast_parser_is_identical_to_the_original():
+    # parse() reads all numbers in one go; it must give exactly the same values as the
+    # original one-spectrum-at-a-time parser (a last-digit change once moved a forest split).
+    from groundtruth.mustang import _parse_per_spectrum
+    with open(FIXTURE, encoding="utf-8") as f:
+        text = f.read()
+    pd.testing.assert_frame_equal(parse(text), _parse_per_spectrum(text), check_exact=True)

@@ -30,6 +30,7 @@ from groundtruth.models import load  # noqa: E402
 TABLE_S1 = os.path.join("data", "external", "2020_Science_GlobalQuieting", "Supplementary Files",
                         "Table S1 - Lockdown stations.csv")
 OUT = os.path.join("site", "data")
+COORDS = os.path.join("outputs", "tables", "history_station_coords.csv")
 # Showcase cities plus the best exact-day stations with a recognisable city name
 GAME_STATIONS = ["AM.R7885", "HL.ATH", "BE.UCC", "CI.USC", "CN.MNTQ", "S1.AUKSC", "EI.DSB", "GB.EDI"]
 NORMAL_PER_STATION = 24
@@ -40,12 +41,18 @@ def stations():
     meta = meta.drop_duplicates("Station_Code").set_index("Station_Code")
     scores = pd.read_csv("outputs/station_scores.csv").set_index("station")   # no country_code column
     feats = load()
+    # Official coordinates (FDSN station service) where we have checked them: Table S1
+    # puts Nilore (II.NIL) in Paraguay and Davao (IU.DAV) in Malaysia. See src/history.py.
+    coords = pd.read_csv(COORDS).set_index("station") if os.path.exists(COORDS) else pd.DataFrame()
     out = []
     for code, g in feats.groupby("station"):
         m = meta.loc[code]
+        lat, lon = float(m["latitude"]), float(m["longitude"])
+        if code in coords.index:
+            lat, lon = float(coords.loc[code, "lat"]), float(coords.loc[code, "lon"])
         r = scores.loc[code] if code in scores.index else None
         out.append({"code": code, "city": g["city"].iloc[0], "country": g["country"].iloc[0],
-                    "lat": round(float(m["latitude"]), 4), "lon": round(float(m["longitude"]), 4),
+                    "lat": round(lat, 4), "lon": round(lon, 4),
                     "pop_density": None if pd.isna(g["pop_density"].iloc[0]) else float(g["pop_density"].iloc[0]),
                     "days": int(len(g)),
                     "weekend_bal_acc": None if r is None else round(float(r["weekend_bal_acc"]), 3),

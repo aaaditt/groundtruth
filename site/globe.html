@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Time-Travel Globe</title>
+  <meta name="description" content="Seven years of city life read from public seismometers: pick any day since 2019 and see which cities were quieter or louder than usual.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css"
+        integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Seven years of city life, from the ground</h1>
+      <p class="lede">Pick any day since January 2019. Each dot is a public seismometer; its colour says
+        whether the city shook <b>less</b> (blue) or <b>more</b> (red) than on the same weekday over the
+        previous eight weeks. Try March 2020, then a Christmas.</p>
+      <nav><a href="index.html">← City Pulse (today)</a><a href="research.html">Research map</a>
+        <a href="game.html">Play: guess the day</a><a href="#how">How to read this</a></nav>
+    </header>
+
+    <div class="timebar">
+      <span class="when" id="when" aria-live="polite">…</span>
+      <input type="range" id="slider" min="0" max="0" value="0" aria-label="Date">
+      <span class="ctl">
+        <button class="btn" id="wk-back" title="One week back" aria-label="One week back">−7</button>
+        <button class="btn" id="back" title="One day back" aria-label="One day back">◀</button>
+        <button class="btn primary" id="play" aria-label="Play">Play</button>
+        <button class="btn" id="fwd" title="One day forward" aria-label="One day forward">▶</button>
+        <button class="btn" id="wk-fwd" title="One week forward" aria-label="One week forward">+7</button>
+      </span>
+    </div>
+    <div class="chips" id="chips"></div>
+
+    <div class="globe-layout">
+      <div>
+        <div id="globe" role="img" aria-label="Globe of seismometers coloured by how unusual the selected day was"></div>
+        <div class="legend" id="legend" style="margin-top:8px"></div>
+        <p class="summary" id="summary"></p>
+      </div>
+      <aside class="card panel" id="panel" aria-live="polite">
+        <label class="note" for="fly">Fly to a city</label><br>
+        <select class="fly" id="fly"></select>
+        <div id="detail"><p class="note">Click a dot on the globe, or choose a city above.</p></div>
+      </aside>
+    </div>
+
+    <section class="card prose" id="how" style="margin-top:20px;max-width:none">
+      <h2 style="margin-top:0">How to read this</h2>
+      <ul class="findings">
+        <li><b>What a colour means.</b> For each station and day we take the day's vibration level
+          (4–14 Hz, the frequencies of traffic and footsteps) and compare it with the
+          <i>same weekday</i> over the previous 8 weeks, ignoring public holidays. −30% means the ground
+          shook 30% less than a usual Monday (or Tuesday…) there had recently.</li>
+        <li><b>Why "recent weeks" and not one fixed year.</b> Seismometers change over the years:
+          new sensors, building work next door. Over a few weeks that barely matters; over years it
+          does (Sharjah's level jumps 1.5× for months at a time). The price: a long event such as a
+          lockdown fades out after about 8 weeks, because it becomes the new "normal", and the
+          reopening afterwards shows up <i>red</i> (louder than the quiet weeks before it). Brussels in
+          2020 is a good example: blue in March–April, red through the summer.</li>
+        <li><b>Faded dots</b> are towns where the published study could barely read a weekly rhythm
+          (below 80% weekday-vs-weekend accuracy), or with no published score. Their colours are mostly
+          weather, waves and sensor noise.</li>
+        <li><b>Hollow dots</b>: no usable data that day (station offline, or fewer than 3 normal
+          reference days).</li>
+        <li><b>The dot is the seismometer</b>, which is often on a campus or hill near the city, not
+          its centre. Coordinates from the operators' station service.</li>
+        <li><b>Coverage.</b> 33 stations from the published study that the EarthScope MUSTANG service
+          still serves; Europe is thin because European stations are archived elsewhere. History runs
+          1 Jan 2019 – 30 Sep 2026; newer days are on <a href="index.html">City Pulse</a>.</li>
+        <li><b>Check.</b> On the 6 cities where both exist, this data reproduces the published 2020
+          lockdown quieting within 0.7 percentage points
+          (<a href="https://github.com/aaaditt/groundtruth/blob/main/docs/04-results.md">Result 14</a>).</li>
+      </ul>
+    </section>
+
+    <footer>
+      Seismic data: EarthScope MUSTANG noise spectra (Casey et al. 2018,
+      <a href="https://doi.org/10.1785/0220170191">doi:10.1785/0220170191</a>); stations from Lecocq et al.
+      2020, <i>Science</i> (<a href="https://doi.org/10.1126/science.abd2438">doi:10.1126/science.abd2438</a>).
+      Map: <a href="https://maplibre.org/">MapLibre GL JS</a>, tiles by
+      <a href="https://openfreemap.org/">OpenFreeMap</a> © OpenMapTiles, data © OpenStreetMap contributors.
+      Public holidays: national calendars from the <code>holidays</code> package.
+      <a href="data/history.json">Download the data (JSON)</a>.
+    </footer>
+  </div>
+  <div id="tip" role="tooltip"></div>
+  <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"
+          integrity="sha384-GfxBM9x46BaAFxtCq39Fxir8fNZ4VDnwgfi6Kzi5/F1tAFsm0amuuV8kd+Pxzuf/" crossorigin="anonymous"></script>
+  <script src="common.js"></script>
+  <script src="globe.js"></script>
+</body>
+</html>

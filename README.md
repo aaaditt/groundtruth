@@ -19,6 +19,9 @@ Montreal.
 **Live: [City Pulse](https://aaaditt.github.io/groundtruth/)** — every day, a GitHub
 Action downloads yesterday's seismic noise for 7 cities, guesses the weekday, and flags
 days that broke the city's rhythm. Every day shown is one the model never trained on.
+**[Time-travel globe](https://aaaditt.github.io/groundtruth/globe.html)** — pick any day
+since January 2019 and see which of 33 cities shook less or more than usual (try March
+2020, then a Christmas); click a city for its whole year as a calendar.
 Also: [**play "guess the day"**](https://aaaditt.github.io/groundtruth/game.html)
 against the model, the [158-city research map](https://aaaditt.github.io/groundtruth/research.html),
 and a board of **18 predictions committed before the day** and graded automatically.
@@ -233,6 +236,7 @@ groundtruth/
 ├── site/                         City Pulse: static dashboard on GitHub Pages
 │   ├── index.html, app.js        dashboard + predictions board
 │   ├── game.html, game.js        "guess the day" against the model
+│   ├── globe.html, globe.js      time-travel globe, 2019-2026 (data from src/history.py)
 │   ├── research.html, research.js  158-station map + band chart
 │   ├── about.html, common.js, style.css
 │   └── data/                     pulse.json + pulse_days.csv, updated daily by
@@ -267,6 +271,7 @@ groundtruth/
 │   ├── pulse.py                  the daily dashboard job (needs internet)
 │   ├── band_test.py              which frequency bands carry the rhythm (MUSTANG cache)
 │   ├── history_pilot.py          2019-2026 history + lockdown cross-check (needs internet)
+│   ├── history.py                33-station history for the globe (needs internet, ~2.5 GB)
 │   ├── export_site_research.py   data for the research map and the game
 │   ├── survey_mustang.py         which stations have recent data (needs internet)
 │   ├── validate_route_a.py       recent-data route vs the published data (needs internet)

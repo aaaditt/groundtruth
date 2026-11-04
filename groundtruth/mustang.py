@@ -90,7 +90,30 @@ _START = re.compile(r"^start: (\S+)$", re.M)
 
 
 def parse(text):
-    """MUSTANG text -> DataFrame(start [UTC], freq [Hz], db)."""
+    """MUSTANG text -> DataFrame(start [UTC], freq [Hz], db).
+
+    One pass over the lines, remembering the current "start:" label, then ONE
+    pd.read_csv over all the numbers (about 10x faster than one read_csv per spectrum).
+    pandas' own number parser is kept on purpose, so the values are bit-identical to
+    the earlier per-spectrum version (tests/test_mustang_parse.py checks this)."""
+    lines, starts = [], []
+    cur = None
+    for ln in text.splitlines():
+        m = _START.match(ln)
+        if m:
+            cur = m.group(1)
+        elif cur is not None and ln and ln[0].isdigit():
+            lines.append(ln)
+            starts.append(cur)
+    if not lines:
+        return pd.DataFrame(columns=["start", "freq", "db"])
+    out = pd.read_csv(io.StringIO("\n".join(lines)), header=None, names=["freq", "db"])
+    out["start"] = pd.to_datetime(pd.Series(starts), utc=True)
+    return out
+
+
+def _parse_per_spectrum(text):
+    """The original parser, kept only so the test can prove the fast one is identical."""
     rows = []
     blocks = _START.split(text)          # [preamble, start1, body1, start2, body2, ...]
     for start, body in zip(blocks[1::2], blocks[2::2]):

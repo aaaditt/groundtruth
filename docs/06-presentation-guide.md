@@ -156,7 +156,11 @@ Open https://aaaditt.github.io/groundtruth/ on the projector. Suggested 4-minute
 3. **Guess the day** (`game.html`). Ask the audience to call out the weekday for one
    day, then reveal. Tick "Holidays only" for a Christmas or Thanksgiving: the ground
    sounds like a Sunday. LA's Veterans Day sounds like a Monday, and the model knows.
-4. **Research map** (`research.html`). 158 seismometers; dark = rhythm easy to read. The
+4. **Time-travel globe** (`globe.html`). Click "March 2020 lockdowns": the Americas and
+   Europe go blue together. Then "Christmas Day 2020", and click Brussels for its whole
+   2020 as a calendar (blue spring, red summer as the city reopened). Say the honest part:
+   colours compare each day with recent weeks, so long events fade after ~8 weeks.
+5. **Research map** (`research.html`). 158 seismometers; dark = rhythm easy to read. The
    band chart: ocean waves (0.1–1 Hz) at chance, which is the proof that we measure
    people, not nature.
 
