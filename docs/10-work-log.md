@@ -579,6 +579,22 @@ reference details checked against `docs/02`.
 
 Tests: 59, all pass.
 
+### 2026-11-04 — History pilot: check written down before downloading
+
+Idea: a globe on the site with a date slider over the last few years. First, a pilot
+(`src/history_pilot.py`): download MUSTANG for the 7 live stations, Jan 2019 – Sep
+2026, and check it against the best-known event in the data, the 2020 lockdowns.
+
+**The check, fixed before any data was downloaded:**
+- *before* = ordinary working days from 7 Jan 2020 to the day before the city's
+  lockdown (Table S1); *during* = working days in the 4 weeks from the lockdown date.
+- change = 10^(median level during − median level before) − 1, a % change in vibration
+  amplitude with no units, computed in each source separately on the same dates.
+- PASS per city: both sources agree on the sign and are within 10 percentage points.
+  Six cities, so this is a sanity check, not a statistical test.
+
+If it fails, the globe would be built on data we can't trust, and we stop there.
+
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions
 (Melbourne Cup Day, 11 Nov). Thanksgiving (26 Nov) is the headline live test.
