@@ -86,14 +86,17 @@ function timeline(days, thr) {
   }
   s.append(svg("line", { x1: L, x2: W - R, y1: ys(thr), y2: ys(thr), stroke: "var(--text-muted)",
     "stroke-dasharray": "4 3", "stroke-width": 1 }));
-  const tl = svg("text", { x: W - R, y: ys(thr) - 4, "text-anchor": "end" });
-  tl.textContent = "unusual above this line"; s.append(tl);
   s.append(svg("path", { d: days.map((d, i) => `${i ? "L" : "M"}${xs(i)},${ys(d.anomaly)}`).join(" "),
     fill: "none", stroke: "var(--series-1)", "stroke-width": 2, "stroke-linejoin": "round" }));
   days.forEach((d, i) => {
-    if (d.anomaly_flag || d.confusion_flag)
+    // filled dot: the day's sound was unusual (above the line).
+    // hollow ring: the sound was ordinary, but the model could not tell which day it was.
+    if (d.anomaly_flag)
       s.append(svg("circle", { cx: xs(i), cy: ys(d.anomaly), r: 4.5, fill: "var(--status-critical)",
         stroke: "var(--surface-1)", "stroke-width": 2 }));
+    else if (d.confusion_flag)
+      s.append(svg("circle", { cx: xs(i), cy: ys(d.anomaly), r: 4, fill: "var(--surface-1)",
+        stroke: "var(--status-critical)", "stroke-width": 2 }));
     if (d.holiday) {
       const h = svg("text", { x: xs(i), y: base + 12, "text-anchor": "middle" }); h.textContent = "H"; s.append(h);
     }
@@ -110,6 +113,19 @@ function timeline(days, thr) {
     s.append(hit);
   });
   return s;
+}
+
+function legend() {
+  const item = (mark, text) => el("span", { class: "lg" }, mark, text);
+  const m = (attrs, tag = "circle") => { const s = svg("svg", { width: 14, height: 10, "aria-hidden": "true" });
+    s.append(svg(tag, attrs)); return s; };
+  return el("div", { class: "legend" },
+    item(m({ x1: 0, x2: 14, y1: 5, y2: 5, stroke: "var(--text-muted)", "stroke-dasharray": "4 3" }, "line"),
+      "unusual above this (95% of normal days were below)"),
+    item(m({ cx: 7, cy: 5, r: 4, fill: "var(--status-critical)" }), "unusual sound"),
+    item(m({ cx: 7, cy: 5, r: 3.5, fill: "none", stroke: "var(--status-critical)", "stroke-width": 1.5 }),
+      "model unsure which day it was"),
+    item(el("b", {}, "H "), "public holiday"));
 }
 
 function badge(kind, text) {
@@ -134,8 +150,9 @@ function liveCard(st, names) {
     el("p", { class: "note" }, d.summary),
     el("div", { class: "chart-title" }, "Which day did it look like?"),
     probChart(d, names),
-    el("div", { class: "chart-title" }, `How unusual was each day? (since ${fmtDate(st.days[0].date)}; H = public holiday)`),
-    timeline(st.days, st.thresholds.anomaly));
+    el("div", { class: "chart-title" }, `How unusual was each day? (since ${fmtDate(st.days[0].date)})`),
+    timeline(st.days, st.thresholds.anomaly),
+    legend());
   const tr = st.track_record, m = st.model;
   const rec = el("div", { class: "record" });
   rec.append("Weekday vs weekend on new normal days: ", el("b", {}, tr ? pct(tr.weekend_bal_acc) : "–"),

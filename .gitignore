@@ -10,3 +10,6 @@ outputs/models/
 
 # Downloaded responses from public data services (re-fetchable; see groundtruth/client.py)
 data/cache/
+
+# Browser-automation screenshots and logs (local only)
+.playwright-mcp/

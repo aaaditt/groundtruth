@@ -70,12 +70,12 @@ def day_record(r):
 
 
 def describe(r):
-    """Plain-language one-liner for a day, e.g. 'Looked like a Sunday (61%) -- it was a
-    Thursday, a public holiday (Thanksgiving)'."""
+    """Plain-language one-liner for a day, e.g. 'Looked like a Sunday (61%) — it was a
+    Thursday. Public holiday: Thanksgiving.'"""
     guess, true = DOW_NAMES[r["pred_dow"]], DOW_NAMES[r["dow"]]
     p = r["probs"][r["pred_dow"]]
     s = f"Looked like a {guess} ({p:.0%})"
-    s += " -- correct." if r["pred_dow"] == r["dow"] else f" -- it was a {true}."
+    s += " — correct." if r["pred_dow"] == r["dow"] else f" — it was a {true}."
     if r["holiday"]:
         s += f" Public holiday: {r['holiday']}."
     if r["anomaly_flag"] or r["confusion_flag"]:
