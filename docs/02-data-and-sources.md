@@ -119,6 +119,15 @@ headline results comes from these.** They are used only for the Route A validati
   II.NIL (Nilore, Pakistan) by 13,737 km and IU.DAV (Davao, Philippines) by 808 km;
   the other 31 agree within 0.6 km. The globe and the research map use the station
   service coordinates.
+- **Place names and distances for the website labels** (`src/check_places.py`,
+  `groundtruth/places.py`): GeoNames gazetteer, `cities1000` dump (every place with
+  1,000+ people), https://download.geonames.org/export/dump/cities1000.zip , downloaded
+  2026-11-04, licence CC BY 4.0 (https://www.geonames.org/ ; GeoNames has no DOI). Only
+  the derived table `outputs/tables/station_places.csv` is committed.
+- **Raspberry Shake (`AM`) positions** are blurred by the network to within about 1 km
+  for the owners' privacy (Raspberry Shake community forum, moderator answer:
+  https://community.raspberryshake.org/t/station-locations-are-they-obfuscated/5027 ,
+  accessed 2026-11-04; no DOI). The research map marks them "approximate".
 - Globe: MapLibre GL JS 5.6.0 — https://maplibre.org/ (BSD-3-Clause; loaded from unpkg
   with a pinned integrity hash). Basemap tiles: OpenFreeMap (positron and dark styles) —
   https://openfreemap.org/ , © OpenMapTiles, data © OpenStreetMap contributors

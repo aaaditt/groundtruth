@@ -1,0 +1,34 @@
+station,paper_city,country,site_name,lat,lon,paper_city_geonameid,paper_city_km,nearest_place,nearest_place_km,nearest_100k,nearest_100k_km,near_city,near_city_geonameid,near_city_km,label
+AK.FA12,Fairbanks,US,"Watershed School, Fairbanks, AK, USA",64.8269,-147.8684,5861897,7.3,College,4.6,Anchorage,414.1,,,,Fairbanks
+BE.UCC,Brussels,BE,"Uccle, Brussels, Belgium",50.797241,4.36038,2800866,6.0,Uccle,1.6,Anderlecht,5.4,,,,Brussels
+BL.VABB,Sao Paulo,BR,"Valinhos, SP",-23.0021,-46.965698,3448439,69.4,Vinhedo,3.2,Valinhos,4.7,Campinas,3467865,14.5,Valinhos (near Campinas)
+C1.MG01,Puerto Williams,CL,Puerto Williams,-54.9322,-67.63,3874926,1.3,Puerto Williams,1.3,Punta Arenas,290.7,,,,Puerto Williams
+C1.MT14,Santiago,CL,Calan,-33.39573,-70.536232,3871336,12.4,Ñuñoa,7.2,Ñuñoa,7.2,,,,Santiago
+CI.SBC,Santa Barbara,US,Santa Barbara,34.44076,-119.71492,5392952,2.7,Mission Canyon,1.1,Oxnard,56.3,,,,Santa Barbara
+CI.USC,Los Angeles,US,Univ Southern Ca,34.01919,-118.28631,5368361,5.4,Vermont Square,2.2,Koreatown,4.5,,,,Los Angeles
+CN.MNTQ,Montreal,CA,"Montreal, QC, CA",45.5003,-73.6228,6077243,2.9,Snowdon,1.7,Montréal,2.9,,,,Montreal
+CU.BBGH,Bridgetown,BB,"Gun Hill, Barbados",13.1434,-59.5588,3374036,7.8,Four Cross Roads,5.0,Carúpano,487.4,,,,Bridgetown
+CU.TGUH,Tegucigalpa,HN,"Tegucigalpa, Honduras",14.057,-87.273,3600949,7.7,Mateo,5.2,Tegucigalpa,7.7,,,,Tegucigalpa
+EI.DSB,Dublin,IE,DSB,53.24519,-6.37619,2964574,12.9,Oldbawn,3.4,South Dublin,5.5,,,,Dublin
+GT.LPAZ,La Paz,BO,"La Paz, Bolivia",-16.287923,-68.130714,3911925,23.7,La Paz,23.7,La Paz,23.7,La Paz,3911925,23.7,Near La Paz
+II.EFI,Stanley,FK,"Mount Kent, East Falkland Island",-51.6753,-58.0637,3426691,14.4,Stanley,14.4,Punta Arenas,885.4,,,,Stanley
+II.MSEY,Seychelles,SC,"Mahe, Seychelles",-4.6737,55.4792,,,Grand'Anse,1.6,Antsiranana,1088.4,,,,Seychelles
+II.NIL,Nilore,PK,"Nilore, Pakistan",33.6506,73.2686,,,Alipur,8.4,Rawalpindi,21.3,,,,Nilore
+II.NNA,Lima,PE,"Nana, Peru",-11.9875,-76.8422,3936456,21.2,Santa María,5.9,Santa Anita - Los Ficus,15.9,Lima,3936456,21.2,Nana (near Lima)
+II.PALK,Kandy,LK,"Pallekele, Sri Lanka",7.2728,80.7022,1241622,7.8,Kandy,7.8,Kandy,7.8,,,,Kandy
+II.SACV,Cape Verde,CV,"Santiago Island, Cape Verde",14.9702,-23.6085,,,Salineiro,3.7,Praia,11.2,,,,Cape Verde
+II.TAU,Hobart,AU,"Hobart, Tasmania, Australia",-42.9082,147.321,2163355,3.3,Dynnyrne,0.5,Hobart,3.3,,,,Hobart
+II.UOSS,Sharjah,AE,"Univ. of Sharjah, Sharjah, United Arab Emirates",24.9453,56.2042,292672,90.7,Ḩattā,17.9,Fujairah,23.5,Kalba,291763,19.2,Hajar Mts (near Kalba)
+IN.PBA,Port Blair,IN,"Port Blair, Andaman and Nicobar Islands, India",11.655733,92.743919,1259385,1.2,Port Blair,1.2,Port Blair,1.2,,,,Port Blair
+IN.SHL,Shillong,IN,"Shillong, Meghalaya, India",25.566816,91.855949,1256523,2.7,Nongumlong,2.5,Shillong,2.7,,,,Shillong
+IU.BBSR,Bermuda,BM,"Bermuda Institute of Ocean Sciences, St George's Bermuda",32.371299,-64.696299,,,St George's Parish,0.2,Virginia Beach,1145.4,,,,Bermuda
+IU.DAV,Dabaw,PH,"Davao, Philippines",7.0697,125.5791,,,Davao,3.7,Davao,3.7,,,,Davao
+IU.OTAV,Otavalo,EC,"Otavalo, Ecuador",0.2376,-78.45076,3653693,20.9,Perucho,14.5,Ibarra,38.3,Otavalo,3653693,20.9,Near Otavalo
+NE.BCX,Boston,US,"Chestnut Hill, MA, USA",42.335,-71.1705,4930956,9.5,Chestnut Hill,0.6,Cambridge,7.0,,,,Boston
+NE.WSPT,Connecticut,US,"Westport, CT, USA",41.1712,-73.3278,,,Westport,4.2,Bridgeport,11.6,Bridgeport,5282804,11.6,Westport (near Bridgeport)
+ON.TIJ01,Joinvile,BR,"OBSN: [TIJ01] Tijucas do Sul, PR",-25.908848,-49.024242,,,Tijucas do Sul,15.7,Fazenda Rio Grande,39.9,Joinville,3459712,47.5,Tijucas do Sul (near Joinville)
+PT.HILB,Hilo,US,"Hilo UH Campus, Hawaii",19.7033,-155.080597,5855927,3.1,Hilo,3.1,Honolulu,339.8,,,,Hilo
+S1.AUALB,Albany,AU,St Joseph's College,-34.9995,117.9046,2077963,3.6,Spencer Park,0.8,Mandurah,341.0,,,,Albany
+S1.AUDAR,Canberra,AU,Daramalan College,-35.253,149.1377,2172517,3.5,Dickson,0.3,Canberra,3.5,,,,Canberra
+S1.AUKSC,Melbourne,AU,Keysborough Secondary College,-37.9684,145.1584,2158177,24.2,Noble Park,0.8,Melbourne,24.2,Melbourne,2158177,24.2,Keysborough (near Melbourne)
+SV.PAVA,Cojutepeque,SV,Z,13.71299,-88.937119,3586977,0.9,Cojutepeque,0.9,Soyapango,21.9,,,,Cojutepeque

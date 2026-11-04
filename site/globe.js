@@ -51,6 +51,18 @@ const indexOf = (s) => Math.round((Date.parse(s + "T00:00:00Z") - T0) / DAY_MS);
 const weekdayOf = (i) => DAY_NAMES[(new Date(T0 + i * DAY_MS).getUTCDay() + 6) % 7];
 const weak = (s) => s.published_weekend_acc === null || s.published_weekend_acc < 80;
 const holidayOf = (s, i) => s.holidays[String(i)] || "";
+const renamed = (s) => s.paper_city && s.paper_city !== s.city;
+
+// Where the sensor really is: the dot is the seismometer, which can be tens of km from
+// the city the 2020 paper named (labels: groundtruth/places.py, distances: GeoNames).
+function whereLines(s) {
+  const out = [];
+  if (s.near_km !== null && s.near_km !== undefined && s.near_km >= 1) {
+    out.push(`Sensor ${Math.round(s.near_km)} km from ${s.near}`);
+  }
+  if (renamed(s)) out.push(`Listed as “${s.paper_city}” in Lecocq et al. 2020`);
+  return out;
+}
 
 function describe(v, i) {
   const wd = weekdayOf(i);
@@ -125,7 +137,7 @@ function initMap() {
   map.on("mousemove", "st", (e) => {
     map.getCanvas().style.cursor = "pointer";
     const s = H.stations[e.features[0].properties.k];
-    const lines = [s.city, fmtLongDate(dateOf(cur)), describe(s.values[cur], cur)];
+    const lines = [s.city, ...whereLines(s), fmtLongDate(dateOf(cur)), describe(s.values[cur], cur)];
     const h = holidayOf(s, cur);
     if (h) lines.push(`Public holiday: ${h}`);
     if (weak(s)) lines.push("Weak weekly signal at this station");
@@ -208,6 +220,7 @@ function detail(keepCalendar) {
   const kids = [
     el("h2", {}, s.city),
     el("p", { class: "sub" }, `${s.site || s.id} · ${s.country} · ${s.id}`),
+    ...whereLines(s).map((t) => el("p", { class: "sub where" }, t)),
     valueLine(s, v),
     el("p", { class: "note" }, acc + (weak(s) ? " The weekly rhythm is hard to read here, so treat colours with care." : "")),
     yearButtons(),
@@ -371,7 +384,8 @@ async function main() {
   }
   const fly = document.getElementById("fly");
   fly.append(el("option", { value: "" }, "Choose a city…"));
-  H.stations.map((s, k) => [s.city, k]).sort((a, b) => a[0].localeCompare(b[0]))
+  H.stations.map((s, k) => [renamed(s) ? `${s.city} — listed as ${s.paper_city}` : s.city, k])
+    .sort((a, b) => a[0].localeCompare(b[0]))
     .forEach(([c, k]) => fly.append(el("option", { value: String(k) }, c)));
   fly.addEventListener("change", () => { if (fly.value !== "") select(Number(fly.value), true); });
 

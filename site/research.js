@@ -36,6 +36,9 @@ function drawMap(st) {
       fillColor: has ? binOf(s.weekend_bal_acc).color : "#9a998f", fillOpacity: has ? 1 : .7 }).addTo(map);
     const pop = el("div", {}, el("b", {}, `${s.city}, ${s.country}`), el("br"), s.code, el("br"),
       has ? `Weekday vs weekend ${pct(s.weekend_bal_acc)} · exact day ${pct(s.dow_acc)}` : `Too few normal days for a model (${s.days} days)`);
+    // where the sensor really is (labels: groundtruth/places.py)
+    if (s.paper_city && s.paper_city !== s.city) pop.append(el("br"), `Listed as “${s.paper_city}” in the paper`);
+    if (s.approx_location) pop.append(el("br"), "Position approximate (within ~1 km, for the owner's privacy)");
     mk.bindPopup(pop);
     mk.on("mouseover", () => mk.openPopup());
   }

@@ -13,3 +13,7 @@ data/cache/
 
 # Browser-automation screenshots and logs (local only)
 .playwright-mcp/
+
+# GeoNames gazetteer (32 MB, re-downloadable; see src/check_places.py). Only the small
+# derived table outputs/tables/station_places.csv is committed.
+data/external/geonames/

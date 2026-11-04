@@ -682,6 +682,34 @@ New Year's Day 2025: 19 of 21.
 0.6 km for the other 31. The globe and the research map now use the station service.
 The density correlation (Result 2) barely moves without these two (ρ 0.389 → 0.385).
 
+**Labels.** The coordinates are where the *sensor* is; Table S1's names are cities, and
+some sensors are far from theirs. Rule, fixed before measuring (`src/check_places.py`,
+GeoNames gazetteer): more than 20 km from the named city, or a name that is not a place,
+gets an honest website label, "Site (near City)". 6 of the 33 globe stations are more
+than 20 km from their named city, plus 2 names that are not GeoNames places
+("Connecticut", the misspelt "Joinvile"). (IU.DAV's "Dabaw" also shows as "Davao".)
+Four sensors that sit outside their city stay under the line and keep its name: Mount
+Kent 14 km from Stanley, Calan 12 km from Santiago, Chestnut Hill 9.5 km from Boston,
+Pallekele 7.8 km from Kandy.
+
+| Station | Table S1 name | Sensor → that city | Website label |
+|---|---|---|---|
+| II.UOSS | Sharjah | 90.7 km | Hajar Mts (near Kalba), 19 km |
+| BL.VABB | Sao Paulo | 69.4 km | Valinhos (near Campinas), 15 km |
+| S1.AUKSC | Melbourne | 24.2 km | Keysborough (near Melbourne) |
+| GT.LPAZ | La Paz | 23.7 km | Near La Paz |
+| II.NNA | Lima | 21.2 km | Nana (near Lima) |
+| IU.OTAV | Otavalo | 20.9 km | Near Otavalo |
+| ON.TIJ01 | Joinvile | — | Tijucas do Sul (near Joinville), 48 km |
+| NE.WSPT | Connecticut | — | Westport (near Bridgeport), 12 km |
+
+Sharjah's vault sits 284 m up in the Hajar mountains, at one position since 2009 (every
+FDSN epoch agrees); "Univ. of Sharjah" in its site name is the operator. A rural vault
+may be part of why its weekly rhythm is weak (71.6%, Result 11). The published tables and
+all analyses keep Table S1's names; only the website labels change. Seychelles, Cape
+Verde, Bermuda and Nilore are not GeoNames city matches but are named in the station's
+own site name, so they keep their names.
+
 **Limits.** Europe is thin (European stations are archived by EIDA, not MUSTANG). The
 8-week reference makes long events fade and makes recoveries look loud. National holiday
 calendars only. The history stops at 30 Sep 2026; newer days are on City Pulse.

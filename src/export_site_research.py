@@ -26,11 +26,13 @@ import pandas as pd
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))  # repo root, for `import groundtruth`
 from groundtruth.features import SHAPE_COLS  # noqa: E402
 from groundtruth.models import load  # noqa: E402
+from groundtruth.places import display_name  # noqa: E402
 
 TABLE_S1 = os.path.join("data", "external", "2020_Science_GlobalQuieting", "Supplementary Files",
                         "Table S1 - Lockdown stations.csv")
 OUT = os.path.join("site", "data")
 COORDS = os.path.join("outputs", "tables", "history_station_coords.csv")
+PLACES = os.path.join("outputs", "tables", "station_places.csv")   # src/check_places.py
 # Showcase cities plus the best exact-day stations with a recognisable city name
 GAME_STATIONS = ["AM.R7885", "HL.ATH", "BE.UCC", "CI.USC", "CN.MNTQ", "S1.AUKSC", "EI.DSB", "GB.EDI"]
 NORMAL_PER_STATION = 24
@@ -44,6 +46,8 @@ def stations():
     # Official coordinates (FDSN station service) where we have checked them: Table S1
     # puts Nilore (II.NIL) in Paraguay and Davao (IU.DAV) in Malaysia. See src/history.py.
     coords = pd.read_csv(COORDS).set_index("station") if os.path.exists(COORDS) else pd.DataFrame()
+    # Honest labels: sensor-to-city distances for the stations with official coordinates
+    places = pd.read_csv(PLACES, keep_default_na=False).set_index("station")
     out = []
     for code, g in feats.groupby("station"):
         m = meta.loc[code]
@@ -51,7 +55,17 @@ def stations():
         if code in coords.index:
             lat, lon = float(coords.loc[code, "lat"]), float(coords.loc[code, "lon"])
         r = scores.loc[code] if code in scores.index else None
-        out.append({"code": code, "city": g["city"].iloc[0], "country": g["country"].iloc[0],
+        city = g["city"].iloc[0]
+        near_km = None
+        if code in places.index:
+            pl = places.loc[code]
+            km = pl["near_city_km"] if pl["near_city"] else pl["paper_city_km"]
+            near_km = None if km == "" else float(km)
+        out.append({"code": code, "city": display_name(code, city), "paper_city": city,
+                    "near_km": near_km,
+                    # Raspberry Shake (AM) positions are rounded by the network for privacy
+                    "approx_location": code.startswith("AM."),
+                    "country": g["country"].iloc[0],
                     "lat": round(lat, 4), "lon": round(lon, 4),
                     "pop_density": None if pd.isna(g["pop_density"].iloc[0]) else float(g["pop_density"].iloc[0]),
                     "days": int(len(g)),

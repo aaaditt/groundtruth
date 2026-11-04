@@ -43,6 +43,7 @@ from groundtruth.history import MIN_REF, WEEKS, relative_change  # noqa: E402
 from groundtruth.live import label_days  # noqa: E402
 from groundtruth.models import load  # noqa: E402
 from groundtruth.mustang import rms_series  # noqa: E402
+from groundtruth.places import display_name  # noqa: E402
 from groundtruth.stations import load_stations  # noqa: E402
 
 START, END = date(2019, 1, 1), date(2026, 10, 1)
@@ -54,9 +55,9 @@ TABLE_S1 = os.path.join("data", "external", "2020_Science_GlobalQuieting", "Supp
 
 
 COORDS = os.path.join(TABLES, "history_station_coords.csv")
-# Display names only (the published tables keep Table S1's names). The station service
-# names IU.DAV's site "Davao, Philippines"; Table S1 calls it "Dabaw" (Cebuano).
-DISPLAY = {"IU.DAV": "Davao"}
+# Display names (the published tables keep Table S1's names) come from
+# groundtruth/places.py; the sensor-to-city distances from src/check_places.py.
+PLACES = os.path.join(TABLES, "station_places.csv")
 STATION_URL = "https://service.earthscope.org/fdsnws/station/1/query"
 
 
@@ -144,6 +145,7 @@ def build(only_cached=False):
     ros = roster()
     if only_cached:          # for previewing the site while downloads are running
         ros = ros[[fully_cached(s) for s in ros["id"]]]
+    places = pd.read_csv(PLACES, keep_default_na=False).set_index("station")
     parts, stations = [], []
     for _, row in ros.iterrows():
         d = days(row)
@@ -156,8 +158,16 @@ def build(only_cached=False):
         full = pd.date_range(START, pd.Timestamp(END) - pd.Timedelta(days=1), freq="D")
         v = d["change_pct"].reindex(full)
         hol = d.loc[d["holiday_name"] != "", "holiday_name"]
+        pl = places.loc[row["station"]]
+        # the city the label points to, and how far the sensor is from it (km, GeoNames)
+        if pl["near_city"]:
+            near, near_km = pl["near_city"], pl["near_city_km"]
+        else:
+            near, near_km = row["city"], pl["paper_city_km"]
         stations.append({
-            "id": row["id"], "city": DISPLAY.get(row["station"], row["city"]),
+            "id": row["id"], "city": display_name(row["station"], row["city"]),
+            "paper_city": row["city"], "near": near,
+            "near_km": None if near_km == "" else float(near_km),
             "site": row["site_name"], "country": row["country"],
             "lat": round(row["lat"], 4), "lon": round(row["lon"], 4),
             "timezone": row["timezone"], "live": bool(row["live"]),
