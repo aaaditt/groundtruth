@@ -33,8 +33,10 @@ city's normal rhythm, using real data from Lecocq et al. (2020), *Science*.
 ## Current state — all verified by running on real data
 
 Pipeline: `get_data.py` → `build_dataset.py` → `train_stations.py` / `train_global.py` /
-`showcase_city.py` / `detect_disruptions.py`; `predict.py` for the live demo;
-`run_all.sh` runs the lot (~15 min).
+`showcase_city.py` / `detect_disruptions.py`; Stage 4 adds `class_weight_check.py`,
+`shape_vs_level.py`, `score_days.py` → `confusion_detector.py` / `holiday_holdout.py`,
+`transfer.py` and `uae_experiment.py`; `predict.py` for the live demo; `run_all.sh`
+runs the lot (~30 min).
 Shared logic lives in the `groundtruth/` package (features, calendars, models, stations);
 `src/` holds the experiment scripts. Run `pytest -q` before committing; CI also rebuilds
 `daily_features.csv` and fails if it changes. Headline numbers are in `README.md`; full results in
@@ -58,10 +60,21 @@ Shared logic lives in the `groundtruth/` package (features, calendars, models, s
 
 ## What to work on next
 
-See `docs/08-roadmap.md`. In priority order: validate anomaly flags against real public
-holiday calendars (`holidays` package) to get precision/recall; a station map; a
-logistic-regression baseline for comparison; a frequency-band ablation. Live FDSN data
-and anomaly typing are future work.
+See `docs/12-master-plan.md` and the "Next steps" at the end of `docs/10-work-log.md`.
+The five promises (Results 5–9 in `docs/04`) and the pre-registered UAE experiment
+(`docs/14`, Result 10) are done. Next: per-station live models on MUSTANG data and the
+City Pulse dashboard; then the frequency-band test and a station map.
+
+## Stage 4 notes — do not undo
+
+- `make_model()` / `make_global_model()` use `class_weight="balanced"` on purpose
+  (matches balanced accuracy). Before/after: `src/class_weight_check.py`.
+- `groundtruth/detect.py` scores NORMAL days out-of-fold (models AND median/MAD from
+  other weeks). Scoring them in-sample makes every detector look better than it is.
+- `load()` must keep Namibia's country code "NA" (pandas reads it as missing by
+  default). Read any CSV with a `country_code` column through `load()`.
+- `docs/14-uae-preregistration.md` sections 1–6 are frozen. Never change the window,
+  metric or exclusions in `src/uae_experiment.py`; add new analyses as EXPLORATORY.
 
 ## Conventions
 

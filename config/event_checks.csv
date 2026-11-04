@@ -1,0 +1,3 @@
+station,date,status,finding,source
+AM.R7885,2019-11-29,plausible event,"Day after Thanksgiving (Black Friday): many employers give the day off, and some states observe it for state employees","https://en.wikipedia.org/wiki/Black_Friday_(shopping) (accessed 2026-11-04)"
+BE.UCC,2020-03-13,plausible event,"Day after Belgium announced COVID-19 measures (12 Mar 2020): restaurants and cafés to close, telework to be promoted; formal lockdown came later","https://www.rtbf.be/article/coronavirus-en-belgique-cours-suspendus-horeca-ferme-decouvrez-les-mesures-du-gouvernement-10455207 ; https://www.vrt.be/vrtnws/en/2020/03/12/football-games-in-empty-stadiums-stay-home-even-when-you-just (accessed 2026-11-04)"

@@ -410,7 +410,84 @@ Run after the pre-registration commit (`76d526f`), exactly as specified. Full wr
   elsewhere in the UAE. But Sharjah kept its old prayer time, so we don't claim that
   link.
 
+### 2026-11-04 — Stage 4: the five promises
+
+All on the Lecocq data, all rerun from scratch. Full tables in `docs/04` (Results 5–9).
+
+**1. Class weighting (`class_weight="balanced"`), before → after**
+
+| Measure | Before | After |
+|---|---|---|
+| Weekday vs weekend, median | 94.6% | 94.9% |
+| Exact day, median | 47.0% | 47.3% |
+| Global model, unseen cities | 80.9% | 83.0% |
+| Held-out holidays called "weekend" | 70.5% | 75.6% |
+| Ordinary weekdays called "weekend" | 2.7% | **5.6%** |
+
+- 59 stations improved by more than 1 pp and 17 got worse.
+- **The big surprise:** it did *not* rescue La Paz or Nepal (still about 50%). So their
+  problem was never imbalance; there is just no detectable weekend there. The docs said
+  otherwise and are corrected.
+- **Biggest gains:** Ocotepeque 70 → 95%, Tegucigalpa (CU) 76 → 92%.
+
+**2. Shape vs loudness**
+
+- **Shape adds a lot:** +5.5 pp for weekday/weekend, +17 pp for the exact day
+  (p ~ 10⁻¹⁹ and 10⁻²⁵). Logistic regression agrees.
+- **The shape + loudness split does not itself help.** Raw hourly values do 0.5–1.7 pp
+  *better* with the forest. We keep the split because it is the only form that is
+  comparable across stations, and we say so.
+
+**3. Confusion detector**
+
+- Confusion = 1 − P(true day). Median PR-AUC for public holidays is 0.63, against 0.33
+  for the anomaly score (chance 0.04). Confusion is higher at 110 of 147 stations.
+- The anomaly score is better for lockdown: 28% vs 21% of days flagged.
+- **Top-20 days per showcase city:**
+  - Each city's top 5: every explained day is a holiday or Christmas-season day.
+  - Two more are explained with sources: the day after Thanksgiving in New York, and the
+    day after Belgium's first COVID measures.
+  - 36 are unexplained, and are mostly what chance predicts at that threshold.
+
+**4. Holiday hold-out**
+
+- 75.6% of held-out weekday holidays are called "weekend", vs 5.5% of ordinary weekdays.
+- By type:
+
+  | Type | Called "weekend" |
+  |---|---|
+  | New Year | 90% |
+  | Christmas/Easter | 85% |
+  | Other religious | 67% |
+  | Civic | 57% |
+  | Bridge days | 49% |
+
+**5. Transfer**
+
+- Which region you *test* on matters more than which one you train on. Middle East &
+  Africa is hardest (62–74%).
+- **Weekend-shift test:** a Saturday–Sunday-only model calls Salfit's and Amatzia's
+  Fridays "weekend" (100% and 87%) and their Sundays working days.
+- **Jeddah** is called weekend every day. Its daily shape is unlike any training city;
+  the cause is unknown.
+- **What goes with poor transfer:** a weak own rhythm (ρ 0.76), low density (0.27) and
+  low latitude (0.25). Sensor type and data gaps don't matter.
+
+**Bugs caught along the way**
+
+- A stray command made the first class-weighting run wait on input for over 20 minutes
+  without doing anything.
+- `load()` read Namibia's code "NA" as missing, the Stage 1 bug again through a
+  different door. It is fixed in `load()`; two scripts now read through it.
+- `"holi"` (the festival) matched "Substitute **Holi**day". The keyword rules now use
+  word boundaries.
+- The old anomaly score took its normal-day statistics from days that included the day
+  being scored. The new `groundtruth/detect.py` is fully out-of-fold, and a test proves
+  why that matters.
+
+Tests: 46, all real data.
+
 ## Next steps
-Stage 4 (science core), in progress: the five promises on the Lecocq data, including
-class weighting for one-day weekends. Then run the pre-registered UAE experiment, and
-per-station live models trained on 12 months of MUSTANG normal days.
+Stage 4 remainder: per-station live models trained on 12 months of MUSTANG normal days
+(the backbone of the dashboard). Then Stage 5: City Pulse dashboard and open dataset.
+Optional before the report: frequency-band test and station map (promise extras 1.6).

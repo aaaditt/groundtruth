@@ -43,13 +43,13 @@ Day → 24 hourly medians (local time!) → shape (24) + level (1) → random fo
 Trained only on normal days. Tested with whole weeks held out.
 
 **7. Result 1: it works, in 149 cities**
-`outputs/plots/accuracy_by_station.png`. Median 94.6% weekday vs weekend (chance 50%),
-47.0% exact day (chance 14.3%), best 71.3%.
+`outputs/plots/accuracy_by_station.png`. Median 94.9% weekday vs weekend (chance 50%),
+47.3% exact day (chance 14.3%), best 73.9%.
 
 **8. Result 2: the control group**
-Mammoth Lakes, Kule (Botswana), Puerto Williams — all at chance. No people, no signal.
+Mammoth Lakes, Kule (Botswana), Puerto Williams — at or near chance. Few people, little signal.
 And accuracy rises with population density (ρ = 0.39). Plus: label the weekend
-correctly per country and Jeddah jumps 53% → 85%, Amatzia 73% → 97%. This is the slide
+correctly per country and Jeddah jumps 53% → 90%, Amatzia 73% → 96%. This is the slide
 that proves you're measuring humans, not an artefact.
 
 **9. Where it fails, and how it fails**
@@ -57,12 +57,12 @@ that proves you're measuring humans, not an artefact.
 weekends almost never do. Cities genuinely behave the same on midweek days.
 
 **10. Generalisation**
-One model, tested only on cities it never trained on: 81% weekday vs weekend.
+One model, tested only on cities it never trained on: 83% weekday vs weekend.
 The rhythm is partly universal, but local models are much better.
 
 **11. Disruption detection**
 `outputs/plots/disruptions_global.png`. Trained only on normal days, never a holiday.
-On weekday public holidays the model says "weekend" 70.5% of the time, vs 2.7% for
+On weekday public holidays the model says "weekend" 75.6% of the time, vs 5.5% for
 ordinary weekdays. Flagged as anomalous: public holidays 46%, lockdown 35%, normal
 days 5% by construction.
 

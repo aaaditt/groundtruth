@@ -1,0 +1,6 @@
+property,test,value,p,n
+pop_density,Spearman rho vs unseen-station accuracy,0.2661831548643205,0.0010335931283410192,149
+abs_latitude,Spearman rho vs unseen-station accuracy,0.2512562136051683,0.001995622240217631,149
+gap_share,Spearman rho vs unseen-station accuracy,-0.1566393362244369,0.05642775375814419,149
+own_model_acc,Spearman rho vs unseen-station accuracy,0.7583059267740622,4.169292070404433e-29,149
+raspberry_shake,median unseen acc: RS 0.878 vs pro 0.900,-0.021188684914175138,0.3994935579389174,49 vs 100

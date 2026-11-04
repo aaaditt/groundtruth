@@ -1,0 +1,61 @@
+station,city,rank,date,day,model_says,confusion,status,note,source
+AM.R7885,New York,1,2019-12-25,Wed,Sun,0.997,verified holiday,Christmas Day,holidays 0.108 (official calendar)
+AM.R7885,New York,2,2019-11-28,Thu,Sun,0.989,verified holiday,Thanksgiving Day,holidays 0.108 (official calendar)
+AM.R7885,New York,3,2019-12-26,Thu,Mon,0.977,festive season,"21 Dec - 6 Jan, not an official holiday",
+AM.R7885,New York,4,2020-01-01,Wed,Sun,0.963,verified holiday,New Year's Day,holidays 0.108 (official calendar)
+AM.R7885,New York,5,2019-12-24,Tue,Sat,0.958,festive season,"21 Dec - 6 Jan, not an official holiday",
+AM.R7885,New York,6,2020-01-02,Thu,Mon,0.948,festive season,"21 Dec - 6 Jan, not an official holiday",
+AM.R7885,New York,7,2020-03-05,Thu,Mon,0.934,unexplained,,
+AM.R7885,New York,8,2019-11-29,Fri,Sat,0.929,plausible event,"Day after Thanksgiving (Black Friday): many employers give the day off, and some states observe it for state employees",https://en.wikipedia.org/wiki/Black_Friday_(shopping) (accessed 2026-11-04)
+AM.R7885,New York,9,2019-12-30,Mon,Sat,0.929,festive season,"21 Dec - 6 Jan, not an official holiday",
+AM.R7885,New York,10,2019-11-27,Wed,Fri,0.926,unexplained,,
+AM.R7885,New York,11,2019-12-05,Thu,Wed,0.908,unexplained,,
+AM.R7885,New York,12,2019-11-06,Wed,Thu,0.893,unexplained,,
+AM.R7885,New York,13,2019-11-19,Tue,Mon,0.887,unexplained,,
+AM.R7885,New York,14,2019-11-01,Fri,Wed,0.855,unexplained,,
+AM.R7885,New York,15,2020-03-10,Tue,Fri,0.853,unexplained,,
+AM.R7885,New York,16,2019-12-17,Tue,Thu,0.847,unexplained,,
+AM.R7885,New York,17,2020-02-27,Thu,Mon,0.842,unexplained,,
+AM.R7885,New York,18,2019-12-03,Tue,Wed,0.835,unexplained,,
+AM.R7885,New York,19,2020-02-13,Thu,Wed,0.834,unexplained,,
+AM.R7885,New York,20,2020-01-22,Wed,Thu,0.832,unexplained,,
+HL.ATH,Athens,1,2019-12-25,Wed,Sun,1.0,verified holiday,Christmas Day,holidays 0.108 (official calendar)
+HL.ATH,Athens,2,2020-01-01,Wed,Sun,1.0,verified holiday,New Year's Day,holidays 0.108 (official calendar)
+HL.ATH,Athens,3,2019-12-26,Thu,Sun,0.985,verified holiday,Glorifying Mother of God,holidays 0.108 (official calendar)
+HL.ATH,Athens,4,2020-01-02,Thu,Sat,0.965,festive season,"21 Dec - 6 Jan, not an official holiday",
+HL.ATH,Athens,5,2020-01-06,Mon,Sun,0.953,verified holiday,Epiphany,holidays 0.108 (official calendar)
+HL.ATH,Athens,6,2019-12-31,Tue,Sat,0.949,festive season,"21 Dec - 6 Jan, not an official holiday",
+HL.ATH,Athens,7,2019-12-17,Tue,Thu,0.919,unexplained,,
+HL.ATH,Athens,8,2019-12-11,Wed,Thu,0.895,unexplained,,
+HL.ATH,Athens,9,2019-12-24,Tue,Sat,0.884,festive season,"21 Dec - 6 Jan, not an official holiday",
+HL.ATH,Athens,10,2020-01-07,Tue,Mon,0.873,unexplained,,
+HL.ATH,Athens,11,2019-12-30,Mon,Sat,0.871,festive season,"21 Dec - 6 Jan, not an official holiday",
+HL.ATH,Athens,12,2020-03-02,Mon,Sat,0.867,verified holiday,Green Monday,holidays 0.108 (official calendar)
+HL.ATH,Athens,13,2019-11-21,Thu,Mon,0.867,unexplained,,
+HL.ATH,Athens,14,2019-12-16,Mon,Thu,0.857,unexplained,,
+HL.ATH,Athens,15,2019-11-26,Tue,Sat,0.854,unexplained,,
+HL.ATH,Athens,16,2019-11-06,Wed,Fri,0.846,unexplained,,
+HL.ATH,Athens,17,2019-11-29,Fri,Sat,0.837,unexplained,,
+HL.ATH,Athens,18,2019-11-13,Wed,Tue,0.826,unexplained,,
+HL.ATH,Athens,19,2019-11-25,Mon,Sat,0.823,unexplained,,
+HL.ATH,Athens,20,2020-02-06,Thu,Fri,0.802,unexplained,,
+BE.UCC,Brussels,1,2019-12-25,Wed,Sun,1.0,verified holiday,Christmas Day,holidays 0.108 (official calendar)
+BE.UCC,Brussels,2,2020-01-01,Wed,Sun,1.0,verified holiday,New Year's Day,holidays 0.108 (official calendar)
+BE.UCC,Brussels,3,2020-03-13,Fri,Mon,0.958,plausible event,"Day after Belgium announced COVID-19 measures (12 Mar 2020): restaurants and cafés to close, telework to be promoted; formal lockdown came later",https://www.rtbf.be/article/coronavirus-en-belgique-cours-suspendus-horeca-ferme-decouvrez-les-mesures-du-gouvernement-10455207 ; https://www.vrt.be/vrtnws/en/2020/03/12/football-games-in-empty-stadiums-stay-home-even-when-you-just (accessed 2026-11-04)
+BE.UCC,Brussels,4,2020-01-15,Wed,Fri,0.952,unexplained,,
+BE.UCC,Brussels,5,2020-03-10,Tue,Fri,0.947,unexplained,,
+BE.UCC,Brussels,6,2019-11-26,Tue,Thu,0.937,unexplained,,
+BE.UCC,Brussels,7,2019-12-24,Tue,Sat,0.926,festive season,"21 Dec - 6 Jan, not an official holiday",
+BE.UCC,Brussels,8,2019-11-14,Thu,Wed,0.92,unexplained,,
+BE.UCC,Brussels,9,2019-11-08,Fri,Mon,0.917,unexplained,,
+BE.UCC,Brussels,10,2019-11-11,Mon,Sat,0.912,verified holiday,Armistice Day,holidays 0.108 (official calendar)
+BE.UCC,Brussels,11,2019-11-01,Fri,Sun,0.908,verified holiday,All Saints' Day,holidays 0.108 (official calendar)
+BE.UCC,Brussels,12,2019-11-21,Thu,Tue,0.906,unexplained,,
+BE.UCC,Brussels,13,2020-02-07,Fri,Mon,0.902,unexplained,,
+BE.UCC,Brussels,14,2020-02-25,Tue,Wed,0.902,unexplained,,
+BE.UCC,Brussels,15,2020-03-12,Thu,Mon,0.894,unexplained,,
+BE.UCC,Brussels,16,2020-02-14,Fri,Thu,0.875,unexplained,,
+BE.UCC,Brussels,17,2020-01-16,Thu,Fri,0.874,unexplained,,
+BE.UCC,Brussels,18,2019-12-23,Mon,Fri,0.872,festive season,"21 Dec - 6 Jan, not an official holiday",
+BE.UCC,Brussels,19,2019-11-25,Mon,Tue,0.869,unexplained,,
+BE.UCC,Brussels,20,2020-01-23,Thu,Mon,0.868,unexplained,,

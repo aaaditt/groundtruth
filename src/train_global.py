@@ -12,17 +12,16 @@ import os, sys
 import pandas as pd
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import balanced_accuracy_score, accuracy_score
-from sklearn.ensemble import RandomForestClassifier
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))  # repo root, for `import groundtruth`
-from groundtruth.models import load, FEATURES, make_cv  # noqa: E402
+from groundtruth.models import load, FEATURES, make_cv, make_global_model  # noqa: E402
 
 
 def main():
     df = load()
     b = df[df["period"] == "baseline"]
     X, st = b[FEATURES].values, b["station"].values
-    m = lambda: RandomForestClassifier(n_estimators=150, min_samples_leaf=5, random_state=0, n_jobs=-1)
+    m = make_global_model
     p2 = cross_val_predict(m(), X, b["is_weekend"].values, groups=st, cv=make_cv())
     p7 = cross_val_predict(m(), X, b["day_of_week"].values, groups=st, cv=make_cv())
     out = b[["station", "city", "day_of_week", "is_weekend"]].copy()

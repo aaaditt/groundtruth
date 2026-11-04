@@ -80,25 +80,34 @@ All scores are out-of-sample, with **whole weeks held out** (see
 
 | Result | Number | Chance |
 |---|---|---|
-| Weekday vs weekend, median over 149 stations | **94.6%** balanced accuracy | 50% |
-| Exact day of week, median | **47.0%** | 14.3% |
-| Exact day of week, best station (Dombås, Norway) | **71.3%** | 14.3% |
-| One global model, tested only on **cities it never saw** | **80.9%** | 50% |
-| Weekday public holidays the model calls "weekend" (never trained on any) | **70.5%** (n=634) | vs 2.7% of normal weekdays |
+| Weekday vs weekend, median over 149 stations | **94.9%** balanced accuracy | 50% |
+| Exact day of week, median | **47.3%** | 14.3% |
+| Exact day of week, best station (Dombås, Norway) | **73.9%** | 14.3% |
+| One global model, tested only on **cities it never saw** | **83.0%** | 50% |
+| Weekday public holidays the model calls "weekend" (never trained on any) | **75.6%** (n=634) | vs 5.5% of ordinary weekdays |
+| Finding holidays by the model's *confusion*, PR-AUC (median per station) | **0.63** | 0.04 |
+| Shape vs loudness alone, exact day (median gain, 141 of 149 stations gain) | **+17 pp** | — |
 | Public-holiday days flagged as anomalous | **46.2%** | 5% by design |
 | Lockdown days flagged as anomalous | **34.5%** | 5% by design |
 
-Showcase cities: New York `AM.R7885` (100.0% / 67.0%), Athens `HL.ATH` (98.4% / 70.4%),
-Brussels `BE.UCC` (100.0% / 47.0%).
+Showcase cities: New York `AM.R7885` (100.0% / 66.1%), Athens `HL.ATH` (100.0% / 69.6%),
+Brussels `BE.UCC` (100.0% / 47.8%).
 
 **The control group:** seismometers in Mammoth Lakes, the Kalahari and Puerto Williams
-score at chance — no people, no signal — and accuracy rises with population density
-(Spearman ρ = 0.39, p < 10⁻⁶). And when weekends are labelled correctly per country,
-the Friday-weekend stations jump (Jeddah 53% → 85%, Amatzia 73% → 97%, Salfit
-75% → 96%). That's the strongest evidence we're measuring humans.
+score at or near chance — few people, little signal — and accuracy rises with
+population density (Spearman ρ = 0.39, p < 10⁻⁶). And when weekends are labelled
+correctly per country, the Friday-weekend stations jump (Jeddah 53% → 90%, Amatzia
+73% → 96%, Salfit 75% → 98%). A model trained only on Saturday–Sunday cities calls
+Salfit's and Amatzia's *Fridays* "weekend" and their *Sundays* working days.
 
-*Weekends follow each country's own calendar, and official public holidays are
-excluded from training (labels corrected 2026-11-03; see `docs/03-methodology.md`).*
+**A pre-registered natural experiment:** when the UAE moved its weekend on 1 Jan 2022,
+Sunday at a seismometer in Sharjah got **20% quieter** relative to Mon–Thu (exact
+permutation p = 0.003), with no such change in a placebo year. Hypothesis committed
+before the data was downloaded: [`docs/14`](docs/14-uae-preregistration.md).
+
+*Weekends follow each country's own calendar, official public holidays are excluded
+from training, and the forest uses class weighting (labels corrected 2026-11-03,
+weighting added 2026-11-04; see `docs/04-results.md`).*
 
 ---
 
@@ -109,7 +118,7 @@ git clone https://github.com/aaaditt/groundtruth.git
 cd groundtruth
 pip install -r requirements.txt
 
-./run_all.sh          # reproduces everything (~15 min); the data is already in the repo
+./run_all.sh          # reproduces everything (~30 min); the data is already in the repo
 
 pip install -r requirements-dev.txt
 pytest -q             # ~10 s: local time, DST, weekend rules, CV leak checks, all on real data
@@ -144,7 +153,7 @@ repository that could move.
 ### The live demo
 
 ```bash
-python src/predict.py --station AM.R7885 --date 2019-11-28   # Thanksgiving -> "Sunday" (61%)
+python src/predict.py --station AM.R7885 --date 2019-11-28   # Thanksgiving -> "Sunday" (63%)
 python src/predict.py --station AM.R7885 --date 2019-12-25   # Christmas    -> "Sunday" (97%)
 python src/predict.py --station AM.R7885 --date 2020-02-12   # ordinary Wednesday
 python src/predict.py --station BE.UCC   --date 2019-11-01   # All Saints' Day, Brussels
@@ -204,6 +213,7 @@ groundtruth/
 │
 ├── config/
 │   ├── weekends.csv              weekend days per country, with source + start date
+│   ├── event_checks.csv          news checks for the most confusing days, with sources
 │   ├── country_fixes.csv         corrections to Table S1 country codes
 │   └── stations.yaml             station roster for recent/live data (Stage 3)
 │
@@ -219,6 +229,13 @@ groundtruth/
 │   ├── showcase_city.py          presentation plots for one city
 │   ├── detect_disruptions.py     holiday / lockdown anomaly detection
 │   ├── predict.py                live demo: one station, one date, one guess
+│   ├── class_weight_check.py     before/after for class weighting
+│   ├── shape_vs_level.py         promise 2: does the day's shape beat loudness?
+│   ├── score_days.py             honest per-day scores for promises 3-4
+│   ├── confusion_detector.py     promise 3: model confusion as a holiday detector
+│   ├── holiday_holdout.py        promise 4: held-out holidays by type
+│   ├── transfer.py               promise 5: cross-region transfer and its failures
+│   ├── uae_experiment.py         pre-registered UAE weekend experiment (needs internet)
 │   ├── survey_mustang.py         which stations have recent data (needs internet)
 │   ├── validate_route_a.py       recent-data route vs the published data (needs internet)
 │   ├── weekend_signature.py      cross-country weekend analysis (no ML)
@@ -262,13 +279,17 @@ If you use this repository, please cite Lecocq et al. (2020) for the data.
 
 - The published results use data ending in **May 2020**. A route to recent data
   (EarthScope's MUSTANG spectra, about 2 days behind real time) is built and
-  **validated against the published data on 6 stations** (`docs/11-data-guide.md`),
-  but no live model or dashboard exists yet.
+  **validated against the published data on 6 stations** (`docs/11-data-guide.md`)
+  and used for one pre-registered experiment (`docs/14`). No live model or dashboard
+  exists yet.
 - Public holidays are **national** calendars only; regional holidays are not excluded.
 - Weekend labels follow a cited source per country, but involve judgement for
-  Monday–Saturday countries (India, Mexico, ...). One-day weekends make the current
-  model collapse to "always weekday" at a few stations (see `docs/04-results.md`).
-- Precision/recall of the anomaly flags against holiday calendars is not computed yet.
+  Monday–Saturday countries (India, Mexico, ...). A few one-day-weekend stations
+  (La Paz, three in Nepal) show no weekly signal even with class weighting.
+- Splitting each day into shape + loudness is kept for cross-station comparability,
+  not accuracy: raw hourly values do slightly better per station (`docs/04`, Result 6).
+- Most of the top "most confusing" days in the showcase cities remain unexplained;
+  only clusters with a candidate explanation were checked against news.
 - Two of the three cited papers were read as abstracts and citation records, not in full.
 - This project was built with AI assistance. The full process, including a discarded
   synthetic-data prototype and every bug along the way, is documented in

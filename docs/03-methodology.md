@@ -111,7 +111,11 @@ missing value).
 ## Step 4 — The models
 
 A **random forest** (scikit-learn `RandomForestClassifier`, 100 trees,
-`min_samples_leaf=2`) — an ensemble of decision trees that each vote.
+`min_samples_leaf=2`, `class_weight="balanced"`) — an ensemble of decision trees that
+each vote. Class weighting (added 2026-11-04) makes rare classes, such as weekend days,
+count as much as common ones in training, matching the balanced-accuracy metric. A
+logistic regression on standardised features (`make_linear()`) is the comparison
+baseline in `src/shape_vs_level.py`.
 
 Why a random forest for a first real model:
 - No feature scaling needed, and it handles non-linear patterns.

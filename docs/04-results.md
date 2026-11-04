@@ -4,15 +4,17 @@ All numbers below come from real data, produced by the scripts in `src/`, and ar
 reproducible with `./run_all.sh`. Every score is out-of-sample (see
 `docs/03-methodology.md`, Step 5).
 
-Dataset after cleaning: **158 stations, 28,749 station-days**; 149 stations had the
+Dataset after cleaning: **158 stations, 28,749 station-days**. 149 stations had the
 ≥70 normal days required to train a per-station model.
 
 > **Labels corrected 2026-11-03.** Weekends now follow each country's own calendar
-> (Friday–Saturday in Saudi Arabia and Israel, Friday in Iran and Palestine, ...),
-> and every official public holiday is removed from training and tested as a
-> disruption. Previously, weekends were Saturday–Sunday everywhere and the only
-> "holiday" was 21 Dec – 6 Jan. All numbers below are from the corrected labels. Old
-> vs new values are logged in `docs/10-work-log.md`.
+> (Friday–Saturday in Saudi Arabia and Israel, Friday in Iran and Palestine, ...), and
+> every official public holiday is removed from training and tested as a disruption.
+>
+> **Class weighting added 2026-11-04.** Rare classes, such as weekend days, now count
+> as much as common ones in training, to match the balanced-accuracy metric. The
+> before/after is in Result 5, and all numbers below use it. Old values are logged in
+> `docs/10-work-log.md`.
 
 ---
 
@@ -22,30 +24,33 @@ Per-station models, 5-fold cross-validation holding out whole weeks:
 
 | Task | Median across 149 stations | Chance |
 |---|---|---|
-| Weekday vs weekend (balanced accuracy) | **94.6%** | 50% |
-| Exact day of week (accuracy) | **47.0%** | 14.3% |
+| Weekday vs weekend (balanced accuracy) | **94.9%** | 50% |
+| Exact day of week (accuracy) | **47.3%** | 14.3% |
 
-**65% of stations score ≥ 90%** on weekday vs weekend, and 22 score 100%.
+**70% of stations (105) score ≥ 90%** on weekday vs weekend, and 19 score 100%.
 
 ![Accuracy across stations](../outputs/plots/accuracy_by_station.png)
 
-Stations scoring 100% on weekday/weekend include Rundu (Namibia), Tegucigalpa,
-Ann Arbor, Trondheim, Bergen, Thessaloniki, Milan, Naples, San José, Bucharest, Paris
-(FR.CURIE), Geneva (CH.SGEV) and Montreal (CN.MNTQ).
+Stations scoring 100% on weekday/weekend include:
+- Rundu (Namibia), Tegucigalpa, Warsaw, Chicago;
+- Trondheim, Bergen, Milan, Naples;
+- Bucharest, San José, Los Angeles, Barcelona;
+- Paris (FR.CURIE), Geneva (CH.SGEV), Bern;
+- Montreal (CN.MNTQ), Athens, Brussels and New York.
 
-Best stations for exact day of week: Dombås 71.3%, **Athens 70.4%**, Chapinero
-(Bogotá) 70.2%, Albany 69.0%, Geneva 67.5%, **New York 67.0%**.
+Best stations for exact day of week: Dombås 73.9%, **Athens 69.6%**, Albany 68.1%,
+Chapinero (Bogotá) 68.1%, Geneva 67.5%, San José 66.7%.
 
 ### Correct weekends make the signal appear
 
 The stations whose weekend labels changed show what wrong labels had been hiding:
 
-| Station | Country | Weekend (correct) | Before (Sat–Sun labels) | After |
-|---|---|---|---|---|
-| `AM.RFBE4` | Saudi Arabia (Jeddah) | Fri–Sat | 52.7% | **85.2%** |
-| `IS.AMAZ` | Israel (Amatzia) | Fri–Sat | 72.8% | **96.9%** |
-| `GE.SALP` | Palestine (Salfit) | Fri | 74.6% | **95.8%** |
-| `IN.PBA` | India | Sun | 72.3% | **87.6%** |
+| Station | Country | Weekend (correct) | Sat–Sun labels | Correct labels | + class weighting |
+|---|---|---|---|---|---|
+| `AM.RFBE4` | Saudi Arabia (Jeddah) | Fri–Sat | 52.7% | 85.2% | **90.2%** |
+| `IS.AMAZ` | Israel (Amatzia) | Fri–Sat | 72.8% | 96.9% | **95.6%** |
+| `GE.SALP` | Palestine (Salfit) | Fri | 74.6% | 95.8% | **98.1%** |
+| `IN.PBA` | India | Sun | 72.3% | 87.6% | **89.9%** |
 
 The model was right all along; the labels were wrong. This is direct evidence the
 model tracks when people actually rest, not a fixed calendar pattern.
@@ -54,52 +59,72 @@ model tracks when people actually rest, not a fixed calendar pattern.
 
 | Station | City | Sensor type | Weekday vs weekend | Exact day |
 |---|---|---|---|---|
-| `AM.R7885` | New York | Raspberry Shake (citizen) | 100.0% | 67.0% |
-| `HL.ATH` | Athens | Professional network | 98.4% | 70.4% |
-| `BE.UCC` | Brussels | Professional (paper author's own station) | 100.0% | 47.0% |
+| `AM.R7885` | New York | Raspberry Shake (citizen) | 100.0% | 66.1% |
+| `HL.ATH` | Athens | Professional network | 100.0% | 69.6% |
+| `BE.UCC` | Brussels | Professional (paper author's own station) | 100.0% | 47.8% |
 
-Note that a ~$400 home seismometer in New York performs as well as research-grade
-instruments. That is a good slide.
+A ~$400 home seismometer in New York performs as well as research-grade instruments.
+That is a good slide.
 
 ![New York weekly rhythm](../outputs/plots/AM_R7885_weekly_rhythm.png)
 
-The New York plot is the core evidence, visible before any machine learning: Monday
-through Friday rise sharply from about 6 a.m. and stay high; Saturday is clearly
-lower; Sunday is lowest of all and rises latest.
+The New York plot is the core evidence, visible before any machine learning:
+- **Monday to Friday** rise sharply from about 6 a.m. and stay high.
+- **Saturday** is clearly lower.
+- **Sunday** is lowest of all and rises latest.
 
 ![New York confusion matrix](../outputs/plots/AM_R7885_confusion.png)
 
 The confusion matrix shows the model's characteristic error: it rarely confuses a
 weekday with a weekend, but often confuses Tuesday with Wednesday or Thursday. That is
-exactly what you'd expect — those days genuinely look alike to a seismometer, because
+exactly what you'd expect. Those days genuinely look alike to a seismometer, because
 people behave the same way on them.
 
 ---
 
-## Result 2 — The control group: no people, no signal
+## Result 2 — The control group: few people, little signal
 
 The bottom of the table is as informative as the top:
 
 | Station | Location | Weekday vs weekend | Exact day |
 |---|---|---|---|
-| `NC.MLI` | Mammoth Lakes, USA (mountains) | 46.3% | 12.4% |
-| `C1.MG01` | Puerto Williams, Chile (remote) | 50.1% | 13.5% |
-| `BX.KOOLE` | Kule, Botswana (Kalahari) | 51.7% | 22.6% |
+| `NC.MLI` | Mammoth Lakes, USA (mountains) | 48.0% | 14.2% |
+| `C1.MG01` | Puerto Williams, Chile (remote) | 56.4% | 8.7% |
+| `BX.KOOLE` | Kule, Botswana (Kalahari) | 59.0% | 15.1% |
 
-These sit at chance — as they must, if we are measuring human activity rather than
-some artefact of the method. **This is the project's built-in sanity check.**
+These sit at or near chance, as they must if we are measuring human activity rather
+than some artefact of the method. **This is the project's built-in sanity check.**
 
-*Caution, new with the corrected labels:* a few stations now score **exactly 50.0%**
-for a different reason. These are La Paz (Sunday-only weekend) and three Nepal
-stations (Saturday-only). With a one-day weekend, only 1 day in 7 is a "weekend", and
-the random forest falls back to answering "weekday" every time. That is a
-class-imbalance limitation of the model, not proof of no signal. It is to be
-addressed in the next modelling stage (class weighting), not tuned here.
+Class weighting moved Puerto Williams and Kule a few points above 50%. The unweighted
+model scored 50.1% and 51.7% there, mostly by answering "weekday" every time. Their
+exact-day accuracy (9–15%) is still at chance (14.3%).
 
-And the effect scales with how many people are around: median weekday/weekend accuracy
-is **91.9%** for the least dense third of stations, **92.7%** for the middle third and
-**98.3%** for the densest third (Spearman ρ = 0.39, p = 9.5 × 10⁻⁷, n = 149, against
-population density from Table S1; printed by `src/train_stations.py`).
+**One-day weekends are a real limit, but not the one we thought.** La Paz (Sunday-only
+weekend) and the Nepal stations (Saturday-only) scored exactly 50.0% before, and we
+blamed class imbalance. With class weighting the imbalance is gone, but they are still
+near chance:
+
+| Station | Before | After |
+|---|---|---|
+| La Paz | 50.0% | 54.3% |
+| Pokhara | 50.0% | 52.0% |
+| Gaindakot | 50.0% | 48.0% |
+| Chitwan | 53.8% | 56.1% |
+
+So at these stations the model finds no detectable weekly rest day. The imbalance was a
+symptom, not the cause. (Myagdi, also in Nepal, does have a signal: 84.6%.)
+
+The effect scales with how many people are around. Median weekday/weekend accuracy by
+population-density third, against population density from Table S1 (printed by
+`src/train_stations.py`):
+
+| Density third | Median accuracy |
+|---|---|
+| Least dense | **92.6%** |
+| Middle | **94.0%** |
+| Densest | **98.1%** |
+
+Spearman ρ = 0.39, p = 9.2 × 10⁻⁷, n = 149.
 
 ---
 
@@ -110,18 +135,16 @@ every test day comes from a city that contributed nothing to training.
 
 | Task | Global model, unseen cities | Per-city models | Chance |
 |---|---|---|---|
-| Weekday vs weekend | **80.9%** | 94.6% | 50% |
-| Exact day of week | **30.8%** | 47.0% | 14.3% |
+| Weekday vs weekend | **83.0%** | 94.9% | 50% |
+| Exact day of week | **30.5%** | 47.3% | 14.3% |
 
-(Global-model figures are pooled over all test days; the median per unseen station
-is 84.1% for weekday vs weekend.)
+Global-model figures are pooled over all test days. The median per unseen station is
+88.0% for weekday vs weekend.
 
-Interpretation: the weekly rhythm of human activity is **partly universal** — a model
-trained on Europe and the Americas transfers to a city it has never met and still beats
-chance decisively. But each city has its own signature, and a local model is far better.
-Cultural differences matter here: the working week is Mon–Fri in most of this dataset,
-but not everywhere. Weekend labels now follow each country's calendar, but a model
-pooled across countries still has to learn several different weekends at once.
+The weekly rhythm of human activity is **partly universal**. A model trained on other
+cities transfers to a city it has never met and still beats chance decisively. But each
+city has its own signature, and a local model is far better. Result 9 shows where
+transfer fails.
 
 ---
 
@@ -133,22 +156,28 @@ stations (`src/detect_disruptions.py`):
 
 | | Normal days | Public holidays | Christmas season (non-holiday days) | COVID lockdown |
 |---|---|---|---|---|
-| Weekdays the model calls "weekend" | 2.7% (n=12,093) | **70.5%** (n=634) | 23.7% (n=1,270) | 20.2% (n=5,856) |
+| Weekdays the model calls "weekend" | 5.6% (n=12,093) | **75.6%** (n=634) | 29.4% (n=1,270) | 26.1% (n=5,856) |
 | Days flagged as anomalous | 5.3% *(≈5% by design)* | **46.2%** (n=705) | 16.5% (n=2,100) | **34.5%** (n=8,072) |
 
-**Headline: on weekday public holidays the model said "weekend" 70.5% of the time,
-against 2.7% for ordinary weekdays.** It never saw a holiday in training.
+**Headline: on weekday public holidays the model said "weekend" 75.6% of the time,
+against 5.6% for ordinary weekdays.** It never saw a holiday in training.
 
 We report pooled rates because most stations have only 1–5 weekday public holidays
-before lockdown, so a per-station median jumps between 0% and 100% (the per-station
-medians are 2% / 100% / 12% / 10% for weekdays called weekend).
+before lockdown. A per-station median then jumps between 0% and 100%: the per-station
+medians are 4% / 100% / 22% / 15% for weekdays called weekend.
 
-The pattern across holidays makes sense. Holidays when cities genuinely shut down are
-called "weekend" most often: Christmas Day 85% (n=136), New Year's Day 91% (n=136),
-Thanksgiving 84% (n=32), All Saints' Day 85% (n=20). US federal holidays when most
-businesses stay open are not: Veterans Day 23% (n=31), Martin Luther King Jr. Day 31%
-(n=32). A proper breakdown by holiday type (national, religious, bridge days) is
-part of the next stage.
+The pattern across holidays makes sense:
+
+| Kind of holiday | Examples | Called "weekend" |
+|---|---|---|
+| Cities genuinely shut down | Christmas Day (n=136) | 86% |
+| | New Year's Day (n=136) | 92% |
+| | Thanksgiving (n=32) | 91% |
+| | All Saints' Day (n=20) | 90% |
+| Most businesses stay open (US federal) | Veterans Day (n=31) | 19% |
+| | Martin Luther King Jr. Day (n=32) | 41% |
+
+Result 7 breaks this down by holiday type.
 
 ![Disruption detection](../outputs/plots/disruptions_global.png)
 
@@ -169,33 +198,312 @@ lockdown, per showcase city:
 | Athens | 1 Jan, 25 Dec, **6 Jan (Epiphany)**, 26 Dec, Sat 28 Dec |
 | Brussels | 1 Jan, 25 Dec, Sat 15 Feb, **1 Nov 2019 (All Saints' Day)**, Sat 29 Feb |
 
-The top three or four in each city are official public holidays or Christmas Eve. The
-unexplained Saturdays are listed as found; checking them against news is part of the
-next stage.
+The top three or four in each city are official public holidays or Christmas Eve.
 
 ### Live demo results (`src/predict.py`)
 
 | Station, date | Actual | Model's guess | Flagged? |
 |---|---|---|---|
-| New York, 12 Feb 2020 | Wednesday | Tuesday (32%), wrong but adjacent | No |
-| New York, **28 Nov 2019** (Thanksgiving) | Thursday | **Sunday (61%)** | **Yes** |
+| New York, 12 Feb 2020 | Wednesday | Tuesday (27%), wrong but adjacent | No |
+| New York, **28 Nov 2019** (Thanksgiving) | Thursday | **Sunday (63%)** | **Yes** |
 | New York, **25 Dec 2019** | Wednesday | **Sunday (97%)** | **Yes** |
-| Brussels, **1 Nov 2019** (All Saints') | Friday | **Sunday (48%)** | **Yes** |
-| Athens, 1 Apr 2020 (lockdown) | Wednesday | Tuesday (37%) | **Yes** |
+| Brussels, **1 Nov 2019** (All Saints') | Friday | **Sunday (52%)** | **Yes** |
+| Athens, 1 Apr 2020 (lockdown) | Wednesday | Tuesday (45%) | **Yes** |
+
+---
+
+## Result 5 — Class weighting: before and after (`src/class_weight_check.py`)
+
+The same forest, the same folds, with and without `class_weight="balanced"`
+(`outputs/tables/class_weight_comparison.csv`):
+
+| | Unweighted | Weighted |
+|---|---|---|
+| Weekday vs weekend, median | 94.6% | **94.9%** |
+| Exact day, median | 47.0% | **47.3%** |
+| Stations better by > 1 pp / worse by > 1 pp | — | 59 / 17 |
+| Ordinary weekdays called "weekend" (false alarms) | 2.7% | 5.6% |
+| Held-out holidays called "weekend" | 70.5% | 75.6% |
+
+**Biggest gains:**
+
+| Station | Unweighted | Weighted |
+|---|---|---|
+| Ocotepeque | 70% | **95%** |
+| Tegucigalpa (`CU.TGUH`) | 76% | **92%** |
+| Shillong | 74% | **88%** |
+
+These are stations where a weekend signal existed but the unweighted forest
+under-called it.
+
+**Trade-off:** weighting makes the model more willing to say "weekend". It catches more
+holidays, at twice the false-alarm rate on normal weekdays.
+
+We adopted weighting because it matches the training objective to the balanced-accuracy
+metric we report, a reason that holds before seeing any result. It was not picked for a
+better score.
+
+---
+
+## Result 6 — Shape vs loudness (`src/shape_vs_level.py`)
+
+Does the 24-hour **shape** of a day carry information beyond how **loud** it was? Four
+feature sets, two model families, identical week-held-out folds, 149 stations. Median
+[interquartile range]:
+
+| Model | Task | Loudness only (1) | Shape only (24) | Both (25) | Raw hourly (24) |
+|---|---|---|---|---|---|
+| Random forest | weekday vs weekend | 83.0% [66–94] | 94.0% [84–98] | 94.9% [88–99] | **96.1%** [90–99] |
+| Random forest | exact day | 30.2% [22–37] | 46.1% [36–55] | 47.3% [38–56] | **50.0%** [41–58] |
+| Logistic regression | weekday vs weekend | 85.8% [69–95] | 95.2% [81–99] | 95.9% [87–99] | 96.0% [86–99] |
+| Logistic regression | exact day | 29.9% [24–37] | 44.0% [34–53] | 44.7% [36–54] | 45.5% [37–54] |
+
+![Shape vs loudness](../outputs/plots/shape_vs_level.png)
+
+**Shape adds a lot over loudness alone** (random forest; paired Wilcoxon across
+stations):
+
+| Task | Median gain from adding shape | Stations gaining > 2 pp | Stations losing > 2 pp | p |
+|---|---|---|---|---|
+| Weekday vs weekend | **+5.5 pp** | 110 | 9 | 1.4 × 10⁻¹⁹ |
+| Exact day | **+17.2 pp** | 141 | 3 | 7.6 × 10⁻²⁵ |
+
+Logistic regression agrees: +5.3 and +12.8 pp. Loudness alone, what the field usually
+measures, gets the exact day right 30% of the time; adding the shape takes it to 47%.
+
+**But splitting the day into shape + loudness does not itself help.** The "raw hourly"
+set has the same information, just not decomposed, and it does *slightly better* with
+random forests: −0.5 pp for weekday vs weekend (p = 0.002) and −1.7 pp for exact day
+(p = 3 × 10⁻⁵). For logistic regression the two are within 1 pp.
+
+So the claim "shape carries information beyond loudness" holds. The claim "our
+decomposition improves accuracy" does not.
+
+We keep the decomposition anyway, for reasons other than accuracy:
+- **It is the only form comparable across stations.** Stations record in different
+  units (metres vs nanometres). Raw hourly values would make the global model, the
+  transfer study and the MUSTANG validation meaningless.
+- **It stops a model learning a station's loudness instead of its rhythm.**
+
+---
+
+## Result 7 — Holiday hold-out by type (`src/holiday_holdout.py`)
+
+Every public holiday on a working day, never in training, against ordinary working days
+scored week-held-out. P(Sunday) is for Saturday–Sunday-weekend countries only.
+
+| Group | Station-days | Called "weekend" | Mean P(Sunday) |
+|---|---|---|---|
+| Ordinary working days | 12,041 | 5.5% | 0.04 |
+| **All public holidays** | 634 | **75.6%** | **0.47** |
+| New Year (incl. lunar and Nepali new years) | 150 | 90.0% | 0.62 |
+| Christmas & Easter | 195 | 84.6% | 0.56 |
+| Other religious | 86 | 67.4% | 0.50 |
+| Civic / national | 190 | 56.8% | 0.26 |
+| Unclassified ("Substitute Holiday", ...) | 13 | 100% | 0.36 |
+| Bridge days (not official; working day between a holiday and the weekend) | 117 | 48.7% | 0.18 |
+| Bridge days outside 21 Dec – 6 Jan | 52 | 44.2% | 0.17 |
+
+**Headline for the report:** *On held-out public holidays the model said "weekend"
+75.6% of the time, vs 5.5% for ordinary weekdays.* A held-out holiday gets an average
+P(Sunday) of 0.47, against 0.04 for an ordinary weekday. (Result 4 says 5.6%, n=12,093.
+The difference is the 52 bridge days outside 21 Dec – 6 Jan, which this table counts
+separately.)
+
+![Holiday hold-out by type](../outputs/plots/holiday_holdout.png)
+
+The ordering is the useful part:
+- **Big shared holidays look most like Sunday:** New Year and Christmas/Easter.
+- **Civic holidays look least like it.** Many people work on Veterans Day or MLK Day.
+- **Bridge days come out half-way.** No law closes the city then, but many people take
+  the day off; the Friday after Thanksgiving is the largest group (33 stations, 67%
+  called weekend).
+
+Types come from keyword rules on the holiday names (`TYPES` in the script). Every name
+was checked, and only generic names ("Substitute Holiday", "Public Holiday") stay
+unclassified. The religious/civic line is a judgement call for days like New Year.
+
+---
+
+## Result 8 — Confusion as a disruption detector (`src/confusion_detector.py`)
+
+**Confusion** = 1 − P(true day of week). How surprised is the model by this day? It is
+compared with the anomaly score (distance from normal days).
+
+Both are computed the same honest way (`groundtruth/detect.py`):
+- normal days are scored by models and statistics fitted on *other* weeks;
+- each flags days above the 95th percentile of that station's normal days.
+
+Ground truth is the official public holidays. Evaluation days run up to lockdown, with
+the 21 Dec – 6 Jan "festive" days left out, since they are neither normal nor official.
+
+| Days evaluated | Detector | Precision | Recall | PR-AUC (chance) |
+|---|---|---|---|---|
+| All days (147 stations) | **confusion** | 0.33 | 0.67 | **0.63** (0.04) |
+| | anomaly | 0.25 | 0.50 | 0.33 |
+| Working days only | **confusion** | 0.33 | 0.83 | **0.68** (0.05) |
+| | anomaly | 0.40 | 0.50 | 0.44 |
+
+Medians per station. PR-AUC confusion vs anomaly: confusion is higher at 110 of 147
+stations (paired Wilcoxon p = 2 × 10⁻¹⁴), and at 91/147 on working days only
+(p = 6 × 10⁻⁸).
+
+![Confusion vs anomaly](../outputs/plots/confusion_vs_anomaly_pr.png)
+
+**Why precision looks low.** Holidays are only ~4% of days, and the threshold flags
+~5% of normal days by design. So even a perfect detector at this threshold would raise
+more false alarms than it catches holidays. PR-AUC doesn't depend on the threshold, so
+it is the fairer comparison.
+
+**Lockdown, reported separately** (share of days flagged):
+
+| Days | Confusion | Anomaly |
+|---|---|---|
+| Normal | 5.3% | 5.3% |
+| Public holiday | **57.7%** | 41.1% |
+| Christmas season | 18.0% | 11.2% |
+| Lockdown | 21.3% | **27.6%** |
+
+The two detectors are good at different things:
+- **Confusion is better for holidays.** A holiday looks like a *familiar* day (Sunday)
+  on the wrong date.
+- **Anomaly is better for lockdown.** Lockdown looks like *no* familiar day. This is the
+  same lesson as the negative result below.
+
+### The 20 most confusing days per showcase city
+
+Outside lockdown, each day was checked against the holiday calendar, then against news
+for the clusters that had a candidate explanation (`outputs/tables/top_confusion_days.csv`;
+news checks with sources in `config/event_checks.csv`):
+
+| City | Verified holiday | Festive season | Plausible event (sourced) | Unexplained |
+|---|---|---|---|---|
+| New York | 3 | 4 | 1 | 12 |
+| Athens | 5 | 4 | 0 | 11 |
+| Brussels | 4 | 2 | 1 | 13 |
+
+**In each city's top five,** every explained day is a holiday or Christmas-season day:
+5/5 in New York and Athens, 3/5 in Brussels.
+
+**The two sourced events:**
+- **New York, Fri 29 Nov 2019:** the day after Thanksgiving, which many employers give off.
+- **Brussels, Fri 13 Mar 2020:** the day after Belgium announced its first COVID-19
+  measures, days before the formal lockdown.
+
+**What we looked for and did not find:**
+- **Athens:** its 2019 general strike (20 Nov) is *not* in the top 20, and an earlier
+  announced strike date (13 Nov) was moved.
+- **Brussels:** no national strike between Nov 2019 and Feb 2020.
+
+The 36 remaining days are reported as unexplained. Their confusion values (0.80–0.96)
+sit around the 95th percentile of each city's normal days (0.85 New York, 0.85 Athens,
+0.91 Brussels). By construction about 5% of normal days, roughly 5–6 per city, land
+there anyway. So most unexplained days are probably ordinary days the model finds hard,
+not missed events.
+
+---
+
+## Result 9 — Transfer across regions, and how it fails (`src/transfer.py`)
+
+**Region matrix.** Train on one region, test on unseen stations of each region
+(weekday vs weekend, balanced accuracy):
+
+![Transfer matrix](../outputs/plots/transfer_matrix.png)
+
+- **Columns matter more than rows.** How well a region is predicted depends mostly on
+  the *test* region, not on which region trained the model:
+  - Europe and North America are predicted at 77–88% from anywhere.
+  - Middle East & Africa only at 62–74%, whoever trained the model.
+- **Middle East & Africa is hardest even for itself (62%).** Its 10 stations mix
+  Friday, Friday–Saturday and Saturday–Sunday weekends, so a pooled model has to learn
+  several weekends from very few cities.
+
+**Weekend-shift test** (n = 3, a case study). A model trained only on Saturday–Sunday
+countries is shown the three Friday-weekend stations. Share of days called Saturday or
+Sunday:
+
+| Station | Thu | **Fri** | Sat | **Sun** |
+|---|---|---|---|---|
+| Salfit (Fri weekend) | 6% | **100%** | 53% | **12%** |
+| Amatzia (Fri–Sat weekend) | 13% | **87%** | 100% | **7%** |
+| Jeddah (Fri–Sat weekend) | 100% | 100% | 100% | 100% |
+
+![Weekend shift](../outputs/plots/transfer_weekend_shift.png)
+
+**Salfit and Amatzia behave exactly as hypothesised.** Their Fridays are called
+weekend, and their Sundays are called a working day. The model recognises *rest*, not
+the calendar name.
+
+**Jeddah fails differently.** The model calls *every* Jeddah day a weekend (93–100% of
+Mon–Sun). Its loudness does drop on Friday (median level z: −1.8 on Friday, −0.5 on
+Saturday, +0.3 to +0.7 midweek), but its daily shape is unlike any Saturday–Sunday
+training city. The cause is not established. A late daily schedule is one possibility,
+but nothing here tests it.
+
+**What goes with poor transfer?** This is each station's accuracy when it is unseen by
+the pooled model (simple correlations, 149 stations):
+
+| Station property | Association with transfer accuracy | p |
+|---|---|---|
+| Own-model accuracy (how clear its rhythm is) | ρ = +0.76 | 4 × 10⁻²⁹ |
+| Population density | ρ = +0.27 | 0.001 |
+| \|latitude\| | ρ = +0.25 | 0.002 |
+| Share of days missing | ρ = −0.16 | 0.06 |
+| Raspberry Shake vs professional | median 87.8% vs 90.0% | 0.4 |
+
+The strongest predictor is simply how clear the station's own rhythm is.
+- **Density** goes with better transfer, as with Result 2.
+- **Higher latitude** also does. It is plausibly confounded with region (Europe and North
+  America sit further from the equator); we did not separate the two.
+- **Citizen sensors** transfer about as well as professional ones.
+
+---
+
+## Result 10 — The UAE weekend change, a pre-registered natural experiment
+
+See [`14-uae-preregistration.md`](14-uae-preregistration.md). The hypothesis and test
+were committed (`76d526f`) before any data was downloaded. The data is recent, from
+EarthScope MUSTANG, and is never mixed with the Lecocq data.
+
+On 1 Jan 2022 the UAE moved its weekend, and Sunday became a rest day. At the
+seismometer in Sharjah (`II.UOSS.10.BHZ`):
+
+| | Change vs Mon–Thu, after − before | p |
+|---|---|---|
+| **Sunday (primary, pre-registered)** | **−20%** | **0.003** (exact permutation, one-sided) |
+| Sunday in the placebo year (2020-21) | +5% | 0.73 |
+| Saturday (placebo day: rest day in both periods) | −3% | 0.52 |
+| Friday (no directional prediction) | **+53%** | 3 × 10⁻⁶ |
+
+**Pre-registered verdict: SUPPORTED.** The ground in Sharjah noticed the new weekend.
+
+Friday was a surprise. We had predicted little change, because Sharjah's government and
+schools still take Friday off. But Friday became 53% busier relative to Mon–Thu. That is
+consistent with federal and private-sector Friday working, though one seismometer can't
+say who.
+
+![UAE weekend switch](../outputs/plots/uae_weekend_switch.png)
 
 ---
 
 ## An honest negative result
 
-**Lockdown did not make every day look like a Sunday.** Only 20% of lockdown weekdays
-were classified as "weekend" (vs 70% of public-holiday weekdays), even though 35% of
-lockdown days were flagged as anomalous.
+**Lockdown did not make every day look like a Sunday.**
 
-Why: a holiday looks like a weekend because people genuinely do weekend things. A
-lockdown created something new — much quieter overall, but with a flattened, home-bound
-daily shape that matches neither a weekday nor a weekend. The anomaly detector
-(which just measures "unlike normal") catches it; the weekday/weekend classifier
-(which must choose one of two familiar patterns) does not.
+| Days | Weekdays classified "weekend" | Days flagged as anomalous |
+|---|---|---|
+| Lockdown | 26% | 35% |
+| Public holidays | 76% | 46% |
+
+So a lockdown day was flagged as unusual more often than it was called a weekend.
+
+**Why.** A holiday looks like a weekend because people genuinely do weekend things. A
+lockdown created something new: much quieter overall, with a flattened, home-bound daily
+shape that matches neither a weekday nor a weekend.
+- The **anomaly detector**, which just measures "unlike normal", catches it.
+- The **weekday/weekend classifier**, which must choose one of two familiar patterns,
+  does not.
+- Result 8 shows the same split between the two detectors.
 
 This is worth saying out loud in the presentation. It shows the difference between
 supervised classification and unsupervised anomaly detection, and it's a more
@@ -207,20 +515,24 @@ interesting finding than a clean win would have been.
 
 - **Short baseline.** ~115 normal days per station. That is thin for a 7-class problem
   and is probably the main ceiling on the day-of-week accuracy.
-- **One season.** The data covers Nov 2019 – May 2020 only, so seasonal effects are
-  confounded with everything else.
-- **National holidays only.** Public holidays use national calendars; regional ones
+- **One season.** The Lecocq data covers Nov 2019 – May 2020 only, so seasonal effects
+  are confounded with everything else.
+- **National holidays only.** Public holidays use national calendars. Regional ones
   (Swiss cantonal, US state, ...) are not removed from training. See
   `docs/03-methodology.md`.
 - **Weekend labels involve judgement.** "Sunday only" for India, Mexico, Hong Kong,
   Bolivia and Honduras follows the cited source, but many offices there also close on
   Saturday.
-- **One-day weekends defeat the current model.** With 1 weekend day in 7, the random
-  forest can collapse to "always weekday" (exactly 50% balanced accuracy at La Paz
-  and three Nepal stations). Class weighting is planned.
-- **No precision/recall yet.** Holiday detection is reported as rates; precision,
-  recall and PR-AUC against the holiday calendar are the next stage.
-- **Data ends in mid-2020.** Nothing here is live.
+- **Some one-day-weekend stations show no weekly signal** (La Paz and three Nepal
+  stations), even with class weighting.
+- **The decomposition is kept for comparability, not accuracy.** Raw hourly values do
+  slightly better per station (Result 6).
+- **Most top-confusion days are unexplained.** Only clusters with a candidate
+  explanation were checked against news.
+- **Small groups.** Middle East & Africa has 10 stations, the weekend-shift test has 3,
+  and the UAE experiment uses 1 station.
+- **The Lecocq data ends in mid-2020.** The UAE experiment uses recent MUSTANG data;
+  everything else does not.
 
 ---
 
