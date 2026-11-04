@@ -11,7 +11,7 @@ function shuffle(a) {
 }
 
 function chart(day) {
-  const W = 640, H = 260, L = 34, R = 92, top = 14, base = 222;
+  const W = 640, H = 260, L = 58, R = 92, top = 14, base = 222;
   const ref = data.reference[day.station] || {};
   const showRef = $("g-hints").checked;
   const series = [day.shape, ...(showRef ? [ref.weekday, ref.sunday].filter(Boolean) : [])];
@@ -28,14 +28,22 @@ function chart(day) {
   s.append(svg("line", { x1: L, x2: W - R, y1: base, y2: base, class: "axis" }));
   const yl = svg("text", { x: L - 6, y: top + 4, "text-anchor": "end" }); yl.textContent = "busier"; s.append(yl);
   const yq = svg("text", { x: L - 6, y: base, "text-anchor": "end" }); yq.textContent = "quieter"; s.append(yq);
-  const line = (vals, attrs, label) => {
+  const labels = [];
+  const line = (vals, attrs, label, bold) => {
     s.append(svg("path", { d: vals.map((v, h) => `${h ? "L" : "M"}${xs(h)},${ys(v)}`).join(" "), fill: "none",
       "stroke-linejoin": "round", ...attrs }));
-    const t = svg("text", { x: W - R + 6, y: ys(vals[23]) + 4 }); t.textContent = label; s.append(t);
+    labels.push({ y: ys(vals[23]) + 4, label, bold });
   };
   if (showRef && ref.weekday) line(ref.weekday, { stroke: "var(--text-muted)", "stroke-width": 1.5 }, "avg. Wed");
   if (showRef && ref.sunday) line(ref.sunday, { stroke: "var(--text-muted)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, "avg. Sun");
-  line(day.shape, { stroke: "var(--series-1)", "stroke-width": 3 }, "this day");
+  line(day.shape, { stroke: "var(--series-1)", "stroke-width": 3 }, "this day", true);
+  // end labels: push apart so none overlap (at least 14 px between baselines)
+  labels.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) labels[i].y = Math.max(labels[i].y, labels[i - 1].y + 14);
+  for (const l of labels) {
+    const t = svg("text", { x: W - R + 6, y: l.y, ...(l.bold ? { "font-weight": "700", style: "fill:var(--text-primary)" } : {}) });
+    t.textContent = l.label; s.append(t);
+  }
   // hover: hour-by-hour readout
   day.shape.forEach((v, h) => {
     const hit = svg("rect", { x: xs(h) - (W - L - R) / 46, y: top, width: (W - L - R) / 23, height: base - top, fill: "transparent" });

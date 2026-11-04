@@ -58,7 +58,6 @@ function bandChart(rows, col, title, chance) {
   }
   s.append(svg("line", { x1: L, x2: W - R, y1: ys(chance), y2: ys(chance), stroke: "var(--status-critical)",
     "stroke-dasharray": "5 4", "stroke-width": 1.5 }));
-  const cl = svg("text", { x: W - R, y: ys(chance) - 5, "text-anchor": "end" }); cl.textContent = "chance"; s.append(cl);
   const cities = [...new Set(rows.map((r) => r.city))];
   for (const c of cities) {
     const v = bands.map((b) => rows.find((r) => r.city === c && r.band === b)[col]);
@@ -72,7 +71,9 @@ function bandChart(rows, col, title, chance) {
     stroke: "var(--series-1)", "stroke-width": 3 }));
   med.forEach((y, i) => {
     s.append(svg("circle", { cx: xs(i), cy: ys(y), r: 5, fill: "var(--series-1)", stroke: "var(--surface-1)", "stroke-width": 2 }));
-    const lab = svg("text", { x: xs(i), y: base + 16, "text-anchor": "middle" }); lab.textContent = bands[i].replace(" Hz", ""); s.append(lab);
+    const anchor = i === 0 ? "start" : i === bands.length - 1 ? "end" : "middle";
+    const lab = svg("text", { x: xs(i) + (i === 0 ? -4 : i === bands.length - 1 ? 4 : 0), y: base + 16, "text-anchor": anchor });
+    lab.textContent = bands[i].replace(" Hz", ""); s.append(lab);
   });
   const hz = svg("text", { x: (L + W - R) / 2, y: base + 32, "text-anchor": "middle" }); hz.textContent = "frequency band (Hz)"; s.append(hz);
   return el("div", {}, s);
