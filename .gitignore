@@ -17,3 +17,6 @@ data/cache/
 # GeoNames gazetteer (32 MB, re-downloadable; see src/check_places.py). Only the small
 # derived table outputs/tables/station_places.csv is committed.
 data/external/geonames/
+# Yale Bright Star Catalogue (re-downloadable; see src/export_stars.py). Only
+# site/data/stars.json is committed.
+data/external/bsc5/

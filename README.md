@@ -21,7 +21,8 @@ Action downloads yesterday's seismic noise for 7 cities, guesses the weekday, an
 days that broke the city's rhythm. Every day shown is one the model never trained on.
 **[Time-travel globe](https://aaaditt.github.io/groundtruth/globe.html)** — pick any day
 since January 2019 and see which of 33 cities shook less or more than usual (try March
-2020, then a Christmas); click a city for its whole year as a calendar.
+2020, then a Christmas); click a city for its whole year as a calendar. A NASA satellite
+globe, with the real night sky (every naked-eye star) behind it.
 Also: [**play "guess the day"**](https://aaaditt.github.io/groundtruth/game.html)
 against the model, the [158-city research map](https://aaaditt.github.io/groundtruth/research.html),
 and a board of **18 predictions committed before the day** and graded automatically.
@@ -273,6 +274,8 @@ groundtruth/
 │   ├── history_pilot.py          2019-2026 history + lockdown cross-check (needs internet)
 │   ├── history.py                33-station history for the globe (needs internet, ~2.5 GB)
 │   ├── export_site_research.py   data for the research map and the game
+│   ├── check_places.py           sensor-to-city distances for honest map labels (GeoNames)
+│   ├── export_stars.py           the globe's night sky (Yale Bright Star Catalogue)
 │   ├── survey_mustang.py         which stations have recent data (needs internet)
 │   ├── validate_route_a.py       recent-data route vs the published data (needs internet)
 │   ├── weekend_signature.py      cross-country weekend analysis (no ML)

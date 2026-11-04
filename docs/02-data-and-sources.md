@@ -129,9 +129,27 @@ headline results comes from these.** They are used only for the Route A validati
   https://community.raspberryshake.org/t/station-locations-are-they-obfuscated/5027 ,
   accessed 2026-11-04; no DOI). The research map marks them "approximate".
 - Globe: MapLibre GL JS 5.6.0 — https://maplibre.org/ (BSD-3-Clause; loaded from unpkg
-  with a pinned integrity hash). Basemap tiles: OpenFreeMap (positron and dark styles) —
+  with a pinned integrity hash).
+- **Globe imagery:** NASA Blue Marble: Next Generation (Stöckli, R., Vermote, E., Saleous,
+  N., Simmon, R. & Herring, D. (2005), *The Blue Marble Next Generation — A true color
+  earth dataset including seasonal dynamics from MODIS*, NASA Earth Observatory,
+  https://earthobservatory.nasa.gov/features/BlueMarble ; no DOI), served as map tiles by
+  NASA's Global Imagery Browse Services (GIBS), layer `BlueMarble_NextGeneration`,
+  https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/ (no key, no DOI). NASA imagery is
+  not copyrighted; NASA asks for credit, which the page footer and map attribution give
+  (NASA Earthdata data use policy, https://www.earthdata.nasa.gov/earth-observation-data/data-use-policy ,
+  accessed 2026-11-04). The globe credits GIBS in the wording GIBS asks for.
+- Borders and place names on the globe: OpenFreeMap vector tiles and fonts —
   https://openfreemap.org/ , © OpenMapTiles, data © OpenStreetMap contributors
   (https://www.openstreetmap.org/copyright). No API key, no DOI.
+- **The night sky behind the globe** (`src/export_stars.py` → `site/data/stars.json`):
+  Hoffleit, D. & Warren, W. H. Jr. (1991), *The Bright Star Catalogue*, 5th Revised Ed.,
+  Yale University Observatory; CDS catalogue V/50
+  (https://cdsarc.cds.unistra.fr/viz-bin/cat/V/50). File `bsc5.dat` downloaded
+  2026-11-04 from the Harvard copy, http://tdc-www.harvard.edu/catalogs/bsc5.html (the
+  CDS servers were unreachable that day); not committed. No DOI found (doi.org has no
+  record for V/50). 9,096 stars, drawn at their J2000 positions, rotated by Greenwich
+  sidereal time for 00:00 UTC on the selected date.
 
 ### City Pulse dashboard (`site/`)
 

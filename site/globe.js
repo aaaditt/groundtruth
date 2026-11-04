@@ -72,12 +72,100 @@ function describe(v, i) {
 }
 
 // ---------- map ----------
-function isDark() {
-  const t = document.documentElement.dataset.theme;
-  if (t) return t === "dark";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+// The globe always floats in space, in light and dark page themes alike, so its colours
+// come from the .space wrapper in style.css (not from the page theme).
+const spaceVar = (name) => getComputedStyle(document.getElementById("space")).getPropertyValue(name).trim();
+
+// Basemap: NASA's Blue Marble: Next Generation satellite mosaic (via NASA GIBS, free,
+// no key), with faint country borders and names from OpenFreeMap on top.
+const STYLE = {
+  version: 8,
+  glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
+  sources: {
+    earth: {
+      type: "raster", tileSize: 256, maxzoom: 8,
+      tiles: ["https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_NextGeneration/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg"],
+      attribution: 'Imagery: <a href="https://earthobservatory.nasa.gov/features/BlueMarble">NASA Blue Marble</a> via <a href="https://earthdata.nasa.gov/gibs">NASA GIBS</a>',
+    },
+    ofm: { type: "vector", url: "https://tiles.openfreemap.org/planet" },
+  },
+  layers: [
+    { id: "earth", type: "raster", source: "earth", paint: { "raster-fade-duration": 200 } },
+    { id: "borders", type: "line", source: "ofm", "source-layer": "boundary",
+      filter: ["all", ["==", ["get", "admin_level"], 2], ["!=", ["get", "maritime"], 1]],
+      paint: { "line-color": "rgba(255,255,255,0.35)", "line-width": ["interpolate", ["linear"], ["zoom"], 1, 0.4, 6, 1] } },
+    { id: "countries", type: "symbol", source: "ofm", "source-layer": "place", minzoom: 3,
+      filter: ["==", ["get", "class"], "country"],
+      layout: { "text-field": ["coalesce", ["get", "name:en"], ["get", "name"]], "text-font": ["Noto Sans Regular"],
+        "text-size": 12, "text-transform": "uppercase", "text-letter-spacing": 0.1 },
+      paint: { "text-color": "rgba(255,255,255,0.6)", "text-halo-color": "rgba(0,0,0,0.6)", "text-halo-width": 1 } },
+    { id: "towns", type: "symbol", source: "ofm", "source-layer": "place", minzoom: 6,
+      filter: ["in", ["get", "class"], ["literal", ["city", "town"]]],
+      layout: { "text-field": ["coalesce", ["get", "name:en"], ["get", "name"]], "text-font": ["Noto Sans Regular"], "text-size": 11 },
+      paint: { "text-color": "rgba(255,255,255,0.7)", "text-halo-color": "rgba(0,0,0,0.7)", "text-halo-width": 1 } },
+  ],
+  // the thin blue glow of the atmosphere around the globe, fading out as you zoom in
+  sky: { "atmosphere-blend": ["interpolate", ["linear"], ["zoom"], 0, 1, 5, 1, 7, 0] },
+};
+
+// ---------- the real night sky behind the globe ----------
+// Every naked-eye star (Yale Bright Star Catalogue, site/data/stars.json from
+// src/export_stars.py) at its real position. Looking at the Earth from space, the stars
+// beyond it are the ones overhead on its far side, so the sky turns as you pan; it is
+// the sky of 00:00 UTC on the selected date (Greenwich sidereal time).
+let STARS = null, starCanvas = null, starQueued = false;
+const RAD = Math.PI / 180;
+const unit = (lon, lat) => [Math.cos(lat * RAD) * Math.cos(lon * RAD),
+  Math.cos(lat * RAD) * Math.sin(lon * RAD), Math.sin(lat * RAD)];
+const dot3 = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+function gmstDeg(ms) {                 // Greenwich mean sidereal time, degrees
+  const d = ms / DAY_MS + 2440587.5 - 2451545.0;
+  return ((280.46061837 + 360.98564736629 * d) % 360 + 360) % 360;
 }
-const styleUrl = () => `https://tiles.openfreemap.org/styles/${isDark() ? "dark" : "positron"}`;
+function drawStars() {
+  starQueued = false;
+  if (!STARS || !map) return;
+  const dpr = window.devicePixelRatio || 1;
+  const w = starCanvas.clientWidth, h = starCanvas.clientHeight;
+  if (starCanvas.width !== Math.round(w * dpr) || starCanvas.height !== Math.round(h * dpr)) {
+    starCanvas.width = Math.round(w * dpr); starCanvas.height = Math.round(h * dpr);
+  }
+  const ctx = starCanvas.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  const c = map.getCenter();
+  const f = unit(c.lng, c.lat).map((x) => -x);           // we look through the Earth
+  let up = [-f[2] * f[0], -f[2] * f[1], 1 - f[2] * f[2]];  // north, made square to f
+  const n = Math.hypot(...up) || 1;
+  up = up.map((x) => x / n);
+  const right = [f[1] * up[2] - f[2] * up[1], f[2] * up[0] - f[0] * up[2], f[0] * up[1] - f[1] * up[0]];
+  const turn = gmstDeg(T0 + cur * DAY_MS), F = 0.9 * Math.max(w, h);
+  ctx.fillStyle = "#fff";
+  for (const [ra, dec, mag] of STARS) {
+    const s = unit(ra - turn, dec), depth = dot3(s, f);
+    if (depth <= 0.05) continue;                           // behind us
+    const x = w / 2 + F * dot3(s, right) / depth, y = h / 2 - F * dot3(s, up) / depth;
+    if (x < 0 || y < 0 || x > w || y > h) continue;
+    const r = Math.max(0.35, (6.5 - mag) * 0.32);
+    ctx.globalAlpha = Math.min(1, Math.max(0.12, (7 - mag) / 6));
+    if (r < 1) ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+    else { ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.fill(); }
+  }
+  ctx.globalAlpha = 1;
+}
+const queueStars = () => { if (!starQueued) { starQueued = true; requestAnimationFrame(drawStars); } };
+async function initStars() {
+  starCanvas = el("canvas", { class: "stars", "aria-hidden": "true" });
+  document.getElementById("globe").prepend(starCanvas);
+  map.on("move", queueStars);
+  map.on("resize", queueStars);
+  try {
+    STARS = (await (await fetch("data/stars.json")).json()).stars;
+  } catch (e) {
+    return;                                                // no stars is fine; the globe still works
+  }
+  queueStars();
+}
 
 function features() {
   return {
@@ -94,12 +182,18 @@ function features() {
 }
 
 function addLayers() {
-  const colors = BINS.map((b) => cssVar(b.v));
-  const ring = cssVar("--ring");
-  const muted = cssVar("--text-muted");
-  const ink = cssVar("--text-primary");
+  const colors = BINS.map((b) => spaceVar(b.v));
+  const ring = spaceVar("--ring");
+  const muted = spaceVar("--text-muted");
+  const ink = spaceVar("--text-primary");
   map.addSource("st", { type: "geojson", data: features() });
   const radius = ["interpolate", ["linear"], ["zoom"], 1, 6, 5, 9, 10, 12];
+  // a soft dark shadow under every dot, so it stands out from bright desert or cloud
+  map.addLayer({
+    id: "halo", type: "circle", source: "st",
+    paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 10, 5, 13, 10, 16],
+      "circle-color": "#000", "circle-opacity": 0.45, "circle-blur": 0.7 },
+  });
   map.addLayer({
     id: "st", type: "circle", source: "st",
     paint: {
@@ -107,7 +201,7 @@ function addLayers() {
       "circle-color": ["match", ["get", "bin"], ...colors.flatMap((c, i) => [i, c]), "rgba(0,0,0,0)"],
       "circle-stroke-width": 2,
       "circle-stroke-color": ["case", ["==", ["get", "bin"], -1], muted, ring],
-      "circle-opacity": ["case", ["==", ["get", "weak"], 1], 0.4, 1],
+      "circle-opacity": ["case", ["==", ["get", "weak"], 1], 0.5, 1],
       "circle-stroke-opacity": ["case", ["==", ["get", "weak"], 1], 0.6, 1],
     },
   });
@@ -122,17 +216,19 @@ function addLayers() {
     id: "names", type: "symbol", source: "st", minzoom: 3, maxzoom: 6,
     layout: { "text-field": ["get", "city"], "text-font": ["Noto Sans Regular"],
       "text-size": 13, "text-offset": [0, 1.3], "text-anchor": "top" },
-    paint: { "text-color": ink, "text-halo-color": ring, "text-halo-width": 1.5 },
+    paint: { "text-color": ink, "text-halo-color": "rgba(0,0,0,0.8)", "text-halo-width": 1.5 },
   });
 }
 
 function initMap() {
   map = new maplibregl.Map({
-    container: "globe", style: styleUrl(), center: HOME.center, zoom: homeZoom(),
+    container: "globe", style: STYLE, center: HOME.center, zoom: homeZoom(),
     attributionControl: { compact: true },
     cooperativeGestures: window.innerWidth < 700,   // let phones scroll the page past the globe
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  map.dragRotate.disable();                 // north stays up (the star sky assumes it)
+  map.touchZoomRotate.disableRotation();
   map.on("style.load", () => { map.setProjection({ type: "globe" }); addLayers(); });
   map.on("mousemove", "st", (e) => {
     map.getCanvas().style.cursor = "pointer";
@@ -145,7 +241,6 @@ function initMap() {
   });
   map.on("mouseleave", "st", () => { map.getCanvas().style.cursor = ""; hideTip(); });
   map.on("click", "st", (e) => { hideTip(); select(e.features[0].properties.k, true); });
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => map.setStyle(styleUrl()));
 }
 
 function refreshMap() {
@@ -160,6 +255,7 @@ function setDate(i, opts = {}) {
   document.getElementById("slider").value = cur;
   document.getElementById("when").textContent = fmtDate(dateOf(cur)) + " " + dateOf(cur).slice(0, 4);
   refreshMap();
+  queueStars();
   summary();
   if (sel >= 0) detail(opts.keepCalendar); else ranking();
   writeHash();
@@ -224,6 +320,7 @@ function detail(keepCalendar) {
     valueLine(s, v),
     el("p", { class: "note" }, acc + (weak(s) ? " The weekly rhythm is hard to read here, so treat colours with care." : "")),
     yearButtons(),
+    calKey(),
     calendar(s, calYear),
     el("p", { class: "note" }, "One square per day; dot = public holiday; outline = no data. Click a day to jump to it."),
     backButton(),
@@ -296,6 +393,13 @@ function calendar(s, year) {
   return g;
 }
 
+// The calendar sits on the page (light or dark theme), so it gets its own colour key:
+// in the light theme its colours differ from the globe's, which always sits in space.
+function calKey() {
+  return el("div", { class: "calkey", "aria-hidden": "true" }, "quieter",
+    ...BINS.map((b) => el("span", { class: "sw-sq", style: `background: var(${b.v})` })), "louder");
+}
+
 function highlight() {
   for (const [i, r] of calCells) r.classList.toggle("sel", i === cur);
 }
@@ -318,7 +422,8 @@ function ranking() {
     .sort((a, b) => a[0].values[cur] - b[0].values[cur]);
   const item = ([s, k]) => {
     const v = s.values[cur], b = binOf(v);
-    const li = el("li", {}, el("span", { class: "sw", style: `background: var(${BINS[b].v})` }), " ");
+    // the swatch is a small copy of the city's dot on the globe (space colours)
+    const li = el("li", {}, el("span", { class: "sw globe-dot", style: `background: ${spaceVar(BINS[b].v)}` }), " ");
     const a = el("a", { href: "#" }, s.city);
     a.addEventListener("click", (e) => { e.preventDefault(); select(k, true); });
     const sign = v > 0 ? "+" : v < 0 ? "−" : "";
@@ -391,6 +496,7 @@ async function main() {
 
   legend();
   initMap();
+  initStars();
   const h = readHash();
   setDate(h && h.i !== null ? h.i : H.n);
   if (h && h.k >= 0) map.once("load", () => select(h.k, true));

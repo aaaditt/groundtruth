@@ -8,6 +8,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css"
         integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd" crossorigin="anonymous">
+  <link rel="preconnect" href="https://gibs.earthdata.nasa.gov" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -36,8 +37,10 @@
 
     <div class="globe-layout">
       <div>
-        <div id="globe" role="img" aria-label="Globe of seismometers coloured by how unusual the selected day was"></div>
-        <div class="legend" id="legend" style="margin-top:8px"></div>
+        <div class="space" id="space">
+          <div id="globe" role="img" aria-label="Satellite globe of seismometers coloured by how unusual the selected day was"></div>
+          <div class="legend" id="legend"></div>
+        </div>
         <p class="summary" id="summary"></p>
       </div>
       <aside class="card panel" id="panel" aria-live="polite">
@@ -85,8 +88,13 @@
       Seismic data: EarthScope MUSTANG noise spectra (Casey et al. 2018,
       <a href="https://doi.org/10.1785/0220170191">doi:10.1785/0220170191</a>); stations from Lecocq et al.
       2020, <i>Science</i> (<a href="https://doi.org/10.1126/science.abd2438">doi:10.1126/science.abd2438</a>).
-      Map: <a href="https://maplibre.org/">MapLibre GL JS</a>, tiles by
-      <a href="https://openfreemap.org/">OpenFreeMap</a> © OpenMapTiles, data © OpenStreetMap contributors.
+      Map: <a href="https://maplibre.org/">MapLibre GL JS</a>; imagery: NASA Blue Marble: Next Generation
+      (Stöckli et al. 2005, NASA Earth Observatory). We acknowledge the use of imagery provided by
+      services from NASA's Global Imagery Browse Services (<a href="https://www.earthdata.nasa.gov/gibs">GIBS</a>),
+      part of NASA's Earth Science Data and Information System (ESDIS);
+      borders and names by <a href="https://openfreemap.org/">OpenFreeMap</a> © OpenMapTiles, data © OpenStreetMap
+      contributors. Stars: Yale Bright Star Catalogue (Hoffleit &amp; Warren 1991), the real sky behind the globe
+      at 00:00 UTC on the selected date.
       Public holidays: national calendars from the <code>holidays</code> package.
       Place distances: <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0).
       <a href="data/history.json">Download the data (JSON)</a>.
