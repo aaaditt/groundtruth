@@ -23,4 +23,5 @@ python src/make_presentation_plots.py
 
 # Recent data (downloads from EarthScope MUSTANG; cached in data/cache/, not committed)
 python src/uae_experiment.py
+python src/train_live.py
 echo "ALL DONE"

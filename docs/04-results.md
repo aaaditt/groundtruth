@@ -486,6 +486,54 @@ say who.
 
 ---
 
+## Result 11 — Live models on 12 months of recent data (`src/train_live.py`)
+
+The dashboard needs models that know what each city sounds like **now**, not in 2019.
+So each live station in `config/stations.yaml` gets its own models, trained on
+**1 Oct 2025 – 30 Sep 2026** of EarthScope MUSTANG data (Route A, validated in
+Stage 3). Same features, same labelling rules (public holidays and 21 Dec – 6 Jan kept
+out of training), same random forest, whole weeks held out. Weeks are grouped by year
+*and* week number, because this data spans two years.
+
+| City | Days | Normal days | Weekday vs weekend | Exact day | 2019–20 (published data) |
+|---|---|---|---|---|---|
+| Brussels | 359 | 332 | **100.0%** | 54.8% | 100% / 47.8% |
+| Los Angeles | 362 | 337 | **99.3%** | 62.9% | 100% / 58.0% |
+| Melbourne | 362 | 343 | **98.9%** | **74.9%** | 94.9% / 66.4% |
+| Dublin | 364 | 341 | **98.6%** | 58.1% | 98.8% / 50.0% |
+| Montreal | 221 | 202 | **97.6%** | 58.4% | 100% / 61.4% |
+| Sharjah | 361 | 332 | 71.6% | 41.3% | not in the data |
+| Puerto Williams (control) | 199 | 192 | 64.9% | 25.0% | 56.4% / 8.7% |
+
+Chance is 50% for weekday vs weekend and 14.3% for the exact day.
+
+What this shows:
+
+- **The five validated cities work on current data**, at 97.6–100% for weekday vs
+  weekend. Exact-day accuracy is higher than in 2019–20 at four of five, likely
+  because there are ~3× more training days (about 48 of each weekday instead of 16).
+  The 2019–20 column is context only: different source, different years, and no
+  model ever saw both.
+- **Melbourne names the exact day 74.9% of the time**, above any station in the
+  published results (best: 73.9%).
+- **Sharjah is harder (71.6%).** The labels follow the federal Saturday–Sunday weekend,
+  but Sharjah's government and schools take Friday off too (Result 10). The plot shows
+  Friday has its own midday dip, so "weekend" here is genuinely mixed.
+- **The control town is no longer at chance.** Puerto Williams scores 64.9%, above
+  all 200 week-shuffled permutations (p = 0.005); in 2019–20 it was 56.4%. A weak
+  weekly rhythm is present in 2025–26. One station can't say why, so we only report
+  it. Its data has large gaps (Nov–Dec 2025 empty).
+- **Gaps are shown, not hidden.** Montreal has almost no data for Feb–May 2026; the
+  table in `outputs/tables/live_models.csv` counts months with fewer than 20 days.
+
+![Live models: average normal day](../outputs/plots/live_week_shapes.png)
+
+Reproduce: `python src/train_live.py` (first run downloads ~75 MB; cached after).
+Every station-day is in `outputs/tables/live_days.csv`, and `tests/test_live.py`
+checks that the scores above reproduce from it exactly.
+
+---
+
 ## An honest negative result
 
 **Lockdown did not make every day look like a Sunday.**

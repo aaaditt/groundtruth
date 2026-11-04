@@ -487,7 +487,38 @@ All on the Lecocq data, all rerun from scratch. Full tables in `docs/04` (Result
 
 Tests: 46, all real data.
 
+### 2026-11-04 — Live models: each city, trained on the last 12 months
+
+**What.** `groundtruth/live.py` + `src/train_live.py`. For the 7 live MUSTANG stations,
+download 1 Oct 2025 – 30 Sep 2026, build the usual 25 features, label days with the
+Stage 1 rules, score with whole weeks held out, then fit final models (saved to
+`outputs/models/live/`, not committed). Full table: `docs/04`, Result 11.
+
+**Why a fixed window.** MUSTANG keeps adding late data for ~10 days after a month ends,
+so October 2026 wasn't final. A fixed window also means the numbers reproduce.
+
+**Results (weekday vs weekend / exact day).** Brussels 100% / 54.8%, Los Angeles
+99.3 / 62.9, Melbourne 98.9 / **74.9** (best of any station we have), Dublin 98.6 / 58.1,
+Montreal 97.6 / 58.4, Sharjah 71.6 / 41.3, Puerto Williams (control) 64.9 / 25.0.
+
+**Surprises.**
+- The control town is above chance now (64.9%; beats all 200 week-shuffled
+  permutations, p = 0.005). It was 56.4% in 2019–20. Reported, not explained.
+- Montreal has almost no data Feb–May 2026; Puerto Williams none in Nov–Dec 2025.
+
+**Housekeeping.**
+- The MUSTANG cache is now gzip-compressed: 284 MB → 54 MB, ~0.9 MB per
+  station-month. Old `.txt` files still load (`mustang.compress_cache()` converts them).
+- The first run was stopped by Windows running low on memory (other apps, not the
+  script); a rerun from the cache reproduced the first 4 stations exactly.
+- A test caught that saving `live_days.csv` rounded to 6 digits moved one Dublin
+  forest split (exact day 58.4% vs 58.1%). The file is now saved at full precision.
+- The README intro still said "70% of holidays / 3% of weekdays" (before class
+  weighting). Fixed to 76% / 6%.
+
+Tests: 52 (6 new), all pass.
+
 ## Next steps
-Stage 4 remainder: per-station live models trained on 12 months of MUSTANG normal days
-(the backbone of the dashboard). Then Stage 5: City Pulse dashboard and open dataset.
-Optional before the report: frequency-band test and station map (promise extras 1.6).
+Stage 5: City Pulse dashboard (daily GitHub Action scores yesterday for each live
+station with these models; static GitHub Pages site) and the open dataset. Optional
+before the report: frequency-band test and station map (promise extras 1.6).

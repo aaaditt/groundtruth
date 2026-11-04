@@ -23,6 +23,7 @@ on 6 stations, start labels agreed better at every one of them -- see docs/10-wo
 Data from this route is NEVER mixed with Lecocq data in one model or comparison of
 levels: only unit-free quantities (day shapes, rankings) are compared across sources.
 """
+import gzip
 import io
 import os
 import re
@@ -50,10 +51,17 @@ def _month_starts(start, end):
 
 def fetch_month(target, month_start, month_end):
     """Raw MUSTANG text for one calendar month (UTC). Cached on disk once the month is
-    safely in the past, so re-running never re-downloads old data."""
-    path = os.path.join(CACHE, target, f"{month_start:%Y-%m}.txt")
+    safely in the past, so re-running never re-downloads old data.
+
+    The cache is gzip-compressed: the spectra are plain text and shrink ~5x
+    (4.8 MB -> 0.9 MB per station-month). Older uncompressed .txt files still work."""
+    path = os.path.join(CACHE, target, f"{month_start:%Y-%m}.txt.gz")
     if os.path.exists(path):
-        with open(path, encoding="utf-8") as f:
+        with gzip.open(path, "rt", encoding="utf-8") as f:
+            return f.read()
+    legacy = path[:-3]
+    if os.path.exists(legacy):
+        with open(legacy, encoding="utf-8") as f:
             return f.read()
     r = client.get(URL, params={"target": f"{target}.M", "format": "text",
                               "starttime": f"{month_start}T00:00:00",
@@ -61,9 +69,21 @@ def fetch_month(target, month_start, month_end):
     text = r.text if r.status_code == 200 else ""
     if (datetime.now(timezone.utc).date() - month_end).days > SAFE_AFTER_DAYS:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
+        with gzip.open(path, "wt", encoding="utf-8") as f:
             f.write(text)
     return text
+
+
+def compress_cache():
+    """One-off: convert old uncompressed .txt cache files to .txt.gz (content unchanged)."""
+    for root, _, files in os.walk(CACHE):
+        for name in files:
+            if name.endswith(".txt"):
+                src = os.path.join(root, name)
+                with open(src, encoding="utf-8") as f, \
+                        gzip.open(src + ".gz", "wt", encoding="utf-8") as g:
+                    g.write(f.read())
+                os.remove(src)
 
 
 _START = re.compile(r"^start: (\S+)$", re.M)

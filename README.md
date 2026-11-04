@@ -10,9 +10,11 @@ that **break a city's normal rhythm** — holidays, lockdowns, disruptions.
 
 It works. A random forest tells weekdays from weekends with **95% median accuracy**
 across 149 cities, names the exact weekday **3× better than chance**, and — never
-having seen a holiday in training — calls **70% of weekday public holidays a
-"weekend"** (vs 3% of ordinary weekdays), including Thanksgiving in New York and
-All Saints' Day in Brussels.
+having seen a holiday in training — calls **76% of weekday public holidays a
+"weekend"** (vs 6% of ordinary weekdays), including Thanksgiving in New York and
+All Saints' Day in Brussels. The same method on **current data (Oct 2025 – Sep 2026)**
+reads weekday vs weekend at 98–100% in Brussels, Los Angeles, Melbourne, Dublin and
+Montreal.
 
 > Course project for Foundations of Data Science, BITS Pilani · presented 22 Sep 2026
 > Team: Aadit Chandra, Aradhya Gupta, Shraddha Pradeep
@@ -209,7 +211,8 @@ groundtruth/
 │   ├── models.py                 the model, the CV splitter, dataset loading
 │   ├── stations.py               loads + checks config/stations.yaml
 │   ├── client.py                 polite HTTP client (rate limit, retries, OS certificates)
-│   └── mustang.py                recent data: MUSTANG spectra -> 4-14 Hz displacement RMS
+│   ├── mustang.py                recent data: MUSTANG spectra -> 4-14 Hz displacement RMS
+│   └── live.py                   per-station live models on 12 months of MUSTANG data
 │
 ├── config/
 │   ├── weekends.csv              weekend days per country, with source + start date
@@ -236,6 +239,7 @@ groundtruth/
 │   ├── holiday_holdout.py        promise 4: held-out holidays by type
 │   ├── transfer.py               promise 5: cross-region transfer and its failures
 │   ├── uae_experiment.py         pre-registered UAE weekend experiment (needs internet)
+│   ├── train_live.py             live models, Oct 2025 - Sep 2026 (needs internet)
 │   ├── survey_mustang.py         which stations have recent data (needs internet)
 │   ├── validate_route_a.py       recent-data route vs the published data (needs internet)
 │   ├── weekend_signature.py      cross-country weekend analysis (no ML)
@@ -280,8 +284,9 @@ If you use this repository, please cite Lecocq et al. (2020) for the data.
 - The published results use data ending in **May 2020**. A route to recent data
   (EarthScope's MUSTANG spectra, about 2 days behind real time) is built and
   **validated against the published data on 6 stations** (`docs/11-data-guide.md`)
-  and used for one pre-registered experiment (`docs/14`). No live model or dashboard
-  exists yet.
+  and used for one pre-registered experiment (`docs/14`). Live models for 7 stations
+  are trained on Oct 2025 – Sep 2026 (`docs/04`, Result 11); the dashboard that uses
+  them does not exist yet. Montreal and Puerto Williams have months of missing data.
 - Public holidays are **national** calendars only; regional holidays are not excluded.
 - Weekend labels follow a cited source per country, but involve judgement for
   Monday–Saturday countries (India, Mexico, ...). A few one-day-weekend stations

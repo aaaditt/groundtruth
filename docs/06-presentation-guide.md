@@ -79,8 +79,8 @@ Have a normal Wednesday ready too, so it doesn't look cherry-picked. Rehearse it
 screenshot the output as a backup slide in case the laptop misbehaves.
 
 **14. The honest negative result**
-Lockdown did *not* look like a permanent Sunday — only 20% of lockdown weekdays were
-called "weekend" (vs 70% of holiday weekdays), although 35% of lockdown days were
+Lockdown did *not* look like a permanent Sunday — only 26% of lockdown weekdays were
+called "weekend" (vs 76% of holiday weekdays), although 35% of lockdown days were
 flagged as anomalous. Lockdown created a
 third pattern, quieter and flatter than either. Supervised classification had to pick a
 familiar label; unsupervised anomaly detection didn't have to.
