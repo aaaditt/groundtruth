@@ -1,0 +1,19 @@
+id,station,date,event,prediction,reason
+P01,S1.AUKSC..HHZ,2026-11-03,Melbourne Cup Day (Victoria only),weekend,"Regional holiday; the sensor is at a school. NOTE: registered 2026-11-04, the day AFTER, but before any data for that day had arrived (latest day available: 2026-11-01)."
+P02,BE.UCC..HHZ,2026-11-11,Armistice Day,weekend,National public holiday; Brussels' All Saints' Day looked like a Sunday in 2019.
+P03,CI.USC..BHZ,2026-11-11,Veterans Day,workday,"Federal holiday but most businesses and schools stay open; New York's 2019 Veterans Day looked like a Monday."
+P04,CI.USC..BHZ,2026-11-26,Thanksgiving Day,weekend,New York's 2019 Thanksgiving looked like a Sunday.
+P05,CI.USC..BHZ,2026-11-27,Day after Thanksgiving (not a public holiday),unusual,New York's 2019 day after Thanksgiving was one of its most confusing days.
+P06,II.UOSS.10.BHZ,2026-12-02,UAE National Day,weekend,"National holiday; uncertain, because the sensor is ~90 km from Sharjah city and its weekday/weekend score is only 72%."
+P07,C1.MG01..HHZ,2026-12-08,Immaculate Conception,weekend,"Control town; uncertain. Its 12 Oct 2026 holiday looked like a Sunday."
+P08,BE.UCC..HHZ,2026-12-25,Christmas Day,weekend,Christmas is the strongest holiday signal in the 2019-20 data (85% called weekend).
+P09,CI.USC..BHZ,2026-12-25,Christmas Day,weekend,Same as P08.
+P10,CN.MNTQ..HHZ,2026-12-25,Christmas Day,weekend,"Same as P08, despite Montreal's drift in October."
+P11,EI.DSB..HHZ,2026-12-25,Christmas Day,weekend,Same as P08.
+P12,S1.AUKSC..HHZ,2026-12-25,Christmas Day,weekend,Same as P08 (summer holidays in Australia too).
+P13,BE.UCC..HHZ,2027-01-01,New Year's Day,weekend,New Year is the strongest holiday type in the 2019-20 data (90% called weekend).
+P14,CI.USC..BHZ,2027-01-01,New Year's Day,weekend,Same as P13.
+P15,CN.MNTQ..HHZ,2027-01-01,New Year's Day,weekend,Same as P13.
+P16,EI.DSB..HHZ,2027-01-01,New Year's Day,weekend,Same as P13.
+P17,S1.AUKSC..HHZ,2027-01-01,New Year's Day,weekend,Same as P13.
+P18,II.UOSS.10.BHZ,2027-01-01,New Year's Day,weekend,"UAE public holiday; uncertain, as P06."
