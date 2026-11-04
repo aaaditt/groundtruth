@@ -395,6 +395,21 @@ before any Sharjah data is fetched.
   Fri–Sat–Sun weekend (Gulf News, 9 Dec 2021) is taken into account. The school winter
   break is excluded.
 
+### 2026-11-04 — UAE experiment run: the ground noticed the new weekend
+
+Run after the pre-registration commit (`76d526f`), exactly as specified. Full write-up in
+`docs/14`, section 7.
+- **Verdict: SUPPORTED.** Sunday fell 20% relative to Mon–Thu after 1 Jan 2022 (exact
+  permutation p = 0.003).
+- **Controls behaved.** In the placebo year Sunday moved +5% (p = 0.73), and Saturday
+  barely moved (−3%).
+- **Surprise:** Friday got 53% busier (p = 3 × 10⁻⁶). The pre-registration expected
+  little change there, and says so; we report it as wrong.
+- **Exploratory:** the whole Friday rose, not only the morning.
+- **Caught before writing it up:** a dip at 13:00 matches the new 13:15 prayer time
+  elsewhere in the UAE. But Sharjah kept its old prayer time, so we don't claim that
+  link.
+
 ## Next steps
 Stage 4 (science core), in progress: the five promises on the Lecocq data, including
 class weighting for one-day weekends. Then run the pre-registered UAE experiment, and

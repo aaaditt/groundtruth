@@ -111,6 +111,50 @@ The window, metric, station and exclusions will not be changed after seeing the 
 - The same analysis without the excluded school-break block.
 - Data quality: how many weeks survive the rules.
 
-## 7. Results
+## 7. Results (added 2026-11-04, after the pre-registration commit `76d526f`)
 
-*To be filled in by `src/uae_experiment.py` after this file is committed.*
+Produced by `python src/uae_experiment.py`. Tables are in `outputs/tables/uae_experiment.csv`.
+
+### Pre-registered verdict: **SUPPORTED**
+
+| Check | Weeks (before / after) | Change vs Mon–Thu, after − before | p |
+|---|---|---|---|
+| Gatekeeper: Fri+Sat below Mon–Thu before the change? | before weeks only | −0.125 log10 (≈ −25%) | passes |
+| **Primary: Sunday** | 9 / 12 | **−0.099 log10 (−20%)** | **0.003** (one-sided, exact, 293,930 relabellings) |
+| Placebo year: Sunday, 2020-21 | 8 / 12 | +0.022 (+5%) | 0.73 (one-sided) |
+| Placebo day: Saturday | 10 / 12 | −0.012 (−3%) | 0.52 (two-sided) |
+| Friday (no directional prediction) | 9 / 12 | **+0.186 (+53%)** | 3 × 10⁻⁶ (two-sided) |
+
+![UAE weekend switch](../outputs/plots/uae_weekend_switch.png)
+
+**In plain words:**
+- **Before 1 Jan 2022,** the ground in Sharjah was quietest on Friday (43% below Mon–Thu).
+  Sunday was a normal working day.
+- **After,** Sunday dropped to 15% below Mon–Thu, which is a 20% change.
+- **Placebo year:** the same calendar window a year earlier shows nothing like it.
+- **Placebo day:** Saturday, a rest day in both periods, did not change.
+
+### The surprise: Friday
+
+The pre-registration said Friday was "not predicted to change much". **That was wrong.**
+Friday got 53% busier relative to Mon–Thu, the largest change of any day. This is
+consistent with a federal and private-sector working (half) day replacing a full rest
+day, even though Sharjah's own government and schools take Friday off. We can't tell
+from one seismometer *who* is now active on Fridays.
+
+### Exploratory (not pre-registered for testing)
+
+| Check | Result |
+|---|---|
+| Friday hour by hour (`outputs/plots/uae_friday_hours.png`) | 08–12 h was −70% vs Mon–Thu before, −23% after. 14–18 h was −55% before, −20% after. The whole Friday got busier, not only the morning; this one sensor shows no clear half-day signature. |
+| The dip at 13:00 on post-change Fridays | Falls in the Friday-prayer window. But Sharjah did **not** move its prayer time when the rest of the UAE moved to 13:15 (Khaleej Times, *New UAE weekend: Friday prayer timings in Sharjah to remain unchanged*, Dec 2021). So we don't interpret it. |
+| School-break exclusion removed | Sunday −20%, p = 0.0008. Same conclusion. |
+
+### Limits
+
+- **One station,** one change.
+- **Short "before" period.** Only 9–10 weeks (Oct–Dec 2021).
+- **Expo 2020 Dubai** (Oct 2021 – Mar 2022) spans both periods, so it can't explain a
+  switch exactly at 1 Jan; but it is a busy background.
+- **The placebo year was a COVID-19 winter.** Restrictions in winter 2020–21 were
+  different from those in 2021–22.

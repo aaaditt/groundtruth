@@ -94,6 +94,21 @@ headline results comes from these.** They are used only for the Route A validati
   https://www.fdsn.org/ws/networks/1/query (2026-11-03).
 - EIDA (European data centres) — https://www.orfeus-eu.org/data/eida/
 
+### UAE weekend experiment (`docs/14`)
+
+News and government pages, so there are no DOIs. All were accessed 2026-11-04.
+
+- Gulf News, *Sharjah to get four-day workweek with Friday, Saturday and Sunday as
+  weekends*, 9 Dec 2021 — https://gulfnews.com/uae/government/sharjah-to-get-four-day-workweek-with-friday-saturday-and-sunday-as-weekends-1.1639045271093
+- Gulf Today, *All Sharjah schools to have Friday, Saturday and Sunday as weekend*,
+  12 Dec 2021 — https://gulftoday.ae/news/2021/12/12/all-sharjah-schools-to-have-friday-saturday-and-sunday-as-weekend
+- UAE government portal, working hours in the public sector —
+  https://u.ae/en/information-and-services/jobs/Sector-of-employment/working-in-uae-government-sector/working-hours-in-the-public-sector
+- Khaleej Times, *New UAE school calendar announced* (winter break 12–30 Dec 2021) —
+  https://www.khaleejtimes.com/uae/government/new-uae-school-calendar-announced-here-are-the-holidays
+- Khaleej Times, *New UAE weekend: Friday prayer timings in Sharjah to remain
+  unchanged* — https://www.khaleejtimes.com/uae/government/new-uae-weekend-friday-prayer-timings-in-sharjah-to-remain-unchanged
+
 ## Papers this project builds on
 
 **Primary source (data + method):**
