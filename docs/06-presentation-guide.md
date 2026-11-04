@@ -146,11 +146,17 @@ be able to answer the "how do you know it's people?" question.
 
 Open https://aaaditt.github.io/groundtruth/ on the projector. Suggested 4-minute path:
 
-1. **City Pulse home.** "Every morning a GitHub Action downloads yesterday's ground
+0. **The tour** (the front page). Click "Take the two-minute tour" and scroll: the
+   Brussels Wednesday draws itself, the Sunday appears, then March 2020 runs down the
+   drum record city by city. Let the audience shout "weekday" or "weekend" at the quiz.
+   On a laptop that has seen the tour before, the big button says "Open the globe";
+   use the small "Replay the tour" link under it.
+1. **Today** (`today.html`). "Every morning a GitHub Action downloads yesterday's ground
    vibration for 7 cities. Every day on this page is one the model never trained on."
-   Point at a card: which weekday it looked like, the track record next to the
-   training score. Show Dublin's October Bank Holiday spike (called Sunday, P = 1.00).
-2. **Predictions board** (scroll down). "We wrote these down *before* the days and
+   Point at a city: the darkest letter is the weekday it looked like, the underline the
+   real day, and the track record sits next to the training score. Show Dublin's October
+   Bank Holiday spike (called Sunday, P = 1.00).
+2. **Predictions board** (bottom of Today). "We wrote these down *before* the days and
    committed them to the public repository. The site grades them by itself, and wrong
    ones stay up." Thanksgiving (26 Nov) is the headline one.
 3. **Guess the day** (`game.html`). Ask the audience to call out the weekday for one

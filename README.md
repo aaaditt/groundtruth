@@ -16,7 +16,10 @@ All Saints' Day in Brussels. The same method on **current data (Oct 2025 – Sep
 reads weekday vs weekend at 98–100% in Brussels, Los Angeles, Melbourne, Dublin and
 Montreal.
 
-**Live: [City Pulse](https://aaaditt.github.io/groundtruth/)** — every day, a GitHub
+**Live: [the site](https://aaaditt.github.io/groundtruth/)** opens with a two-minute
+scrolling tour (one day under Brussels, then March 2020 going quiet city by city, then
+a quiz against the model), with a skip link for anyone who has seen it.
+**[Today](https://aaaditt.github.io/groundtruth/today.html)** — every day, a GitHub
 Action downloads yesterday's seismic noise for 7 cities, guesses the weekday, and flags
 days that broke the city's rhythm. Every day shown is one the model never trained on.
 **[Time-travel globe](https://aaaditt.github.io/groundtruth/globe.html)** — pick any day
@@ -234,8 +237,9 @@ groundtruth/
 │   ├── live.py                   per-station live models on 12 months of MUSTANG data
 │   └── pulse.py                  scores new days for the dashboard (reuses detect.py)
 │
-├── site/                         City Pulse: static dashboard on GitHub Pages
-│   ├── index.html, app.js        dashboard + predictions board
+├── site/                         the static website on GitHub Pages
+│   ├── index.html, tour.js       the front door: a scrolling tour of the data
+│   ├── today.html, today.js      the newest day per city + predictions board
 │   ├── game.html, game.js        "guess the day" against the model
 │   ├── globe.html, globe.js      time-travel globe, 2019-2026 (data from src/history.py)
 │   ├── research.html, research.js  158-station map + band chart

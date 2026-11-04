@@ -3,51 +3,140 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>City Pulse</title>
-  <meta name="description" content="What public seismometers say about each city's day: which weekday it looked like, and whether it was unusual.">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+  <title>GroundTruth</title>
+  <meta name="description" content="Seismometers built to hear earthquakes also hear cities. A two-minute tour of what the ground knows about our week, from real data.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%2315181c' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&amp;display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css"
+        integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd" crossorigin="anonymous">
+  <link rel="preconnect" href="https://gibs.earthdata.nasa.gov" crossorigin>
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
-<body>
-  <div class="wrap">
-    <header>
-      <h1>City Pulse</h1>
-      <p class="lede">Traffic, trains and footsteps shake the ground. Public seismometers record it.
-        Each day, a model trained on a year of that shaking guesses <b>which weekday it was</b>
-        in each city, and flags days that <b>broke the city's normal rhythm</b>.</p>
-      <p class="meta" id="meta">Loading…</p>
-      <nav>
-        <a href="globe.html"><b>Time-travel globe, 2019–2026</b></a>
-        <a href="game.html"><b>Play: guess the day</b></a>
-        <a href="#predictions">Predictions board</a>
-        <a href="research.html">158-city research map</a>
-        <a href="about.html">How it works &amp; limits</a>
-        <a href="data/pulse_days.csv" download>Download the data (CSV)</a>
-        <a href="https://github.com/aaaditt/groundtruth">Source code</a>
-      </nav>
-    </header>
-    <div id="map" role="img" aria-label="Map of the stations"></div>
-    <main class="grid" id="cards"></main>
-    <section class="card board" id="predictions" aria-labelledby="pred-h">
-      <h2 id="pred-h">Predictions made before the day</h2>
-      <p class="sub">Written down and committed to the public repository <i>before</i> each date
-        (<a href="https://github.com/aaaditt/groundtruth/blob/main/config/predictions.csv">the list</a>),
-        then graded automatically when the day's data arrives. Wrong ones stay on the board.</p>
-      <div id="pred-body">Loading…</div>
-    </section>
-    <footer>
-      Seismic data: EarthScope MUSTANG noise spectra (Casey et al. 2018,
-      <a href="https://doi.org/10.1785/0220170191">doi:10.1785/0220170191</a>). Method after
-      Lecocq et al. 2020, <i>Science</i> (<a href="https://doi.org/10.1126/science.abd2438">doi:10.1126/science.abd2438</a>).
-      Only city-scale vibration is used; it cannot identify any person.
-    </footer>
-  </div>
-  <div id="tip" role="tooltip"></div>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+<body class="tour" data-tone="space">
+  <header class="tourbar" id="tourbar">
+    <a class="mark" href="#welcome">GroundTruth</a>
+    <div class="aside"><span id="stop"></span><a href="globe.html" id="skip">Skip the tour</a></div>
+  </header>
+
+  <!-- 1. Welcome: the Earth from orbit, and one real day of a city's shaking drawn along the bottom -->
+  <section class="welcome" id="welcome" data-tone="space" data-stop="1">
+    <div class="orbit" aria-hidden="true"><canvas class="sky"></canvas><div class="map"></div></div>
+    <div class="hello">
+      <h1>The ground knows what day it&nbsp;is.</h1>
+      <p class="lede">Seismometers were built to hear earthquakes. They also feel every bus, train and
+        footstep, so each city’s week is written into the ground beneath it.</p>
+      <div class="actions">
+        <a class="go" id="primary" href="#day">Take the two-minute tour</a>
+        <a class="alt" id="secondary" href="globe.html">I know already, open the globe</a>
+      </div>
+    </div>
+    <div class="trace" aria-hidden="true"><svg viewBox="0 0 1000 100" preserveAspectRatio="none"><path id="pen" pathLength="1"/></svg></div>
+    <p class="caption"><i>Brussels, an average Wednesday before the 2020 lockdown, midnight to midnight.</i>
+      <span>Data from Lecocq et al. (2020), Science. Earth imagery: NASA Blue Marble via GIBS.</span></p>
+  </section>
+
+  <!-- 2. One day under Brussels: scroll moves the pen, drag reads any hour -->
+  <section class="day" id="day" data-tone="paper" data-stop="2">
+    <div class="story">
+      <div class="stage" aria-live="polite">
+        <div class="read"><span class="hour" id="hour">midnight</span><span class="val" id="val"></span></div>
+        <div class="drawing" id="paper"><svg id="daysvg" viewBox="0 0 760 360" role="img"
+          aria-label="Hour-by-hour ground shaking in Brussels on an average Wednesday, with an average Sunday"></svg></div>
+        <p class="hint">Drag across the paper to read any hour. Local time.</p>
+      </div>
+      <div class="steps">
+        <div class="step" data-hour="0">
+          <p class="k">This is the ground under Brussels.</p>
+          <p>One seismometer, at the Royal Observatory in Uccle, in the south of the city. The line is how
+            hard the ground shook, hour by hour, on an average Wednesday before the 2020 lockdown.</p>
+        </div>
+        <div class="step" data-hour="2" id="s-still">
+          <p class="k" id="t-still-k">Almost still.</p>
+          <p id="t-still"></p>
+        </div>
+        <div class="step" data-hour="7" id="s-wake">
+          <p class="k">Then the city wakes up.</p>
+          <p id="t-wake"></p>
+        </div>
+        <div class="step" data-hour="23">
+          <p class="k">Busy all working day, then a slow fade.</p>
+          <p>No earthquake keeps office hours. Only people do.</p>
+        </div>
+        <div class="step" data-hour="23" data-sun>
+          <p class="k">A Sunday has no cliff.</p>
+          <p id="t-sun"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. The quiet of 2020: scroll drives the date; one line per city, like a drum record -->
+  <section class="quiet" id="quiet" data-tone="split" data-stop="3">
+    <div class="run" id="run">
+      <div class="qstage">
+        <div class="qspace" id="qspace"><canvas class="sky"></canvas><div class="map"></div><div class="labels" id="labels"></div></div>
+        <div class="qpaper">
+          <p class="date" id="qdate">10 February 2020</p>
+          <p class="dow" id="qdow">Monday</p>
+          <p class="count" id="qcount" aria-live="polite"></p>
+          <div class="drum" id="drum"><svg id="drumsvg" role="img"
+            aria-label="One line per city: ground shaking compared with the same weekday over the previous eight weeks, February to April 2020"></svg></div>
+          <p class="foot">Each line is one seismometer, compared with the same weekday over the previous eight weeks
+            (three-day median). Blue: at least 15% quieter. Cities are sorted by the day they went quiet. Only cities
+            whose weekly rhythm the 2020 study read well (80% or better) are shown. By late April the lockdown itself
+            has become the usual, so the lines drift back.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Can a computer read it? One honest result, then the visitor tries -->
+  <section class="learn" id="learn" data-tone="paper" data-stop="4">
+    <div class="learn-in">
+      <h2 class="ask">Can a computer read it?</h2>
+      <p class="lede" id="learn-stat">We trained one model per city on the published 2019–20 recordings and
+        tested each on whole weeks it had never seen.</p>
+      <div class="quiz">
+        <p class="q-head"><span id="q-city">Loading a real day</span><span id="q-score" class="q-score"></span></p>
+        <div class="q-drawing"><svg id="qsvg" viewBox="0 0 760 230" role="img" aria-label="One real day of ground shaking, hour by hour"></svg></div>
+        <p class="q-ask">Was this a weekday, or the weekend?</p>
+        <div class="q-actions" id="q-actions">
+          <button class="btn" type="button" data-ans="0">A weekday</button>
+          <button class="btn" type="button" data-ans="1">The weekend</button>
+        </div>
+        <p class="q-reveal" id="q-reveal" aria-live="polite"></p>
+        <p class="q-more"><button class="btn primary" type="button" id="q-next" hidden>Another day</button>
+          <a href="game.html">Play the full game: all seven days</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Yours now -->
+  <section class="yours" id="yours" data-tone="space" data-stop="5">
+    <canvas class="sky" id="yours-sky" aria-hidden="true"></canvas>
+    <div class="yours-in">
+      <h2>Now it’s yours.</h2>
+      <p class="lede" id="yours-lede">Every day since January 2019, city by city. Pick a date, find a holiday,
+        open any city’s year.</p>
+      <a class="go" href="globe.html" id="open-globe">Open the globe</a>
+      <ul class="doors">
+        <li><a href="today.html">Today</a><span>The newest day under each live city, and the predictions we wrote down in advance.</span></li>
+        <li><a href="game.html">Game</a><span>Guess the weekday from one day of shaking, against the model.</span></li>
+        <li><a href="research.html">Research</a><span id="door-research">Every city in the 2020 study: how well can a seismometer tell a weekday?</span></li>
+        <li><a href="about.html">About</a><span>How it works, and where it stops working.</span></li>
+      </ul>
+      <p class="credit">Seismic data: Lecocq et al. (2020), <i>Science</i>,
+        <a href="https://doi.org/10.1126/science.abd2438">doi:10.1126/science.abd2438</a>, and EarthScope MUSTANG.
+        Earth: NASA Blue Marble: Next Generation, served by NASA GIBS. Stars: Yale Bright Star Catalogue.
+        <a href="https://github.com/aaaditt/groundtruth">Source code</a>.</p>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"
+          integrity="sha384-GfxBM9x46BaAFxtCq39Fxir8fNZ4VDnwgfi6Kzi5/F1tAFsm0amuuV8kd+Pxzuf/" crossorigin="anonymous"></script>
   <script src="common.js"></script>
-  <script src="app.js"></script>
+  <script src="tour.js"></script>
 </body>
 </html>

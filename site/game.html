@@ -5,18 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Guess the Day</title>
   <meta name="description" content="Can you beat a machine-learning model at reading the day of the week from a city's ground vibrations?">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%2315181c' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&amp;display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="bar">
+    <a class="mark" href="index.html">GroundTruth</a>
+    <nav aria-label="Site"><a href="today.html">Today</a><a href="globe.html">Globe</a><a href="game.html" aria-current="page">Game</a><a href="research.html">Research</a><a href="about.html">About</a></nav>
+    <div class="aside"><a href="index.html#day">Replay the tour</a></div>
+  </header>
   <div class="wrap game">
     <header>
       <h1>Guess the day</h1>
       <p class="lede">Below is one real day of ground vibration in a city, hour by hour, recorded
         by a seismometer. <b>Which day of the week was it?</b> A machine-learning model made its
         guess without ever training on that week. Can you beat it?</p>
-      <nav><a href="index.html">← City Pulse</a><a href="globe.html">Time-travel globe</a><a href="research.html">Research map</a>
-        <a href="about.html">How it works</a></nav>
     </header>
 
     <section class="card">
@@ -35,7 +41,7 @@
       <div class="choices" id="g-choices" role="group" aria-label="Your guess"></div>
       <div id="g-reveal" class="reveal" aria-live="polite"></div>
       <div class="game-controls">
-        <button id="g-next" class="btn primary" type="button">Next day →</button>
+        <button id="g-next" class="btn primary" type="button">Next day</button>
         <label><input type="checkbox" id="g-hints" checked> Show average Wednesday &amp; Sunday</label>
         <label><input type="checkbox" id="g-holidays"> Holidays only</label>
       </div>

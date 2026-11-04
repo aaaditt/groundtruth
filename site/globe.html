@@ -5,21 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Time-Travel Globe</title>
   <meta name="description" content="Seven years of city life read from public seismometers: pick any day since 2019 and see which cities were quieter or louder than usual.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%2315181c' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css"
         integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd" crossorigin="anonymous">
   <link rel="preconnect" href="https://gibs.earthdata.nasa.gov" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&amp;display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="bar">
+    <a class="mark" href="index.html">GroundTruth</a>
+    <nav aria-label="Site"><a href="today.html">Today</a><a href="globe.html" aria-current="page">Globe</a><a href="game.html">Game</a><a href="research.html">Research</a><a href="about.html">About</a></nav>
+    <div class="aside"><a href="index.html#day">Replay the tour</a></div>
+  </header>
   <div class="wrap">
     <header>
       <h1>Seven years of city life, from the ground</h1>
       <p class="lede">Pick any day since January 2019. Each dot is a public seismometer; its colour says
         whether the city shook <b>less</b> (blue) or <b>more</b> (red) than on the same weekday over the
         previous eight weeks. Try March 2020, then a Christmas.</p>
-      <nav><a href="index.html">← City Pulse (today)</a><a href="research.html">Research map</a>
-        <a href="game.html">Play: guess the day</a><a href="#how">How to read this</a></nav>
     </header>
 
     <div class="timebar">
@@ -77,7 +83,7 @@
           still serves; Europe is thin because European stations are archived elsewhere. India has
           only two, both at its edges (Port Blair in the Andaman Islands, Shillong in Meghalaya):
           the 2020 data has no station on the Indian mainland. History runs
-          1 Jan 2019 – 30 Sep 2026; newer days are on <a href="index.html">City Pulse</a>.</li>
+          1 Jan 2019 – 30 Sep 2026; newer days are on the <a href="today.html">Today</a> page.</li>
         <li><b>Check.</b> On the 6 cities where both exist, this data reproduces the published 2020
           lockdown quieting within 0.7 percentage points
           (<a href="https://github.com/aaaditt/groundtruth/blob/main/docs/04-results.md">Result 14</a>).</li>

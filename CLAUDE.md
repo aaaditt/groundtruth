@@ -64,8 +64,9 @@ Shared logic lives in the `groundtruth/` package (features, calendars, models, s
 See `docs/12-master-plan.md` and the "Next steps" at the end of `docs/10-work-log.md`.
 The five promises (Results 5–9 in `docs/04`) and the pre-registered UAE experiment
 (`docs/14`, Result 10) are done, and so are the live models (Result 11) and the City
-Pulse dashboard (`site/`, `src/pulse.py`, `.github/workflows/pulse.yml`, live at
-https://aaaditt.github.io/groundtruth/), the band test (Result 12), the research map,
+Pulse dashboard (`site/today.html`, `src/pulse.py`, `.github/workflows/pulse.yml`, live at
+https://aaaditt.github.io/groundtruth/today.html; the front page `site/index.html` is a
+scrolling tour, `tour.js`), the band test (Result 12), the research map,
 game and predictions board, and the final report (`docs/13`). Tagged `v1.0-semester`.
 After the tag: 2019–2026 history (Result 14 lockdown cross-check, `src/history_pilot.py`)
 and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`,

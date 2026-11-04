@@ -20,3 +20,6 @@ data/external/geonames/
 # Yale Bright Star Catalogue (re-downloadable; see src/export_stars.py). Only
 # site/data/stars.json is committed.
 data/external/bsc5/
+
+# brainstorming mockups (visual companion)
+.superpowers/
