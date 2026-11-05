@@ -6,7 +6,8 @@
 // Text goes in with textContent only.
 "use strict";
 
-const ASK_DEFAULT = ["BE.UCC..HHZ", "2019-12-25"];
+// opens on an ordinary day the model reads right; Christmas, 12 days later, is the first suggestion
+const ASK_DEFAULT = ["BE.UCC..HHZ", "2019-12-13"];
 const ASK_FILES = new Map();             // station id -> parsed file, with a day-index lookup
 const A = { sid: null, i: null, year: null, f: null, drawing: 0 };
 const $a = (id) => document.getElementById(id);
@@ -97,7 +98,6 @@ function ask(i, { fly = false } = {}) {
   A.i = i;
   const ds = dateOfI(f, i);
   $a("ask-city").value = A.sid;
-  $a("ask-date").value = ds;
   $a("ask-date-btn").textContent = new Date(f.t0 + i * 864e5).toLocaleDateString("en-GB",
     { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
   sizeSelect();
@@ -128,7 +128,7 @@ function fillTry(f) {
   const out = [];
   const scored = f.days.filter((d) => d[2]);
   const isWeekday = (d) => !weekendOn(f, d[0]).includes(dowOf(f, d[0]));
-  const xmas = scored.filter((d) => dateOfI(f, d[0]).slice(5) === "12-25" && isWeekday(d)).pop();
+  const xmas = scored.filter((d) => dateOfI(f, d[0]).slice(5) === "12-25" && isWeekday(d))[0];
   if (xmas) out.push([`Christmas Day ${dateOfI(f, xmas[0]).slice(0, 4)}`, xmas[0]]);
   const seen = new Set(["Christmas Day"]);
   for (const d of [...scored].reverse()) {
@@ -163,6 +163,20 @@ function fillHonest(f) {
 // ---------- the year: one column per week, Monday at the top ----------
 const levelBin = (v) => v === null ? -1 : v <= -3 ? 0 : v <= -1.5 ? 1 : v <= -0.5 ? 2 : v < 0.5 ? 3 : v < 1.5 ? 4 : v < 3 ? 5 : 6;
 const LEVEL_VARS = ["--div-n3", "--div-n2", "--div-n1", "--div-0", "--div-p1", "--div-p2", "--div-p3"];
+// colour: the day's level minus the median level of the days within four weeks either side,
+// so slow seasonal drift drops out and the weekly rhythm (the weekends) shows
+function localLevels(f, i0, i1) {
+  const out = new Map();
+  for (let i = i0; i < i1; i++) {
+    const r = rowOf(f, i);
+    if (!r || r[6] === null) continue;
+    const near = [];
+    for (let k = i - 28; k <= i + 28; k++) { const q = rowOf(f, k); if (q && q[6] !== null) near.push(q[6]); }
+    near.sort((p, q) => p - q);
+    out.set(i, r[6] - near[near.length >> 1]);
+  }
+  return out;
+}
 function drawYear(f, year) {
   A.year = year;
   const city = f.city;
@@ -185,38 +199,46 @@ function drawYear(f, year) {
   }
   const cal = $a("ask-cal");
   cal.replaceChildren();
-  const cell = 15, gap = 3, pitch = cell + gap, left = 34, top = 20;
+  const tall = innerWidth < 700;                      // phones: one ROW per week, weekdays across
+  const cell = tall ? 34 : 15, gap = tall ? 5 : 3, pitch = cell + gap, left = tall ? 46 : 34, top = tall ? 26 : 20;
   const jan1 = iOfDate(f, `${year}-01-01`), offset = dowOf(f, jan1);
   const nDays = iOfDate(f, `${year + 1}-01-01`) - jan1;
-  const cols = Math.ceil((nDays + offset) / 7);
-  const W = left + cols * pitch, Hh = top + 7 * pitch;
+  const weeks = Math.ceil((nDays + offset) / 7);
+  const W = tall ? left + 7 * pitch : left + weeks * pitch, Hh = tall ? top + weeks * pitch : top + 7 * pitch;
   cal.setAttribute("viewBox", `0 0 ${W} ${Hh}`);
   cal.setAttribute("aria-label", `${city}, ${year}: one square per day, coloured by how loud the day was`);
-  cal.style.minWidth = `${Math.round(W * 0.72)}px`;
-  for (const [k, t] of [[0, "Mon"], [3, "Thu"], [6, "Sun"]]) {
-    const e = svg("text", { x: 0, y: top + k * pitch + cell - 3, class: "dl" }); e.textContent = t; cal.append(e);
+  cal.style.minWidth = tall ? "" : `${Math.round(W * 0.72)}px`;
+  cal.style.maxWidth = tall ? "340px" : "";
+  const heads = tall ? [[0, "M"], [1, "T"], [2, "W"], [3, "T"], [4, "F"], [5, "S"], [6, "S"]] : [[0, "Mon"], [3, "Thu"], [6, "Sun"]];
+  for (const [k, t] of heads) {
+    const e = tall ? svg("text", { x: left + k * pitch + cell / 2, y: top - 8, class: "dl", "text-anchor": "middle" })
+      : svg("text", { x: 0, y: top + k * pitch + cell - 3, class: "dl" });
+    e.textContent = t; cal.append(e);
   }
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const end = (Date.parse(f.end_exclusive + "T00:00:00Z") - f.t0) / 864e5;
+  const rel = localLevels(f, jan1, jan1 + nDays);
   for (let n = 0; n < nDays; n++) {
-    const i = jan1 + n, slot = n + offset, col = Math.floor(slot / 7), row = slot % 7;
-    const x = left + col * pitch, y = top + row * pitch;
+    const i = jan1 + n, slot = n + offset, wk = Math.floor(slot / 7), dw = slot % 7;
+    const x = tall ? left + dw * pitch : left + wk * pitch, y = tall ? top + wk * pitch : top + dw * pitch;
     const d = dateOfI(f, i);
     if (d.slice(8) === "01") {
-      const t = svg("text", { x, y: top - 6, class: "ml" }); t.textContent = months[Number(d.slice(5, 7)) - 1]; cal.append(t);
+      const t = tall ? svg("text", { x: 0, y: y + cell - 10, class: "ml" }) : svg("text", { x, y: top - 6, class: "ml" });
+      t.textContent = months[Number(d.slice(5, 7)) - 1]; cal.append(t);
     }
-    if (i >= (Date.parse(f.end_exclusive + "T00:00:00Z") - f.t0) / 864e5) continue;
+    if (i >= end) continue;
     const r = rowOf(f, i);
-    const rect = svg("rect", { x, y, width: cell, height: cell, rx: 2, class: r ? "d" : "d none", "data-i": i,
+    const rect = svg("rect", { x, y, width: cell, height: cell, rx: tall ? 4 : 2, class: r ? "d" : "d none", "data-i": i,
       tabindex: "0", role: "button", "aria-label": `${longDate(f, i)}${r && r[4] ? `, ${r[4]}` : ""}` });
     if (r) {
-      const b = levelBin(r[6]);
+      const b = levelBin(rel.has(i) ? rel.get(i) : null);
       rect.setAttribute("style", b < 0 ? "fill: var(--div-0); opacity: .35" : `fill: var(${LEVEL_VARS[b]})`);
     }
-    if (!reduceMotion) rect.style.animationDelay = `${col * 9}ms`;
+    if (!reduceMotion) rect.style.animationDelay = `${wk * 9}ms`;
     rect.addEventListener("click", () => ask(i));
     rect.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); ask(i); } });
     cal.append(rect);
-    if (r && r[4]) cal.append(svg("circle", { cx: x + cell / 2, cy: y + cell / 2, r: 2, class: "hol" }));
+    if (r && r[4]) cal.append(svg("circle", { cx: x + cell / 2, cy: y + cell / 2, r: tall ? 3.5 : 2, class: "hol" }));
   }
 }
 
@@ -239,7 +261,7 @@ function drawDay(f, i) {
   const other = guess !== null && guess !== real ? guess : (real === 6 ? 2 : 6);
   const ghosts = [[real, "ghost-weekday"], [other, "ghost-weekend"]];
   // phones get a narrower drawing, so the line is taller and the labels readable
-  const narrow = innerWidth < 700, W = narrow ? 600 : 1200, L = 6, R = W - (narrow ? 84 : 100), T = 18, B = 228;
+  const narrow = innerWidth < 700, W = narrow ? 600 : 1200, L = 6, R = W - (narrow ? 128 : 104), T = 18, B = 228;
   box.setAttribute("viewBox", `0 0 ${W} 270`);
   const all = [...shape, ...f.usual[real], ...f.usual[other]];
   const lo = Math.min(...all) - 0.04, hi = Math.max(...all) + 0.04;
@@ -306,7 +328,10 @@ function answer(f, i, r, guess, real) {
     bars.append(col);
   });
   const extra = [];
-  extra.push(`${Math.round(probs[guess])}% sure of ${DOW_LONG[guess]}; ${pWeekend}% sure it was a weekend day.`);
+  const second = probs.map((p, k) => [p, k]).filter(([, k]) => k !== guess).sort((p, q) => q[0] - p[0])[0];
+  extra.push(`The model put ${probs[guess]}% on ${DOW_LONG[guess]}` + (second[0] >= 5 ? ` and ${second[0]}% on ${DOW_LONG[second[1]]}` : "") + ".");
+  if (guessIsWeekend && !realIsWeekend) extra.push(` In all, ${pWeekend}% on the weekend days: to the ground, this was a day off.`);
+  else if (!guessIsWeekend && realIsWeekend) extra.push(` Only ${pWeekend}% on the weekend days: to the ground, this looked like a working day.`);
   if (period === "lockdown") extra.push(" This day is in the spring 2020 lockdown window, which the model never trained on.");
   else if (period === "festive") extra.push(" Between 21 December and 6 January the model never trains, because cities run on holiday rhythms.");
   ans.append(says, truth, bars, el("p", { class: "ask-why" }, extra.join("")));
@@ -325,18 +350,41 @@ function initAsk() {
   const sel = $a("ask-city");
   H.stations.map((s) => [s.city, s.id]).sort((a, b) => a[0].localeCompare(b[0]))
     .forEach(([c, id]) => sel.append(el("option", { value: id }, c)));
-  sel.addEventListener("change", () => openAsk(sel.value, $a("ask-date").value));
-  const date = $a("ask-date");
-  date.min = H.start;
-  date.max = new Date(Date.parse(H.end_exclusive + "T00:00:00Z") - 864e5).toISOString().slice(0, 10);
-  date.addEventListener("change", () => { if (date.value && A.f) ask(iOfDate(A.f, date.value)); });
-  $a("ask-date-btn").addEventListener("click", () => {
-    try { date.showPicker(); } catch (e) { date.style.opacity = 1; date.style.pointerEvents = "auto"; date.focus(); }
+  sel.addEventListener("change", () => openAsk(sel.value, A.f ? dateOfI(A.f, A.i) : ""));
+  // the date: a small panel under the date with day, month and year (anchored, keyboard-friendly)
+  const pop = $a("datepop"), dbtn = $a("ask-date-btn"), dd = $a("dp-day"), dm = $a("dp-month"), dy = $a("dp-year");
+  const MONTHS_LONG = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+    "October", "November", "December"];
+  for (let d = 1; d <= 31; d++) dd.append(el("option", { value: String(d) }, String(d)));
+  MONTHS_LONG.forEach((m, k) => dm.append(el("option", { value: String(k + 1) }, m)));
+  const lastDay = new Date(Date.parse(H.end_exclusive + "T00:00:00Z") - 864e5).toISOString().slice(0, 10);
+  for (let y = Number(H.start.slice(0, 4)); y <= Number(lastDay.slice(0, 4)); y++) dy.append(el("option", { value: String(y) }, String(y)));
+  const openPop = (open) => {
+    pop.hidden = !open;
+    dbtn.setAttribute("aria-expanded", String(open));
+    if (open && A.f) {
+      const ds = dateOfI(A.f, A.i);
+      dy.value = String(Number(ds.slice(0, 4))); dm.value = String(Number(ds.slice(5, 7))); dd.value = String(Number(ds.slice(8)));
+      dd.focus();
+    }
+  };
+  dbtn.addEventListener("click", (e) => { e.stopPropagation(); openPop(pop.hidden); });
+  $a("dp-go").addEventListener("click", () => {
+    const y = Number(dy.value), m = Number(dm.value);
+    const d = Math.min(Number(dd.value), new Date(Date.UTC(y, m, 0)).getUTCDate());   // 31 June becomes 30 June
+    let ds = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+    if (ds > lastDay) ds = lastDay;
+    if (ds < H.start) ds = H.start;
+    openPop(false);
+    if (A.f) ask(iOfDate(A.f, ds));
+    dbtn.focus();
   });
+  pop.addEventListener("keydown", (e) => { if (e.key === "Escape") { e.stopPropagation(); openPop(false); dbtn.focus(); } });
+  document.addEventListener("click", (e) => { if (!pop.hidden && !e.target.closest(".datewrap")) openPop(false); });
   $a("ask-close").addEventListener("click", closeAsk);
   $a("ask-random").addEventListener("click", () => { if (A.f) ask(iOfDate(A.f, pickDay(A.f, "random"))); });
   addEventListener("keydown", (e) => {
-    if ($a("ask").hidden || e.target.closest("input, select")) return;
+    if ($a("ask").hidden || e.target.closest("input, select, .datepop")) return;
     if (e.key === "Escape") closeAsk();
     if (A.f && (e.key === "ArrowLeft" || e.key === "ArrowRight")) { e.preventDefault(); ask(A.i + (e.key === "ArrowLeft" ? -1 : 1)); }
   });

@@ -18,7 +18,7 @@
   <header class="bar">
     <a class="mark" href="index.html">GroundTruth</a>
     <nav aria-label="Site"><a href="globe.html#ask" class="nav-ask">Ask</a><a href="globe.html" aria-current="page">Globe</a><a href="today.html">Today</a><a href="game.html">Game</a><a href="research.html">Research</a><a href="about.html">About</a></nav>
-    <div class="aside"><a href="index.html#day">Replay the tour</a><button class="sound" id="sound" type="button" aria-pressed="false" title="Sound on or off"><svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7 Q4 1 7 7 T13 7 T19 7 T25 7"/></svg><span>Sound</span></button></div>
+    <div class="aside"><a href="index.html#day">Replay the tour</a><button class="sound" id="sound" type="button" aria-pressed="false" title="Sound on or off"><svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7 Q4 1 7 7 T13 7 T19 7 T25 7"/></svg><span>Sound on</span></button></div>
   </header>
   <div class="wrap">
     <header>
@@ -31,7 +31,9 @@
     <section class="askview" id="ask" hidden aria-labelledby="ask-q">
       <p class="ask-back"><button class="chip" id="ask-close" type="button">Back to the globe</button></p>
       <h1 class="ask-q" id="ask-q">What day was it under <select id="ask-city" aria-label="City"></select> on
-        <span class="datewrap"><button type="button" id="ask-date-btn" aria-label="Change the date"></button><input type="date" id="ask-date" aria-label="Date" tabindex="-1" required></span>?</h1>
+        <span class="datewrap"><button type="button" id="ask-date-btn" aria-haspopup="dialog" aria-expanded="false" aria-label="Change the date"></button><span class="datepop" id="datepop" role="dialog" aria-label="Choose a date" hidden><select id="dp-day" aria-label="Day"></select><select id="dp-month" aria-label="Month"></select><select id="dp-year" aria-label="Year"></select><button type="button" class="btn primary" id="dp-go">Ask</button></span>?</span></h1>
+      <p class="ask-hint">Change the city or the date, or pick any day from the year below.</p>
+      <div class="ask-try"><span>Try</span><span id="ask-try"></span><button class="btn" id="ask-random" type="button">A day at random</button></div>
       <div class="ask-globe" id="ask-globe"></div>
       <div class="ask-trace">
         <svg id="ask-svg" viewBox="0 0 1200 270" role="img" aria-label="That day's ground shaking, hour by hour, with a usual day for comparison"></svg>
@@ -42,9 +44,8 @@
         <div class="ask-yhead"><h2 id="ask-yt"></h2><div class="years" id="ask-years" role="group" aria-label="Year"></div></div>
         <div class="ask-calbox"><svg id="ask-cal" role="img"></svg></div>
         <p class="note" id="ask-key">Each square is one day, Monday at the top. Its colour is how hard the ground shook that day
-          compared with all ordinary days in the 8 weeks before it: blue quieter, red louder. That is why the weekends show
-          up as blue bands. A dot marks a public holiday; an outline means no recording. Click any day to ask about it.</p>
-        <div class="ask-try"><span>Try</span><span id="ask-try"></span><button class="btn" id="ask-random" type="button">A day at random</button></div>
+          compared with the days around it (four weeks either side): blue quieter, red louder. That is why the weekends
+          show up as blue bands. A dot marks a public holiday; an outline means no recording. Click any day to ask about it.</p>
         <p class="note ask-honest" id="ask-honest"></p>
       </div>
     </section>

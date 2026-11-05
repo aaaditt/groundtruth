@@ -176,6 +176,8 @@
   function paint() {
     for (const b of document.querySelectorAll(".sound")) {
       b.setAttribute("aria-pressed", String(enabled));
+      const label = b.querySelector("span");
+      if (label) label.textContent = enabled ? "Sound on" : "Sound off";
       b.title = enabled ? "Sound is on. Click to turn it off." : "Sound is off. Click to turn it on.";
     }
   }

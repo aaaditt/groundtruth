@@ -83,6 +83,13 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
 - `config/predictions.csv` is pre-registration: never edit or delete a row after its
   commit. Add new predictions as new rows, committed before their date.
 
+- **Ask the ground** (`site/globe.html#ask`, `site/ask.js`) reads `site/data/ask/<station>.json`,
+  written only by `src/ask.py` from the local MUSTANG cache (Result 16). Every guess must stay
+  out of fold (GroupKFold by `week_id`; `tests/test_ask.py` checks each week sits in one fold).
+  Rebuild it after changing `groundtruth/ask.py`, the features or the model.
+- One dark design (Gloock + Schibsted Grotesk, tokens at the top of `site/style.css`); charts
+  use `paperGrid` / `smoothPath` from `common.js`. Sound is `site/sound.js` (Web Audio, no
+  files); every page loads it and has the `#sound` switch (tested).
 - The site is served by **Vercel** as plain static files from `site/` (`vercel.json`: no
   build, `Cache-Control: max-age=0, must-revalidate`); every push to `main` redeploys.
   GitHub Pages (pulse.yml) is still a mirror until it is retired.

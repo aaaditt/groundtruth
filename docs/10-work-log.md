@@ -653,6 +653,37 @@ Tests: 66, all pass.
 
 Tests: 85, all pass.
 
+### 2026-11-06 — Ask the ground, the Orbit look, and sound
+
+**Why:** on a first run through the site, the strongest result could not be found: let
+anyone pick a day and watch the model read it. Aadit also asked for a less blocky,
+less confusing design, sound, and better chart lines. Design and plan:
+`docs/superpowers/specs/2026-11-06-ask-the-ground-design.md`,
+`docs/superpowers/plans/2026-11-06-ask-the-ground.md`.
+
+**Done:**
+- `src/ask.py` / `groundtruth/ask.py` (Result 16): an out-of-fold weekday guess for every
+  city-day of the 33 globe stations, 2019-01-01 to 2026-09-30. One 7-class forest per
+  station on ordinary days only, GroupKFold by year-aware week; a fixed lockdown window
+  (1 Mar – 30 Jun 2020) is never trained on; `level` is scored against the previous 8
+  weeks. 79,134 days guessed; median exact weekday 46.8% (chance 14%), weekday vs weekend
+  93.4%; weekday holidays read as a weekend 67% vs 1.5% of ordinary weekdays.
+  Written to `site/data/ask/<station>.json` (built locally from the MUSTANG cache, committed
+  like `history.json`).
+- `globe.html#ask` (`site/ask.js`): pick a city and a date in a sentence, or any square of
+  the city's year (one column per week, Monday at the top, coloured by `level`, so the
+  weekends show as bands). The Earth flies to the city, the day's line draws, then the
+  model's guess, its confidence for all seven days and the truth (with the holiday name).
+  "Ask" is first in every menu; the tour leads into it.
+- One dark "Orbit" design on every page: Gloock + Schibsted Grotesk, glowing pen lines,
+  millimetre chart paper (12-minute, hour and six-hour lines; `common.js paperGrid`), pen
+  lines smoothed through every real hourly value (`smoothPath`). The light theme is gone.
+- `site/sound.js`: a synthesised ambient drone, whooshes (Earth moves, page changes),
+  ticks, a pen scratch and a chime. Nothing plays before the first click; a Sound switch
+  in every bar, remembered.
+- A first-time-visitor review (a subagent playing a science undergraduate who has never
+  seen the project) walked the whole site; its findings were fixed before release.
+
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions
 (Melbourne Cup Day, 11 Nov). Thanksgiving (26 Nov) is the headline live test.

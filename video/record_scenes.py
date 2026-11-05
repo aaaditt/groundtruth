@@ -1,7 +1,7 @@
 """Record every scene of the demo video at 1920x1080 from the live site.
 
 Each scene's length, captions and caption times come from video/captions.json.
-Site scenes drive the real pages (the tour, the globe, Today, the game) and burn
+Site scenes drive the real pages (the tour, Ask, the globe, Today) and burn
 their captions into the frame; card scenes play video/cards.html.
 
 How the capture stays smooth: Chrome's screencast only delivers ~15 frames a
@@ -20,6 +20,7 @@ import base64
 import json
 import subprocess
 import time
+from datetime import date
 from pathlib import Path
 
 from playwright.async_api import async_playwright
@@ -43,14 +44,14 @@ OVERLAY_JS = r"""
   const css = document.createElement('style');
   css.textContent = `
     #vx-cap { position: fixed; left: 56px; bottom: 64px; z-index: 99999; max-width: 980px; pointer-events: none;
-      padding: 20px 30px 20px 26px; background: rgba(21,24,28,.92); color: #f1f3ef;
-      border: 1px solid rgba(255,255,255,.14); border-left: 6px solid #86b1e8;
-      font: 500 32px/1.3 "Libre Franklin", Arial, sans-serif; box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      padding: 20px 30px 20px 26px; background: rgba(6,9,14,.9); color: #eef1f6;
+      border: 1px solid rgba(156,200,255,.22); border-left: 6px solid #9cc8ff; border-radius: 4px;
+      font: 500 32px/1.3 "Schibsted Grotesk", Arial, sans-serif; box-shadow: 0 14px 40px rgba(0,0,0,.6);
       opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
     #vx-cap.in { opacity: 1; transform: none; }
-    #vx-cap small { display: block; margin-top: 6px; font-size: 22px; font-weight: 400; color: #b3bcc2; }
+    #vx-cap small { display: block; margin-top: 6px; font-size: 22px; font-weight: 400; color: #aab3c0; }
     #vx-cursor { position: fixed; left: 0; top: 0; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50%;
-      border: 2.5px solid #15181c; background: rgba(241,243,239,.55); z-index: 99998; pointer-events: none; opacity: 0;
+      border: 2.5px solid #9cc8ff; background: rgba(156,200,255,.25); z-index: 99998; pointer-events: none; opacity: 0;
       transition: transform 1.1s cubic-bezier(.45,.05,.25,1), opacity .5s ease; }
     #vx-cursor.press { animation: vxpress .45s ease; }
     @keyframes vxpress { 50% { box-shadow: 0 0 0 14px rgba(31,78,158,.3); } }
@@ -106,9 +107,10 @@ SLOW_TIME_JS = """
 
 
 async def slow_page(browser):
-    """A fresh 1920x1080 light-theme page whose clocks, timers, rAF and CSS animations run at 1/SLOW speed."""
-    ctx = await browser.new_context(viewport={"width": W, "height": H}, color_scheme="light")
+    """A fresh 1920x1080 page whose clocks, timers, rAF and CSS animations run at 1/SLOW speed."""
+    ctx = await browser.new_context(viewport={"width": W, "height": H}, color_scheme="dark")
     page = await ctx.new_page()
+    await page.add_init_script("try { localStorage.setItem('gt-sound', 'off') } catch (e) {}")
     await page.add_init_script(SLOW_TIME_JS)
     cdp = await ctx.new_cdp_session(page)
     await cdp.send("Animation.enable")
@@ -208,7 +210,7 @@ def js(page, code, arg=None):
 
 
 async def tour_scenes(page, cdp, only):
-    """The four tour scenes run in one continuous page, like a visitor scrolling."""
+    """The three tour scenes run in one continuous page, like a visitor scrolling."""
     y = lambda expr: page.evaluate(expr)
     if "welcome" in only:
         await page.evaluate("document.getElementById('vx-cap').style.bottom = '210px'")   # keep the pen line visible
@@ -237,21 +239,6 @@ async def tour_scenes(page, cdp, only):
         rec = Recorder(cdp); await rec.start()
         await captions(page, rec, "quiet", [(0.6, js(page, "y => vx.scrollTo(y, 14)", b))])
         await rec.stop("quiet", BY_ID["quiet"]["length"])
-    if "learn" in only:
-        top = await y("document.getElementById('learn').offsetTop")
-        # bring the quiz's answer buttons up to mid-screen, without scrolling into the next stop
-        quiz = await y("(() => { const b = document.getElementById('q-actions'), l = document.getElementById('learn');"
-                       " const want = b.getBoundingClientRect().top + scrollY - innerHeight * 0.45;"
-                       " return Math.min(want, l.offsetTop + l.offsetHeight - innerHeight); })()")
-        rec = Recorder(cdp); await rec.start()
-        await captions(page, rec, "learn", [
-            (0.1, js(page, "y => vx.scrollTo(y, 1.8)", top)),
-            (5.6, js(page, "y => vx.scrollTo(y, 1.6)", quiz)),
-            (7.6, js(page, "() => vx.cursorTo('#q-actions .btn')")),
-            (9.0, js(page, "() => { vx.press(); document.querySelector('#q-actions .btn').click(); }")),
-            (10.2, js(page, "() => vx.hideCursor()")),
-        ])
-        await rec.stop("learn", BY_ID["learn"]["length"])
 
 
 async def globe_scene(page, cdp):
@@ -271,7 +258,7 @@ async def globe_scene(page, cdp):
         (4.6, js(page, "() => vx.cursorTo('#play')")),
         (5.8, js(page, "() => { vx.press(); play(); }")),
         (11.0, js(page, "() => { play(); vx.hideCursor(); }")),        # pause in late March / early April
-        (13.0, js(page, "k => select(k, true)", k)),
+        (12.5, js(page, "k => select(k, true)", k)),
     ])
     await rec.stop("globe", BY_ID["globe"]["length"])
 
@@ -288,17 +275,27 @@ async def today_scene(page, cdp):
     await rec.stop("today", BY_ID["today"]["length"])
 
 
-async def game_scene(page, cdp):
-    await page.wait_for_selector("#g-choices button")
-    # start with the chart at the top, so the answer and the reveal sit above the caption
-    await page.evaluate("scrollTo(0, document.getElementById('g-city').getBoundingClientRect().top + scrollY - 24)")
+async def ask_scene(page, cdp):
+    """Ask the ground: the Earth flies to Brussels, Christmas 2019 draws and is read as a Sunday;
+    then the year calendar, and Ascension Day 2019 asked from it."""
+    await page.wait_for_function("() => typeof map !== 'undefined' && map && map.loaded() && typeof openAsk === 'function'", timeout=60000 * SLOW)
+    await page.evaluate("sid => loadAsk(sid)", "BE.UCC..HHZ")
+    await page.evaluate("map.jumpTo({center: [4.36, 50.8], zoom: 1.75})")      # warm the tiles the fly ends on
+    await page.wait_for_function("map.loaded() && map.areTilesLoaded()", timeout=60000 * SLOW)
+    await page.evaluate("map.jumpTo({center: HOME.center, zoom: homeZoom()})")
+    await page.wait_for_function("map.loaded() && map.areTilesLoaded()", timeout=60000 * SLOW)
+    await page.wait_for_timeout(1500 * SLOW)
+    year_y = "(() => { const e = document.querySelector('.ask-year'); return e.getBoundingClientRect().top + scrollY - 140; })()"
+    sq = "#ask-cal rect.d[data-i='%d']" % (date(2019, 5, 30) - date(2019, 1, 1)).days
     rec = Recorder(cdp); await rec.start()
-    await captions(page, rec, "game", [
-        (3.0, js(page, "() => vx.cursorTo('#g-choices button:nth-child(3)')")),
-        (4.4, js(page, "() => { vx.press(); document.querySelector('#g-choices button:nth-child(3)').click(); }")),
-        (5.4, js(page, "() => vx.hideCursor()")),
+    await captions(page, rec, "ask", [
+        (4.6, js(page, "() => openAsk('BE.UCC..HHZ', '2019-12-25')")),     # fly in, then the line draws under caption 2
+        (17.0, js(page, f"() => vx.scrollTo({year_y}, 1.8)")),
+        (20.6, js(page, f"() => vx.cursorTo(\"{sq}\")")),
+        (21.8, js(page, f"() => {{ vx.press(); document.querySelector(\"{sq}\").dispatchEvent(new MouseEvent('click', {{bubbles: true}})); }}")),
+        (22.4, js(page, "() => { vx.hideCursor(); vx.scrollTo(0, 1.6); }")),
     ])
-    await rec.stop("game", BY_ID["game"]["length"])
+    await rec.stop("ask", BY_ID["ask"]["length"])
 
 
 async def open_site(browser, url):
@@ -334,15 +331,15 @@ async def main():
                                                  "--enable-gpu", "--ignore-gpu-blocklist", "--enable-gpu-rasterization"])
         for sid in [s for s in order if s in only and BY_ID[s]["kind"] == "card"]:
             await record_card(browser, sid)
-        tour = [s for s in ("welcome", "day", "quiet", "learn") if s in only]
+        tour = [s for s in ("welcome", "day", "quiet") if s in only]
         if tour:
             page, cdp = await open_site(browser, url + "index.html")
             if tour[0] != "welcome":                     # resuming mid-tour: start where the visitor would be
-                await page.evaluate(f"document.getElementById('{ {'day': 'welcome', 'quiet': 'day', 'learn': 'quiet'}[tour[0]] }').scrollIntoView()")
+                await page.evaluate(f"document.getElementById('{ {'day': 'welcome', 'quiet': 'day'}[tour[0]] }').scrollIntoView()")
             await tour_scenes(page, cdp, tour)
             await page.context.close()
-        for sid, path, fn in [("globe", "globe.html#2020-02-24", globe_scene), ("today", "today.html", today_scene),
-                              ("game", "game.html", game_scene)]:
+        for sid, path, fn in [("ask", "globe.html", ask_scene), ("globe", "globe.html#2020-02-24", globe_scene),
+                              ("today", "today.html", today_scene)]:
             if sid in only:
                 page, cdp = await open_site(browser, url + path)
                 await fn(page, cdp)

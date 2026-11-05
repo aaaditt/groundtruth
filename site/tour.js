@@ -27,9 +27,8 @@ const store = {
   set() { try { localStorage.setItem("gt-toured", "1"); } catch (e) { /* private mode: fine */ } },
 };
 if (store.get()) {
-  const p = $("primary"), s = $("secondary");
-  p.textContent = "Ask the ground"; p.href = "globe.html#ask";
-  s.textContent = "Replay the tour"; s.href = "#day";
+  const s = $("secondary");
+  s.textContent = "Or replay the tour"; s.href = "#day";
 }
 for (const id of ["skip", "secondary", "open-globe"]) $(id).addEventListener("click", () => store.set());
 
@@ -94,7 +93,7 @@ function makeGlobe(box, { center, zoom, date }) {
   map.on("style.load", () => map.setProjection({ type: "globe" }));
   const paint = () => { const c = map.getCenter(); drawSky(sky, c.lng, c.lat, g); };
   map.on("move", paint); map.on("resize", paint); map.on("load", paint);
-  map.facing = (lon, lat) => { const c = map.getCenter(); return dot3(unit3(lon, lat), unit3(c.lng, c.lat)) > 0.12; };
+  map.facing = (lon, lat) => { const c = map.getCenter(); return dot3(unit3(lon, lat), unit3(c.lng, c.lat)) > 0.3; };      // well inside the visible disc
   return map;
 }
 const hasGL = typeof maplibregl !== "undefined";
@@ -104,8 +103,7 @@ const fitText = (box) => box.style.setProperty("--u", Math.min(2, box.viewBox.ba
 // ---------- stop 1: welcome ----------
 function welcome(ref) {
   const ys = ref.weekday, lo = Math.min(...ys), hi = Math.max(...ys);
-  $("pen").setAttribute("d", ys.map((y, i) =>
-    `${i ? "L" : "M"}${(i * 1000 / 23).toFixed(1)} ${(96 - (y - lo) / (hi - lo) * 92).toFixed(1)}`).join(""));
+  $("pen").setAttribute("d", smoothPath(ys.map((y, i) => [i * 1000 / 23, 96 - (y - lo) / (hi - lo) * 92])));
   document.querySelector(".trace").classList.add("drawn");
   if (!hasGL) return;
   const box = document.querySelector(".orbit");
@@ -131,7 +129,8 @@ function oneDay(ref) {
   const sunPeak = sun.indexOf(Math.max(...sun));
   // the copy is written from the numbers, so it can never disagree with the line
   $("s-still").dataset.hour = minH; $("s-wake").dataset.hour = peakH;
-  $("t-still-k").textContent = `${hourLabel(minH)[0].toUpperCase()}${hourLabel(minH).slice(1)}. Almost still.`;
+  // "2 a.m." already ends in a full stop, so no second one
+  $("t-still-k").textContent = `${hourLabel(minH)[0].toUpperCase()}${hourLabel(minH).slice(1)}${/\.$/.test(hourLabel(minH)) ? "" : "."} Almost still.`;
   $("t-still").textContent = `The ground is shaking at only ${pct(wed[minH])} of the day’s usual level.`;
   $("t-wake").textContent = `By ${hourLabel(peakH)} the ground shakes ${(wed[peakH] / wed[minH]).toFixed(1)} times ` +
     `harder than in the small hours. That is the commute: cars, trams, trains and people on foot.`;

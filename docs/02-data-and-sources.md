@@ -139,9 +139,12 @@ headline results comes from these.** They are used only for the Route A validati
   not copyrighted; NASA asks for credit, which the page footer and map attribution give
   (NASA Earthdata data use policy, https://www.earthdata.nasa.gov/earth-observation-data/data-use-policy ,
   accessed 2026-11-04). The globe credits GIBS in the wording GIBS asks for.
-- Site typefaces: Old Standard TT (Alexey Kryukov) and Libre Franklin (Impallari Type),
-  both SIL Open Font License, loaded from Google Fonts, https://fonts.google.com/ (not
-  data; listed so every outside resource the site loads is named here). No DOI.
+- Site typefaces (from 2026-11-06): Gloock (Duarte Pinto) and Schibsted Grotesk (Bakken &
+  Bæck for Schibsted), both SIL Open Font License, loaded from Google Fonts,
+  https://fonts.google.com/ (not data; listed so every outside resource the site loads is
+  named here). No DOI. They replace Old Standard TT and Libre Franklin.
+- Site sound: none loaded. Every sound is synthesised in the browser with the Web Audio
+  API (`site/sound.js`); no audio files, so nothing to license.
 - Borders and place names on the globe: OpenFreeMap vector tiles and fonts —
   https://openfreemap.org/ , © OpenMapTiles, data © OpenStreetMap contributors
   (https://www.openstreetmap.org/copyright). No API key, no DOI.

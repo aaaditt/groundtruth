@@ -1,7 +1,9 @@
 """Assemble the demo video: scene clips + crossfades + subtitles + chapters + poster.
 
 Reads video/build/scenes/*.mp4 (record_scenes.py) and video/captions.json. Writes:
-  site/media/groundtruth-demo.mp4   1080p30 H.264, no audio track (the captions carry the story)
+  site/media/groundtruth-demo.mp4   1080p30 H.264 + AAC: the site's own drone chord and a soft
+                                    whoosh at each scene change (made here by ffmpeg, no files),
+                                    with a narration track mixed on top when video/build/voice.m4a exists
   site/media/groundtruth-demo.vtt   the same captions as subtitles, for screen readers and the watch page
   site/media/groundtruth-demo.srt   the same, for video players
   site/media/chapters.json          scene start times, for the watch page
@@ -24,7 +26,7 @@ SCENES = HERE / "build" / "scenes"
 MEDIA = ROOT / "site" / "media"
 OUT = MEDIA / "groundtruth-demo.mp4"
 XF = 0.7                    # crossfade between scenes, seconds
-POSTER_AT = ("quiet", 13.0)     # scene and second for the poster frame: the drum record in April 2020
+POSTER_AT = ("ask", 15.5)       # scene and second for the poster frame: Christmas 2019 read as a Sunday
 PLAY_FONT = r"C\:/Windows/Fonts/seguisym.ttf"   # has the play glyph; colon escaped for ffmpeg
 
 
@@ -55,10 +57,40 @@ def main():
         prev = f"v{i}"
     f.append(f"[{prev}]fade=t=in:st=0:d=0.8,fade=t=out:st={total - 1.4:.3f}:d=1.4,format=yuv420p[vout]")
     MEDIA.mkdir(parents=True, exist_ok=True)
+    silent = OUT.with_name("_video.mp4")
     cmd += ["-filter_complex", ";".join(f), "-map", "[vout]", "-an",
             "-c:v", "libx264", "-preset", "slow", "-crf", str(args.crf), "-profile:v", "high", "-r", "30",
-            "-movflags", "+faststart", "-metadata", "title=GroundTruth: the ground knows what day it is", str(OUT)]
+            str(silent)]
     subprocess.run(cmd, check=True)
+
+    # sound: the drone chord sound.js plays on the site (D2 A2 D3 E3 A3, each breathing slowly),
+    # through a low-pass and an echo, plus a soft air whoosh at every crossfade
+    voices = [(73.42, .16, .030), (110, .11, .047), (146.83, .08, .064), (164.81, .05, .081), (220, .035, .098)]
+    drone = "+".join(f"{a}*sin(2*PI*{fq}*t)*(0.6+0.4*sin(2*PI*{lf}*t+{k}))" for k, (fq, a, lf) in enumerate(voices))
+    drone_r = "+".join(f"{a}*sin(2*PI*{fq * 1.0012:.3f}*t)*(0.6+0.4*sin(2*PI*{lf}*t+{k + 0.7}))" for k, (fq, a, lf) in enumerate(voices))
+    a = [f"aevalsrc='{drone}|{drone_r}':s=48000:d={total:.3f},lowpass=f=650,aecho=0.8:0.6:180|320:0.3|0.2,"
+         f"volume=0.55,afade=t=in:d=3,afade=t=out:st={total - 3:.3f}:d=3[bed]"]
+    mix = ["[bed]"]
+    for k, st in enumerate(starts[1:]):
+        ms = int(max(st - 0.45, 0) * 1000)
+        a.append(f"anoisesrc=color=pink:d=1.3:a=0.5:s=48000,bandpass=f=850:width_type=o:w=1.6,"
+                 f"afade=t=in:d=0.5,afade=t=out:st=0.5:d=0.8,volume=0.5,aformat=channel_layouts=stereo,adelay={ms}|{ms}[w{k}]")
+        mix.append(f"[w{k}]")
+    voice = HERE / "build" / "voice.m4a"
+    inputs = ["-i", str(silent)]
+    if voice.exists():
+        inputs += ["-i", str(voice)]
+        a.append("[1:a]volume=1.0,aformat=channel_layouts=stereo[vo]")
+        mix.append("[vo]")
+        a.append(f"{''.join(mix[:-1])}amix=inputs={len(mix) - 1}:normalize=0,volume=0.45[music]")
+        a.append("[music][vo]amix=inputs=2:normalize=0[aout]")
+    else:
+        a.append(f"{''.join(mix)}amix=inputs={len(mix)}:normalize=0,volume=2.2[aout]")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *inputs, "-filter_complex", ";".join(a),
+                    "-map", "0:v", "-map", "[aout]", "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-shortest",
+                    "-movflags", "+faststart", "-metadata", "title=GroundTruth: the ground knows what day it is",
+                    str(OUT)], check=True)
+    silent.unlink()
 
     # subtitles: each caption runs until the next one in its scene, or the scene's end
     cues = []

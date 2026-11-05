@@ -15,18 +15,19 @@
   <header class="bar">
     <a class="mark" href="index.html">GroundTruth</a>
     <nav aria-label="Site"><a href="globe.html#ask" class="nav-ask">Ask</a><a href="globe.html">Globe</a><a href="today.html" aria-current="page">Today</a><a href="game.html">Game</a><a href="research.html">Research</a><a href="about.html">About</a></nav>
-    <div class="aside"><a href="index.html#day">Replay the tour</a><button class="sound" id="sound" type="button" aria-pressed="false" title="Sound on or off"><svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7 Q4 1 7 7 T13 7 T19 7 T25 7"/></svg><span>Sound</span></button></div>
+    <div class="aside"><a href="index.html#day">Replay the tour</a><button class="sound" id="sound" type="button" aria-pressed="false" title="Sound on or off"><svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7 Q4 1 7 7 T13 7 T19 7 T25 7"/></svg><span>Sound on</span></button></div>
   </header>
   <div class="wrap">
     <header class="today-head">
       <div>
         <h1>The newest day, city by city</h1>
         <p class="lede">Each city has a model that learned its week from a year of shaking. Here is what it
-          made of the newest day. Seismic data reach us about two days late; cities run east to west, the
+          made of the newest day. Naming the exact weekday is hard (right about half the time in testing);
+          telling a working day from a day off is what these models do well. Seismic data reach us about two days late; cities run east to west, the
           way each day travels.</p>
         <p class="meta" id="meta">Loading the newest readings</p>
       </div>
-      <p class="key"><span class="demo">M T W <u>T</u> <b>F</b> S S</span><br>A darker letter means the
+      <p class="key"><span class="demo">M T W <u>T</u> <b>F</b> S S</span><br>A brighter letter means the
         model leaned that way. The underline is the real day.</p>
     </header>
     <ol class="rows" id="rows"></ol>

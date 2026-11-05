@@ -22,7 +22,7 @@ function chart(day) {
     "aria-label": `24-hour vibration profile of the mystery day in ${day.city}` });
   for (const h of [0, 6, 12, 18, 23]) {
     const t = svg("text", { x: xs(h), y: base + 16, "text-anchor": "middle" });
-    t.textContent = `${String(h).padStart(2, "0")}:00`; s.append(t);
+    t.textContent = h === 0 ? "midnight" : h === 12 ? "noon" : h === 23 ? "11 p.m." : h < 12 ? `${h} a.m.` : `${h - 12} p.m.`; s.append(t);
   }
   s.append(svg("line", { x1: L, x2: W - R, y1: base, y2: base, class: "axis" }));
   paperGrid(s, { x0: L, x1: W - R, y0: top, y1: base, cols: 23, rows: 4 });
@@ -47,7 +47,7 @@ function chart(day) {
   // hover: hour-by-hour readout
   day.shape.forEach((v, h) => {
     const hit = svg("rect", { x: xs(h) - (W - L - R) / 46, y: top, width: (W - L - R) / 23, height: base - top, fill: "transparent" });
-    hover(hit, [`${String(h).padStart(2, "0")}:00 local time`,
+    hover(hit, [`${h === 0 ? "midnight" : h === 12 ? "noon" : h < 12 ? `${h} a.m.` : `${h - 12} p.m.`} local time`,
       `this day: ${v >= 0 ? "+" : ""}${v.toFixed(2)} (log10, vs the day's own mean)`]);
     s.append(hit);
   });

@@ -1,7 +1,7 @@
-"""Capture the README screenshots from the live site (1440x900, light theme).
+"""Capture the README screenshots from the live site (1440x900).
 
 Usage: python scripts/screenshots.py [--url https://groundtruth-seismic.vercel.app]
-Writes assets/screenshot-{tour,day,quiet,globe,today,research}.png.
+Writes assets/screenshot-{ask,tour,day,quiet,globe,today}.png.
 Needs: Playwright for Python with Chromium (pip install playwright; playwright install chromium).
 """
 
@@ -28,7 +28,12 @@ def main():
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch(args=GPU)
-        page = browser.new_page(viewport={"width": 1440, "height": 900}, color_scheme="light")
+        page = browser.new_page(viewport={"width": 1440, "height": 900}, color_scheme="dark")
+
+        page.goto(url + "globe.html#ask/BE.UCC..HHZ/2019-12-25", wait_until="networkidle")
+        page.wait_for_function("() => typeof map !== 'undefined' && map && map.loaded()", timeout=60000)
+        page.wait_for_timeout(6500)                                  # the Earth flies in, the line draws, the answer
+        shot(page, "ask")
 
         page.goto(url + "index.html", wait_until="networkidle")
         page.wait_for_timeout(4500)                                  # the pen line draws in
@@ -52,11 +57,8 @@ def main():
         page.wait_for_timeout(1500)
         shot(page, "today")
 
-        page.goto(url + "research.html", wait_until="networkidle")
-        page.wait_for_timeout(3500)
-        shot(page, "research")
         browser.close()
-    print("assets/screenshot-{tour,day,quiet,globe,today,research}.png")
+    print("assets/screenshot-{ask,tour,day,quiet,globe,today}.png")
 
 
 if __name__ == "__main__":

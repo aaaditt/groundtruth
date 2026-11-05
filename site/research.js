@@ -16,7 +16,7 @@ const median = (a) => { const s = [...a].sort((x, y) => x - y), m = s.length / 2
 function tiles(st) {
   const m = st.filter((s) => s.weekend_bal_acc !== null);
   const acc = m.map((s) => s.weekend_bal_acc);
-  const items = [[String(m.length), "cities with a model"], [pct(median(acc)), "median weekday vs weekend"],
+  const items = [[String(m.length), `of the ${st.length} seismometers had enough data for a model`], [pct(median(acc)), "median weekday vs weekend"],
     [String(acc.filter((a) => a >= .9).length), "cities at 90% or better"],
     [pct(median(m.map((s) => s.dow_acc))), "median exact day (chance 14%)"]];
   document.getElementById("tiles").replaceChildren(...items.map(([v, l]) =>

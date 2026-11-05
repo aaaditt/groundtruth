@@ -4,6 +4,24 @@ What changed in each version of GroundTruth. Versions follow semantic versioning
 `1.0.0` is the git tag `v1.0-semester`. The daily `pulse: data` commits only add a new
 day of data and are not listed.
 
+## [1.4.0] - 2026-11-06
+
+### Added
+
+- **Ask the ground** (`globe.html#ask`, `site/ask.js`): pick any of 33 cities and any day
+  from 2019 to 2026; watch that day's line draw and see which weekday the model thinks it
+  was, next to the truth. Every guess is out of fold (Result 16, `src/ask.py`,
+  `site/data/ask/`). The city's year, one column per week, is the date picker.
+- **Sound** (`site/sound.js`): an ambient drone, whooshes, ticks, a pen scratch and a
+  chime, all synthesised in the browser; off with one switch, never before a click.
+- Result 16 in `docs/04-results.md`; tests for the Ask data (`tests/test_ask.py`).
+
+### Changed
+
+- **One dark "Orbit" look** on every page: Gloock and Schibsted Grotesk, glowing pen
+  lines, millimetre chart paper. The light theme is retired.
+- "Ask" is first in the menu; the tour's hero, quiz and last stop lead into it.
+
 ## [1.3.0] - 2026-11-05
 
 ### Added
