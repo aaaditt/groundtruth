@@ -666,8 +666,9 @@ less confusing design, sound, and better chart lines. Design and plan:
   city-day of the 33 globe stations, 2019-01-01 to 2026-09-30. One 7-class forest per
   station on ordinary days only, GroupKFold by year-aware week; a fixed lockdown window
   (1 Mar – 30 Jun 2020) is never trained on; `level` is scored against the previous 8
-  weeks. 79,134 days guessed; median exact weekday 46.8% (chance 14%), weekday vs weekend
-  93.4%; weekday holidays read as a weekend 67% vs 1.5% of ordinary weekdays.
+  weeks (or the last 28 ordinary days, deep in the lockdown window). 82,120 days guessed;
+  median exact weekday 47.4% (chance 14%), weekday vs weekend 93.1%; weekday holidays read
+  as a weekend 67% vs 1.7% of ordinary weekdays.
   Written to `site/data/ask/<station>.json` (built locally from the MUSTANG cache, committed
   like `history.json`).
 - `globe.html#ask` (`site/ask.js`): pick a city and a date in a sentence, or any square of
@@ -682,7 +683,9 @@ less confusing design, sound, and better chart lines. Design and plan:
   ticks, a pen scratch and a chime. Nothing plays before the first click; a Sound switch
   in every bar, remembered.
 - A first-time-visitor review (a subagent playing a science undergraduate who has never
-  seen the project) walked the whole site; its findings were fixed before release.
+  seen the project) walked the whole site; its findings were fixed before release. A final
+  code review (fresh reviewer) found no critical problems; its important findings were fixed
+  (lockdown days without a guess, a tablet-width scroll, one number not computed by a script).
 
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions

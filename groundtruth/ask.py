@@ -28,7 +28,9 @@ from groundtruth.models import make_cv, make_model, week_id
 
 LOCKDOWN = ("2020-03-01", "2020-06-30")
 WINDOW_DAYS = 56          # 8 weeks of earlier days for the level reference
-MIN_REF = 10              # at least this many ordinary days in that window, else not scored
+MIN_REF = 10              # at least this many ordinary days in that window ...
+FALLBACK_DAYS = 28        # ... else the last 28 ordinary days before the day (within a year),
+FALLBACK_SPAN = 365       #     e.g. late in the 2020 lockdown window; else not scored
 FEATURES = SHAPE_COLS + ["level"]
 
 
@@ -42,7 +44,9 @@ def mark_lockdown(d):
 
 def rolling_level(d):
     """Each day's level_raw as a robust z-score (median / MAD, clipped to +-10) against the
-    baseline days of the 56 days BEFORE it. NaN when fewer than MIN_REF such days exist.
+    baseline days of the 56 days BEFORE it. When fewer than MIN_REF such days exist (deep in
+    the lockdown window, or after a long outage), it uses the last FALLBACK_DAYS baseline days
+    before the day instead, looking back at most a year; NaN if even that is too few.
     Uses earlier days' levels and the holiday calendar only, never weekday labels."""
     lv = d["level_raw"]
     base = lv.where(d["period"] == "baseline")
@@ -50,6 +54,8 @@ def rolling_level(d):
     idx = d.index
     for k, t in enumerate(idx):
         ref = base[(idx < t) & (idx >= t - pd.Timedelta(days=WINDOW_DAYS))].dropna()
+        if len(ref) < MIN_REF:
+            ref = base[(idx < t) & (idx >= t - pd.Timedelta(days=FALLBACK_SPAN))].dropna().iloc[-FALLBACK_DAYS:]
         if len(ref) < MIN_REF:
             continue
         mad = 1.4826 * (ref - ref.median()).abs().median() + 1e-9
@@ -109,6 +115,7 @@ def scores(d, guesses, weekend_days_on):
     is_we = np.array([t.weekday() in weekend_days_on(t) for t in g.index])
     b = (g["period"] == "baseline").values
     hol = ((g["period"] == "holiday") & ~is_we).values
+    ordinary_weekday = b & ~is_we
     return {
         "n_days": int(len(d)),
         "n_scored": int(len(g)),
@@ -117,9 +124,10 @@ def scores(d, guesses, weekend_days_on):
         "weekend_bal_acc": float(balanced_accuracy_score(is_we[b], p_weekend[b] >= 50)) if b.any() else np.nan,
         "weekday_holidays": int(hol.sum()),
         "holiday_as_weekend": float((p_weekend[hol] >= 50).mean()) if hol.any() else np.nan,
+        "weekday_as_weekend": float((p_weekend[ordinary_weekday] >= 50).mean()) if ordinary_weekday.any() else np.nan,
         "lockdown_days": int((g["period"] == "lockdown").sum()),
     }
 
 
-__all__ = ["LOCKDOWN", "WINDOW_DAYS", "MIN_REF", "FEATURES", "mark_lockdown", "rolling_level",
+__all__ = ["LOCKDOWN", "WINDOW_DAYS", "MIN_REF", "FALLBACK_DAYS", "FALLBACK_SPAN", "FEATURES", "mark_lockdown", "rolling_level",
            "oof", "percent", "scores"]

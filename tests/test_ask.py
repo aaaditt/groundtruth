@@ -106,3 +106,49 @@ def test_rolling_level_uses_only_earlier_baseline_days():
     expect = float(np.clip((b.loc[t, "level_raw"] - ref.median()) / mad, -10, 10))
     assert abs(lvl.loc[t] - expect) < 1e-9
     assert lvl.iloc[:5].isna().all()          # the first days have too few earlier days
+
+
+def test_lockdown_days_are_guessed():
+    # the spring 2020 lockdown is the most interesting stretch to ask about; when the 8 weeks
+    # before a day hold too few ordinary days, the level falls back to the last ordinary days
+    have = guessed = 0
+    for f in FILES.values():
+        for i, shape, probs, period, hol, fold, level in f["days"]:
+            if period == "lockdown":
+                have += 1
+                guessed += probs is not None
+    assert guessed / have >= 0.9, f"only {guessed}/{have} lockdown days have a guess"
+
+
+def test_ordinary_weekdays_read_as_weekend_matches_files():
+    t = pd.read_csv(SCORES).set_index("station")
+    for sid, f in FILES.items():
+        def weekend(d):
+            days = f["weekend"][0][1]
+            for since, ds in f["weekend"]:
+                if d.isoformat() >= since:
+                    days = ds
+            return days
+        hits = []
+        for i, shape, probs, period, hol, fold, level in f["days"]:
+            d = day_date(f, i)
+            if probs is None or period != "baseline" or d.weekday() in weekend(d):
+                continue
+            hits.append(sum(probs[k] for k in weekend(d)) >= 50)
+        assert abs(t.loc[sid, "weekday_as_weekend"] - np.mean(hits)) < 0.001
+
+
+def test_rolling_level_falls_back_to_the_last_ordinary_days():
+    # real Brussels days; a 10-week block relabelled "lockdown" leaves no ordinary days in the
+    # 8 weeks before its later days, so they must use the last 28 ordinary days before the block
+    h = pd.read_csv(os.path.join(ROOT, "outputs", "tables", "history_days.csv.gz"))
+    b = h[h["city"] == "Brussels"].copy()
+    b["date"] = pd.to_datetime(b["date"])
+    b = b.set_index("date").sort_index().loc["2019-01-01":"2019-09-30"].copy()
+    b.loc["2019-05-01":"2019-07-10", "period"] = "lockdown"
+    lvl = ask.rolling_level(b)
+    t = pd.Timestamp("2019-07-08")
+    ref = b.loc[(b.index < t) & (b["period"] == "baseline"), "level_raw"].iloc[-28:]
+    mad = 1.4826 * (ref - ref.median()).abs().median() + 1e-9
+    expect = float(np.clip((b.loc[t, "level_raw"] - ref.median()) / mad, -10, 10))
+    assert abs(lvl.loc[t] - expect) < 1e-9

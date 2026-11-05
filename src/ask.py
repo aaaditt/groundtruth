@@ -114,7 +114,11 @@ def main():
     good = t[t["weekend_bal_acc"].notna()]
     print(f"\n{len(t)} stations. Median exact-day accuracy {good['dow_acc'].median():.3f} "
           f"(chance 0.143); median weekday-vs-weekend {good['weekend_bal_acc'].median():.3f}; "
-          f"weekday holidays read as weekend: median {good['holiday_as_weekend'].median():.2f}")
+          f"weekday holidays read as weekend: median {good['holiday_as_weekend'].median():.3f} "
+          f"(pooled {(good['holiday_as_weekend'] * good['weekday_holidays']).sum() / good['weekday_holidays'].sum():.3f}), "
+          f"ordinary weekdays: median {good['weekday_as_weekend'].median():.3f}; "
+          f"lockdown days guessed {t['lockdown_days'].sum()}; days guessed {t['n_scored'].sum()} "
+          f"({t['n_scored_baseline'].sum()} ordinary); stations >= 0.9 weekday/weekend {(good['weekend_bal_acc'] >= 0.9).sum()}")
     size = sum(os.path.getsize(os.path.join(OUT_DIR, f)) for f in os.listdir(OUT_DIR))
     print(f"site/data/ask/: {size / 1e6:.1f} MB")
 

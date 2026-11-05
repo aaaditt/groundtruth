@@ -69,11 +69,13 @@ b, strong { font-weight: 600; }
 .bar nav a[aria-current] { color: var(--ink); border-bottom-color: var(--ink); }
 .bar nav a:hover { color: var(--ink); }
 .bar .aside { margin-left: auto; font-size: 15px; color: var(--graphite); white-space: nowrap; }
-@media (max-width: 720px) {
+@media (max-width: 960px) {   /* the menu gets its own row below the logo and the Sound switch */
   .bar { flex-wrap: wrap; row-gap: 6px; padding: 14px 16px 4px; gap: 16px; }
   .bar nav { order: 3; width: 100%; overflow-x: auto; gap: 20px; scrollbar-width: none; padding-bottom: 4px; }
   .bar nav::-webkit-scrollbar { display: none; }
+  .bar .aside > a { display: none; }
 }
+@media (min-width: 721px) and (max-width: 960px) { .bar { padding-left: 40px; padding-right: 40px; } }
 
 /* ---------- page frame ---------- */
 .wrap { max-width: 1260px; margin: 0 auto; padding: 0 40px; }
@@ -610,7 +612,6 @@ body.asking #how { display: none; }
 @media (max-width: 900px) {
   .askview { grid-template-columns: minmax(0, 1fr); grid-template-areas: "back" "q" "hint" "ans" "trace" "try" "globe" "year"; }
   .datepop { flex-wrap: wrap; left: auto; right: -40px; font-size: 16px; }
-  .ask-calbox { overflow-x: visible; }
   .ask-q { font-size: 32px; margin-top: 12px; }
   .ask-globe #globe { height: 30vh; min-height: 220px; }
   .ask-ans { min-height: 0; margin-top: 10px; }

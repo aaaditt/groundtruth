@@ -724,7 +724,10 @@ the same MUSTANG data as Result 15, from 1 Jan 2019 to 30 Sep 2026.
 - **Model:** one 7-class random forest per station (`make_model()`), on the usual 25
   features. The 24-hour shape, plus `level`: the day's loudness as a robust z-score
   against the station's ordinary days in the **previous 8 weeks**. That keeps seven years
-  of sensor drift out of the feature, and it needs at least 10 such days.
+  of sensor drift out of the feature. It needs at least 10 such days; deep in the 2020
+  lockdown window there are none, so a day then uses the last 28 ordinary days before it
+  (within a year). This fallback was added after review found 60% of lockdown days had no
+  guess.
 - **Training days:** ordinary days only. Public holidays, 21 Dec – 6 Jan, and a fixed
   lockdown window, **1 Mar – 30 Jun 2020** (every station), are never trained on.
 - **Testing:** 5-fold GroupKFold by year-aware `week_id`. Every day, including the
@@ -732,18 +735,18 @@ the same MUSTANG data as Result 15, from 1 Jan 2019 to 30 Sep 2026.
   did not see its week. A test checks that every week sits in exactly one fold
   (`tests/test_ask.py`).
 
-**Results** (`outputs/tables/ask_scores.csv`): 79,134 days guessed, 72,083 of them
-ordinary days.
+**Results** (`outputs/tables/ask_scores.csv`): 82,120 days guessed, 72,759 of them
+ordinary days, and all 3,757 days of the lockdown window.
 
 | | Median over 33 stations |
 |---|---|
-| Exact weekday (chance 14%) | **46.8%** |
-| Weekday vs weekend, balanced | **93.4%** (20 stations at 90% or better) |
-| Weekday public holidays read as a weekend | **67%** at the median station (59.6% of all 2,088) |
-| Ordinary weekdays read as a weekend | 1.5% at the median station (1.8% of all) |
+| Exact weekday (chance 14%) | **47.4%** |
+| Weekday vs weekend, balanced | **93.1%** (20 stations at 90% or better) |
+| Weekday public holidays read as a weekend | **67%** at the median station (58.9% of all 2,112) |
+| Ordinary weekdays read as a weekend | 1.7% at the median station (1.8% of all) |
 
-The best: Brussels 99.5% weekday vs weekend (and 98% of its weekday holidays read as a
-weekend), Hobart 99.4%, Montreal 99.0%, Dublin 98.8%. The worst are where they should
+The best: Brussels 99.6% weekday vs weekend (and 98% of its weekday holidays read as a
+weekend), Hobart 99.5%, Dublin 99.0%, Montreal 99.0%. The worst are where they should
 be: the control towns sit at chance, Stanley at 51% and Puerto Williams at 57%. So do La
 Paz (50%, a one-day-weekend city) and Nilore (57%). These match the published study's
 weak stations (Result 1).
@@ -754,7 +757,9 @@ weak stations (Result 1).
   their days were trained on.
 - Holidays come from national calendars only.
 - Sharjah's weekend moved on 1 Jan 2022. The 7-class model does not depend on it, but
-  its weekday-vs-weekend score uses the rule in force on each date (69.5%).
+  its weekday-vs-weekend score uses the rule in force on each date (70.2%).
+- A training day's `level` is measured against earlier days, some of which can sit in
+  another fold's test weeks. No labels are shared, but the folds are not perfectly independent.
 - This is a separate evaluation from Results 1 and 11, with different data, years and
   level reference. Its numbers are not comparable one to one.
 

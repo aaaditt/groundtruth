@@ -200,6 +200,7 @@ function drawYear(f, year) {
   const cal = $a("ask-cal");
   cal.replaceChildren();
   const tall = innerWidth < 700;                      // phones: one ROW per week, weekdays across
+  A.tall = tall;
   const cell = tall ? 34 : 15, gap = tall ? 5 : 3, pitch = cell + gap, left = tall ? 46 : 34, top = tall ? 26 : 20;
   const jan1 = iOfDate(f, `${year}-01-01`), offset = dowOf(f, jan1);
   const nDays = iOfDate(f, `${year + 1}-01-01`) - jan1;
@@ -261,7 +262,7 @@ function drawDay(f, i) {
   const other = guess !== null && guess !== real ? guess : (real === 6 ? 2 : 6);
   const ghosts = [[real, "ghost-weekday"], [other, "ghost-weekend"]];
   // phones get a narrower drawing, so the line is taller and the labels readable
-  const narrow = innerWidth < 700, W = narrow ? 600 : 1200, L = 6, R = W - (narrow ? 128 : 104), T = 18, B = 228;
+  const narrow = innerWidth < 1000, W = narrow ? 600 : 1200, L = 6, R = W - (narrow ? 128 : 104), T = 18, B = 228;
   box.setAttribute("viewBox", `0 0 ${W} 270`);
   const all = [...shape, ...f.usual[real], ...f.usual[other]];
   const lo = Math.min(...all) - 0.04, hi = Math.max(...all) + 0.04;
@@ -386,9 +387,18 @@ function initAsk() {
   addEventListener("keydown", (e) => {
     if ($a("ask").hidden || e.target.closest("input, select, .datepop")) return;
     if (e.key === "Escape") closeAsk();
-    if (A.f && (e.key === "ArrowLeft" || e.key === "ArrowRight")) { e.preventDefault(); ask(A.i + (e.key === "ArrowLeft" ? -1 : 1)); }
+    if (A.f && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+      e.preventDefault();
+      const next = A.i + (e.key === "ArrowLeft" ? -1 : 1);
+      const end = (Date.parse(A.f.end_exclusive + "T00:00:00Z") - A.f.t0) / 864e5;
+      if (next >= 0 && next < end) ask(next);              // the record runs 2019-01-01 to 2026-09-30
+    }
   });
-  addEventListener("resize", sizeSelect);
+  addEventListener("resize", () => {
+    sizeSelect();
+    // phones and wider screens lay the year out differently: redraw when that changes
+    if (A.f && A.year !== null && (innerWidth < 700) !== A.tall) { drawYear(A.f, A.year); ask(A.i); }
+  });
   if (document.fonts) document.fonts.ready.then(sizeSelect);
   const route = () => {
     const m = /^#ask(?:\/([^/]+)\/(\d{4}-\d{2}-\d{2}))?$/.exec(decodeURIComponent(location.hash));
