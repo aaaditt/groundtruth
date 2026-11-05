@@ -3,7 +3,8 @@
 #   1. download new MUSTANG data and score it   (python src/pulse.py)
 #   2. commit site/data/ so the history lives in git (and keeps the repo "active":
 #      GitHub pauses scheduled workflows on repos with no activity for 60 days)
-#   3. publish site/ to GitHub Pages
+#   3. ask Vercel to redeploy (deploy hook), in case it ignores bot-made commits
+#   4. publish site/ to GitHub Pages (mirror, until it is retired)
 #
 # Downloaded months are kept in an Actions cache, so old months are never fetched twice.
 name: pulse
@@ -42,6 +43,7 @@ jobs:
           restore-keys: mustang-
       - run: python src/pulse.py
       - name: Commit today's data
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -50,6 +52,17 @@ jobs:
           git commit -m "pulse: data $(date -u +%F)"
           git pull --rebase
           git push
+          echo "pushed=1" >> "$GITHUB_OUTPUT"
+      - name: Ask Vercel to deploy the new data
+        # Vercel's Git integration may skip commits made by github-actions[bot] on the free plan,
+        # so call the project's deploy hook (a secret URL that builds main) after every data push.
+        if: steps.commit.outputs.pushed == '1'
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "no VERCEL_DEPLOY_HOOK secret; skipping"; exit 0; fi
+          curl -fsS -X POST "$HOOK" -o /dev/null && echo "Vercel deploy requested" \
+            || echo "::warning::Vercel deploy hook failed; the site there may be a day behind"
       - name: Stamp asset URLs with the commit, so browsers never mix old code with new data
         # only our own files (src="name.js"), never the CDN URLs, whose integrity hashes are pinned
         run: sed -i "s/src=\"\([a-z]*\)\.js\"/src=\"\1.js?v=${GITHUB_SHA::7}\"/g; s/href=\"style\.css\"/href=\"style.css?v=${GITHUB_SHA::7}\"/" site/*.html
