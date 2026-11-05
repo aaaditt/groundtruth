@@ -1,7 +1,8 @@
 """Record a short walk through the live site and convert it to assets/demo.gif for the README.
 
-The path: the tour's welcome, one day under Brussels, March 2020 going quiet, then the
-globe playing through March 2020 and flying into Brussels.
+The path: the tour's welcome, one day under Brussels, then Ask the ground on Christmas Day
+2019 in Brussels (the Earth flies in, the day draws, it reads like a Sunday), then the globe
+playing through March 2020.
 
 Usage: python scripts/record_demo.py [--url https://groundtruth-seismic.vercel.app]
 Needs: Playwright for Python with Chromium, and ffmpeg on PATH.
@@ -38,7 +39,7 @@ def record(url, video_dir):
     with sync_playwright() as pw:
         browser = pw.chromium.launch(args=GPU)
         ctx = browser.new_context(viewport=SIZE, record_video_dir=str(video_dir), record_video_size=SIZE,
-                                  color_scheme="light")
+                                  color_scheme="dark")
         page = ctx.new_page()
         page.goto(url + "index.html", wait_until="networkidle")
         page.wait_for_timeout(4200)                                       # globe turns, the pen draws the day
@@ -47,19 +48,17 @@ def record(url, video_dir):
         page.wait_for_timeout(700)
         page.evaluate(GLIDE, [page.evaluate(AT_SUN), 2400])
         page.wait_for_timeout(1400)                                       # the Sunday line appears
-        start, end = page.evaluate(RUN)
-        page.evaluate(GLIDE, [start, 900])
-        page.wait_for_timeout(2500)                                       # the globe beside the drum builds
-        page.evaluate(GLIDE, [end, 7500])                                 # February to May 2020
-        page.wait_for_timeout(1200)
-        page.goto(url + "globe.html#2020-03-02", wait_until="networkidle")
-        page.wait_for_function("() => typeof map !== 'undefined' && map && map.loaded() && map.areTilesLoaded()", timeout=60000)
+        page.goto(url + "globe.html", wait_until="networkidle")
+        page.wait_for_function("() => typeof map !== 'undefined' && map && map.loaded() && typeof openAsk === 'function'", timeout=60000)
         page.wait_for_timeout(800)
+        page.evaluate("openAsk('BE.UCC..HHZ', '2019-12-25')")             # Ask: Christmas Day 2019
+        page.wait_for_timeout(6500)
+        page.evaluate("closeAsk(); setDate(indexOf('2020-03-02'))")
+        page.wait_for_timeout(1200)
         page.click("#play")                                               # March 2020, day by day
-        page.wait_for_timeout(4000)
+        page.wait_for_timeout(3600)
         page.click("#play")
-        page.evaluate("select(H.stations.findIndex(s => JSON.stringify(s).includes('BE.UCC')), true)")
-        page.wait_for_timeout(4500)                                       # Brussels and its year
+        page.wait_for_timeout(800)
         video = page.video.path()
         ctx.close()
         browser.close()

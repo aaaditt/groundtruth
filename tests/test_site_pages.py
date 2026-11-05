@@ -6,7 +6,8 @@ import re
 import pytest
 
 SITE = os.path.join(os.path.dirname(__file__), "..", "site")
-NAV = ["today.html", "globe.html", "game.html", "research.html", "about.html"]
+NAV = ["globe.html#ask", "globe.html", "today.html", "game.html", "research.html", "about.html"]
+PAGES = ["index.html", "watch.html"] + NAV[1:]
 
 
 def read(name):
@@ -14,7 +15,7 @@ def read(name):
         return f.read()
 
 
-@pytest.mark.parametrize("page", NAV)
+@pytest.mark.parametrize("page", NAV[1:])
 def test_every_page_has_the_same_menu(page):
     html = read(page)
     nav = re.search(r'<nav aria-label="Site">(.*?)</nav>', html, re.S)
@@ -23,6 +24,15 @@ def test_every_page_has_the_same_menu(page):
     # the page you are on is marked, and only that one
     assert re.findall(r'href="([^"]+)" aria-current="page"', nav.group(1)) == [page]
     assert 'href="index.html#day"' in html          # replay the tour from anywhere
+
+
+@pytest.mark.parametrize("page", PAGES)
+def test_every_page_loads_sound_and_the_new_fonts(page):
+    html = read(page)
+    assert '<script src="sound.js"></script>' in html
+    assert "family=Gloock" in html and "family=Schibsted+Grotesk" in html
+    assert "Old+Standard" not in html and "Libre+Franklin" not in html
+    assert 'id="sound"' in html                      # the on/off switch is in every bar
 
 
 def test_front_door_is_the_tour_with_a_skip():

@@ -7,14 +7,14 @@ Seismometers built to hear earthquakes also hear cities. We read the day of the 
 and the days that break a city's rhythm, from real seismic noise alone.
 
 [![Live site](https://img.shields.io/badge/live-groundtruth--seismic.vercel.app-1f4e9e?style=flat-square)](https://groundtruth-seismic.vercel.app/)
-![Version](https://img.shields.io/badge/version-1.3.0-15181c?style=flat-square)
-![Tests](https://img.shields.io/badge/tests-85_passing-2c6e3f?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.4.0-15181c?style=flat-square)
+![Tests](https://img.shields.io/badge/tests-166_passing-2c6e3f?style=flat-square)
 ![Data](https://img.shields.io/badge/data-Lecocq_et_al._2020_%2B_EarthScope_MUSTANG-555c62?style=flat-square)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT_(code)-15181c?style=flat-square)](LICENSE)
 
 <img src="assets/demo.gif" alt="Demo: the tour opens on the Earth with Brussels' average Wednesday drawn as a pen line, scrolls through one day under Brussels and its Sunday, then March 2020 turning city lines blue as lockdowns begin; then the globe plays through March 2020 and flies into Brussels with its year as a calendar" width="900">
 
-**[Take the tour](https://groundtruth-seismic.vercel.app/)** · **[Watch the 2-minute video](https://groundtruth-seismic.vercel.app/watch.html)** · **[Open the globe in March 2020](https://groundtruth-seismic.vercel.app/globe.html#2020-03-23)** · **[See today's cities](https://groundtruth-seismic.vercel.app/today.html)** · **[Play the game](https://groundtruth-seismic.vercel.app/game.html)**
+**[Ask the ground about any day](https://groundtruth-seismic.vercel.app/globe.html#ask/BE.UCC..HHZ/2019-12-25)** · **[Take the tour](https://groundtruth-seismic.vercel.app/)** · **[Watch the 2-minute video](https://groundtruth-seismic.vercel.app/watch.html)** · **[Open the globe in March 2020](https://groundtruth-seismic.vercel.app/globe.html#2020-03-23)** · **[See today's cities](https://groundtruth-seismic.vercel.app/today.html)** · **[Play the game](https://groundtruth-seismic.vercel.app/game.html)**
 
 </div>
 
@@ -44,13 +44,13 @@ Montreal.
 
 ## Watch the 2-minute video
 
-<a href="https://groundtruth-seismic.vercel.app/watch.html"><img src="site/media/poster.jpg" alt="Play the GroundTruth video: the March 2020 drum record beside the globe, most city lines blue by late April" width="720"></a>
+<a href="https://groundtruth-seismic.vercel.app/watch.html"><img src="site/media/poster.jpg" alt="Play the GroundTruth video: Ask the ground on Christmas Day 2019 in Brussels, read as a Sunday, beside the real Earth" width="720"></a>
 
-A captioned walk through the live site, recorded from it: one day under Brussels, March
-2020 city by city, the quiz against the model, the time-travel globe, the Today page and
-the game. It runs 1 min 59 s at 1080p with 10 chapters. There is no voice-over: the
-captions are in the picture, and the same words are in the
-[subtitle file](site/media/groundtruth-demo.srt). You can also
+A captioned walk through the live site, recorded from it: one day under Brussels, Ask the
+ground on Christmas Day 2019, March 2020 city by city, the time-travel globe and the Today
+page. It runs 2 min at 1080p with 9 chapters. The captions are in the picture and in the
+[subtitle file](site/media/groundtruth-demo.srt); the sound is the site's own drone,
+synthesised, with a soft whoosh between scenes. You can also
 [download the MP4](https://groundtruth-seismic.vercel.app/media/groundtruth-demo.mp4).
 The video is rebuilt from the live site by the code in `video/`.
 
@@ -63,6 +63,12 @@ The video is rebuilt from the live site by the code in `video/`.
   or weekend, against the model. Every number in it is computed in the browser from the
   site's data files. A skip link is always there, and returning visitors start at the
   globe.
+- **Ask the ground.** Pick any of 33 cities and any day from 2019 to 2026, from a sentence
+  or from the city's year laid out week by week. The Earth flies to the city, that day's
+  shaking draws as a glowing pen line, and the model says which weekday it thinks it was,
+  with its confidence for all seven, next to the truth. Christmas 2019 in Brussels, a
+  Wednesday, reads as a Sunday (72%). Every guess comes from a model that never trained on
+  that day's week (Result 16).
 - **Time-travel globe.** Any day since January 2019 for 33 cities, each coloured against
   the same weekday over its previous 8 weeks, on NASA satellite imagery with every
   naked-eye star at its real position. Click a city for its whole year as a calendar.
@@ -79,12 +85,13 @@ The video is rebuilt from the live site by the code in `video/`.
   more than 20 km from the city the paper lists ("Valinhos (near Campinas)").
 
 <p align="center">
+  <img src="assets/screenshot-ask.png" alt="Ask the ground: 'What day was it under Brussels on 25 December 2019?' The real Earth beside it, and the answer: it reads like a Sunday; it was a Wednesday, Christmas Day" width="49%">
   <img src="assets/screenshot-tour.png" alt="The tour's welcome: the headline 'The ground knows what day it is.' beside the satellite Earth in a starfield, with Brussels' day drawn as a pen line" width="49%">
   <img src="assets/screenshot-day.png" alt="One day under Brussels: the average Wednesday's hourly shaking with the average Sunday dotted beside it" width="49%">
   <img src="assets/screenshot-quiet.png" alt="March 2020: 19 of 24 cities at least 15% quieter on 25 March, one line per city beside a globe with city labels" width="49%">
   <img src="assets/screenshot-globe.png" alt="The globe on 30 March 2020, zoomed into Brussels: 23% quieter than a usual Monday, with its 2020 calendar" width="49%">
   <img src="assets/screenshot-today.png" alt="Today: one row per live city with the model's weekday guess, its track record and a recent pen line" width="49%">
-  <img src="assets/screenshot-research.png" alt="Research: 149 cities with a model, 95% median weekday vs weekend, and a world map of every seismometer" width="49%">
+
 </p>
 
 ## The evidence, in one picture
@@ -192,6 +199,9 @@ All scores are out-of-sample, with **whole weeks held out** (see
 | Shape vs loudness alone, exact day (median gain, 141 of 149 stations gain) | **+17 pp** | — |
 | Public-holiday days flagged as anomalous | **46.2%** | 5% by design |
 | Lockdown days flagged as anomalous | **34.5%** | 5% by design |
+| **Ask the ground**, 2019–2026, 33 stations: weekday vs weekend, median (Result 16) | **93.1%** | 50% |
+| Ask: exact day of week, median over 33 stations, 82,120 days | **47.4%** | 14.3% |
+| Ask: weekday public holidays read as a weekend, median station | **67%** (n=2,112) | vs 1.7% of ordinary weekdays |
 
 Showcase cities: New York `AM.R7885` (100.0% / 66.1%), Athens `HL.ATH` (100.0% / 69.6%),
 Brussels `BE.UCC` (100.0% / 47.8%).
@@ -325,6 +335,7 @@ groundtruth/
 │   ├── client.py                 polite HTTP client (rate limit, retries, OS certificates)
 │   ├── mustang.py                recent data: MUSTANG spectra -> 4-14 Hz displacement RMS
 │   ├── live.py                   per-station live models on 12 months of MUSTANG data
+│   ├── ask.py                    out-of-fold weekday guesses for every city-day (Result 16)
 │   └── pulse.py                  scores new days for the dashboard (reuses detect.py)
 │
 ├── site/                         the static website (served by Vercel)
@@ -332,6 +343,8 @@ groundtruth/
 │   ├── today.html, today.js      the newest day per city + predictions board
 │   ├── game.html, game.js        "guess the day" against the model
 │   ├── globe.html, globe.js      time-travel globe, 2019-2026 (data from src/history.py)
+│   ├── ask.js                    Ask the ground, on the globe page (data/ask/, src/ask.py)
+│   ├── sound.js                  the site's sound, synthesised with Web Audio
 │   ├── research.html, research.js  158-station map + band chart
 │   ├── watch.html, watch.js      the 2-minute demo video, with chapters
 │   ├── media/                    the video, its subtitles, chapters and poster
@@ -369,6 +382,7 @@ groundtruth/
 │   ├── band_test.py              which frequency bands carry the rhythm (MUSTANG cache)
 │   ├── history_pilot.py          2019-2026 history + lockdown cross-check (needs internet)
 │   ├── history.py                33-station history for the globe (needs internet, ~2.5 GB)
+│   ├── ask.py                    every city-day guessed out of fold, for Ask (from the cache)
 │   ├── export_site_research.py   data for the research map and the game
 │   ├── check_places.py           sensor-to-city distances for honest map labels (GeoNames)
 │   ├── export_stars.py           the globe's night sky (Yale Bright Star Catalogue)

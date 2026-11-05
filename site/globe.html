@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Time-Travel Globe</title>
   <meta name="description" content="Seven years of city life read from public seismometers: pick any day since 2019 and see which cities were quieter or louder than usual.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%2315181c' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%239cc8ff' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css"
         integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd" crossorigin="anonymous">
   <link rel="preconnect" href="https://gibs.earthdata.nasa.gov" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&amp;family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="bar">
     <a class="mark" href="index.html">GroundTruth</a>
-    <nav aria-label="Site"><a href="today.html">Today</a><a href="globe.html" aria-current="page">Globe</a><a href="game.html">Game</a><a href="research.html">Research</a><a href="about.html">About</a></nav>
-    <div class="aside"><a href="index.html#day">Replay the tour</a></div>
+    <nav aria-label="Site"><a href="globe.html#ask" class="nav-ask">Ask</a><a href="globe.html" aria-current="page">Globe</a><a href="today.html">Today</a><a href="game.html">Game</a><a href="research.html">Research</a><a href="about.html">About</a></nav>
+    <div class="aside"><a href="index.html#day">Replay the tour</a><button class="sound" id="sound" type="button" aria-pressed="false" title="Sound on or off"><svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7 Q4 1 7 7 T13 7 T19 7 T25 7"/></svg><span>Sound on</span></button></div>
   </header>
   <div class="wrap">
     <header>
@@ -27,6 +27,28 @@
         whether the city shook <b>less</b> (blue) or <b>more</b> (red) than on the same weekday over the
         previous eight weeks. Try March 2020, then a Christmas.</p>
     </header>
+
+    <section class="askview" id="ask" hidden aria-labelledby="ask-q">
+      <p class="ask-back"><button class="chip" id="ask-close" type="button">Back to the globe</button></p>
+      <h1 class="ask-q" id="ask-q">What day was it under <select id="ask-city" aria-label="City"></select> on
+        <span class="datewrap"><button type="button" id="ask-date-btn" aria-haspopup="dialog" aria-expanded="false" aria-label="Change the date"></button><span class="datepop" id="datepop" role="dialog" aria-label="Choose a date" hidden><select id="dp-day" aria-label="Day"></select><select id="dp-month" aria-label="Month"></select><select id="dp-year" aria-label="Year"></select><button type="button" class="btn primary" id="dp-go">Ask</button></span>?</span></h1>
+      <p class="ask-hint">Change the city or the date, or pick any day from the year below.</p>
+      <div class="ask-try"><span>Try</span><span id="ask-try"></span><button class="btn" id="ask-random" type="button">A day at random</button></div>
+      <div class="ask-globe" id="ask-globe"></div>
+      <div class="ask-trace">
+        <svg id="ask-svg" viewBox="0 0 1200 270" role="img" aria-label="That day's ground shaking, hour by hour, with a usual day for comparison"></svg>
+        <p class="ask-legend" id="ask-legend"></p>
+      </div>
+      <div class="ask-ans" id="ask-ans" aria-live="polite"></div>
+      <div class="ask-year">
+        <div class="ask-yhead"><h2 id="ask-yt"></h2><div class="years" id="ask-years" role="group" aria-label="Year"></div></div>
+        <div class="ask-calbox"><svg id="ask-cal" role="group"></svg></div>
+        <p class="note" id="ask-key">Each square is one day, Monday at the top. Its colour is how hard the ground shook that day
+          compared with the days around it (four weeks either side): blue quieter, red louder. That is why the weekends
+          show up as blue bands. A dot marks a public holiday; an outline means no recording. Click any day to ask about it.</p>
+        <p class="note ask-honest" id="ask-honest"></p>
+      </div>
+    </section>
 
     <div class="timebar">
       <span class="when" id="when" aria-live="polite">…</span>
@@ -109,7 +131,9 @@
   <div id="tip" role="tooltip"></div>
   <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"
           integrity="sha384-GfxBM9x46BaAFxtCq39Fxir8fNZ4VDnwgfi6Kzi5/F1tAFsm0amuuV8kd+Pxzuf/" crossorigin="anonymous"></script>
+  <script src="sound.js"></script>
   <script src="common.js"></script>
   <script src="globe.js"></script>
+  <script src="ask.js"></script>
 </body>
 </html>

@@ -27,9 +27,8 @@ const store = {
   set() { try { localStorage.setItem("gt-toured", "1"); } catch (e) { /* private mode: fine */ } },
 };
 if (store.get()) {
-  const p = $("primary"), s = $("secondary");
-  p.textContent = "Open the globe"; p.href = "globe.html";
-  s.textContent = "Replay the tour"; s.href = "#day";
+  const s = $("secondary");
+  s.textContent = "Or replay the tour"; s.href = "#day";
 }
 for (const id of ["skip", "secondary", "open-globe"]) $(id).addEventListener("click", () => store.set());
 
@@ -94,7 +93,7 @@ function makeGlobe(box, { center, zoom, date }) {
   map.on("style.load", () => map.setProjection({ type: "globe" }));
   const paint = () => { const c = map.getCenter(); drawSky(sky, c.lng, c.lat, g); };
   map.on("move", paint); map.on("resize", paint); map.on("load", paint);
-  map.facing = (lon, lat) => { const c = map.getCenter(); return dot3(unit3(lon, lat), unit3(c.lng, c.lat)) > 0.12; };
+  map.facing = (lon, lat) => { const c = map.getCenter(); return dot3(unit3(lon, lat), unit3(c.lng, c.lat)) > 0.3; };      // well inside the visible disc
   return map;
 }
 const hasGL = typeof maplibregl !== "undefined";
@@ -104,8 +103,7 @@ const fitText = (box) => box.style.setProperty("--u", Math.min(2, box.viewBox.ba
 // ---------- stop 1: welcome ----------
 function welcome(ref) {
   const ys = ref.weekday, lo = Math.min(...ys), hi = Math.max(...ys);
-  $("pen").setAttribute("d", ys.map((y, i) =>
-    `${i ? "L" : "M"}${(i * 1000 / 23).toFixed(1)} ${(96 - (y - lo) / (hi - lo) * 92).toFixed(1)}`).join(""));
+  $("pen").setAttribute("d", smoothPath(ys.map((y, i) => [i * 1000 / 23, 96 - (y - lo) / (hi - lo) * 92])));
   document.querySelector(".trace").classList.add("drawn");
   if (!hasGL) return;
   const box = document.querySelector(".orbit");
@@ -131,7 +129,8 @@ function oneDay(ref) {
   const sunPeak = sun.indexOf(Math.max(...sun));
   // the copy is written from the numbers, so it can never disagree with the line
   $("s-still").dataset.hour = minH; $("s-wake").dataset.hour = peakH;
-  $("t-still-k").textContent = `${hourLabel(minH)[0].toUpperCase()}${hourLabel(minH).slice(1)}. Almost still.`;
+  // "2 a.m." already ends in a full stop, so no second one
+  $("t-still-k").textContent = `${hourLabel(minH)[0].toUpperCase()}${hourLabel(minH).slice(1)}${/\.$/.test(hourLabel(minH)) ? "" : "."} Almost still.`;
   $("t-still").textContent = `The ground is shaking at only ${pct(wed[minH])} of the day’s usual level.`;
   $("t-wake").textContent = `By ${hourLabel(peakH)} the ground shakes ${(wed[peakH] / wed[minH]).toFixed(1)} times ` +
     `harder than in the small hours. That is the commute: cars, trams, trains and people on foot.`;
@@ -144,14 +143,15 @@ function oneDay(ref) {
   const y = (v) => B - (Math.log10(v) - LO) / (HI - LO) * (B - T);
   const box = $("daysvg");
   const add = (tag, attrs, text) => { const e = svg(tag, attrs); if (text) e.textContent = text; box.append(e); return e; };
-  for (let h = 0; h <= 23; h++) add("line", { class: h % 6 ? "h" : "h h6", x1: x(h), x2: x(h), y1: T - 10, y2: B });
+  paperGrid(box, { x0: L, x1: R, y0: T - 10, y1: B, cols: 23, rows: 6 });
   for (const [v, t] of [[2, "2×"], [1, "1×"], [0.5, "½×"], [0.25, "¼×"]]) {
     if (Math.log10(v) < LO || Math.log10(v) > HI) continue;
     add("line", { class: v === 1 ? "lvl lvl1" : "lvl", x1: L, x2: R, y1: y(v), y2: y(v) });
     add("text", { class: "ax", x: R + 8, y: y(v) + 4 }, t);
   }
   for (const h of [0, 6, 12, 18]) add("text", { class: "ax", x: x(h) + 4, y: B + 22 }, hourLabel(h));
-  const path = (arr) => arr.map((v, h) => `${h ? "L" : "M"}${x(h).toFixed(1)} ${y(v).toFixed(1)}`).join("");
+  const pts = (arr) => arr.map((v, h) => [x(h), y(v)]);
+  const path = (arr) => smoothPath(pts(arr));
   add("path", { class: "sun", d: path(sun) });
   const line = add("path", { class: "wed", d: "" });
   const arm = add("line", { class: "arm", y1: T - 10 });
@@ -166,7 +166,7 @@ function oneDay(ref) {
     const i = Math.floor(h), f = h - i, j = Math.min(23, i + 1);
     const v = 10 ** (Math.log10(wed[i]) * (1 - f) + Math.log10(wed[j]) * f);
     const px = x(h).toFixed(1), py = y(v).toFixed(1);
-    line.setAttribute("d", `${path(wed.slice(0, i + 1))}L${px} ${py}`);
+    line.setAttribute("d", smoothPath([...pts(wed.slice(0, i + 1)), [x(h), y(v)]]));
     for (const [k, val] of [["x1", px], ["x2", px], ["y2", py]]) arm.setAttribute(k, val);
     nib.setAttribute("x1", x(h) - 5); nib.setAttribute("x2", x(h) + 5); nib.setAttribute("y1", py); nib.setAttribute("y2", py);
     const hr = Math.round(h);
@@ -360,10 +360,10 @@ function learn(stations, game) {
     const lo = Math.min(...day.shape) - 0.05, hi = Math.max(...day.shape) + 0.05;
     const x = (h) => L + h * (R - L) / 23, y = (v) => B - (v - lo) / (hi - lo) * (B - T);
     box.replaceChildren();
-    for (let h = 0; h <= 23; h++) box.append(svg("line", { class: h % 6 ? "h" : "h h6", x1: x(h), x2: x(h), y1: T - 6, y2: B }));
+    paperGrid(box, { x0: L, x1: R, y0: T - 6, y1: B, cols: 23, rows: 4 });
     for (const h of [0, 6, 12, 18]) { const t = svg("text", { class: "ax", x: x(h) + 4, y: B + 22 }); t.textContent = hourLabel(h); box.append(t); }
     box.append(svg("path", { class: "wed drawn", pathLength: 1,
-      d: day.shape.map((v, h) => `${h ? "L" : "M"}${x(h).toFixed(1)} ${y(v).toFixed(1)}`).join("") }));
+      d: smoothPath(day.shape.map((v, h) => [x(h), y(v)])) }));
     btns.forEach((b) => { b.disabled = false; b.classList.remove("truth", "miss"); });
     $("q-reveal").textContent = ""; $("q-next").hidden = true;
   }
@@ -389,8 +389,8 @@ function yours(hist, stations) {
   const sky = $("yours-sky"), g = gmst(Date.now());
   const paint = () => drawSky(sky, -40, 30, g);
   paint(); addEventListener("resize", paint);
-  $("yours-lede").textContent = `Every day since January 2019, for ${hist.stations.length} cities. ` +
-    "Pick a date, find a holiday, open any city’s year.";
+  $("yours-lede").textContent = `Pick any of ${hist.stations.length} cities and any day since January 2019. ` +
+    "The model reads that one day of shaking and says which weekday it was, without being told the date.";
   const n = stations.filter((s) => s.weekend_bal_acc !== null).length;
   $("door-research").textContent = `${n} cities from the 2020 study: how well can a seismometer tell a weekday from a weekend?`;
 }

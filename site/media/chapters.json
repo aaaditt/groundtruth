@@ -20,33 +20,28 @@
   "start": 25.4
  },
  {
-  "id": "quiet",
-  "title": "The quiet of 2020",
-  "start": 41.7
+  "id": "ask",
+  "title": "Ask the ground",
+  "start": 39.7
  },
  {
-  "id": "learn",
-  "title": "Can a computer read it?",
-  "start": 57.0
+  "id": "quiet",
+  "title": "The quiet of 2020",
+  "start": 67.0
  },
  {
   "id": "globe",
   "title": "The time-travel globe",
-  "start": 68.3
+  "start": 81.3
  },
  {
   "id": "today",
   "title": "Today",
-  "start": 87.6
- },
- {
-  "id": "game",
-  "title": "The game",
-  "start": 100.9
+  "start": 97.6
  },
  {
   "id": "close",
   "title": "Try it",
-  "start": 109.2
+  "start": 109.9
  }
 ]

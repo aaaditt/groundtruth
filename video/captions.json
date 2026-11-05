@@ -21,45 +21,43 @@
       ]
     },
     {
-      "id": "day", "kind": "site", "length": 17, "chapter": "One day under Brussels",
+      "id": "day", "kind": "site", "length": 15, "chapter": "One day under Brussels",
       "captions": [
         [0.8, "Scroll, and the pen draws the day hour by hour."],
         [5.5, "Almost still at night. Then the city wakes up."],
-        [11.5, "A Sunday has no morning cliff.", "Only people keep office hours"]
+        [10.5, "A Sunday has no morning cliff.", "Only people keep office hours"]
       ]
     },
     {
-      "id": "quiet", "kind": "site", "length": 16, "chapter": "The quiet of 2020",
+      "id": "ask", "kind": "site", "length": 28, "chapter": "Ask the ground",
+      "captions": [
+        [0.8, "Ask the ground: any of 33 cities, any day since 2019."],
+        [6.5, "Christmas Day 2019 in Brussels was a Wednesday.", "The model only sees that one day of shaking, never the date"],
+        [12.0, "It reads like a Sunday.", "Every answer comes from a model that never trained on that week"],
+        [17.5, "The year, one column per week: the weekends show up as blue bands."],
+        [22.5, "Ascension Day, a Thursday: also read as a Sunday.", "Weekday holidays read as a weekend 67% of the time, ordinary weekdays 1.7%"]
+      ]
+    },
+    {
+      "id": "quiet", "kind": "site", "length": 15, "chapter": "The quiet of 2020",
       "captions": [
         [0.8, "March 2020. One line per city, sorted by the day it went quiet."],
         [7.5, "Blue means at least 15% quieter than usual.", "Each city against its own previous eight weeks"]
       ]
     },
     {
-      "id": "learn", "kind": "site", "length": 12, "chapter": "Can a computer read it?",
-      "captions": [
-        [0.8, "A model per city reads weekday or weekend at 95% (median, 149 cities).", "Tested on whole weeks it never saw"],
-        [6.8, "Then you try one real day against it."]
-      ]
-    },
-    {
-      "id": "globe", "kind": "site", "length": 20, "chapter": "The time-travel globe",
+      "id": "globe", "kind": "site", "length": 17, "chapter": "The time-travel globe",
       "captions": [
         [0.8, "The globe: 33 cities, every day since January 2019."],
-        [6.0, "Play through March 2020 and the cities turn blue as lockdowns begin."],
-        [13.5, "Click a city for its whole year as a calendar."]
+        [6.0, "Play through March 2020 and the cities turn blue as lockdowns begin."]
       ]
     },
     {
-      "id": "today", "kind": "site", "length": 14, "chapter": "Today",
+      "id": "today", "kind": "site", "length": 13, "chapter": "Today",
       "captions": [
         [0.8, "Every day, a GitHub Action scores yesterday for 7 live cities.", "Days the model never trained on"],
-        [7.5, "18 predictions were written down before their day, then graded automatically."]
+        [7.0, "18 predictions were written down before their day, then graded automatically."]
       ]
-    },
-    {
-      "id": "game", "kind": "site", "length": 9, "chapter": "The game",
-      "captions": [[0.8, "Or play against the model: guess the weekday from one day of shaking."]]
     },
     {
       "id": "close", "kind": "card", "length": 10, "chapter": "Try it",

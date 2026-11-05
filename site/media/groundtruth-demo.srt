@@ -27,57 +27,61 @@ Along the bottom, a pen draws one real day under Brussels.
 Scroll, and the pen draws the day hour by hour.
 
 8
-00:00:30,900 --> 00:00:36,700
+00:00:30,900 --> 00:00:35,700
 Almost still at night. Then the city wakes up.
 
 9
-00:00:36,900 --> 00:00:41,400
+00:00:35,900 --> 00:00:39,400
 A Sunday has no morning cliff.
 
 10
-00:00:42,500 --> 00:00:49,000
-March 2020. One line per city, sorted by the day it went quiet.
+00:00:40,500 --> 00:00:46,000
+Ask the ground: any of 33 cities, any day since 2019.
 
 11
-00:00:49,200 --> 00:00:56,700
-Blue means at least 15% quieter than usual.
+00:00:46,200 --> 00:00:51,500
+Christmas Day 2019 in Brussels was a Wednesday.
 
 12
-00:00:57,800 --> 00:01:03,600
-A model per city reads weekday or weekend at 95% (median, 149 cities).
+00:00:51,700 --> 00:00:57,000
+It reads like a Sunday.
 
 13
-00:01:03,800 --> 00:01:08,000
-Then you try one real day against it.
+00:00:57,200 --> 00:01:02,000
+The year, one column per week: the weekends show up as blue bands.
 
 14
-00:01:09,100 --> 00:01:14,100
-The globe: 33 cities, every day since January 2019.
+00:01:02,200 --> 00:01:06,700
+Ascension Day, a Thursday: also read as a Sunday.
 
 15
-00:01:14,300 --> 00:01:21,600
-Play through March 2020 and the cities turn blue as lockdowns begin.
+00:01:07,800 --> 00:01:14,300
+March 2020. One line per city, sorted by the day it went quiet.
 
 16
-00:01:21,800 --> 00:01:27,300
-Click a city for its whole year as a calendar.
+00:01:14,500 --> 00:01:21,000
+Blue means at least 15% quieter than usual.
 
 17
-00:01:28,400 --> 00:01:34,900
-Every day, a GitHub Action scores yesterday for 7 live cities.
+00:01:22,100 --> 00:01:27,100
+The globe: 33 cities, every day since January 2019.
 
 18
-00:01:35,100 --> 00:01:40,600
-18 predictions were written down before their day, then graded automatically.
+00:01:27,300 --> 00:01:37,300
+Play through March 2020 and the cities turn blue as lockdowns begin.
 
 19
-00:01:41,700 --> 00:01:48,900
-Or play against the model: guess the weekday from one day of shaking.
+00:01:38,400 --> 00:01:44,400
+Every day, a GitHub Action scores yesterday for 7 live cities.
 
 20
-00:01:50,000 --> 00:01:53,600
-Real data only: Lecocq et al. (2020) in Science, and EarthScope's MUSTANG service.
+00:01:44,600 --> 00:01:49,600
+18 predictions were written down before their day, then graded automatically.
 
 21
-00:01:53,800 --> 00:01:58,200
+00:01:50,700 --> 00:01:54,300
+Real data only: Lecocq et al. (2020) in Science, and EarthScope's MUSTANG service.
+
+22
+00:01:54,500 --> 00:01:58,900
 groundtruth-seismic.vercel.app

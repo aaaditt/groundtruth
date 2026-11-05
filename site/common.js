@@ -43,3 +43,39 @@ function hover(node, lines) {
   node.setAttribute("tabindex", "0");
 }
 const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+// ---------- millimetre chart paper and the pen line (every chart uses these) ----------
+// paperGrid draws chart paper behind a chart, aligned to its own axes: `cols` major
+// divisions across (24 for a day = one per hour), each split into 5 fine steps (12 minutes),
+// with the firmest line every `major` divisions (6 hours). `rows` major divisions up.
+function paperGrid(box, { x0, x1, y0, y1, cols = 24, rows = 4, major = 6, fine = 5 }) {
+  const g = svg("g", { class: "mm", "aria-hidden": "true" });
+  const lines = (cls, n, along) => {
+    let d = "";
+    for (let k = 0; k <= n; k++) {
+      if (along === "x") { const x = (x0 + (x1 - x0) * k / n).toFixed(2); d += `M${x} ${y0}V${y1}`; }
+      else { const y = (y0 + (y1 - y0) * k / n).toFixed(2); d += `M${x0} ${y}H${x1}`; }
+    }
+    g.append(svg("path", { class: cls, d, fill: "none" }));
+  };
+  lines("mm1", cols * fine, "x"); lines("mm1", rows * fine, "y");
+  lines("mm2", cols, "x"); lines("mm2", rows, "y");
+  let d3 = "";
+  for (let k = 0; k <= cols; k += major) { const x = (x0 + (x1 - x0) * k / cols).toFixed(2); d3 += `M${x} ${y0}V${y1}`; }
+  g.append(svg("path", { class: "mm3", d: d3, fill: "none" }));
+  box.prepend(g);
+  return g;
+}
+// A smooth line through every point (Catmull-Rom as cubic Béziers): the curve passes
+// exactly through each real hourly value, so no number changes, it just reads like ink.
+function smoothPath(pts) {
+  if (!pts.length) return "";
+  let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(i - 1, 0)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(i + 2, pts.length - 1)];
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += `C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d;
+}

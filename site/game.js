@@ -21,22 +21,22 @@ function chart(day) {
   const s = svg("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%", role: "img",
     "aria-label": `24-hour vibration profile of the mystery day in ${day.city}` });
   for (const h of [0, 6, 12, 18, 23]) {
-    s.append(svg("line", { x1: xs(h), x2: xs(h), y1: top, y2: base, class: "gridline" }));
     const t = svg("text", { x: xs(h), y: base + 16, "text-anchor": "middle" });
-    t.textContent = `${String(h).padStart(2, "0")}:00`; s.append(t);
+    t.textContent = h === 0 ? "midnight" : h === 12 ? "noon" : h === 23 ? "11 p.m." : h < 12 ? `${h} a.m.` : `${h - 12} p.m.`; s.append(t);
   }
   s.append(svg("line", { x1: L, x2: W - R, y1: base, y2: base, class: "axis" }));
+  paperGrid(s, { x0: L, x1: W - R, y0: top, y1: base, cols: 23, rows: 4 });
   const yl = svg("text", { x: L - 6, y: top + 4, "text-anchor": "end" }); yl.textContent = "busier"; s.append(yl);
   const yq = svg("text", { x: L - 6, y: base, "text-anchor": "end" }); yq.textContent = "quieter"; s.append(yq);
   const labels = [];
   const line = (vals, attrs, label, bold) => {
-    s.append(svg("path", { d: vals.map((v, h) => `${h ? "L" : "M"}${xs(h)},${ys(v)}`).join(" "), fill: "none",
+    s.append(svg("path", { d: smoothPath(vals.map((v, h) => [xs(h), ys(v)])), fill: "none", "stroke-linecap": "round",
       "stroke-linejoin": "round", ...attrs }));
     labels.push({ y: ys(vals[23]) + 4, label, bold });
   };
   if (showRef && ref.weekday) line(ref.weekday, { stroke: "var(--text-muted)", "stroke-width": 1.5 }, "avg. Wed");
   if (showRef && ref.sunday) line(ref.sunday, { stroke: "var(--text-muted)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, "avg. Sun");
-  line(day.shape, { stroke: "var(--series-1)", "stroke-width": 3 }, "this day", true);
+  line(day.shape, { class: "pen-glow" }, "this day", true);
   // end labels: push apart so none overlap (at least 14 px between baselines)
   labels.sort((a, b) => a.y - b.y);
   for (let i = 1; i < labels.length; i++) labels[i].y = Math.max(labels[i].y, labels[i - 1].y + 14);
@@ -47,7 +47,7 @@ function chart(day) {
   // hover: hour-by-hour readout
   day.shape.forEach((v, h) => {
     const hit = svg("rect", { x: xs(h) - (W - L - R) / 46, y: top, width: (W - L - R) / 23, height: base - top, fill: "transparent" });
-    hover(hit, [`${String(h).padStart(2, "0")}:00 local time`,
+    hover(hit, [`${h === 0 ? "midnight" : h === 12 ? "noon" : h < 12 ? `${h} a.m.` : `${h - 12} p.m.`} local time`,
       `this day: ${v >= 0 ? "+" : ""}${v.toFixed(2)} (log10, vs the day's own mean)`]);
     s.append(hit);
   });
