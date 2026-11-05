@@ -65,7 +65,7 @@ See `docs/12-master-plan.md` and the "Next steps" at the end of `docs/10-work-lo
 The five promises (Results 5–9 in `docs/04`) and the pre-registered UAE experiment
 (`docs/14`, Result 10) are done, and so are the live models (Result 11) and the City
 Pulse dashboard (`site/today.html`, `src/pulse.py`, `.github/workflows/pulse.yml`, live at
-https://aaaditt.github.io/groundtruth/today.html; the front page `site/index.html` is a
+https://groundtruth-seismic.vercel.app/today.html; the front page `site/index.html` is a
 scrolling tour, `tour.js`), the band test (Result 12), the research map,
 game and predictions board, and the final report (`docs/13`). Tagged `v1.0-semester`.
 After the tag: 2019–2026 history (Result 14 lockdown cross-check, `src/history_pilot.py`)
@@ -83,6 +83,9 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
 - `config/predictions.csv` is pre-registration: never edit or delete a row after its
   commit. Add new predictions as new rows, committed before their date.
 
+- The site is served by **Vercel** as plain static files from `site/` (`vercel.json`: no
+  build, `Cache-Control: max-age=0, must-revalidate`); every push to `main` redeploys.
+  GitHub Pages (pulse.yml) is still a mirror until it is retired.
 - `site/data/` is written by the daily Action; don't hand-edit it. New days are scored
   with period = "live" so they can never enter training.
 - Dashboard JS builds DOM with `textContent` only (no innerHTML with data).

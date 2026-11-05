@@ -575,7 +575,7 @@ rebuilt the features from five frequency bands:
 
 ## Result 13 — City Pulse: the first month on days no model had seen
 
-The dashboard (https://aaaditt.github.io/groundtruth/, `src/pulse.py`) scores every
+The dashboard (https://groundtruth-seismic.vercel.app/, `src/pulse.py`) scores every
 day since the training window ended (1 Oct 2026). Snapshot of the run on
 **2026-11-04** (`site/data/pulse.json`; the live page updates daily):
 

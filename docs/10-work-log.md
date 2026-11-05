@@ -625,6 +625,23 @@ over the previous 8 weeks, ordinary days only (`groundtruth/history.py`).
 
 Tests: 66, all pass.
 
+### 2026-11-05 — New front door, and the site moves to Vercel
+
+**Done:**
+- `site/index.html` is now a scrolling tour (one day under Brussels, March 2020 city by
+  city, a weekday/weekend quiz against the model). Every number in it is computed in the
+  browser from the existing `site/data/` files; nothing new was generated. The old
+  dashboard is now `site/today.html`. One shared menu and one look on every page.
+- Hosting moved to Vercel (https://groundtruth-seismic.vercel.app/): plain static files
+  from `site/`, no build step (`vercel.json`), Git integration so every push to `main`
+  (including the daily data commit) redeploys. Files are sent with
+  `Cache-Control: max-age=0, must-revalidate`, so a new day's data shows up at once.
+  GitHub Pages stays up as a mirror until a daily bot commit is seen deploying.
+- Checked in a real browser on Vercel: 7 views × desktop/phone × light/dark, no console
+  errors.
+
+Tests: 83, all pass.
+
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions
 (Melbourne Cup Day, 11 Nov). Thanksgiving (26 Nov) is the headline live test.

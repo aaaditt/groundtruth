@@ -5,7 +5,7 @@ Disruption Detection**
 
 Aadit Chandra, Aradhya Gupta, Shraddha Pradeep · Foundations of Data Science, BITS Pilani
 
-Live tool: https://aaaditt.github.io/groundtruth/ · Code and data:
+Live tool: https://groundtruth-seismic.vercel.app/ · Code and data:
 https://github.com/aaaditt/groundtruth
 
 Every number below comes from a script in `src/` run on real data, and links to its
@@ -140,7 +140,7 @@ Per-city models trained on **1 Oct 2025 – 30 Sep 2026** of MUSTANG data score
 98–100% (weekday vs weekend) in Brussels, Los Angeles, Melbourne, Dublin and Montreal.
 A GitHub Action runs every day:
 download → score each new day → commit the results → publish
-https://aaaditt.github.io/groundtruth/.
+https://groundtruth-seismic.vercel.app/.
 
 - **Each city card:** which weekday the day looked like, an unusual-day flag, a
   timeline, and the **live track record** on days the model never saw.

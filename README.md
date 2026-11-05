@@ -16,18 +16,18 @@ All Saints' Day in Brussels. The same method on **current data (Oct 2025 – Sep
 reads weekday vs weekend at 98–100% in Brussels, Los Angeles, Melbourne, Dublin and
 Montreal.
 
-**Live: [the site](https://aaaditt.github.io/groundtruth/)** opens with a two-minute
+**Live: [the site](https://groundtruth-seismic.vercel.app/)** opens with a two-minute
 scrolling tour (one day under Brussels, then March 2020 going quiet city by city, then
 a quiz against the model), with a skip link for anyone who has seen it.
-**[Today](https://aaaditt.github.io/groundtruth/today.html)** — every day, a GitHub
+**[Today](https://groundtruth-seismic.vercel.app/today.html)** — every day, a GitHub
 Action downloads yesterday's seismic noise for 7 cities, guesses the weekday, and flags
 days that broke the city's rhythm. Every day shown is one the model never trained on.
-**[Time-travel globe](https://aaaditt.github.io/groundtruth/globe.html)** — pick any day
+**[Time-travel globe](https://groundtruth-seismic.vercel.app/globe.html)** — pick any day
 since January 2019 and see which of 33 cities shook less or more than usual (try March
 2020, then a Christmas); click a city for its whole year as a calendar. A NASA satellite
 globe, with the real night sky (every naked-eye star) behind it.
-Also: [**play "guess the day"**](https://aaaditt.github.io/groundtruth/game.html)
-against the model, the [158-city research map](https://aaaditt.github.io/groundtruth/research.html),
+Also: [**play "guess the day"**](https://groundtruth-seismic.vercel.app/game.html)
+against the model, the [158-city research map](https://groundtruth-seismic.vercel.app/research.html),
 and a board of **18 predictions committed before the day** and graded automatically.
 The written report is [`docs/13-final-report.md`](docs/13-final-report.md).
 
@@ -237,7 +237,7 @@ groundtruth/
 │   ├── live.py                   per-station live models on 12 months of MUSTANG data
 │   └── pulse.py                  scores new days for the dashboard (reuses detect.py)
 │
-├── site/                         the static website on GitHub Pages
+├── site/                         the static website (served by Vercel)
 │   ├── index.html, tour.js       the front door: a scrolling tour of the data
 │   ├── today.html, today.js      the newest day per city + predictions board
 │   ├── game.html, game.js        "guess the day" against the model
