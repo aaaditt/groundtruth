@@ -1,0 +1,4 @@
+# Vercel serves only the static site; everything else (440 MB of raw data, models) stays local
+/*
+!site
+!vercel.json

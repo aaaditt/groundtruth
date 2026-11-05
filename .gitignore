@@ -23,3 +23,5 @@ data/external/bsc5/
 
 # brainstorming mockups (visual companion)
 .superpowers/
+.vercel
+.env*
