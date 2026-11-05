@@ -1,0 +1,72 @@
+{
+  "note": "Every word of the demo video. Site scenes burn their captions into the frame; all captions also go to the subtitle files. Times are seconds from the start of each scene. Numbers quoted here are the README's (docs/04-results.md); the site itself shows the rest, computed from site/data/.",
+  "scenes": [
+    {
+      "id": "title", "kind": "card", "length": 6.5, "chapter": "GroundTruth",
+      "captions": [[0.8, "GroundTruth. The ground knows what day it is."]]
+    },
+    {
+      "id": "idea", "kind": "card", "length": 11, "chapter": "The idea",
+      "captions": [
+        [0.6, "Seismometers were built to hear earthquakes."],
+        [3.2, "They also hear us: buses, trains, machinery and footsteps."],
+        [6.6, "So can a computer read the day of the week from the ground alone?"]
+      ]
+    },
+    {
+      "id": "welcome", "kind": "site", "length": 10, "chapter": "The front door",
+      "captions": [
+        [1.2, "The site opens on the Earth, in the real night sky.", "NASA Blue Marble imagery and the Yale Bright Star Catalogue"],
+        [5.6, "Along the bottom, a pen draws one real day under Brussels.", "An average Wednesday before the 2020 lockdown"]
+      ]
+    },
+    {
+      "id": "day", "kind": "site", "length": 17, "chapter": "One day under Brussels",
+      "captions": [
+        [0.8, "Scroll, and the pen draws the day hour by hour."],
+        [5.5, "Almost still at night. Then the city wakes up."],
+        [11.5, "A Sunday has no morning cliff.", "Only people keep office hours"]
+      ]
+    },
+    {
+      "id": "quiet", "kind": "site", "length": 16, "chapter": "The quiet of 2020",
+      "captions": [
+        [0.8, "March 2020. One line per city, sorted by the day it went quiet."],
+        [7.5, "Blue means at least 15% quieter than usual.", "Each city against its own previous eight weeks"]
+      ]
+    },
+    {
+      "id": "learn", "kind": "site", "length": 12, "chapter": "Can a computer read it?",
+      "captions": [
+        [0.8, "A model per city reads weekday or weekend at 95% (median, 149 cities).", "Tested on whole weeks it never saw"],
+        [6.8, "Then you try one real day against it."]
+      ]
+    },
+    {
+      "id": "globe", "kind": "site", "length": 20, "chapter": "The time-travel globe",
+      "captions": [
+        [0.8, "The globe: 33 cities, every day since January 2019."],
+        [6.0, "Play through March 2020 and the cities turn blue as lockdowns begin."],
+        [13.5, "Click a city for its whole year as a calendar."]
+      ]
+    },
+    {
+      "id": "today", "kind": "site", "length": 14, "chapter": "Today",
+      "captions": [
+        [0.8, "Every day, a GitHub Action scores yesterday for 7 live cities.", "Days the model never trained on"],
+        [7.5, "18 predictions were written down before their day, then graded automatically."]
+      ]
+    },
+    {
+      "id": "game", "kind": "site", "length": 9, "chapter": "The game",
+      "captions": [[0.8, "Or play against the model: guess the weekday from one day of shaking."]]
+    },
+    {
+      "id": "close", "kind": "card", "length": 10, "chapter": "Try it",
+      "captions": [
+        [0.8, "Real data only: Lecocq et al. (2020) in Science, and EarthScope's MUSTANG service."],
+        [4.6, "groundtruth-seismic.vercel.app"]
+      ]
+    }
+  ]
+}

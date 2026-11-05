@@ -45,6 +45,14 @@ either direction. Removing that rule would silently alter the data on checkout.
 
 The dataset is EUPL v1.1, which permits redistribution provided the licence and
 attribution are preserved — both are, in `LICENCE.txt` and in this file. EUPL is a
-copyleft licence; this repository has no licence file of its own, so if one is added
-later, check EUPL compatibility for anything that is a derivative of this data rather
-than merely a user of it.
+copyleft licence. Since 2026-11-05 the repository has a licence file (`LICENSE`, MIT),
+and it is scoped to keep the two apart:
+
+- **MIT** covers our own code: `groundtruth/`, `src/`, `tests/` (the code), `scripts/`,
+  `video/` and the website's HTML, CSS and JavaScript in `site/`.
+- **EUPL v1.1 still covers this dataset**, and we treat the tables we derive from it
+  (`data/processed/`, `outputs/`, `tests/fixtures/`, and the 2020-study files in
+  `site/data/`) as derivatives that stay under EUPL v1.1, with the attribution above.
+  The MIT licence does not relicense any of them.
+- Data from EarthScope's MUSTANG service (the live and 2019–2026 files) is open and is
+  cited per network in `docs/02-data-and-sources.md`.

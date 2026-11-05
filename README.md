@@ -1,44 +1,91 @@
-# groundtruth
+<div align="center">
 
-### Can a seismometer tell what day of the week it is?
+# GroundTruth
+
+**The ground knows what day it is.**
+Seismometers built to hear earthquakes also hear cities. We read the day of the week,
+and the days that break a city's rhythm, from real seismic noise alone.
+
+[![Live site](https://img.shields.io/badge/live-groundtruth--seismic.vercel.app-1f4e9e?style=flat-square)](https://groundtruth-seismic.vercel.app/)
+![Version](https://img.shields.io/badge/version-1.3.0-15181c?style=flat-square)
+![Tests](https://img.shields.io/badge/tests-85_passing-2c6e3f?style=flat-square)
+![Data](https://img.shields.io/badge/data-Lecocq_et_al._2020_%2B_EarthScope_MUSTANG-555c62?style=flat-square)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT_(code)-15181c?style=flat-square)](LICENSE)
+
+<img src="assets/demo.gif" alt="Demo: the tour opens on the Earth with Brussels' average Wednesday drawn as a pen line, scrolls through one day under Brussels and its Sunday, then March 2020 turning city lines blue as lockdowns begin; then the globe plays through March 2020 and flies into Brussels with its year as a calendar" width="900">
+
+**[Take the tour](https://groundtruth-seismic.vercel.app/)** · **[Watch the 2-minute video](https://groundtruth-seismic.vercel.app/watch.html)** · **[Open the globe in March 2020](https://groundtruth-seismic.vercel.app/globe.html#2020-03-23)** · **[See today's cities](https://groundtruth-seismic.vercel.app/today.html)** · **[Play the game](https://groundtruth-seismic.vercel.app/game.html)**
+
+</div>
+
+---
+
+> No earthquake keeps office hours. Only people do.
 
 Traffic, trains, footsteps and machinery shake the ground by a few tens of nanometres.
 Seismometers record that shaking continuously, everywhere, for free. This project uses
 **real recordings from 158 seismometers worldwide** to train machine-learning models
 that (1) read the **day of the week** off one day of ground vibration, and (2) flag days
-that **break a city's normal rhythm** — holidays, lockdowns, disruptions.
+that **break a city's normal rhythm**: holidays, lockdowns, disruptions.
 
 It works. A random forest tells weekdays from weekends with **95% median accuracy**
-across 149 cities, names the exact weekday **3× better than chance**, and — never
-having seen a holiday in training — calls **76% of weekday public holidays a
+across 149 cities, names the exact weekday **3× better than chance**, and, never
+having seen a holiday in training, calls **76% of weekday public holidays a
 "weekend"** (vs 6% of ordinary weekdays), including Thanksgiving in New York and
 All Saints' Day in Brussels. The same method on **current data (Oct 2025 – Sep 2026)**
 reads weekday vs weekend at 98–100% in Brussels, Los Angeles, Melbourne, Dublin and
 Montreal.
 
-**Live: [the site](https://groundtruth-seismic.vercel.app/)** opens with a two-minute
-scrolling tour (one day under Brussels, then March 2020 going quiet city by city, then
-a quiz against the model), with a skip link for anyone who has seen it.
-**[Today](https://groundtruth-seismic.vercel.app/today.html)** — every day, a GitHub
-Action downloads yesterday's seismic noise for 7 cities, guesses the weekday, and flags
-days that broke the city's rhythm. Every day shown is one the model never trained on.
-**[Time-travel globe](https://groundtruth-seismic.vercel.app/globe.html)** — pick any day
-since January 2019 and see which of 33 cities shook less or more than usual (try March
-2020, then a Christmas); click a city for its whole year as a calendar. A NASA satellite
-globe, with the real night sky (every naked-eye star) behind it.
-Also: [**play "guess the day"**](https://groundtruth-seismic.vercel.app/game.html)
-against the model, the [158-city research map](https://groundtruth-seismic.vercel.app/research.html),
-and a board of **18 predictions committed before the day** and graded automatically.
-The written report is [`docs/13-final-report.md`](docs/13-final-report.md).
-
-> Course project for Foundations of Data Science, BITS Pilani · presented 22 Sep 2026
-> Team: Aadit Chandra, Aradhya Gupta, Shraddha Pradeep
+> Course project for Foundations of Data Science, BITS Pilani, presented 22 Sep 2026.
 > Registered title: *Learning Urban Activity Rhythms from Ambient Seismic Noise for
-> Anomaly-Based Disruption Detection*
+> Anomaly-Based Disruption Detection*.
 
 **Everything here uses real, published data. There is no synthetic data in this project.**
 
----
+## Watch the 2-minute video
+
+<a href="https://groundtruth-seismic.vercel.app/watch.html"><img src="site/media/poster.jpg" alt="Play the GroundTruth video: the March 2020 drum record beside the globe, most city lines blue by late April" width="720"></a>
+
+A captioned walk through the live site, recorded from it: one day under Brussels, March
+2020 city by city, the quiz against the model, the time-travel globe, the Today page and
+the game. It runs 1 min 59 s at 1080p with 10 chapters. There is no voice-over: the
+captions are in the picture, and the same words are in the
+[subtitle file](site/media/groundtruth-demo.srt). You can also
+[download the MP4](https://groundtruth-seismic.vercel.app/media/groundtruth-demo.mp4).
+The video is rebuilt from the live site by the code in `video/`.
+
+## The site
+
+- **A two-minute tour on the front door.** The Earth turns in the real night sky while a
+  pen draws Brussels' average Wednesday along the bottom. Scroll, and the pen draws the
+  day hour by hour, then the Sunday beside it. Then March 2020: one line per city on a
+  drum record, turning blue as each city goes quiet. Then a quiz: one real day, weekday
+  or weekend, against the model. Every number in it is computed in the browser from the
+  site's data files. A skip link is always there, and returning visitors start at the
+  globe.
+- **Time-travel globe.** Any day since January 2019 for 33 cities, each coloured against
+  the same weekday over its previous 8 weeks, on NASA satellite imagery with every
+  naked-eye star at its real position. Click a city for its whole year as a calendar.
+  Links are shareable, like `globe.html#2020-03-23/BE.UCC..HHZ`.
+- **Today.** Every day a GitHub Action downloads yesterday's seismic noise for 7 cities,
+  guesses the weekday, and flags days that broke the city's rhythm. Every day shown is
+  one the model never trained on. Below it, **18 predictions committed before the day**
+  and graded automatically.
+- **Guess the day.** One real day of shaking; pick the weekday, then see what the model
+  said.
+- **Research map.** All 158 seismometers of the 2020 study, coloured by how well each
+  reads a weekday, and which frequency bands carry the rhythm.
+- **Honest labels.** A station is named after where its sensor actually is when that is
+  more than 20 km from the city the paper lists ("Valinhos (near Campinas)").
+
+<p align="center">
+  <img src="assets/screenshot-tour.png" alt="The tour's welcome: the headline 'The ground knows what day it is.' beside the satellite Earth in a starfield, with Brussels' day drawn as a pen line" width="49%">
+  <img src="assets/screenshot-day.png" alt="One day under Brussels: the average Wednesday's hourly shaking with the average Sunday dotted beside it" width="49%">
+  <img src="assets/screenshot-quiet.png" alt="March 2020: 19 of 24 cities at least 15% quieter on 25 March, one line per city beside a globe with city labels" width="49%">
+  <img src="assets/screenshot-globe.png" alt="The globe on 30 March 2020, zoomed into Brussels: 23% quieter than a usual Monday, with its 2020 calendar" width="49%">
+  <img src="assets/screenshot-today.png" alt="Today: one row per live city with the model's weekday guess, its track record and a recent pen line" width="49%">
+  <img src="assets/screenshot-research.png" alt="Research: 149 cities with a model, 95% median weekday vs weekend, and a world map of every seismometer" width="49%">
+</p>
 
 ## The evidence, in one picture
 
@@ -47,6 +94,43 @@ The written report is [`docs/13-final-report.md`](docs/13-final-report.md).
 One Raspberry Shake seismometer in New York, 113 normal days. Weekdays (cool colours)
 share a sharp commute-shaped curve. Saturday (red) sits below it. Sunday (orange) is
 lowest and starts latest. The weekly rhythm of a city, measured through the ground.
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[Lecocq et al. 2020<br/>158 seismometers, 2019-20] -->|4-14 Hz, local time| B[24-hour shape<br/>+ overall level per day]
+    B -->|normal days only,<br/>whole weeks held out| C[Random forest<br/>per city]
+    C --> D[Results<br/>docs/04]
+    E[EarthScope MUSTANG<br/>about 2 days behind] -->|daily GitHub Action| F[Live models,<br/>7 cities]
+    F --> G[site/data<br/>committed every day]
+    E -->|2019-2026, 33 cities| H[Globe history]
+    H --> G
+    G -->|every push to main| I[Static site<br/>on Vercel]
+```
+
+1. Take the 4–14 Hz band, the frequencies where human activity lives.
+2. Convert every timestamp to the station's **local** time (rush hour isn't 8 a.m. UTC).
+3. Reduce each day to 24 hourly medians: the day's **shape** (24 numbers) plus its
+   overall **level** (1 number).
+4. Train a random forest on **normal days only**, holding out whole weeks for testing.
+5. Predict: weekday vs weekend, and exact day of week.
+6. Flag any day whose 25 features sit beyond the 95th percentile of that station's
+   normal days: **disruption detection**, with no labels required.
+
+Full detail in [`docs/03-methodology.md`](docs/03-methodology.md).
+
+## What we show, and what we don't claim
+
+| We show | We don't claim |
+|---|---|
+| Which day a city's ground looks like, on weeks the model never saw | Why a day was quiet: the ground shows that a city slowed down, not the reason |
+| 95% median weekday vs weekend across 149 cities | That it works everywhere: the control stations (Mammoth Lakes, the Kalahari, Puerto Williams) sit at or near chance, and one-day-weekend stations (La Paz, Nepal) show no weekly signal |
+| 76% of weekday public holidays read as a "weekend" | Regional holidays: calendars are national only, so Quebec's and Victoria's are missed |
+| The 2020 lockdown quieting, reproduced from a second data source | Anything about individual people: the signal is a whole neighbourhood's vibration, summarised per hour |
+| A pre-registered natural experiment (the UAE's 2022 weekend change) | More than it is: one station and one change |
+| Live days scored by models that never trained on them | A live feed: MUSTANG data arrives about 2 days late, and stations go offline |
+
 
 ---
 
@@ -186,24 +270,23 @@ python src/predict.py --station BE.UCC   --date 2019-11-01   # All Saints' Day, 
 The model is retrained without the week containing the date you ask about, so every
 answer is a genuine blind guess.
 
+### Rebuild the site's media
+
+```bash
+pip install playwright && playwright install chromium   # plus ffmpeg on PATH
+python scripts/screenshots.py      # the README screenshots, from the live site -> assets/
+python scripts/record_demo.py      # the README GIF -> assets/demo.gif (kept under 8 MB)
+python video/record_scenes.py      # the video's scenes at 1080p, from the live site
+python video/assemble.py           # -> site/media/: MP4, subtitles, chapters, poster
+cd site && python -m http.server 8765   # the site locally: http://localhost:8765
+```
+
+The site is plain static files in `site/`, served by Vercel (`vercel.json`, no build
+step). Every push to `main` redeploys it, including the daily data commit.
+
 Other good stations: `HL.ATH` (Athens), `BE.UCC` (Brussels), `FR.CURIE` (Paris),
 `CN.MNTQ` (Montreal), `CH.SGEV` (Geneva), `NS.DOMB` (Dombås). Full list with scores in
 [`outputs/station_scores.csv`](outputs/station_scores.csv).
-
----
-
-## How it works, in six lines
-
-1. Take the 4–14 Hz band — the frequencies where human activity lives.
-2. Convert every timestamp to the station's **local** time (rush hour isn't 8 a.m. UTC).
-3. Reduce each day to 24 hourly medians → the day's **shape** (24 numbers) plus its
-   overall **level** (1 number).
-4. Train a random forest on **normal days only**, holding out whole weeks for testing.
-5. Predict: weekday vs weekend, and exact day of week.
-6. Flag any day whose 25 features sit beyond the 95th percentile of that station's
-   normal days → **disruption detection**, with no labels required.
-
-Full detail in [`docs/03-methodology.md`](docs/03-methodology.md).
 
 ---
 
@@ -212,9 +295,16 @@ Full detail in [`docs/03-methodology.md`](docs/03-methodology.md).
 ```
 groundtruth/
 ├── README.md                    you are here
+├── CHANGELOG.md                 what changed in each version
+├── LICENSE                      MIT, for the code (the data keeps its own licences)
 ├── CLAUDE.md                    instructions for AI coding agents working on this repo
 ├── requirements.txt
 ├── run_all.sh                    reproduce everything
+├── vercel.json                   hosting: serve site/ as static files, always revalidated
+│
+├── assets/                       README GIF and screenshots (scripts/ rebuilds them)
+├── scripts/                      screenshots.py, record_demo.py
+├── video/                        the demo video: captions.json, cards.html, record_scenes.py, assemble.py
 │
 ├── docs/
 │   ├── 01-concept.md             the idea and the physics
@@ -243,6 +333,8 @@ groundtruth/
 │   ├── game.html, game.js        "guess the day" against the model
 │   ├── globe.html, globe.js      time-travel globe, 2019-2026 (data from src/history.py)
 │   ├── research.html, research.js  158-station map + band chart
+│   ├── watch.html, watch.js      the 2-minute demo video, with chapters
+│   ├── media/                    the video, its subtitles, chapters and poster
 │   ├── about.html, common.js, style.css
 │   └── data/                     pulse.json + pulse_days.csv, updated daily by
 │                                 .github/workflows/pulse.yml (the open dataset)
@@ -302,7 +394,13 @@ groundtruth/
 
 ---
 
-## Data and citation
+## Team
+
+Aadit Chandra, Aradhya Gupta and Shraddha Pradeep.
+
+---
+
+## Data, citation and licence
 
 The seismic data is **not ours**. It comes from the official companion repository of:
 
@@ -316,6 +414,24 @@ Supporting literature: Díaz et al. (2017), *Scientific Reports* 7:15296; Groos 
 [`docs/02-data-and-sources.md`](docs/02-data-and-sources.md).
 
 If you use this repository, please cite Lecocq et al. (2020) for the data.
+
+**Licence.** The code is released under the [MIT licence](LICENSE): `groundtruth/`,
+`src/`, `tests/`, `scripts/`, `video/` and the website's HTML, CSS and JavaScript. The
+data keeps its sources' terms, and the MIT licence does not relicense it:
+
+- **Lecocq et al. (2020) dataset:** EUPL v1.1, vendored verbatim under `data/external/`
+  with its licence file. The tables we derive from it (`data/processed/`, `outputs/`,
+  test fixtures and the 2020-study files in `site/data/`) stay under EUPL v1.1, with
+  attribution. See [`data/external/PROVENANCE.md`](data/external/PROVENANCE.md).
+- **EarthScope MUSTANG** (the live data and the 2019–2026 history): open data, cited per
+  seismic network with DOIs in `docs/02`.
+- **Earth imagery:** NASA Blue Marble: Next Generation, served by NASA GIBS (no
+  copyright restrictions). **Stars:** Yale Bright Star Catalogue. **Places:** GeoNames
+  (CC BY 4.0). **Map tiles:** OpenFreeMap, © OpenStreetMap contributors.
+- **Typefaces:** Old Standard TT and Libre Franklin (SIL Open Font License).
+
+A quiet day on the ground shows that a city slowed down, not why. Nothing here
+identifies, locates or follows a person.
 
 ---
 

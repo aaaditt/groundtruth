@@ -639,8 +639,19 @@ Tests: 66, all pass.
   GitHub Pages stays up as a mirror until a daily bot commit is seen deploying.
 - Checked in a real browser on Vercel: 7 views × desktop/phone × light/dark, no console
   errors.
+- README rebuilt on the pattern of our Ghost Fleet project: badges, a demo GIF and six
+  screenshots recorded from the live site (`scripts/`), a "what we show / what we don't
+  claim" table, team, and a data-and-licence section. Added `LICENSE` (MIT for the code
+  only; the Lecocq et al. data and tables derived from it stay EUPL v1.1, see
+  `data/external/PROVENANCE.md`) and `CHANGELOG.md` (versions back to the proposal;
+  1.0.0 = tag `v1.0-semester`).
+- A 2-minute captioned demo video (`site/watch.html`), recorded from the live site at
+  1080p by `video/record_scenes.py` and cut by `video/assemble.py`. No voice-over (no
+  ElevenLabs key on this machine); the captions are in the picture and in a subtitle
+  track. All its words are in `video/captions.json`, quoting only numbers already in
+  the README.
 
-Tests: 83, all pass.
+Tests: 85, all pass.
 
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions

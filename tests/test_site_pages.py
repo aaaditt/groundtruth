@@ -46,3 +46,27 @@ def test_page_scripts_keep_the_cache_busting_pattern():
             for src in re.findall(r'<script src="([^"]+)"', read(name)):
                 if not src.startswith("http"):
                     assert re.fullmatch(r"[a-z]+\.js", src), f"{name}: {src}"
+
+
+def test_watch_page_media_exists_and_matches_the_captions():
+    import json
+    html = read("watch.html")
+    for ref in re.findall(r'(?:src|poster|href)="(media/[^"]+)"', html):
+        assert os.path.exists(os.path.join(SITE, ref)), f"watch.html points at missing {ref}"
+    with open(os.path.join(SITE, "media", "chapters.json"), encoding="utf-8") as f:
+        chapters = json.load(f)
+    with open(os.path.join(SITE, "..", "video", "captions.json"), encoding="utf-8") as f:
+        scenes = json.load(f)["scenes"]
+    # the video was assembled from the current captions file (re-run video/assemble.py if this fails)
+    assert [c["title"] for c in chapters] == [s["chapter"] for s in scenes]
+    assert [c["start"] for c in chapters] == sorted(c["start"] for c in chapters)
+
+
+def test_readme_images_and_licence_exist():
+    root = os.path.join(SITE, "..")
+    with open(os.path.join(root, "README.md"), encoding="utf-8") as f:
+        readme = f.read()
+    for ref in re.findall(r'(?:src="|\]\()((?:assets|site/media|outputs/plots)/[^")]+)', readme):
+        assert os.path.exists(os.path.join(root, ref)), f"README points at missing {ref}"
+    with open(os.path.join(root, "LICENSE"), encoding="utf-8") as f:
+        assert f.readline().strip() == "MIT License"

@@ -25,3 +25,6 @@ data/external/bsc5/
 .superpowers/
 .vercel
 .env*
+
+# demo video build files (frames, scene clips); the finished video is in site/media/
+video/build/

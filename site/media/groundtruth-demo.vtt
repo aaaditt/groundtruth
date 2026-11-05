@@ -1,0 +1,85 @@
+WEBVTT
+
+1
+00:00:00.800 --> 00:00:05.500
+GroundTruth. The ground knows what day it is.
+
+2
+00:00:06.400 --> 00:00:08.800
+Seismometers were built to hear earthquakes.
+
+3
+00:00:09.000 --> 00:00:12.200
+They also hear us: buses, trains, machinery and footsteps.
+
+4
+00:00:12.400 --> 00:00:15.800
+So can a computer read the day of the week from the ground alone?
+
+5
+00:00:17.300 --> 00:00:21.500
+The site opens on the Earth, in the real night sky.
+
+6
+00:00:21.700 --> 00:00:25.100
+Along the bottom, a pen draws one real day under Brussels.
+
+7
+00:00:26.200 --> 00:00:30.700
+Scroll, and the pen draws the day hour by hour.
+
+8
+00:00:30.900 --> 00:00:36.700
+Almost still at night. Then the city wakes up.
+
+9
+00:00:36.900 --> 00:00:41.400
+A Sunday has no morning cliff.
+
+10
+00:00:42.500 --> 00:00:49.000
+March 2020. One line per city, sorted by the day it went quiet.
+
+11
+00:00:49.200 --> 00:00:56.700
+Blue means at least 15% quieter than usual.
+
+12
+00:00:57.800 --> 00:01:03.600
+A model per city reads weekday or weekend at 95% (median, 149 cities).
+
+13
+00:01:03.800 --> 00:01:08.000
+Then you try one real day against it.
+
+14
+00:01:09.100 --> 00:01:14.100
+The globe: 33 cities, every day since January 2019.
+
+15
+00:01:14.300 --> 00:01:21.600
+Play through March 2020 and the cities turn blue as lockdowns begin.
+
+16
+00:01:21.800 --> 00:01:27.300
+Click a city for its whole year as a calendar.
+
+17
+00:01:28.400 --> 00:01:34.900
+Every day, a GitHub Action scores yesterday for 7 live cities.
+
+18
+00:01:35.100 --> 00:01:40.600
+18 predictions were written down before their day, then graded automatically.
+
+19
+00:01:41.700 --> 00:01:48.900
+Or play against the model: guess the weekday from one day of shaking.
+
+20
+00:01:50.000 --> 00:01:53.600
+Real data only: Lecocq et al. (2020) in Science, and EarthScope's MUSTANG service.
+
+21
+00:01:53.800 --> 00:01:58.200
+groundtruth-seismic.vercel.app

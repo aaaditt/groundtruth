@@ -145,6 +145,9 @@ be able to answer the "how do you know it's people?" question.
 ## Final evaluation: the live demo (added 2026-11-04)
 
 Open https://groundtruth-seismic.vercel.app/ on the projector. Suggested 4-minute path:
+(If the venue's internet fails, play the 2-minute video instead: download
+https://groundtruth-seismic.vercel.app/media/groundtruth-demo.mp4 beforehand. It is the
+same path, recorded from the live site, with captions and no sound.)
 
 0. **The tour** (the front page). Click "Take the two-minute tour" and scroll: the
    Brussels Wednesday draws itself, the Sunday appears, then March 2020 runs down the
