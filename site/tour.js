@@ -28,7 +28,7 @@ const store = {
 };
 if (store.get()) {
   const p = $("primary"), s = $("secondary");
-  p.textContent = "Open the globe"; p.href = "globe.html";
+  p.textContent = "Ask the ground"; p.href = "globe.html#ask";
   s.textContent = "Replay the tour"; s.href = "#day";
 }
 for (const id of ["skip", "secondary", "open-globe"]) $(id).addEventListener("click", () => store.set());
@@ -144,14 +144,15 @@ function oneDay(ref) {
   const y = (v) => B - (Math.log10(v) - LO) / (HI - LO) * (B - T);
   const box = $("daysvg");
   const add = (tag, attrs, text) => { const e = svg(tag, attrs); if (text) e.textContent = text; box.append(e); return e; };
-  for (let h = 0; h <= 23; h++) add("line", { class: h % 6 ? "h" : "h h6", x1: x(h), x2: x(h), y1: T - 10, y2: B });
+  paperGrid(box, { x0: L, x1: R, y0: T - 10, y1: B, cols: 23, rows: 6 });
   for (const [v, t] of [[2, "2×"], [1, "1×"], [0.5, "½×"], [0.25, "¼×"]]) {
     if (Math.log10(v) < LO || Math.log10(v) > HI) continue;
     add("line", { class: v === 1 ? "lvl lvl1" : "lvl", x1: L, x2: R, y1: y(v), y2: y(v) });
     add("text", { class: "ax", x: R + 8, y: y(v) + 4 }, t);
   }
   for (const h of [0, 6, 12, 18]) add("text", { class: "ax", x: x(h) + 4, y: B + 22 }, hourLabel(h));
-  const path = (arr) => arr.map((v, h) => `${h ? "L" : "M"}${x(h).toFixed(1)} ${y(v).toFixed(1)}`).join("");
+  const pts = (arr) => arr.map((v, h) => [x(h), y(v)]);
+  const path = (arr) => smoothPath(pts(arr));
   add("path", { class: "sun", d: path(sun) });
   const line = add("path", { class: "wed", d: "" });
   const arm = add("line", { class: "arm", y1: T - 10 });
@@ -166,7 +167,7 @@ function oneDay(ref) {
     const i = Math.floor(h), f = h - i, j = Math.min(23, i + 1);
     const v = 10 ** (Math.log10(wed[i]) * (1 - f) + Math.log10(wed[j]) * f);
     const px = x(h).toFixed(1), py = y(v).toFixed(1);
-    line.setAttribute("d", `${path(wed.slice(0, i + 1))}L${px} ${py}`);
+    line.setAttribute("d", smoothPath([...pts(wed.slice(0, i + 1)), [x(h), y(v)]]));
     for (const [k, val] of [["x1", px], ["x2", px], ["y2", py]]) arm.setAttribute(k, val);
     nib.setAttribute("x1", x(h) - 5); nib.setAttribute("x2", x(h) + 5); nib.setAttribute("y1", py); nib.setAttribute("y2", py);
     const hr = Math.round(h);
@@ -360,10 +361,10 @@ function learn(stations, game) {
     const lo = Math.min(...day.shape) - 0.05, hi = Math.max(...day.shape) + 0.05;
     const x = (h) => L + h * (R - L) / 23, y = (v) => B - (v - lo) / (hi - lo) * (B - T);
     box.replaceChildren();
-    for (let h = 0; h <= 23; h++) box.append(svg("line", { class: h % 6 ? "h" : "h h6", x1: x(h), x2: x(h), y1: T - 6, y2: B }));
+    paperGrid(box, { x0: L, x1: R, y0: T - 6, y1: B, cols: 23, rows: 4 });
     for (const h of [0, 6, 12, 18]) { const t = svg("text", { class: "ax", x: x(h) + 4, y: B + 22 }); t.textContent = hourLabel(h); box.append(t); }
     box.append(svg("path", { class: "wed drawn", pathLength: 1,
-      d: day.shape.map((v, h) => `${h ? "L" : "M"}${x(h).toFixed(1)} ${y(v).toFixed(1)}`).join("") }));
+      d: smoothPath(day.shape.map((v, h) => [x(h), y(v)])) }));
     btns.forEach((b) => { b.disabled = false; b.classList.remove("truth", "miss"); });
     $("q-reveal").textContent = ""; $("q-next").hidden = true;
   }
@@ -389,8 +390,8 @@ function yours(hist, stations) {
   const sky = $("yours-sky"), g = gmst(Date.now());
   const paint = () => drawSky(sky, -40, 30, g);
   paint(); addEventListener("resize", paint);
-  $("yours-lede").textContent = `Every day since January 2019, for ${hist.stations.length} cities. ` +
-    "Pick a date, find a holiday, open any city’s year.";
+  $("yours-lede").textContent = `Pick any of ${hist.stations.length} cities and any day since January 2019. ` +
+    "The model reads that one day of shaking and says which weekday it was, without being told the date.";
   const n = stations.filter((s) => s.weekend_bal_acc !== null).length;
   $("door-research").textContent = `${n} cities from the 2020 study: how well can a seismometer tell a weekday from a weekend?`;
 }

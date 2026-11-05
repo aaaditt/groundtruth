@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GroundTruth</title>
   <meta name="description" content="Seismometers built to hear earthquakes also hear cities. A two-minute tour of what the ground knows about our week, from real data.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%2315181c' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%239cc8ff' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&amp;family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css"
         integrity="sha384-Nq6PQ+9vJPvw7U/VfDELyrWoGQMsy0gi6QShhaSrGzkpF5KkM40csg2leky+YMTd" crossorigin="anonymous">
   <link rel="preconnect" href="https://gibs.earthdata.nasa.gov" crossorigin>
@@ -17,7 +17,7 @@
 <body class="tour" data-tone="space">
   <header class="tourbar" id="tourbar">
     <a class="mark" href="#welcome">GroundTruth</a>
-    <div class="aside"><span id="stop"></span><a href="globe.html" id="skip">Skip the tour</a></div>
+    <div class="aside"><span id="stop"></span><a href="globe.html#ask" id="skip">Skip the tour</a><button class="sound" id="sound" type="button" aria-pressed="false" title="Sound on or off"><svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7 Q4 1 7 7 T13 7 T19 7 T25 7"/></svg><span>Sound</span></button></div>
   </header>
 
   <!-- 1. Welcome: the Earth from orbit, and one real day of a city's shaking drawn along the bottom -->
@@ -29,7 +29,7 @@
         footstep, so each city’s week is written into the ground beneath it.</p>
       <div class="actions">
         <a class="go" id="primary" href="#day">Take the two-minute tour</a>
-        <a class="alt" id="secondary" href="globe.html">I know already, open the globe</a>
+        <a class="alt" id="secondary" href="globe.html#ask">Or ask the ground about any day</a>
       </div>
     </div>
     <div class="trace" aria-hidden="true"><svg viewBox="0 0 1000 100" preserveAspectRatio="none"><path id="pen" pathLength="1"/></svg></div>
@@ -108,7 +108,7 @@
         </div>
         <p class="q-reveal" id="q-reveal" aria-live="polite"></p>
         <p class="q-more"><button class="btn primary" type="button" id="q-next" hidden>Another day</button>
-          <a href="game.html">Play the full game: all seven days</a></p>
+          <a href="globe.html#ask">Ask about any day in 33 cities, 2019 to 2026</a></p>
       </div>
     </div>
   </section>
@@ -117,11 +117,12 @@
   <section class="yours" id="yours" data-tone="space" data-stop="5">
     <canvas class="sky" id="yours-sky" aria-hidden="true"></canvas>
     <div class="yours-in">
-      <h2>Now it’s yours.</h2>
-      <p class="lede" id="yours-lede">Every day since January 2019, city by city. Pick a date, find a holiday,
-        open any city’s year.</p>
-      <a class="go" href="globe.html" id="open-globe">Open the globe</a>
+      <h2>Now ask it yourself.</h2>
+      <p class="lede" id="yours-lede">Pick any city and any day since January 2019. The model reads that one day
+        of shaking and says which weekday it was, without being told the date.</p>
+      <a class="go" href="globe.html#ask" id="open-globe">Ask the ground</a>
       <ul class="doors">
+        <li><a href="globe.html">Globe</a><span>Every city on one Earth, day by day since 2019: who went quiet, and when.</span></li>
         <li><a href="today.html">Today</a><span>The newest day under each live city, and the predictions we wrote down in advance.</span></li>
         <li><a href="game.html">Game</a><span>Guess the weekday from one day of shaking, against the model.</span></li>
         <li><a href="research.html">Research</a><span id="door-research">Every city in the 2020 study: how well can a seismometer tell a weekday?</span></li>
@@ -137,6 +138,7 @@
 
   <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"
           integrity="sha384-GfxBM9x46BaAFxtCq39Fxir8fNZ4VDnwgfi6Kzi5/F1tAFsm0amuuV8kd+Pxzuf/" crossorigin="anonymous"></script>
+  <script src="sound.js"></script>
   <script src="common.js"></script>
   <script src="tour.js"></script>
 </body>

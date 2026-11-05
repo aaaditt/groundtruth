@@ -6,14 +6,14 @@
   <title>How GroundTruth Works</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,400;0,500;0,600;1,400&amp;family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&amp;family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="bar">
     <a class="mark" href="index.html">GroundTruth</a>
-    <nav aria-label="Site"><a href="today.html">Today</a><a href="globe.html">Globe</a><a href="game.html">Game</a><a href="research.html">Research</a><a href="about.html" aria-current="page">About</a></nav>
-    <div class="aside"><a href="index.html#day">Replay the tour</a></div>
+    <nav aria-label="Site"><a href="globe.html#ask" class="nav-ask">Ask</a><a href="globe.html">Globe</a><a href="today.html">Today</a><a href="game.html">Game</a><a href="research.html">Research</a><a href="about.html" aria-current="page">About</a></nav>
+    <div class="aside"><a href="index.html#day">Replay the tour</a><button class="sound" id="sound" type="button" aria-pressed="false" title="Sound on or off"><svg viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7 Q4 1 7 7 T13 7 T19 7 T25 7"/></svg><span>Sound</span></button></div>
   </header>
   <div class="wrap prose">
     <header>
@@ -39,6 +39,21 @@
         normal days were (scored with those days' own weeks held out). So about 1 normal day in 20
         is flagged by chance: one flag means little; a cluster means something.</li>
     </ol>
+
+    <h2>Ask the ground: any day, 2019 to 2026</h2>
+    <p>On the <a href="globe.html#ask">Ask</a> page you pick a city and a day, and a model says which weekday it
+      thinks that day was. Each of the 33 cities has its own random forest, trained on ordinary days from
+      January 2019 to September 2026, with whole weeks held out: every answer you see comes from a model that
+      never trained on that day's week. Public holidays, 21 December – 6 January, and a fixed lockdown window
+      (1 March – 30 June 2020) are never used for training at all. The model sees only the day's 24-hour shape
+      and how loud the day was against the 8 weeks before it; it is never told the date. Later local lockdowns
+      (Melbourne's, for example) were not marked, so those days did enter training.</p>
+
+    <h2>Sound</h2>
+    <p>The site makes its own sound in your browser (a slow drone, a whoosh when the Earth moves, a pen while a
+      line draws, a chime when an answer appears). There are no audio files, and nothing plays until you click.
+      The Sound switch in the bar turns it off, and the site remembers. Every sound goes with something you can
+      see, so you miss nothing with it off.</p>
 
     <h2>How good is it?</h2>
     <p>Tested with whole weeks held out on the training year: weekday vs weekend 98–100% in Brussels,
@@ -77,5 +92,6 @@
       <li>Map tiles © OpenStreetMap contributors.</li>
     </ul>
   </div>
+  <script src="sound.js"></script>
 </body>
 </html>

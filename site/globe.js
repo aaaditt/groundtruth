@@ -322,7 +322,7 @@ function detail(keepCalendar) {
     yearButtons(),
     calKey(),
     calendar(s, calYear),
-    el("p", { class: "note" }, "One square per day; dot = public holiday; outline = no data. Click a day to jump to it."),
+    el("p", { class: "note" }, "One square per day; dot = public holiday; outline = no data. Click a day to ask the model what day it was."),
     backButton(),
   ];
   box.replaceChildren(...kids);
@@ -383,8 +383,10 @@ function calendar(s, year) {
       const lines = [fmtLongDate(dateOf(i)), describe(v, i)];
       if (h) lines.push(`Public holiday: ${h}`);
       hover(r, lines);
-      r.addEventListener("click", () => setDate(i, { keepCalendar: true }));
-      r.addEventListener("keydown", (e) => { if (e.key === "Enter") setDate(i, { keepCalendar: true }); });
+      // a day in the calendar opens Ask: what weekday does the model think it was?
+      const ask = () => (typeof openAsk === "function" ? openAsk(s.id, dateOf(i)) : setDate(i, { keepCalendar: true }));
+      r.addEventListener("click", ask);
+      r.addEventListener("keydown", (e) => { if (e.key === "Enter") ask(); });
       g.append(r);
       if (h) g.append(svg("circle", { class: "hol", cx: x + cell / 2, cy: y + cell / 2, r: 1.8 }));
       calCells.push([i, r]);
@@ -456,6 +458,8 @@ function legend() {
 }
 
 function writeHash() {
+  // Ask mode (ask.js) owns the address while it is open, or about to open
+  if (document.body.classList.contains("asking") || location.hash.startsWith("#ask")) return;
   const h = `#${dateOf(cur)}${sel >= 0 ? "/" + H.stations[sel].id : ""}`;
   if (location.hash !== h) history.replaceState(null, "", h);
 }
@@ -500,6 +504,7 @@ async function main() {
   const h = readHash();
   setDate(h && h.i !== null ? h.i : H.n);
   if (h && h.k >= 0) map.once("load", () => select(h.k, true));
+  document.dispatchEvent(new Event("globe:ready"));      // ask.js waits for this
 }
 
 main().catch((e) => {
