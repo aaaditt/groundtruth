@@ -7,8 +7,8 @@ Seismometers built to hear earthquakes also hear cities. We read the day of the 
 and the days that break a city's rhythm, from real seismic noise alone.
 
 [![Live site](https://img.shields.io/badge/live-groundtruth--seismic.vercel.app-1f4e9e?style=flat-square)](https://groundtruth-seismic.vercel.app/)
-![Version](https://img.shields.io/badge/version-1.4.0-15181c?style=flat-square)
-![Tests](https://img.shields.io/badge/tests-166_passing-2c6e3f?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.5.0-15181c?style=flat-square)
+![Tests](https://img.shields.io/badge/tests-174_passing-2c6e3f?style=flat-square)
 ![Data](https://img.shields.io/badge/data-Lecocq_et_al._2020_%2B_EarthScope_MUSTANG-555c62?style=flat-square)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT_(code)-15181c?style=flat-square)](LICENSE)
 
@@ -34,7 +34,8 @@ having seen a holiday in training, calls **76% of weekday public holidays a
 "weekend"** (vs 6% of ordinary weekdays), including Thanksgiving in New York and
 All Saints' Day in Brussels. The same method on **current data (Oct 2025 – Sep 2026)**
 reads weekday vs weekend at 98–100% in Brussels, Los Angeles, Melbourne, Dublin and
-Montreal.
+Montreal. And given a week of shaking, it names **the exact weekday** at a median of **96%**
+across 33 cities (Result 17, pre-registered).
 
 > Course project for Foundations of Data Science, BITS Pilani, presented 22 Sep 2026.
 > Registered title: *Learning Urban Activity Rhythms from Ambient Seismic Noise for
@@ -202,6 +203,8 @@ All scores are out-of-sample, with **whole weeks held out** (see
 | **Ask the ground**, 2019–2026, 33 stations: weekday vs weekend, median (Result 16) | **93.1%** | 50% |
 | Ask: exact day of week, median over 33 stations, 82,120 days | **47.4%** | 14.3% |
 | Ask: weekday public holidays read as a weekend, median station | **67%** (n=2,112) | vs 1.7% of ordinary weekdays |
+| Exact weekday from one day, 3 frequency bands, median over 33 stations (Result 17) | **56.7%** | 14.3% |
+| Exact weekday given **the 7 days around it**, median over 33 stations (Result 17) | **96.1%** | 14.3% |
 
 Showcase cities: New York `AM.R7885` (100.0% / 66.1%), Athens `HL.ATH` (100.0% / 69.6%),
 Brussels `BE.UCC` (100.0% / 47.8%).
@@ -336,6 +339,7 @@ groundtruth/
 │   ├── mustang.py                recent data: MUSTANG spectra -> 4-14 Hz displacement RMS
 │   ├── live.py                   per-station live models on 12 months of MUSTANG data
 │   ├── ask.py                    out-of-fold weekday guesses for every city-day (Result 16)
+│   ├── weekday.py                exact-weekday experiment: 3 bands, half-hours, a week (Result 17)
 │   └── pulse.py                  scores new days for the dashboard (reuses detect.py)
 │
 ├── site/                         the static website (served by Vercel)

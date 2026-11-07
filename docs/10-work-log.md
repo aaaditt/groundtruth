@@ -687,6 +687,17 @@ less confusing design, sound, and better chart lines. Design and plan:
   code review (fresh reviewer) found no critical problems; its important findings were fixed
   (lockdown days without a guess, a tablet-width scroll, one number not computed by a script).
 
+### 2026-11-07 — Naming the exact weekday (Result 17, pre-registered)
+
+- Running Ask showed the model rarely names the exact weekday: Tuesday to Thursday near
+  chance. The goal was 90%. The experiment was written down first (docs/15, commit
+  `7cc7497`): 8 single-day configurations and one week-of-context test, all reported.
+- Windows Smart App Control had started blocking one pandas DLL in `.venv`; a fresh
+  download of the same version (pandas 3.1.0) is accepted, so pandas was reinstalled.
+- Results: from one day, 3 bands x half-hours with gradient boosting reach 56.7% (+9.2,
+  33/33 stations). Given the 7 days around a day, 96.1% (25/33 stations at 90%+). The site is
+  unchanged; using the week model in Ask is a separate decision.
+
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions
 (Melbourne Cup Day, 11 Nov). Thanksgiving (26 Nov) is the headline live test.

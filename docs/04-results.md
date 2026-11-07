@@ -765,6 +765,35 @@ weak stations (Result 1).
 
 Run: `python src/ask.py` (about 10 min, from the local MUSTANG cache).
 
+## Result 17 — Naming the exact weekday: richer features, then a week of context
+
+Pre-registered in `docs/15-weekday-preregistration.md` (commit `7cc7497`) before anything ran;
+`src/weekday_experiment.py`, `groundtruth/weekday.py`. Same 33 stations, years, labels and
+honesty rules as Result 16; 72,395 ordinary days scored by every configuration.
+
+**Why:** Result 16 names the exact weekday at only 47%, with Tuesday to Thursday near chance.
+The team's goal was 90%.
+
+| | median exact weekday (33 stations) | Tue-Thu | stations at 90%+ |
+|---|---:|---:|---:|
+| Result 16 features, one day (A0-RF) | 47.5% | 24.7% | 0 |
+| **Part A**: 3 bands (1-4, 4-14, 14-20 Hz) x 48 half-hours, gradient boosting, one day | **56.7%** | 31.5% | 0 |
+| **Part B**: the same features for the **7 days around** the day | **96.1%** | 96.0% | 25 |
+
+- Part A improves on Result 16 by +9.2 points at the median and at 33 of 33 stations (the
+  pre-registered bar was +3 points at 22 stations). It was chosen among 8 configurations on the
+  same data, so it is slightly optimistic. From one day, Tuesday to Thursday stay hard.
+- Part B reaches the 90% aspiration: pooled, each weekday is right 91-92% of the time. It
+  answers a different question ("given the week around it, which day is the middle one?"):
+  the model finds the weekend and counts. Folds are 28-day blocks, and training days whose
+  window touches a test block are dropped. The same single-day features on those folds
+  (control B0) score 54.7%, so the gain comes from the week.
+- Weakest stations (Part B): Stanley 30.9%, Puerto Williams 62.7%, near La Paz 64.6%, Nilore
+  65.9%: the quiet, remote places that are near chance in every result.
+
+Run: `python src/weekday_experiment.py` (about 40 min from the local MUSTANG cache; day tables
+are cached in `data/cache/weekday/`).
+
 ---
 
 ## An honest negative result

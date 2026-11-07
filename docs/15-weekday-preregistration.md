@@ -107,6 +107,51 @@ is the middle one?". This is a different claim and will always be reported as su
 Anything not listed above (other bands, other models, tuning, pooling stations) is exploratory
 and reported only under that heading, never as the result.
 
-## 7. Results
+## 7. Results (added 2026-11-07, after the pre-registration commit `7cc7497`)
 
-(To be added after running `python src/weekday_experiment.py`.)
+Run: `python src/weekday_experiment.py`. Tables: `outputs/tables/weekday_partA.csv`,
+`weekday_partB.csv`, `weekday_confusion.csv`. 33 stations, 72,395 ordinary days scored by every
+configuration.
+
+### Part A: richer single-day features. Verdict: **IMPROVES on Result 16**
+
+| config | median exact | pooled exact | median Tue-Thu | median weekday vs weekend |
+|--------|-------------:|-------------:|---------------:|--------------------------:|
+| A0-RF (Result 16) | 47.5% | 47.1% | 24.7% | 94.9% |
+| A0-GB | 47.2% | 47.2% | 24.1% | 95.1% |
+| A1-RF | 48.7% | 48.7% | 24.9% | 95.2% |
+| A1-GB | 49.1% | 49.5% | 25.5% | 95.5% |
+| A2-RF | 52.8% | 51.2% | 25.3% | 97.0% |
+| A2-GB | 53.6% | 53.2% | 29.5% | 97.0% |
+| A3-RF | 53.8% | 52.6% | 27.0% | 96.5% |
+| **A3-GB** (chosen) | **56.7%** | **55.3%** | **31.5%** | **97.3%** |
+
+The chosen configuration (three bands, half-hour detail, gradient boosting) gains **+9.2
+points** over Result 16 and is better at **33 of 33** stations; both thresholds are met. The
+extra frequency bands do most of the work (A0 to A2: +5.3), half-hour detail adds a little,
+and gradient boosting helps most with the most features. It was picked among 8 on the same
+data, so its number is slightly optimistic. Even so, Tuesday to Thursday stay hard: 38-41%
+each, against 33% for a guess between the three. **No station reaches 90% from one day.**
+
+### Part B: a week of context. Aspiration (90% median): **REACHED**
+
+| config | median exact | pooled exact | median Tue-Thu | stations at 90%+ |
+|--------|-------------:|-------------:|---------------:|-----------------:|
+| B0, one day (A3 features, block folds) | 54.7% | 54.7% | 28.5% | 0 |
+| **B, the week around the day** | **96.1%** | **91.2%** | **96.0%** | **25 of 33** |
+
+Pooled, every weekday is named correctly 91-92% of the time (Result 16: 28-83%). Given the
+week, the model finds the weekend and counts from it. 20 stations reach 95% or better; Hobart
+reaches 100.0%. The weakest are the places with the least human activity, the same ones that
+fail everywhere else in the project: Stanley (Falklands) 30.9%, Puerto Williams 62.7%, near
+La Paz 64.6%, Nilore 65.9%, Port Blair 75.4%.
+
+### What this does and does not show
+
+- From **one day**, the exact weekday is still out of reach: Monday, Friday and the weekend
+  are readable; Tuesday, Wednesday and Thursday are nearly the same day to the ground.
+- From **a week**, the ground names the day almost always. This is a different question and
+  must always be stated as such ("given the 7 days around it"). It is still honest: every
+  guess comes from a model that never trained on that 28-day block, and no training window
+  overlaps a test block.
+- Nothing on the site was changed by this experiment (section 5).

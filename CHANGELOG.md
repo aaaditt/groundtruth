@@ -4,6 +4,16 @@ What changed in each version of GroundTruth. Versions follow semantic versioning
 `1.0.0` is the git tag `v1.0-semester`. The daily `pulse: data` commits only add a new
 day of data and are not listed.
 
+## [1.5.0] - 2026-11-07
+
+### Added
+
+- **Result 17**, pre-registered (`docs/15-weekday-preregistration.md`): can the ground name
+  the exact weekday? From one day, three frequency bands and half-hour detail raise the
+  median from 47.5% to 56.7% (33 of 33 stations better). Given the 7 days around a day, the
+  median is 96.1% (25 of 33 stations at 90% or more). `src/weekday_experiment.py`,
+  `groundtruth/weekday.py`, `tests/test_weekday.py`.
+
 ## [1.4.0] - 2026-11-06
 
 ### Added
