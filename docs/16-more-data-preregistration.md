@@ -57,6 +57,47 @@ median and at 22 or more stations.
 `python src/more_data_experiment.py` writes `outputs/tables/more_data_L.csv`, `more_data_P.csv`
 and `more_data_R.csv` (station x configuration: n, exact, tue_thu).
 
-## 5. Results
+## 5. Results (added 2026-11-07, after the pre-registration commit `4e00506`)
 
-(To be added after the run.)
+Run: `python src/more_data_experiment.py`. Tables: `outputs/tables/more_data_L.csv`,
+`more_data_P.csv`, `more_data_R.csv`. Check: L at n = all gives 56.7%, the same as Result 17's
+A3-GB, so the setup matches.
+
+**L: learning curve. Verdict (by the rule): "more own-station data is still paying off".**
+
+| training days per station | 100 | 200 | 400 | 800 | 1600 | all (~1,800) |
+|---|---:|---:|---:|---:|---:|---:|
+| median exact | 37.9% | 43.6% | 47.9% | 53.3% | 56.3% | 56.7% |
+
+All beats 800 by +3.3 points, which passes the pre-registered bar. But the curve is bending:
+going from 1600 to all adds only +0.4 points. Each doubling adds less than the last (+5.7,
++4.3, +5.5, +3.0). If that continues, years more data would add a few points, not the 33
+needed for 90%.
+
+**P: pooling stations. Verdict: "pooling does not help enough"** (it hurts).
+
+| | P0 one model per station | P1 pooled + station | P2 pooled, no station |
+|---|---:|---:|---:|
+| median exact | **55.9%** | 50.4% (-5.5) | 45.9% (-10.0) |
+| better than P0 at | | 0 of 33 | 0 of 33 |
+
+A model trained on 72,000 days from all cities is worse at every station than each city's
+own model. Each place has its own daily rhythm (time zone, commute times, local noise), so
+other cities' days add confusion, not knowledge.
+
+**R: more boosting rounds. Verdict: "more rounds do not help enough".**
+
+| max_iter | 100 (default) | 300 | 1000 |
+|---|---:|---:|---:|
+| median exact | 56.7% | 56.5% | 55.7% |
+| pooled exact | 55.3% | 55.8% | 55.8% |
+
+More rounds help the pooled number by half a point and slightly hurt the median: the model
+has already learned what one day holds.
+
+### What this shows
+
+The single-day ceiling is set by the data, not by the amount of training: one day's shaking
+looks almost the same on a Tuesday, Wednesday or Thursday. The way past it is more **context**
+(Result 17 Part B: the week around the day, 96.1%), not more of the same. Ask keeps Result
+17's A3-GB model for its one-day guess.
