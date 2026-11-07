@@ -35,7 +35,7 @@
         [6.5, "Christmas Day 2019 in Brussels was a Wednesday.", "The model only sees that one day of shaking, never the date"],
         [12.0, "It reads like a Sunday.", "Every answer comes from a model that never trained on that week"],
         [17.5, "The year, one column per week: the weekends show up as blue bands."],
-        [22.5, "Ascension Day, a Thursday: also read as a Sunday.", "Weekday holidays read as a weekend 67% of the time, ordinary weekdays 1.7%"]
+        [22.5, "Ascension Day, a Thursday: also read as a Sunday.", "Weekday holidays read as a weekend 69% of the time, ordinary weekdays 2.3%"]
       ]
     },
     {

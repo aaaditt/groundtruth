@@ -7,8 +7,8 @@ Seismometers built to hear earthquakes also hear cities. We read the day of the 
 and the days that break a city's rhythm, from real seismic noise alone.
 
 [![Live site](https://img.shields.io/badge/live-groundtruth--seismic.vercel.app-1f4e9e?style=flat-square)](https://groundtruth-seismic.vercel.app/)
-![Version](https://img.shields.io/badge/version-1.5.0-15181c?style=flat-square)
-![Tests](https://img.shields.io/badge/tests-174_passing-2c6e3f?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.6.0-15181c?style=flat-square)
+![Tests](https://img.shields.io/badge/tests-208_passing-2c6e3f?style=flat-square)
 ![Data](https://img.shields.io/badge/data-Lecocq_et_al._2020_%2B_EarthScope_MUSTANG-555c62?style=flat-square)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT_(code)-15181c?style=flat-square)](LICENSE)
 
@@ -66,10 +66,11 @@ The video is rebuilt from the live site by the code in `video/`.
   globe.
 - **Ask the ground.** Pick any of 33 cities and any day from 2019 to 2026, from a sentence
   or from the city's year laid out week by week. The Earth flies to the city, that day's
-  shaking draws as a glowing pen line, and the model says which weekday it thinks it was,
-  with its confidence for all seven, next to the truth. Christmas 2019 in Brussels, a
-  Wednesday, reads as a Sunday (72%). Every guess comes from a model that never trained on
-  that day's week (Result 16).
+  shaking draws as a glowing pen line, and the model answers in two steps: weekday or
+  weekend, from that day alone (97% at the median city), then which day, from the week
+  around it (96%). Christmas 2019 in Brussels reads as a day off from the day alone, and as
+  a Wednesday from the week: a Wednesday that looked like a Sunday. Every guess comes from
+  a model that never trained on that day's week (Results 16 and 17).
 - **Time-travel globe.** Any day since January 2019 for 33 cities, each coloured against
   the same weekday over its previous 8 weeks, on NASA satellite imagery with every
   naked-eye star at its real position. Click a city for its whole year as a calendar.
@@ -200,11 +201,12 @@ All scores are out-of-sample, with **whole weeks held out** (see
 | Shape vs loudness alone, exact day (median gain, 141 of 149 stations gain) | **+17 pp** | — |
 | Public-holiday days flagged as anomalous | **46.2%** | 5% by design |
 | Lockdown days flagged as anomalous | **34.5%** | 5% by design |
-| **Ask the ground**, 2019–2026, 33 stations: weekday vs weekend, median (Result 16) | **93.1%** | 50% |
-| Ask: exact day of week, median over 33 stations, 82,120 days | **47.4%** | 14.3% |
-| Ask: weekday public holidays read as a weekend, median station | **67%** (n=2,112) | vs 1.7% of ordinary weekdays |
+| **Ask the ground**, 2019–2026, 33 stations: weekday vs weekend from one day, median (Result 16) | **97.1%** | 50% |
+| Ask: exact day of week from one day, median over 33 stations, 81,709 days | **55.2%** | 14.3% |
+| Ask: weekday public holidays read as a weekend, median station | **69%** (n=2,102) | vs 2.3% of ordinary weekdays |
 | Exact weekday from one day, 3 frequency bands, median over 33 stations (Result 17) | **56.7%** | 14.3% |
 | Exact weekday given **the 7 days around it**, median over 33 stations (Result 17) | **96.1%** | 14.3% |
+| One day, more data / all cities in one model / more training rounds (Result 18) | 56.7% / 50.4% / 56.5% | no gain past ~1,600 days |
 
 Showcase cities: New York `AM.R7885` (100.0% / 66.1%), Athens `HL.ATH` (100.0% / 69.6%),
 Brussels `BE.UCC` (100.0% / 47.8%).

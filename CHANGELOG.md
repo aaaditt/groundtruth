@@ -4,6 +4,20 @@ What changed in each version of GroundTruth. Versions follow semantic versioning
 `1.0.0` is the git tag `v1.0-semester`. The daily `pulse: data` commits only add a new
 day of data and are not listed.
 
+## [1.6.0] - 2026-11-07
+
+### Added
+
+- **Result 18**, pre-registered (`docs/16-more-data-preregistration.md`): more days per
+  station, one model for all cities, and more boosting rounds. None lifts the one-day
+  exact-weekday score past ~57%; pooling cities hurts. `src/more_data_experiment.py`.
+
+### Changed
+
+- **Ask the ground** answers in two steps: weekday or weekend from the day alone (Result 17
+  single-day model, 97.1% median), then which day from the week around it (96.1%), with a
+  strip of the 7 days. `src/ask.py`, `groundtruth/ask.py` (`oof_week`), `site/ask.js`.
+
 ## [1.5.0] - 2026-11-07
 
 ### Added

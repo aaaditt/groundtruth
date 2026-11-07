@@ -698,6 +698,17 @@ less confusing design, sound, and better chart lines. Design and plan:
   33/33 stations). Given the 7 days around a day, 96.1% (25/33 stations at 90%+). The site is
   unchanged; using the week model in Ask is a separate decision.
 
+### 2026-11-07 — More data? (Result 18) and Ask in two steps
+
+- The team asked for more data and more training to push the one-day guess toward 90%.
+  Pre-registered first (docs/16, `4e00506`): a learning curve, pooling all cities, and more
+  boosting rounds. More days help up to ~800 and then flatten; pooling hurts at every
+  station; more rounds do nothing. The one-day limit is the data, not the training.
+- Ask now shows both guesses: weekday vs weekend from one day (97.1%), the exact day from
+  the week around it (96.1%). The single-day model is Result 17's A3-GB. A CSS clash
+  (the step headings reused `.ask-q`, the page title's class) was caught and renamed
+  `.ask-step`.
+
 ## Next steps
 Watch the dashboard for 7 days of unattended updates and the first graded predictions
 (Melbourne Cup Day, 11 Nov). Thanksgiving (26 Nov) is the headline live test.

@@ -735,21 +735,38 @@ the same MUSTANG data as Result 15, from 1 Jan 2019 to 30 Sep 2026.
   did not see its week. A test checks that every week sits in exactly one fold
   (`tests/test_ask.py`).
 
-**Results** (`outputs/tables/ask_scores.csv`): 82,120 days guessed, 72,759 of them
-ordinary days, and all 3,757 days of the lockdown window.
+**Update 2026-11-07: Ask now uses Result 17's models and gives two guesses.** The first
+version (above: random forest, 25 features) scored 47.4% exact and 93.1% weekday vs weekend.
+Since Result 17, every day gets:
+1. **a one-day guess** from Result 17's best single-day setup (A3-GB: three bands, 1-4,
+   4-14 and 14-20 Hz, x 48 half-hours plus three levels, gradient boosting), with the same
+   week folds as before; the site reads weekday vs weekend from it;
+2. **a week guess** from Result 17 Part B (the same features for the day and the 3 days
+   either side, 28-day block folds, training windows never touch a test block).
+
+**Results** (`outputs/tables/ask_scores.csv`, rebuilt 2026-11-07): 81,709 days guessed,
+72,395 of them ordinary days, and 3,743 days of the lockdown window.
 
 | | Median over 33 stations |
 |---|---|
-| Exact weekday (chance 14%) | **47.4%** |
-| Weekday vs weekend, balanced | **93.1%** (20 stations at 90% or better) |
-| Weekday public holidays read as a weekend | **67%** at the median station (58.9% of all 2,112) |
-| Ordinary weekdays read as a weekend | 1.7% at the median station (1.8% of all) |
+| Weekday vs weekend, balanced, from one day | **97.1%** (24 stations at 90% or better) |
+| Exact weekday from one day (chance 14%) | **55.2%** |
+| Exact weekday from the week around it | **96.1%** (25 stations at 90% or better) |
+| Weekday public holidays read as a weekend (one day) | **69%** at the median station (67.4% of all 2,102) |
+| Ordinary weekdays read as a weekend (one day) | 2.3% at the median station |
 
-The best: Brussels 99.6% weekday vs weekend (and 98% of its weekday holidays read as a
-weekend), Hobart 99.5%, Dublin 99.0%, Montreal 99.0%. The worst are where they should
-be: the control towns sit at chance, Stanley at 51% and Puerto Williams at 57%. So do La
-Paz (50%, a one-day-weekend city) and Nilore (57%). These match the published study's
-weak stations (Result 1).
+The one-day exact figure (55.2%) is a little below Result 17's 56.7% because Ask scores
+every ordinary day that has the features, and its folds are built from those days, while
+Result 17 scored only days every configuration could score.
+
+The best: Brussels 100.0% weekday vs weekend (and 97% of its weekday holidays read as a
+weekend), Hobart and Los Angeles 99.6%, Fairbanks 99.4%, Dublin 99.3%. The worst are where
+they should be: Stanley 57%, Nilore 69%, La Paz 71% (a one-day-weekend city) and Puerto
+Williams 71%. These match the published study's weak stations (Result 1).
+
+Christmas Day 2019 in Brussels shows how the two guesses fit together: from the day alone
+the model is 100% sure it is a Sunday; from the week around it, 100% sure it is a Wednesday.
+So it was a Wednesday that looked like a day off.
 
 **Limits.**
 - One model per station spans seven years, so sensor swaps sit inside the training data.
@@ -757,13 +774,14 @@ weak stations (Result 1).
   their days were trained on.
 - Holidays come from national calendars only.
 - Sharjah's weekend moved on 1 Jan 2022. The 7-class model does not depend on it, but
-  its weekday-vs-weekend score uses the rule in force on each date (70.2%).
+  its weekday-vs-weekend score uses the rule in force on each date (86.7%).
 - A training day's `level` is measured against earlier days, some of which can sit in
   another fold's test weeks. No labels are shared, but the folds are not perfectly independent.
 - This is a separate evaluation from Results 1 and 11, with different data, years and
   level reference. Its numbers are not comparable one to one.
 
-Run: `python src/ask.py` (about 10 min, from the local MUSTANG cache).
+Run: `python src/ask.py` (a few minutes; needs the day tables in `data/cache/weekday/`,
+built from the local MUSTANG cache by `src/weekday_experiment.py`).
 
 ## Result 17 — Naming the exact weekday: richer features, then a week of context
 
@@ -793,6 +811,30 @@ The team's goal was 90%.
 
 Run: `python src/weekday_experiment.py` (about 40 min from the local MUSTANG cache; day tables
 are cached in `data/cache/weekday/`).
+
+## Result 18 — More data, more cities or more training do not lift the one-day guess
+
+Pre-registered in `docs/16-more-data-preregistration.md` (commit `4e00506`);
+`src/more_data_experiment.py`. Same days, features (A3) and model as Result 17 Part A.
+
+**Why:** the team asked whether the one-day exact-weekday score (56.7%) would rise with more
+data or more training, the way a machine-learning model is expected to.
+
+| idea | result (median exact, 33 stations) | verdict (pre-registered bar) |
+|---|---|---|
+| **More days per station**: 100 / 200 / 400 / 800 / 1600 / all | 37.9 / 43.6 / 47.9 / 53.3 / 56.3 / **56.7%** | passes (+3.3 from 800 to all), but 1600 to all adds only +0.4 |
+| **One model for all 33 cities** (72,000 days) vs one per city | 50.4% with a city feature, 45.9% without, vs **55.9%** | fails: worse at 33 of 33 |
+| **More boosting rounds**: 100 / 300 / 1000 | **56.7** / 56.5 / 55.7% | fails |
+
+- More data helped a lot up to about 800 days and is now flattening: each doubling adds
+  less. Years more data would add a few points, not the 33 needed for 90%.
+- Pooling cities hurts: each city keeps its own hours, so other cities' days add confusion.
+- More training does not help: the model has already learned what one day holds.
+- The limit is the information in one day (Tuesday to Thursday look alike to the ground),
+  not the training. More **context** is what works: the week around the day reaches 96.1%
+  (Result 17 Part B), which is why Ask now shows both guesses (Result 16 update).
+
+Run: `python src/more_data_experiment.py` (about 1 hour; needs the Result 17 day tables).
 
 ---
 

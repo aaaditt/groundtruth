@@ -86,7 +86,9 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
 - **Ask the ground** (`site/globe.html#ask`, `site/ask.js`) reads `site/data/ask/<station>.json`,
   written only by `src/ask.py` from the local MUSTANG cache (Result 16). Every guess must stay
   out of fold (GroupKFold by `week_id`; `tests/test_ask.py` checks each week sits in one fold).
-  Rebuild it after changing `groundtruth/ask.py`, the features or the model.
+  Rebuild it after changing `groundtruth/ask.py`, the features or the model. Each day has two
+  guesses: one day (Result 17 A3-GB) and the week around it (`ask.oof_week`, 28-day block
+  folds). `src/ask.py` needs the day tables in `data/cache/weekday/` (`src/weekday_experiment.py`).
 - One dark design (Gloock + Schibsted Grotesk, tokens at the top of `site/style.css`); charts
   use `paperGrid` / `smoothPath` from `common.js`. Sound is `site/sound.js` (Web Audio, no
   files); every page loads it and has the `#sound` switch (tested).

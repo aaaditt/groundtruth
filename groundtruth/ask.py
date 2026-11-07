@@ -63,15 +63,16 @@ def rolling_level(d):
     return out
 
 
-def oof(d):
-    """Out-of-fold weekday probabilities for every scorable day.
+def oof(d, features=FEATURES, factory=make_model):
+    """Out-of-fold weekday probabilities for every scorable day, from ONE day's features.
 
     Returns a DataFrame indexed like the scorable days with columns fold, p0..p6 (Monday ..
-    Sunday) and pred (the most likely weekday)."""
-    d = d.dropna(subset=FEATURES).copy()
+    Sunday) and pred (the most likely weekday). Since 1.5.0 the site passes Result 17's
+    features (3 bands x 48 half-hours) and gradient boosting; the defaults are Result 16's."""
+    d = d.dropna(subset=features).copy()
     d["week_id"] = week_id(d.index)
     base = d[d["period"] == "baseline"]
-    X, y, g = base[FEATURES].values, base["day_of_week"].values, base["week_id"].values
+    X, y, g = base[features].values, base["day_of_week"].values, base["week_id"].values
     # the folds are defined on the training weeks; any other week (holidays only,
     # lockdown) is assigned to a fold by its own week number, so it is also never seen
     fold_of_week = {}
@@ -86,15 +87,36 @@ def oof(d):
     probs = np.zeros((len(d), 7))
     for f in range(5):
         train = base[base["week_id"].map(fold_of_week) != f]
-        model = make_model().fit(train[FEATURES].values, train["day_of_week"].values)
+        model = factory().fit(train[features].values, train["day_of_week"].values)
         rows = (d["fold"] == f).values
         if rows.any():
-            p = model.predict_proba(d.loc[rows, FEATURES].values)
+            p = model.predict_proba(d.loc[rows, features].values)
             full = np.zeros((rows.sum(), 7))
             full[:, model.classes_] = p
             probs[rows] = full
     out = pd.DataFrame(probs, index=d.index, columns=[f"p{k}" for k in range(7)])
     out.insert(0, "fold", d["fold"].astype(int))
+    out["pred"] = probs.argmax(axis=1)
+    return out
+
+
+def oof_week(d, features, start):
+    """Out-of-fold weekday probabilities from the WEEK around each day (Result 17 Part B):
+    the day's features and those of the 3 days before and after. Folds are 28-day blocks
+    counted from `start`; a training day is dropped when its 7-day window touches a test
+    block, so no guessed day is ever seen in training, not even as a neighbour.
+
+    Returns fold (the block's fold) and p0..p6, indexed like the days that have features."""
+    from groundtruth import weekday as W
+    rows = d.dropna(subset=features)
+    blocks = W.block_of(rows.index, start)
+    fold_of = W.block_folds(blocks)
+    drop = W.window_touches_fold(rows.index, start, fold_of)
+    probs, folds = W.oof_probs(W.week_matrix(rows, features), rows["day_of_week"].values, blocks,
+                               (rows["period"] == "baseline").values, fold_of, W.make_gb,
+                               drop_from_train=drop)
+    out = pd.DataFrame(probs, index=rows.index, columns=[f"p{k}" for k in range(7)])
+    out.insert(0, "fold", folds.astype(int))
     out["pred"] = probs.argmax(axis=1)
     return out
 
@@ -130,4 +152,4 @@ def scores(d, guesses, weekend_days_on):
 
 
 __all__ = ["LOCKDOWN", "WINDOW_DAYS", "MIN_REF", "FALLBACK_DAYS", "FALLBACK_SPAN", "FEATURES", "mark_lockdown", "rolling_level",
-           "oof", "percent", "scores"]
+           "oof", "oof_week", "percent", "scores"]

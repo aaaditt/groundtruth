@@ -27,7 +27,7 @@ function loadAsk(sid) {
     return f;
   });
 }
-const rowOf = (f, i) => f.byDay.get(i) || null;            // [i, shape, probs, period, holiday, fold, level]
+const rowOf = (f, i) => f.byDay.get(i) || null;            // [i, shape, probs, period, holiday, fold, level, week probs, week fold]
 const dateOfI = (f, i) => new Date(f.t0 + i * 864e5).toISOString().slice(0, 10);
 const iOfDate = (f, s) => Math.round((Date.parse(s + "T00:00:00Z") - f.t0) / 864e5);
 const dowOf = (f, i) => (new Date(f.t0 + i * 864e5).getUTCDay() + 6) % 7;
@@ -147,11 +147,13 @@ function fillTry(f) {
 function fillHonest(f) {
   const s = f.scores, n = s.n_scored_baseline;
   const pc = (x) => `${Math.round(x * 100)}%`;
-  const parts = [`The model only sees one day’s 24-hour shape and how loud that day was against the 8 weeks before it. ` +
-    `It is never told the date, and it never trained on the week it is guessing.`];
+  const parts = [`The model is never told the date. First it sees one day: its shape across 24 hours in three ` +
+    `frequency bands, and how loud it was against the 8 weeks before. Then it sees the same for the 3 days before and ` +
+    `after. Every guess comes from a model that never trained on that day, or on the weeks around it.`];
   if (n && s.dow_acc !== null) {
-    parts.push(` Across ${n.toLocaleString("en-GB")} ordinary days in ${f.city}, it named the exact weekday ${pc(s.dow_acc)} of ` +
-      `the time (chance is 14%) and told a weekday from a weekend ${pc(s.weekend_bal_acc)} of the time.`);
+    parts.push(` Across ${n.toLocaleString("en-GB")} ordinary days in ${f.city}, one day told a weekday from a weekend ` +
+      `${pc(s.weekend_bal_acc)} of the time and named the exact weekday ${pc(s.dow_acc)} of the time (chance is 14%); ` +
+      `with the week around it, ${pc(s.week_dow_acc)}.`);
   }
   if (f.country === "AE") parts.push(" The UAE moved its weekend from Friday–Saturday to Saturday–Sunday in January 2022; answers use the weekend in force on each date.");
   parts.push(` The record runs to 30 September 2026; newer days are on `);
@@ -300,8 +302,11 @@ function spreadLabels(box) {
   }
 }
 
+// The answer comes in two steps (Result 17):
+//   1. weekday or weekend, from this day alone (what one day can tell well);
+//   2. which weekday, from the week around it (the day and 3 days either side).
 function answer(f, i, r, guess, real) {
-  const [, , probs, period, holiday] = r;
+  const [, , probs, period, holiday, , , wprobs] = r;
   const ans = $a("ask-ans");
   if (!probs) {
     ans.append(el("p", { class: "ask-says" }, "No guess for this day."),
@@ -310,33 +315,79 @@ function answer(f, i, r, guess, real) {
     return;
   }
   const we = weekendOn(f, i);
+  const realIsWeekend = we.includes(real);
+  const truthText = `It was a ${DOW_LONG[real]}${holiday ? `: ${holiday}` : ""}.`;
+
+  // step 1: weekday or weekend, from the day alone
   const pWeekend = we.reduce((a, d) => a + probs[d], 0);
-  const realIsWeekend = we.includes(real), guessIsWeekend = we.includes(guess);
-  const says = el("p", { class: "ask-says" }, "It reads like a ", el("em", {}, DOW_LONG[guess]), ".");
-  let verdict;
-  if (guess === real) verdict = "The model got the exact day.";
-  else if (holiday && !realIsWeekend && guessIsWeekend) verdict = "The city took the day off, and the ground shows it.";
-  else if (guessIsWeekend === realIsWeekend) verdict = `Not the exact day, but the right kind: a ${realIsWeekend ? "weekend" : "working"} day.`;
-  else verdict = "The model got this one wrong.";
-  const truth = el("p", { class: "ask-truth" }, el("b", {}, `It was a ${DOW_LONG[real]}${holiday ? `: ${holiday}` : ""}.`), ` ${verdict}`);
-  const bars = el("div", { class: "ask-bars", role: "img",
-    "aria-label": `The model's confidence for each weekday: ${probs.map((p, k) => `${DOW_LONG[k]} ${p}%`).join(", ")}` });
-  probs.forEach((p, k) => {
-    const col = el("div", { class: `wd${k === guess ? " guess" : ""}${k === real ? " real" : ""}` });
-    const fill = el("span", { class: "fill" });
-    fill.style.height = `${Math.max(2, p)}%`;
-    col.append(el("span", { class: "pct" }, `${p}%`), el("span", { class: "col" }, fill), el("span", { class: "lab" }, SHORT[k]));
-    bars.append(col);
-  });
+  const saysOff = pWeekend >= 50;
+  const sure = saysOff ? pWeekend : 100 - pWeekend;
+  let v1;
+  if (saysOff === realIsWeekend) v1 = `Right: the model was ${sure}% sure from this one day.`;
+  else if (holiday && saysOff) v1 = "The city took the day off, and the ground shows it.";
+  else v1 = `Wrong this time (${sure}% sure).`;
+  const step1 = [
+    el("h3", { class: "ask-step" }, "Weekday or weekend? ", el("span", {}, "From this day alone")),
+    el("p", { class: "ask-says" }, "It reads like ", el("em", {}, saysOff ? "a day off" : "a working day"), "."),
+    el("p", { class: "ask-truth" }, el("b", {}, truthText), ` ${v1}`),
+  ];
+
+  // step 2: which day, from the week around it
+  const step2 = [el("h3", { class: "ask-step" }, "Which day? ", el("span", {}, "From the week around it"))];
   const extra = [];
-  const second = probs.map((p, k) => [p, k]).filter(([, k]) => k !== guess).sort((p, q) => q[0] - p[0])[0];
-  extra.push(`The model put ${probs[guess]}% on ${DOW_LONG[guess]}` + (second[0] >= 5 ? ` and ${second[0]}% on ${DOW_LONG[second[1]]}` : "") + ".");
-  if (guessIsWeekend && !realIsWeekend) extra.push(` In all, ${pWeekend}% on the weekend days: to the ground, this was a day off.`);
-  else if (!guessIsWeekend && realIsWeekend) extra.push(` Only ${pWeekend}% on the weekend days: to the ground, this looked like a working day.`);
+  if (wprobs) {
+    const wg = wprobs.indexOf(Math.max(...wprobs));
+    step2.push(weekStrip(f, i),
+      el("p", { class: "ask-says ask-says-2" }, "It says ", el("em", {}, DOW_LONG[wg]), "."));
+    const bars = el("div", { class: "ask-bars", role: "img",
+      "aria-label": `From the week around it, the model's confidence for each weekday: ${wprobs.map((p, k) => `${DOW_LONG[k]} ${p}%`).join(", ")}` });
+    wprobs.forEach((p, k) => {
+      const col = el("div", { class: `wd${k === wg ? " guess" : ""}${k === real ? " real" : ""}` });
+      const fill = el("span", { class: "fill" });
+      fill.style.height = `${Math.max(2, p)}%`;
+      col.append(el("span", { class: "pct" }, `${p}%`), el("span", { class: "col" }, fill), el("span", { class: "lab" }, SHORT[k]));
+      bars.append(col);
+    });
+    const v2 = wg === real ? `Right, ${wprobs[wg]}% sure: it found the weekend in the days around it and counted.`
+      : `Wrong: it was a ${DOW_LONG[real]}. Holidays or missing days nearby can throw the count off.`;
+    step2.push(bars, el("p", { class: "ask-truth" }, v2));
+    if (wg === real && saysOff && !realIsWeekend && holiday) {
+      extra.push(`So a ${DOW_LONG[real]} that looked like a day off: ${holiday}. `);
+    }
+  } else {
+    step2.push(el("p", { class: "ask-truth" }, "Not enough days around it were recorded to ask."));
+  }
+  extra.push(`From this day alone, its best single guess was ${DOW_LONG[guess]} (${probs[guess]}%).`);
   if (period === "lockdown") extra.push(" This day is in the spring 2020 lockdown window, which the model never trained on.");
   else if (period === "festive") extra.push(" Between 21 December and 6 January the model never trains, because cities run on holiday rhythms.");
-  ans.append(says, truth, bars, el("p", { class: "ask-why" }, extra.join("")));
+  ans.append(...step1, ...step2, el("p", { class: "ask-why" }, extra.join("")));
   sound("chime");
+}
+
+// seven small lines: the 3 days before, this day, the 3 days after (no weekday names, so it
+// doesn't give the answer away: the weekend shows as the flatter lines)
+function weekStrip(f, i) {
+  const n = 7, PW = 100, G = 10, H = 64, W = n * PW + (n - 1) * G;
+  const box = svg("svg", { class: "weekstrip", viewBox: `0 0 ${W} ${H + 30}`, role: "img",
+    "aria-label": "The day's line between the lines of the 3 days before and the 3 days after it" });
+  const rows = [];
+  for (let k = -3; k <= 3; k++) rows.push(rowOf(f, i + k));
+  const vals = rows.filter(Boolean).flatMap((r) => r[1]);
+  const lo = Math.min(...vals) - 0.03, hi = Math.max(...vals) + 0.03;
+  rows.forEach((r, k) => {
+    const x0 = k * (PW + G);
+    box.append(svg("rect", { x: x0, y: 0, width: PW, height: H, class: k === 3 ? "ws-cell me" : "ws-cell" }));
+    if (r) {
+      const pts = r[1].map((v, h) => [x0 + 4 + h * (PW - 8) / 23, H - 4 - (v - lo) / (hi - lo) * (H - 8)]);
+      box.append(svg("path", { d: smoothPath(pts), class: k === 3 ? "ws-line me" : "ws-line" }));
+    } else {
+      const t = svg("text", { x: x0 + PW / 2, y: H / 2 + 4, class: "ws-none" }); t.textContent = "no data"; box.append(t);
+    }
+    const t = svg("text", { x: x0 + PW / 2, y: H + 25, class: k === 3 ? "ws-lab me" : "ws-lab" });
+    t.textContent = k === 3 ? "this day" : k < 3 ? `${3 - k} before` : `${k - 3} after`;
+    box.append(t);
+  });
+  return box;
 }
 
 // ---------- the controls ----------

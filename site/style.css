@@ -581,6 +581,18 @@ body.asking #how { display: none; }
 .ask-truth b { color: var(--ink); font-weight: 600; }
 .ask-why { font-size: 14px; color: var(--ash); margin: 10px 0 0; max-width: 40em; animation: arrive .6s .3s ease-out both; }
 @keyframes arrive { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.ask-step { font: 600 15px/1.3 var(--text); color: var(--ink); margin: 0 0 6px; animation: arrive .6s ease-out both; }
+.ask-step span { font-weight: 400; color: var(--ash); margin-left: 4px; }
+.ask-step ~ .ask-step { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.ask-says-2 { font-size: clamp(28px, 2.6vw, 38px); margin-top: 10px; }
+.weekstrip { display: block; width: 100%; max-width: 560px; height: auto; margin: 6px 0 4px; animation: arrive .6s .1s ease-out both; }
+.weekstrip .ws-cell { fill: none; stroke: var(--rule); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.weekstrip .ws-cell.me { stroke: var(--glow); stroke-opacity: .55; }
+.weekstrip .ws-line { fill: none; stroke: var(--graphite); stroke-width: 1.6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.weekstrip .ws-line.me { stroke: var(--glow); stroke-width: 2.2; filter: drop-shadow(0 0 4px rgba(156, 200, 255, .6)); }
+.weekstrip .ws-lab, .weekstrip .ws-none { font: 400 16px var(--text); fill: var(--ash); text-anchor: middle; }
+.weekstrip .ws-lab.me { fill: var(--glow); }
+@media (max-width: 600px) { .weekstrip .ws-lab, .weekstrip .ws-none { font-size: 23px; } }
 .ask-bars { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin: 18px 0 30px; max-width: 460px; animation: arrive .6s .2s ease-out both; }
 .ask-bars .wd { display: flex; flex-direction: column; align-items: center; gap: 5px; position: relative; min-width: 0; }
 .ask-bars .col { width: 100%; height: 64px; display: flex; align-items: flex-end; border-bottom: 1px solid var(--rule-2); }
@@ -604,7 +616,7 @@ body.asking #how { display: none; }
 #ask-cal rect.d.sel { stroke: var(--glow); stroke-width: 2.5; filter: drop-shadow(0 0 5px rgba(156, 200, 255, .8)); }
 #ask-cal .hol { fill: var(--ink); pointer-events: none; }
 @keyframes square { from { opacity: 0; transform: scale(.4); transform-box: fill-box; transform-origin: center; } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { #ask-cal rect.d, .ask-says, .ask-truth, .ask-why, .ask-bars { animation: none; } }
+@media (prefers-reduced-motion: reduce) { #ask-cal rect.d, .ask-says, .ask-truth, .ask-why, .ask-bars, .ask-step, .weekstrip { animation: none; } }
 .ask-try { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 18px 0 0; font-size: 15px; color: var(--ash); }
 .ask-try .btn { padding: 9px 14px; font-size: 14px; border-radius: 999px; }
 .ask-try #ask-try { display: contents; }
