@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-08T12:17:09Z",
+ "generated_utc": "2026-11-09T14:29:10Z",
  "model_version": "live-1",
  "train_window": [
   "2025-10-01",
@@ -913,9 +913,33 @@
      "confusion_flag": false,
      "anomaly_flag": false,
      "summary": "Looked like a Sunday (22%) — it was a Friday."
+    },
+    {
+     "date": "2026-11-07",
+     "dow": 5,
+     "is_weekend": 1,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 2,
+     "p_true_dow": 0.086,
+     "p_weekend": 0.302,
+     "probs": [
+      0.168,
+      0.23,
+      0.231,
+      0.199,
+      0.011,
+      0.086,
+      0.074
+     ],
+     "confusion": 0.914,
+     "anomaly": 3.461,
+     "confusion_flag": true,
+     "anomaly_flag": true,
+     "summary": "Looked like a Wednesday (23%) — it was a Saturday. Unusual day."
     }
    ],
-   "latest": "2026-11-06",
+   "latest": "2026-11-07",
    "error": null,
    "model": {
     "version": "live-1",
@@ -930,9 +954,9 @@
     "anomaly": 3.418
    },
    "track_record": {
-    "normal_days": 37,
-    "weekend_bal_acc": 0.644,
-    "dow_acc": 0.27
+    "normal_days": 38,
+    "weekend_bal_acc": 0.626,
+    "dow_acc": 0.263
    }
   },
   {
@@ -1833,9 +1857,33 @@
      "confusion_flag": false,
      "anomaly_flag": false,
      "summary": "Looked like a Monday (36%) — it was a Friday."
+    },
+    {
+     "date": "2026-11-07",
+     "dow": 5,
+     "is_weekend": 1,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 5,
+     "p_true_dow": 0.879,
+     "p_weekend": 1.0,
+     "probs": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.879,
+      0.121
+     ],
+     "confusion": 0.121,
+     "anomaly": 0.904,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "summary": "Looked like a Saturday (88%) — correct."
     }
    ],
-   "latest": "2026-11-06",
+   "latest": "2026-11-07",
    "error": null,
    "model": {
     "version": "live-1",
@@ -1850,9 +1898,9 @@
     "anomaly": 3.255
    },
    "track_record": {
-    "normal_days": 36,
+    "normal_days": 37,
     "weekend_bal_acc": 1.0,
-    "dow_acc": 0.528
+    "dow_acc": 0.541
    }
   },
   {
@@ -2729,9 +2777,33 @@
      "confusion_flag": false,
      "anomaly_flag": false,
      "summary": "Looked like a Thursday (28%) — correct."
+    },
+    {
+     "date": "2026-11-06",
+     "dow": 4,
+     "is_weekend": 0,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 2,
+     "p_true_dow": 0.307,
+     "p_weekend": 0.0,
+     "probs": [
+      0.149,
+      0.092,
+      0.32,
+      0.112,
+      0.307,
+      0.008,
+      0.011
+     ],
+     "confusion": 0.693,
+     "anomaly": 1.33,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "summary": "Looked like a Wednesday (32%) — it was a Friday."
     }
    ],
-   "latest": "2026-11-05",
+   "latest": "2026-11-06",
    "error": null,
    "model": {
     "version": "live-1",
@@ -2746,9 +2818,9 @@
     "anomaly": 2.105
    },
    "track_record": {
-    "normal_days": 36,
+    "normal_days": 37,
     "weekend_bal_acc": 0.8,
-    "dow_acc": 0.444
+    "dow_acc": 0.432
    }
   },
   {
@@ -3625,9 +3697,33 @@
      "confusion_flag": false,
      "anomaly_flag": false,
      "summary": "Looked like a Wednesday (34%) — it was a Thursday."
+    },
+    {
+     "date": "2026-11-06",
+     "dow": 4,
+     "is_weekend": 0,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 4,
+     "p_true_dow": 0.441,
+     "p_weekend": 0.0,
+     "probs": [
+      0.058,
+      0.055,
+      0.214,
+      0.232,
+      0.441,
+      0.0,
+      0.0
+     ],
+     "confusion": 0.559,
+     "anomaly": 0.66,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "summary": "Looked like a Friday (44%) — correct."
     }
    ],
-   "latest": "2026-11-05",
+   "latest": "2026-11-06",
    "error": null,
    "model": {
     "version": "live-1",
@@ -3642,9 +3738,9 @@
     "anomaly": 2.245
    },
    "track_record": {
-    "normal_days": 35,
+    "normal_days": 36,
     "weekend_bal_acc": 1.0,
-    "dow_acc": 0.743
+    "dow_acc": 0.75
    }
   },
   {
@@ -4475,6 +4571,54 @@
      "summary": "Looked like a Monday (37%) — it was a Tuesday."
     },
     {
+     "date": "2026-11-04",
+     "dow": 2,
+     "is_weekend": 0,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 1,
+     "p_true_dow": 0.231,
+     "p_weekend": 0.0,
+     "probs": [
+      0.17,
+      0.317,
+      0.231,
+      0.218,
+      0.049,
+      0.016,
+      0.0
+     ],
+     "confusion": 0.769,
+     "anomaly": 1.311,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "summary": "Looked like a Tuesday (32%) — it was a Wednesday."
+    },
+    {
+     "date": "2026-11-05",
+     "dow": 3,
+     "is_weekend": 0,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 3,
+     "p_true_dow": 0.28,
+     "p_weekend": 0.0,
+     "probs": [
+      0.245,
+      0.171,
+      0.266,
+      0.28,
+      0.033,
+      0.002,
+      0.003
+     ],
+     "confusion": 0.72,
+     "anomaly": 0.952,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "summary": "Looked like a Thursday (28%) — correct."
+    },
+    {
      "date": "2026-11-06",
      "dow": 4,
      "is_weekend": 0,
@@ -4497,9 +4641,33 @@
      "confusion_flag": false,
      "anomaly_flag": false,
      "summary": "Looked like a Friday (68%) — correct."
+    },
+    {
+     "date": "2026-11-07",
+     "dow": 5,
+     "is_weekend": 1,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 5,
+     "p_true_dow": 0.885,
+     "p_weekend": 1.0,
+     "probs": [
+      0.01,
+      0.012,
+      0.008,
+      0.015,
+      0.013,
+      0.885,
+      0.058
+     ],
+     "confusion": 0.115,
+     "anomaly": 0.722,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "summary": "Looked like a Saturday (88%) — correct."
     }
    ],
-   "latest": "2026-11-06",
+   "latest": "2026-11-07",
    "error": null,
    "model": {
     "version": "live-1",
@@ -4514,9 +4682,9 @@
     "anomaly": 2.262
    },
    "track_record": {
-    "normal_days": 34,
+    "normal_days": 37,
     "weekend_bal_acc": 1.0,
-    "dow_acc": 0.529
+    "dow_acc": 0.541
    }
   },
   {
@@ -5393,9 +5561,33 @@
      "confusion_flag": false,
      "anomaly_flag": false,
      "summary": "Looked like a Friday (43%) — correct."
+    },
+    {
+     "date": "2026-11-07",
+     "dow": 5,
+     "is_weekend": 1,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 5,
+     "p_true_dow": 0.444,
+     "p_weekend": 0.98,
+     "probs": [
+      0.033,
+      0.046,
+      0.028,
+      0.0,
+      0.017,
+      0.444,
+      0.433
+     ],
+     "confusion": 0.556,
+     "anomaly": 1.292,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "summary": "Looked like a Saturday (44%) — correct."
     }
    ],
-   "latest": "2026-11-06",
+   "latest": "2026-11-07",
    "error": null,
    "model": {
     "version": "live-1",
@@ -5410,9 +5602,9 @@
     "anomaly": 2.129
    },
    "track_record": {
-    "normal_days": 36,
+    "normal_days": 37,
     "weekend_bal_acc": 0.981,
-    "dow_acc": 0.75
+    "dow_acc": 0.757
    }
   },
   {
@@ -6297,25 +6489,49 @@
      "calendar": "baseline",
      "holiday": "",
      "pred_dow": 5,
-     "p_true_dow": 0.094,
-     "p_weekend": 0.68,
+     "p_true_dow": 0.124,
+     "p_weekend": 0.673,
      "probs": [
-      0.242,
-      0.052,
-      0.109,
-      0.078,
-      0.094,
-      0.31,
-      0.114
+      0.128,
+      0.024,
+      0.088,
+      0.175,
+      0.124,
+      0.305,
+      0.155
      ],
-     "confusion": 0.906,
-     "anomaly": 1.502,
+     "confusion": 0.876,
+     "anomaly": 1.125,
      "confusion_flag": false,
      "anomaly_flag": false,
-     "summary": "Looked like a Saturday (31%) — it was a Friday."
+     "summary": "Looked like a Saturday (30%) — it was a Friday."
+    },
+    {
+     "date": "2026-11-07",
+     "dow": 5,
+     "is_weekend": 1,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 6,
+     "p_true_dow": 0.082,
+     "p_weekend": 0.454,
+     "probs": [
+      0.189,
+      0.089,
+      0.141,
+      0.183,
+      0.118,
+      0.082,
+      0.198
+     ],
+     "confusion": 0.918,
+     "anomaly": 1.295,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "summary": "Looked like a Sunday (20%) — it was a Saturday."
     }
    ],
-   "latest": "2026-11-06",
+   "latest": "2026-11-07",
    "error": null,
    "model": {
     "version": "live-1",
@@ -6330,9 +6546,9 @@
     "anomaly": 1.718
    },
    "track_record": {
-    "normal_days": 34,
-    "weekend_bal_acc": 0.846,
-    "dow_acc": 0.294
+    "normal_days": 35,
+    "weekend_bal_acc": 0.791,
+    "dow_acc": 0.286
    }
   },
   {
