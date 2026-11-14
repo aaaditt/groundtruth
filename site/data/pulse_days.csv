@@ -37,9 +37,11 @@ II.UOSS.10.BHZ,Sharjah,2026-11-04,2,0,baseline,,5,0.128,0.463,0.872,2.767,False,
 II.UOSS.10.BHZ,Sharjah,2026-11-05,3,0,baseline,,3,0.255,0.24,0.745,0.81,False,False
 II.UOSS.10.BHZ,Sharjah,2026-11-06,4,0,baseline,,6,0.147,0.361,0.853,2.0,False,False
 II.UOSS.10.BHZ,Sharjah,2026-11-07,5,1,baseline,,2,0.086,0.302,0.914,3.461,True,True
-II.UOSS.10.BHZ,Sharjah,2026-11-08,6,1,baseline,,1,0.128,0.397,0.872,1.252,False,False
-II.UOSS.10.BHZ,Sharjah,2026-11-09,0,0,baseline,,3,0.228,0.133,0.772,2.487,False,False
+II.UOSS.10.BHZ,Sharjah,2026-11-08,6,1,baseline,,3,0.107,0.396,0.893,1.244,False,False
+II.UOSS.10.BHZ,Sharjah,2026-11-09,0,0,baseline,,3,0.228,0.133,0.772,2.483,False,False
 II.UOSS.10.BHZ,Sharjah,2026-11-10,1,0,baseline,,2,0.158,0.332,0.842,3.161,False,False
+II.UOSS.10.BHZ,Sharjah,2026-11-11,2,0,baseline,,3,0.18,0.479,0.82,3.559,False,True
+II.UOSS.10.BHZ,Sharjah,2026-11-12,3,0,baseline,,2,0.2,0.344,0.799,3.1,False,False
 BE.UCC..HHZ,Brussels,2026-10-01,3,0,baseline,,1,0.193,0.0,0.807,2.07,False,False
 BE.UCC..HHZ,Brussels,2026-10-02,4,0,baseline,,2,0.209,0.0,0.791,0.854,False,False
 BE.UCC..HHZ,Brussels,2026-10-03,5,1,baseline,,5,0.951,1.0,0.049,1.249,False,False
@@ -82,6 +84,7 @@ BE.UCC..HHZ,Brussels,2026-11-08,6,1,baseline,,6,0.825,1.0,0.175,0.601,False,Fals
 BE.UCC..HHZ,Brussels,2026-11-09,0,0,baseline,,3,0.236,0.0,0.764,0.69,False,False
 BE.UCC..HHZ,Brussels,2026-11-10,1,0,baseline,,1,0.317,0.01,0.683,0.888,False,False
 BE.UCC..HHZ,Brussels,2026-11-11,2,0,holiday,Armistice Day,5,0.095,0.41,0.905,1.727,True,False
+BE.UCC..HHZ,Brussels,2026-11-12,3,0,baseline,,3,0.338,0.0,0.662,0.716,False,False
 CN.MNTQ..HHZ,Montreal,2026-10-01,3,0,baseline,,1,0.076,0.084,0.924,1.944,True,False
 CN.MNTQ..HHZ,Montreal,2026-10-02,4,0,baseline,,4,0.313,0.007,0.687,2.299,False,True
 CN.MNTQ..HHZ,Montreal,2026-10-03,5,1,baseline,,2,0.129,0.249,0.871,2.365,False,True
@@ -122,6 +125,8 @@ CN.MNTQ..HHZ,Montreal,2026-11-06,4,0,baseline,,2,0.307,0.0,0.693,1.33,False,Fals
 CN.MNTQ..HHZ,Montreal,2026-11-07,5,1,baseline,,5,0.526,0.879,0.474,1.277,False,False
 CN.MNTQ..HHZ,Montreal,2026-11-08,6,1,baseline,,6,0.642,0.889,0.358,1.893,False,False
 CN.MNTQ..HHZ,Montreal,2026-11-09,0,0,baseline,,1,0.259,0.061,0.741,1.21,False,False
+CN.MNTQ..HHZ,Montreal,2026-11-10,1,0,baseline,,1,0.298,0.0,0.702,0.954,False,False
+CN.MNTQ..HHZ,Montreal,2026-11-11,2,0,baseline,,2,0.285,0.0,0.715,0.893,False,False
 CI.USC..BHZ,Los Angeles,2026-10-01,3,0,baseline,,3,0.403,0.0,0.597,0.663,False,False
 CI.USC..BHZ,Los Angeles,2026-10-02,4,0,baseline,,4,0.315,0.064,0.685,1.012,False,False
 CI.USC..BHZ,Los Angeles,2026-10-03,5,1,baseline,,5,0.727,0.995,0.273,1.138,False,False
@@ -163,6 +168,7 @@ CI.USC..BHZ,Los Angeles,2026-11-07,5,1,baseline,,5,0.957,1.0,0.043,0.592,False,F
 CI.USC..BHZ,Los Angeles,2026-11-08,6,1,baseline,,6,0.98,1.0,0.02,1.035,False,False
 CI.USC..BHZ,Los Angeles,2026-11-09,0,0,baseline,,0,0.669,0.0,0.331,1.205,False,False
 CI.USC..BHZ,Los Angeles,2026-11-10,1,0,baseline,,1,0.405,0.0,0.595,0.892,False,False
+CI.USC..BHZ,Los Angeles,2026-11-11,2,0,holiday,Veterans Day,3,0.2,0.047,0.8,1.267,False,False
 EI.DSB..HHZ,Dublin,2026-10-01,3,0,baseline,,3,0.243,0.202,0.757,2.243,False,False
 EI.DSB..HHZ,Dublin,2026-10-02,4,0,baseline,,4,0.753,0.04,0.247,1.667,False,False
 EI.DSB..HHZ,Dublin,2026-10-03,5,1,baseline,,5,0.818,0.995,0.182,1.189,False,False
@@ -202,7 +208,10 @@ EI.DSB..HHZ,Dublin,2026-11-05,3,0,baseline,,3,0.28,0.0,0.72,0.952,False,False
 EI.DSB..HHZ,Dublin,2026-11-06,4,0,baseline,,4,0.685,0.0,0.315,0.837,False,False
 EI.DSB..HHZ,Dublin,2026-11-07,5,1,baseline,,5,0.885,1.0,0.115,0.722,False,False
 EI.DSB..HHZ,Dublin,2026-11-08,6,1,baseline,,6,0.931,0.962,0.069,0.753,False,False
+EI.DSB..HHZ,Dublin,2026-11-09,0,0,baseline,,0,0.395,0.005,0.605,0.953,False,False
+EI.DSB..HHZ,Dublin,2026-11-10,1,0,baseline,,0,0.17,0.0,0.83,0.904,False,False
 EI.DSB..HHZ,Dublin,2026-11-11,2,0,baseline,,2,0.327,0.0,0.673,0.845,False,False
+EI.DSB..HHZ,Dublin,2026-11-12,3,0,baseline,,2,0.178,0.0,0.822,0.833,False,False
 S1.AUKSC..HHZ,Melbourne,2026-10-02,4,0,baseline,,4,0.378,0.156,0.622,1.7,False,False
 S1.AUKSC..HHZ,Melbourne,2026-10-03,5,1,baseline,,6,0.274,0.686,0.726,3.807,False,True
 S1.AUKSC..HHZ,Melbourne,2026-10-04,6,1,baseline,,6,0.562,0.98,0.438,1.147,False,False
@@ -244,6 +253,7 @@ S1.AUKSC..HHZ,Melbourne,2026-11-08,6,1,baseline,,6,0.917,0.953,0.083,0.982,False
 S1.AUKSC..HHZ,Melbourne,2026-11-09,0,0,baseline,,0,0.318,0.0,0.682,0.681,False,False
 S1.AUKSC..HHZ,Melbourne,2026-11-10,1,0,baseline,,1,0.498,0.0,0.502,0.8,False,False
 S1.AUKSC..HHZ,Melbourne,2026-11-11,2,0,baseline,,0,0.237,0.0,0.762,1.019,False,False
+S1.AUKSC..HHZ,Melbourne,2026-11-12,3,0,baseline,,3,0.443,0.0,0.557,0.914,False,False
 C1.MG01..HHZ,Puerto Williams,2026-10-01,3,0,baseline,,4,0.225,0.353,0.775,0.485,False,False
 C1.MG01..HHZ,Puerto Williams,2026-10-02,4,0,baseline,,3,0.259,0.336,0.741,1.217,False,False
 C1.MG01..HHZ,Puerto Williams,2026-10-03,5,1,baseline,,5,0.263,0.546,0.738,0.864,False,False
@@ -285,4 +295,5 @@ C1.MG01..HHZ,Puerto Williams,2026-11-07,5,1,baseline,,3,0.115,0.439,0.885,1.175,
 C1.MG01..HHZ,Puerto Williams,2026-11-08,6,1,baseline,,5,0.233,0.675,0.767,0.763,False,False
 C1.MG01..HHZ,Puerto Williams,2026-11-09,0,0,baseline,,6,0.036,0.781,0.964,1.863,True,True
 C1.MG01..HHZ,Puerto Williams,2026-11-10,1,0,baseline,,4,0.093,0.227,0.907,1.05,False,False
-C1.MG01..HHZ,Puerto Williams,2026-11-11,2,0,baseline,,4,0.101,0.351,0.899,1.438,False,False
+C1.MG01..HHZ,Puerto Williams,2026-11-11,2,0,baseline,,4,0.12,0.301,0.88,1.142,False,False
+C1.MG01..HHZ,Puerto Williams,2026-11-12,3,0,baseline,,4,0.158,0.324,0.842,1.815,False,True
