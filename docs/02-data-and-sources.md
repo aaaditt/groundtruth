@@ -97,6 +97,30 @@ headline results comes from these.** They are used only for the Route A validati
   station service, https://service.earthscope.org/fdsnws/station/1/query (queried
   2026-11-04); for CH.SGEV and AM.R7885, Table S1 of Lecocq et al. (2020).
 
+### Learned noise floor and earthquakes (`src/noise_floor.py`, Result 19)
+
+- **Earthquake catalogue (ground truth):** U.S. Geological Survey, Earthquake Hazards
+  Program (2017), *Advanced National Seismic System (ANSS) Comprehensive Catalog of
+  Earthquake Events and Products* (ComCat), doi:[10.5066/F7MS3QZH](https://doi.org/10.5066/F7MS3QZH),
+  queried through the FDSN event service https://earthquake.usgs.gov/fdsnws/event/1/
+  on 2026-11-19 for 1 Oct 2019 – 15 Jun 2020. Raw responses cached in
+  `data/cache/noise_floor/` (not committed); the scored events are in
+  `outputs/tables/noise_floor_events.csv`. ComCat is complete to small magnitudes
+  mainly in the US; elsewhere it lists mostly larger events, so most station–event
+  pairs are American.
+- **Station positions** for this analysis: FDSN station service, epoch covering
+  2020-01-15 — EarthScope (https://service.earthscope.org/fdsnws/station/1/query), then
+  the EIDA routing service (https://www.orfeus-eu.org/eidaws/routing/1/query) to reach
+  each European station's own data centre, then Raspberry Shake
+  (https://data.raspberryshake.org/fdsnws/station/1/query). Queried 2026-11-19, saved in
+  `outputs/tables/noise_floor_station_coords.csv`; stations no service returned are left
+  out, never placed by Table S1. Checking these against Table S1 found more Table S1
+  errors, each confirmed by the station's own epoch history: GE.STU (Stuttgart) 4,877 km
+  off; AM.R39DB ("La Cumbre", Colombia) 303 km off, Table S1 has Medellín's latitude
+  (6.19 °N) for a sensor at 3.65 °N; AM.RB53D (Williamstown, MA) 111 km, one degree of
+  latitude too far south; AM.R0CEA (Pokhara) 100 km, Table S1 has the sensor's first
+  position from April 2019, before it moved to Pokhara.
+
 ### History and the time-travel globe (`src/history.py`, `site/globe.html`)
 
 - Same MUSTANG noise-psd service, Jan 2019 – Sep 2026, for the 32 stations of Lecocq et al.

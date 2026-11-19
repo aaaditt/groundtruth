@@ -73,7 +73,8 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
 `site/globe.html`, MapLibre + OpenFreeMap).
 
 - Station coordinates for anything new come from the FDSN station service, not Table S1:
-  Table S1 puts II.NIL (Nilore) in Paraguay and IU.DAV (Davao) in Malaysia.
+  Table S1 puts II.NIL (Nilore) in Paraguay and IU.DAV (Davao) in Malaysia (also wrong:
+  GE.STU, AM.R39DB, AM.RB53D, AM.R0CEA; see `docs/02`).
   `outputs/tables/history_station_coords.csv` holds the checked values.
 - The globe's colour is "vs the same weekday over the previous 8 weeks", deliberately not
   vs a fixed year: stations drift over years (Sharjah's level jumps 1.5× for months).
@@ -83,6 +84,10 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
 - `config/predictions.csv` is pre-registration: never edit or delete a row after its
   commit. Add new predictions as new rows, committed before their date.
 
+- **Noise floor / earthquakes** (Result 19, `src/noise_floor.py`, `groundtruth/noisefloor.py`):
+  pre-registered in `docs/17` (sections 1-5 frozen, plus Amendment 1). Uses the raw 15-minute
+  RMS, NOT `clean_rms` (its 100x filter deletes earthquakes). Time comparisons go through
+  `noisefloor._ns` (pandas 3 stores microseconds). `--export` is "the loop" (cleaned record).
 - **Ask the ground** (`site/globe.html#ask`, `site/ask.js`) reads `site/data/ask/<station>.json`,
   written only by `src/ask.py` from the local MUSTANG cache (Result 16). Every guess must stay
   out of fold (GroupKFold by `week_id`; `tests/test_ask.py` checks each week sits in one fold).

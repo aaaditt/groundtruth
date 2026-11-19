@@ -1,0 +1,159 @@
+station,lat,lon,site_name,service,queried
+AK.FA12,64.8269,-147.8684,"Watershed School, Fairbanks, AK, USA",service.earthscope.org,2026-11-19
+BK.BKS,37.876221,-122.23558,"Byerly Seismographic Vault, Berkeley, CA, USA",service.earthscope.org,2026-11-19
+CI.USC,34.01919,-118.28631,Univ Southern Ca,service.earthscope.org,2026-11-19
+NC.MCY,37.642929,-119.029137,Mammoth Mtn McCoy #2,service.earthscope.org,2026-11-19
+HL.ATH,37.97384,23.71767,"Athens,Greece",eida.gein.noa.gr,2026-11-19
+AC.VLO,40.468601,19.495501,"Vlore, Albania",service.earthscope.org,2026-11-19
+AF.RUDU,-17.909599,19.764799,"Rundu, Kavango, Namibia",service.earthscope.org,2026-11-19
+AM.R091F,51.44144144144144,-0.33246939470330406,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R0CEA,28.234234234234233,83.92201362132175,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R10DC,42.270270270270274,-83.73515475084668,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R1983,35.6036036036036,139.68022346721304,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R1AE4,64.14414414414415,-21.756227185123343,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R1D8F,14.072072072072071,-87.18585635584022,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R25AC,49.28828828828829,-123.1088036930726,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R2D80,35.648648648648646,139.54534169985493,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R31ED,37.747747747747745,-122.4921433157937,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R39DB,3.6486486486486487,-76.56071323450837,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R3E8F,36.01801801801802,129.33702997720277,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R3EE8,25.054054054054053,121.58289077194682,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R40AC,-5.306306306306307,151.04437451691606,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R45D7,38.891891891891895,-77.12287617330003,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R4989,44.891891891891895,-68.66076713893986,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R49B6,18.55855855855856,-72.29235927505754,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R5365,47.54054054054054,-122.1418773816924,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R550B,43.63963963963964,-79.3940053300141,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R5661,4.648648648648648,-74.0457109791454,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R57EC,42.333333333333336,-71.16120030216506,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R6BB7,20.576576576576578,-100.38241264455418,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R6EC4,27.7027027027027,84.39567336652328,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R7184,5.954954954954955,116.08705843040737,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R7885,40.711711711711715,-73.92971995289652,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R7FA5,50.25225225225226,-5.030897567187012,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R8473,12.522522522522523,-70.01701713511864,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R85CD,41.81981981981982,-87.77811183277991,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R86AD,14.432432432432432,-89.17589772869259,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R87FD,62.18018018018018,-6.73775022494546,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R8C46,27.6036036036036,84.60611443790143,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R92E0,56.94594594594594,-2.2630317016985124,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R940D,8.72972972972973,-82.4251925859366,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R99D0,57.67567567567568,11.996375369700447,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.R9F13,52.21621621621622,21.131997270812082,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RA2DE,42.333333333333336,-71.16120030216506,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RAC22,38.873873873873876,-77.33989219891855,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RAE6A,39.75675675675676,-104.97346126039349,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RB53D,42.711711711711715,-73.19822179012033,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RB669,-43.909909909909906,171.7359847429736,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RB77C,47.61261261261262,-122.33441346822919,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RBB7B,28.405405405405407,83.37772257237495,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RBC24,15.306306306306306,-61.34930843257513,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RBFF6,19.324324324324323,-99.17601543577784,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RCABD,42.37837837837838,-71.31496977901037,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RCC68,6.252252252252252,-75.58566990992394,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RCCD1,17.99099099099099,-66.6107973521671,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RD2D3,13.495495495495495,144.78406093198748,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RD6BB,39.189189189189186,-123.22168040079399,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RDABA,40.270270270270274,-74.77605485846858,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.REAF3,22.26126126126126,114.24732832683553,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.RFBE4,21.576576576576578,39.216928750723014,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.S0C34,38.7027027027027,-9.213294901544257,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AM.S4458,36.792792792792795,127.11601043222808,Raspberry Shake Citizen Science Station,data.raspberryshake.org,2026-11-19
+AU.GHSS,-34.919399,138.6017,"Government House JUMP, SA",service.earthscope.org,2026-11-19
+BE.UCC,50.797241,4.36038,"Uccle, Brussels, Belgium",service.earthscope.org,2026-11-19
+BK.BRK,37.87352,-122.260986,"Haviland Hall, Berkeley, CA, USA",service.earthscope.org,2026-11-19
+BK.JRSC,37.403728,-122.238678,"Jasper Ridge Biol. Preserve, Stanford, CA, USA",service.earthscope.org,2026-11-19
+BL.VABB,-23.0021,-46.965698,"Valinhos, SP",service.earthscope.org,2026-11-19
+BW.MNH,48.14806,11.57208,"LMU Sektion Geophysik, Theresienstrasse, Muenchen, Bavaria, BW-Net",erde.geophysik.uni-muenchen.de,2026-11-19
+BW.ZUGS,47.416721,10.979318,"Zugspitze, Bavaria, BW-Net",erde.geophysik.uni-muenchen.de,2026-11-19
+BX.KOOLE,-22.993059,20.195551,Kole,service.earthscope.org,2026-11-19
+C1.MG01,-54.9322,-67.63,Puerto Williams,service.earthscope.org,2026-11-19
+C1.MT14,-33.39573,-70.536232,Calan,service.earthscope.org,2026-11-19
+CA.ICJA,41.3844,2.1189,Barcelona ICTJA-CSIC,service.earthscope.org,2026-11-19
+CA.POBL,41.379251,1.083477,Monestir de Poblet,service.earthscope.org,2026-11-19
+CH.SBERN,46.94582,7.43954,"Bern, kleine Schanze, BE",eida.ethz.ch,2026-11-19
+CH.SEPFL,46.521239,6.565748,"Lausanne, EPFL, VD",eida.ethz.ch,2026-11-19
+CH.SGEV,46.20062,6.13676,"Geneve, Feuerwehrzentrale, GE",eida.ethz.ch,2026-11-19
+CH.SKLW,47.463,8.56745,"Kloten, ZH",eida.ethz.ch,2026-11-19
+CH.SLOP,46.16384,8.79055,"Locarno, Pompieri, TI",eida.ethz.ch,2026-11-19
+CH.SZUZ,47.377497,8.530235,"Zuerich, Zeughauswiese, ZH",eida.ethz.ch,2026-11-19
+CI.SBC,34.44076,-119.71492,Santa Barbara,service.earthscope.org,2026-11-19
+CN.MNTQ,45.5003,-73.6228,"Montreal, QC, CA",service.earthscope.org,2026-11-19
+CQ.ATHA,35.141,33.396,"Athalassa,Cyprus",eida.gein.noa.gr,2026-11-19
+CQ.MVOU,35.016,33.632,"Maurovouni,Cyprus",eida.gein.noa.gr,2026-11-19
+CU.BBGH,13.1434,-59.5588,"Gun Hill, Barbados",service.earthscope.org,2026-11-19
+CU.TGUH,14.057,-87.273,"Tegucigalpa, Honduras",service.earthscope.org,2026-11-19
+EI.DSB,53.24519,-6.37619,DSB,service.earthscope.org,2026-11-19
+FR.CURIE,48.8445,2.3558,bâtiment Curie,seisdata.epos-france.fr,2026-11-19
+G.FDFM,14.73493,-61.159728,"Morne la Rosette, Martinique, France",service.earthscope.org,2026-11-19
+GB.EDI,55.92333,-3.1875,"Edinburgh, Lothian, Scotland, UK",service.earthscope.org,2026-11-19
+GB.GAT2,51.14517,-0.22433,GAT2 ,eida.bgs.ac.uk,2026-11-19
+GE.ACRG,5.641485,-0.207117,"GEOFON/GGSA Station Accra, Ghana",geofon.gfz.de,2026-11-19
+GE.SALP,32.0686,35.1914,"GEOFON/NAJAH/DESERVE Station Salfit, Palestine Territories",geofon.gfz.de,2026-11-19
+GE.STU,48.7719,9.195,"VBB Station Stuttgart, Germany",service.earthscope.org,2026-11-19
+GE.WLF,49.6646,6.1526,"GEOFON Station Walferdange, Luxembourg",service.earthscope.org,2026-11-19
+GO.TBLG,41.730919,44.73819,"Delisi, Georgia",service.earthscope.org,2026-11-19
+GR.BUG,51.4412,7.2707,GRSN Station Bochum,eida.bgr.de,2026-11-19
+GT.LPAZ,-16.287923,-68.130714,"La Paz, Bolivia",service.earthscope.org,2026-11-19
+HK.HKPS,22.277599,114.141502,"Po Shan, Hong Kong",service.earthscope.org,2026-11-19
+HT.THE,40.6319,22.9628,"Thessaloniki, Greece",eida.gein.noa.gr,2026-11-19
+II.EFI,-51.6753,-58.0637,"Mount Kent, East Falkland Island",service.earthscope.org,2026-11-19
+II.MSEY,-4.6737,55.4792,"Mahe, Seychelles",service.earthscope.org,2026-11-19
+II.NIL,33.6506,73.2686,"Nilore, Pakistan",service.earthscope.org,2026-11-19
+II.NNA,-11.9875,-76.8422,"Nana, Peru",service.earthscope.org,2026-11-19
+II.PALK,7.2728,80.7022,"Pallekele, Sri Lanka",service.earthscope.org,2026-11-19
+II.SACV,14.9702,-23.6085,"Santiago Island, Cape Verde",service.earthscope.org,2026-11-19
+II.TAU,-42.9082,147.321,"Hobart, Tasmania, Australia",service.earthscope.org,2026-11-19
+IN.PBA,11.655733,92.743919,"Port Blair, Andaman and Nicobar Islands, India",service.earthscope.org,2026-11-19
+IN.SHL,25.566816,91.855949,"Shillong, Meghalaya, India",service.earthscope.org,2026-11-19
+IS.AMAZ,31.5325,34.9154,"Station Amatzia, Israel",geofon.gfz.de,2026-11-19
+IU.BBSR,32.371299,-64.696299,"Bermuda Institute of Ocean Sciences, St George's Bermuda",service.earthscope.org,2026-11-19
+IU.DAV,7.0697,125.5791,"Davao, Philippines",service.earthscope.org,2026-11-19
+IU.KONO,59.6491,9.5982,"Kongsberg, Norway",service.earthscope.org,2026-11-19
+IU.OTAV,0.2376,-78.45076,"Otavalo, Ecuador",service.earthscope.org,2026-11-19
+IV.CMSN,40.838661,14.183622,Monte S.Angelo - Stazione Osservatorio Vesuviano,webservices.ingv.it,2026-11-19
+IV.FIR,43.774366,11.255134,Firenze,webservices.ingv.it,2026-11-19
+IV.MILN,45.4803,9.2321,Milano,webservices.ingv.it,2026-11-19
+KO.ANTB,36.8998,30.6538,"Akdeniz University, Antalya, Turkiye",eida.koeri.boun.edu.tr,2026-11-19
+KO.SAUV,40.7401,30.3271,"Sakarya University, Sakarya, Turkiye",eida.koeri.boun.edu.tr,2026-11-19
+LD.CPNY,40.7911,-73.9602,"Central Park, New York City",service.earthscope.org,2026-11-19
+MD.KIS,46.9975,28.8175,Chisinau,eida-sc3.infp.ro,2026-11-19
+MN.RTC,33.9881,-6.8569,"Rabat, Morocco",service.earthscope.org,2026-11-19
+MQ.ZAM,14.58501,-61.02243,Zone Aero-Militaire - Martinique,seisdata.epos-france.fr,2026-11-19
+NC.MLI,37.636761,-119.017906,Lincoln Peak,service.earthscope.org,2026-11-19
+NE.BCX,42.335,-71.1705,"Chestnut Hill, MA, USA",service.earthscope.org,2026-11-19
+NE.WES,42.3848,-71.3218,"Weston Observatory, Weston, MA, USA",service.earthscope.org,2026-11-19
+NE.WSPT,41.1712,-73.3278,"Westport, CT, USA",service.earthscope.org,2026-11-19
+NL.ALK1,52.633821,4.744356,Alkmaar - Theater,www.orfeus-eu.org,2026-11-19
+NP.1799,37.271133,-121.986237,Westmont H.S. Campbell,service.earthscope.org,2026-11-19
+NS.BER,60.3845,5.3295,"Bergen, Norway",eida.geo.uib.no,2026-11-19
+NS.DOMB,62.07317,9.11217,"Dombas, Norway",eida.geo.uib.no,2026-11-19
+NS.HOMB,58.27017,8.50517,"Homborsund, Norway",eida.geo.uib.no,2026-11-19
+NS.ODLO,63.455,10.44583,"Temporary site at NGU, Trondheim, Norway",eida.geo.uib.no,2026-11-19
+NS.STAV,58.93433,5.7035,"Stavanger, Norway",eida.geo.uib.no,2026-11-19
+NS.TRO,69.635,18.911,"Tromso, Norway",eida.geo.uib.no,2026-11-19
+OE.DAVA,47.286701,9.8803,"Damuels, Vorarlberg, Austria",service.earthscope.org,2026-11-19
+OE.VIE,48.2483,16.3617,"ZAMG / Hohe Warte, Vienna, Austria",www.orfeus-eu.org,2026-11-19
+ON.TIJ01,-25.908848,-49.024242,"OBSN: [TIJ01] Tijucas do Sul, PR",service.earthscope.org,2026-11-19
+PA.BRU2,8.794,-82.687798,"bru2, Barilles, OSOP, Panama",service.earthscope.org,2026-11-19
+PF.PRO,-20.898865,55.452617,La Providence (ONF),seisdata.epos-france.fr,2026-11-19
+PT.HILB,19.7033,-155.080597,"Hilo UH Campus, Hawaii",service.earthscope.org,2026-11-19
+QM.KNKL,-12.957113,45.10414,Kani-keli,seisdata.epos-france.fr,2026-11-19
+RM.SZP,17.552,120.455002,Santa Ilocos Sur,service.earthscope.org,2026-11-19
+RO.BTMR,44.437,26.1067,Geotec Sector 2,eida-sc3.infp.ro,2026-11-19
+S1.AUALB,-34.9995,117.9046,St Joseph's College,service.earthscope.org,2026-11-19
+S1.AUDAR,-35.253,149.1377,Daramalan College,service.earthscope.org,2026-11-19
+S1.AUKSC,-37.9684,145.1584,Keysborough Secondary College,service.earthscope.org,2026-11-19
+S1.AUUHS,-35.3589,150.4696,Ulladulla High School,service.earthscope.org,2026-11-19
+SV.PAVA,13.71299,-88.937119,Z,service.earthscope.org,2026-11-19
+US.AAM,42.3012,-83.6567,"Ann Arbor, Michigan, USA",service.earthscope.org,2026-11-19
+YS.CN19,42.535111,1.717044,Pas de la Casa (Andorra),ws.icgc.cat,2026-11-19
+AM.R0AC9,,,,not found,2026-11-19
+AM.R7A15,,,,not found,2026-11-19
+HE.HEL2,,,,not found,2026-11-19
+KV.GOM,,,,not found,2026-11-19
+NZ.WEL,,,,not found,2026-11-19
+TC.BELE,,,,not found,2026-11-19
+TC.HEME,,,,not found,2026-11-19
+TC.MEXI,,,,not found,2026-11-19
+TC.SJS1,,,,not found,2026-11-19

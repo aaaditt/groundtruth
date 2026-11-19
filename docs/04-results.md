@@ -838,6 +838,84 @@ Run: `python src/more_data_experiment.py` (about 1 hour; needs the Result 17 day
 
 ---
 
+## Result 19 — Subtracting the learned human noise does not reveal more earthquakes
+
+Pre-registered in `docs/17-noise-floor-preregistration.md` (with one amendment, made
+before any detection result was seen); `src/noise_floor.py`, logic in
+`groundtruth/noisefloor.py`. Slide "06 · Subtract the people" and "The loop".
+
+**Question.** At the same false-alarm rate, does subtracting what a station normally
+sounds like at this hour on this weekday find more catalogued earthquakes than a fixed
+threshold on the raw record?
+
+**Data.** The paper's raw 15-minute RMS, 4–14 Hz, on baseline days only. Ground truth:
+USGS ComCat, every M ≥ 2.0 within 100 km of a station. Of 158 stations, 149 had a checked
+position (9 left out, never placed by Table S1) and 143 had enough quiet hours to set
+thresholds; 59 had at least one such earthquake on a baseline day:
+**5,236 station–earthquake pairs** (4,982 different earthquakes).
+
+**Three detectors**, each with its own threshold so it raises a false alarm in 1% of quiet
+hours: **raw** (fixed threshold), **rolling** (minus the median of the surrounding 2 hours;
+adaptive, learns nothing), **learned** (minus the station's normal for this weekday and
+hour, divided by its usual spread, fitted on *other weeks* only).
+
+| Earthquakes found (1% false alarms) | raw | rolling | learned |
+|---|---|---|---|
+| All 5,236 pairs | 953 | 835 | **998** |
+| At 0.1% false alarms | 632 | 579 | **662** |
+
+**Pre-registered test (learned vs raw, 1%):** learned only 281, raw only 236, exact
+McNemar p = **0.053**. **Not supported**: the learned floor does not find significantly
+more earthquakes than a fixed threshold.
+
+![Found by magnitude](../outputs/plots/noise_floor_found.png)
+
+**Exploratory (after the result was seen):**
+
+- **One station carries the whole lead.** AM.RCCD1, a Raspberry Shake in Ponce, Puerto
+  Rico, sits inside the January 2020 earthquake swarm and supplies 3,436 of the 5,236
+  pairs. There learned beats raw (744 vs 678, p = 0.001).
+- **Everywhere else the learned floor is worse.** Without Puerto Rico (1,800 pairs, 58
+  stations): learned **254**, raw **275** (p = 0.04), and the simple **rolling** median
+  finds the most, **346** (p < 10⁻⁹ against each). Of 21 stations with ≥ 10 earthquakes,
+  learned beats raw at 7, loses at 9, ties at 5.
+- **Why (our reading).** A weekly average of Tuesday 08:00 cannot know about the lorry at
+  08:03 or today's weather; the last two hours of the same day can. This is the risk
+  `docs/08-roadmap.md` named first. Fifteen-minute RMS is also coarse: a small
+  earthquake lasts seconds, so it barely moves a 15-minute average.
+
+![One earthquake, raw vs residual](../outputs/plots/noise_floor_example.png)
+
+*The example above is the clearest case, chosen by the script as the widest margin above
+the learned threshold, not typical:* an M2.5, 62 km from Berkeley (BK.BKS), stays under
+the raw threshold but stands out after subtraction. Most small earthquakes are found by
+neither: of the 2,419 pairs with M2.0–2.5, the learned floor finds 11%, and 85% are
+missed by both the learned floor and the raw threshold.
+
+**Sanity checks** (run 2026-11-19, after the result; they test the method, not the answer):
+
+- **Timing is aligned.** Averaged over 265 earthquakes of M ≥ 3.5 within 60 km, the
+  signal appears in exactly the two samples stamped 15 and 30 minutes *before* the origin
+  time and nowhere else in ±2 hours: each timestamp starts a 30-minute window (15-minute
+  steps), and the ±30-minute search covers both.
+- **False alarms are calibrated.** At 787 quiet "placebo" moments (the same clock time one
+  week before each earthquake, Puerto Rico left out), each detector fires 0.64% of the
+  time, close to the intended 1%. Nothing leaks.
+- **The catalogue is complete as downloaded.** All 299 USGS answers were successful; the
+  109 with no events are genuine "no earthquakes here".
+- **Out of fold, checked exactly.** `tests/test_noise_floor.py` rebuilds every fold; a
+  deliberately in-sample version of the code fails it.
+
+**The loop (handing back a cleaner signal) works as a product.** `python
+src/noise_floor.py --export BK.BKS` writes every 15-minute sample with the learned normal
+and the residual (`outputs/clean_signal/`, not committed). For Berkeley it removes a third of the
+record's spread (0.191 → 0.127 log10 units); for Brussels (BE.UCC), 62% (0.256 → 0.097). That cleaned record is useful for seeing how a
+day differed from normal; for *finding earthquakes* a short rolling baseline does better.
+
+Run: `python src/noise_floor.py` (first run ~12 min, mostly downloads; ~1.5 min after).
+
+---
+
 ## An honest negative result
 
 **Lockdown did not make every day look like a Sunday.**

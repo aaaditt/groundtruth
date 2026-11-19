@@ -15,6 +15,7 @@ python src/score_days.py
 python src/confusion_detector.py
 python src/holiday_holdout.py
 python src/transfer.py
+python src/noise_floor.py        # Result 19; first run downloads the USGS catalogue (~12 min)
 
 # Cross-country weekend analysis and proposal figures (no ML, pure exploration).
 # weekend_signature.py writes the table that make_presentation_plots.py reads.
