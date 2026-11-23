@@ -342,7 +342,8 @@ Ordered by expected value:
    stations to avoid overfitting. Compare it with the random forest under the same
    cross-validation. Keep it only if it wins honestly.
 3. **Residual earthquake detection** (`docs/08`, item 8). Use the learned noise floor to
-   reveal small local earthquakes.
+   reveal small local earthquakes. **Done 2026-11-19: Result 19, pre-registered in
+   `docs/17`, not supported** (a 2-hour rolling median beats the learned floor).
    - **Pick the station first:** it needs catalogued small events nearby (USGS or a
      regional catalogue).
    - **Compare** detection with and without the noise floor subtracted, at a matched

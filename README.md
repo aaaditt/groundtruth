@@ -175,13 +175,14 @@ gotchas already solved.
 | [`docs/05-ml-primer.md`](docs/05-ml-primer.md) | Machine learning from scratch, explained through this project |
 | [`docs/06-presentation-guide.md`](docs/06-presentation-guide.md) | Slide order, talking points, expected questions |
 | [`docs/07-build-log.md`](docs/07-build-log.md) | Honest record of how this was built, including the wrong turn and every bug |
-| [`docs/08-roadmap.md`](docs/08-roadmap.md) | What to do next, ordered by value for effort — including subtracting the learned human-noise floor to make small earthquakes detectable in cities (future work, not implemented) |
+| [`docs/08-roadmap.md`](docs/08-roadmap.md) | What to do next, ordered by value for effort. Item 8 (subtracting the learned human-noise floor to reveal small earthquakes) is now tested: Result 19, not supported |
 | [`docs/09-presentation-script.md`](docs/09-presentation-script.md) | Proposal presentation script — 3 slides, 3 speakers, Q&A. Deliberately contains no classifier results |
 | [`docs/10-work-log.md`](docs/10-work-log.md) | Running log of the recent-data extension (post-presentation work) |
 | [`docs/11-data-guide.md`](docs/11-data-guide.md) | Where live seismic data lives (FDSN, EarthScope, MUSTANG, Raspberry Shake, EIDA), how fresh it is, how we plan to use it |
 | [`docs/12-master-plan.md`](docs/12-master-plan.md) | Master brief: semester deliverables (the five promises) and the City Pulse tool, phase by phase |
 | [`docs/13-final-report.md`](docs/13-final-report.md) | **The final written report**: question, data, method, every headline result, limits, ethics |
 | [`docs/14-uae-preregistration.md`](docs/14-uae-preregistration.md) | The pre-registered UAE weekend experiment, frozen before any data was downloaded, then its results |
+| [`docs/17-noise-floor-preregistration.md`](docs/17-noise-floor-preregistration.md) | Pre-registered test: does subtracting the learned human noise reveal small earthquakes? (Result 19) |
 
 ---
 
@@ -207,6 +208,7 @@ All scores are out-of-sample, with **whole weeks held out** (see
 | Exact weekday from one day, 3 frequency bands, median over 33 stations (Result 17) | **56.7%** | 14.3% |
 | Exact weekday given **the 7 days around it**, median over 33 stations (Result 17) | **96.1%** | 14.3% |
 | One day, more data / all cities in one model / more training rounds (Result 18) | 56.7% / 50.4% / 56.5% | no gain past ~1,600 days |
+| Earthquakes found after subtracting the learned human noise vs raw, 5,236 station–quake pairs, same false-alarm rate (Result 19, pre-registered) | 998 vs 953, p = 0.053: **not supported** | without the Puerto Rico swarm: 254 vs 275 |
 
 Showcase cities: New York `AM.R7885` (100.0% / 66.1%), Athens `HL.ATH` (100.0% / 69.6%),
 Brussels `BE.UCC` (100.0% / 47.8%).
@@ -342,6 +344,7 @@ groundtruth/
 │   ├── live.py                   per-station live models on 12 months of MUSTANG data
 │   ├── ask.py                    out-of-fold weekday guesses for every city-day (Result 16)
 │   ├── weekday.py                exact-weekday experiment: 3 bands, half-hours, a week (Result 17)
+│   ├── noisefloor.py             learned human-noise floor + 3 earthquake detectors (Result 19)
 │   └── pulse.py                  scores new days for the dashboard (reuses detect.py)
 │
 ├── site/                         the static website (served by Vercel)
@@ -395,6 +398,7 @@ groundtruth/
 │   ├── survey_mustang.py         which stations have recent data (needs internet)
 │   ├── validate_route_a.py       recent-data route vs the published data (needs internet)
 │   ├── weekend_signature.py      cross-country weekend analysis (no ML)
+│   ├── noise_floor.py            subtract the learned human noise, look for earthquakes; --export hands back a cleaned record (Result 19)
 │   └── make_presentation_plots.py  the four proposal figures (no ML)
 │
 ├── data/

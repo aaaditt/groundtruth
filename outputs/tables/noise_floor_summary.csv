@@ -1,0 +1,7 @@
+false_alarm_level,detector_a,detector_b,pairs,found_a,found_b,a_only,b_only,p_mcnemar
+p99,learned,raw,5236,998,953,281,236,0.0529
+p99,learned,rolling,5236,998,835,386,223,0.0
+p99,rolling,raw,5236,835,953,183,301,0.0
+p99.9,learned,raw,5236,662,632,187,157,0.1178
+p99.9,learned,rolling,5236,662,579,255,172,0.0001
+p99.9,rolling,raw,5236,579,632,143,196,0.0047

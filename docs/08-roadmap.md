@@ -69,7 +69,7 @@ unrelated columns. A 1-D CNN or a small sequence model could exploit the shape
 directly. With ~115 days per station this needs pooling across stations to avoid
 overfitting, so it pairs naturally with the global model.
 
-## 8. Subtracting human noise to reveal small earthquakes *(research-level, not implemented)*
+## 8. Subtracting human noise to reveal small earthquakes *(tested 2026-11-19: Result 19, not supported)*
 
 Every other item on this list treats cultural noise as the signal. This one inverts the
 framing and hands a cleaner record back to seismology.
@@ -116,9 +116,13 @@ station's own raw record, so the only variable is the subtraction.
   *local* micro-earthquakes, whose energy is genuinely high-frequency. It is the wrong
   band for distant or large events, so any claim would be scoped to small nearby ones.
 
-**Status: future work. Nothing here has been implemented and no numbers are attached to
-it.** It is recorded because it changes what the project is *for*, not because we have
-results.
+**Status: tested (2026-11-19).** Pre-registered in `docs/17-noise-floor-preregistration.md`,
+run by `src/noise_floor.py`, reported as Result 19 in `docs/04-results.md`. On 5,236
+station–earthquake pairs the learned floor found 998 vs 953 for a fixed threshold
+(p = 0.053, not supported); without the Puerto Rico swarm it found fewer (254 vs 275),
+and a plain 2-hour rolling median found the most (346). The first risk above (the
+residual is not clean enough) is what happened. A real next step would need the
+waveforms (seconds, not 15-minute averages), as this section already said.
 
 ## Things deliberately *not* on this list
 
