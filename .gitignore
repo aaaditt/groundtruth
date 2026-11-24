@@ -31,3 +31,6 @@ video/build/
 
 # Cleaned records handed back by src/noise_floor.py --export (regenerable in seconds)
 outputs/clean_signal/
+
+# Final-talk decks, rebuilt by presentation/video/deck.cjs (the video one is ~100+ MB)
+presentation/*.pptx

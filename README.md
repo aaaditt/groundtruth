@@ -183,6 +183,7 @@ gotchas already solved.
 | [`docs/13-final-report.md`](docs/13-final-report.md) | **The final written report**: question, data, method, every headline result, limits, ethics |
 | [`docs/14-uae-preregistration.md`](docs/14-uae-preregistration.md) | The pre-registered UAE weekend experiment, frozen before any data was downloaded, then its results |
 | [`docs/17-noise-floor-preregistration.md`](docs/17-noise-floor-preregistration.md) | Pre-registered test: does subtracting the learned human noise reveal small earthquakes? (Result 19) |
+| [`docs/18-final-presentation-script.md`](docs/18-final-presentation-script.md) | **The final talk**: 15 minutes, Aadit / Shraddha / Aradhya trading parts, one 3D clip per slide (a city, a globe, the sea, a forest, and the real data as 3D sculptures). Clips and slides: [`presentation/`](presentation/README.md) |
 
 ---
 

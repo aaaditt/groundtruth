@@ -94,6 +94,16 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
   Rebuild it after changing `groundtruth/ask.py`, the features or the model. Each day has two
   guesses: one day (Result 17 A3-GB) and the week around it (`ask.oof_week`, 28-day block
   folds). `src/ask.py` needs the day tables in `data/cache/weekday/` (`src/weekday_experiment.py`).
+- **Final presentation** (`docs/18`, `presentation/`): Remotion clips in `presentation/video/`
+  draw ONLY from `presentation/video/public/data/*.json`, written by `src/presentation_data.py`
+  (never type a number into a scene). Drawings (the 3D city, sea, waves, tree shapes) say
+  "Illustration". Light theme matching the proposal deck (Newsreader / IBM Plex, `theme.ts`).
+  EVERY clip is 3D (`@remotion/three`, `src/three/`, shared worlds in `World.tsx`): animate
+  ONLY from `useCurrentFrame` (never `useFrame`), render with `--gl=angle`. The city is a
+  whole city (`Metro.tsx`) with one section dug out in front of the seismometer, not an
+  island. Fonts are local files in `public/fonts/` (no internet needed to render).
+  `tests/test_presentation_data.py` ties the JSON to README/docs/04: if a result changes, rerun
+  the export, re-render (`bash render.sh`), and rebuild the deck (`node deck.cjs`).
 - One dark design (Gloock + Schibsted Grotesk, tokens at the top of `site/style.css`); charts
   use `paperGrid` / `smoothPath` from `common.js`. Sound is `site/sound.js` (Web Audio, no
   files); every page loads it and has the `#sound` switch (tested).
