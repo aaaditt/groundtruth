@@ -50,6 +50,43 @@ def score_new(train, new):
     return out.reset_index(drop=True), thresholds
 
 
+def score_walk_forward(train, new):
+    """Predict, then learn (pre-registered in docs/19, Result 21).
+
+    Each new day t is scored by models trained on the training year's normal days PLUS every
+    ordinary new day before t. Day t is never in its own training set; it joins only after it
+    has been scored. Same features and same make_model() as the frozen score_new, so on the
+    first new day (nothing added yet) the two give identical answers.
+
+    train: one station's rows from live_days.csv. new: its new days (date index), as for
+    score_new. Returns one row per new day: date, learn_pred_dow, learn_p_weekend,
+    learn_train_days (how many days the model that scored it had learned from)."""
+    base = train[train["period"] == "baseline"].dropna(subset=FEATURES)
+    X0, d0, w0 = base[FEATURES].values, base["day_of_week"].values, base["is_weekend"].values
+    new = new.reset_index().sort_values("date").reset_index(drop=True)
+    learned = []        # indices of new ordinary days already scored (so allowed to train on)
+    rows = []
+    for i, r in new.iterrows():
+        if r[FEATURES].isna().any():
+            continue
+        extra = new.loc[learned]
+        X = np.vstack([X0, extra[FEATURES].values]) if learned else X0
+        dow = np.concatenate([d0, extra["day_of_week"].values]) if learned else d0
+        we = np.concatenate([w0, extra["is_weekend"].values]) if learned else w0
+        m7 = make_model().fit(X, dow)
+        m2 = make_model().fit(X, we)
+        x = r[FEATURES].values.astype(float).reshape(1, -1)
+        p7 = np.zeros(7)
+        p7[m7.classes_] = m7.predict_proba(x)[0]
+        p2 = m2.predict_proba(x)[0]
+        p_we = p2[list(m2.classes_).index(1)] if 1 in m2.classes_ else 0.0
+        rows.append({"date": r["date"], "learn_pred_dow": int(p7.argmax()),
+                     "learn_p_weekend": float(p_we), "learn_train_days": int(len(X))})
+        if r["period"] == "baseline":        # ordinary day: learn it, AFTER scoring it
+            learned.append(i)
+    return pd.DataFrame(rows, columns=["date", "learn_pred_dow", "learn_p_weekend", "learn_train_days"])
+
+
 def day_record(r):
     """One scored day -> a small dict for the website."""
     return {
@@ -66,6 +103,9 @@ def day_record(r):
         "anomaly": round(float(r["anomaly"]), 3),
         "confusion_flag": bool(r["confusion_flag"]),
         "anomaly_flag": bool(r["anomaly_flag"]),
+        # the walk-forward model's answer for the same day (docs/19)
+        "learn_pred_dow": int(r["learn_pred_dow"]) if pd.notna(r.get("learn_pred_dow")) else None,
+        "learn_p_weekend": round(float(r["learn_p_weekend"]), 3) if pd.notna(r.get("learn_p_weekend")) else None,
     }
 
 
@@ -83,4 +123,4 @@ def describe(r):
     return s
 
 
-__all__ = ["score_new", "day_record", "describe", "DOW_NAMES", "live"]
+__all__ = ["score_new", "score_walk_forward", "day_record", "describe", "DOW_NAMES", "live"]
