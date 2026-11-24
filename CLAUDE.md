@@ -104,6 +104,24 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
   island. Fonts are local files in `public/fonts/` (no internet needed to render).
   `tests/test_presentation_data.py` ties the JSON to README/docs/04: if a result changes, rerun
   the export, re-render (`bash render.sh`), and rebuild the deck (`node deck.cjs`).
+- **Story talk** (`docs/21`, branch `story-presentation`): presented from the web deck
+  `site/talk/` (plain JS, no build). `site/talk/slides.json` is the ONE source for the deck
+  and both PowerPoints (`presentation/story/build_pptx.cjs`, which photographs the deck with
+  headless Chrome via `?shot=N`). Still slides draw every number from `site/talk/data/*.json`
+  (copied by `src/talk_build.py` from `src/presentation_data.py`; `story()` holds the 7-year
+  numbers, null until a result exists). Never type a number into a static headline
+  (`tests/test_talk.py`). Clip cuts are `start`/`end` in slides.json, applied by ffmpeg in
+  `src/talk_build.py`. The deck is light paper (theme.ts); live pages stay dark and open
+  with `?embed=1` (silent, no site bar: `sound.js`, `html.embed` in style.css). Deck keys
+  win over iframe keys (capture listener in each iframe); a live step's URL must change its
+  query string so the page reloads. Rebuild: `python src/presentation_data.py && python
+  src/talk_build.py && node presentation/story/build_pptx.cjs`.
+- **Nightly learning** (`docs/19`, Result 21): `groundtruth.pulse.score_walk_forward` scores
+  day t with a model trained only on days < t, then learns t if ordinary. Frozen scores
+  stay the headline; the learning ones are interim until graded (January 2027).
+- **Second-by-second earthquakes** (`docs/20` frozen, Result 22): `src/quake_waveform.py`,
+  `groundtruth/quakewave.py`. Processing is NumPy/SciPy, not ObsPy's filters (ObsPy's
+  compiled `signal` library is blocked by Windows application control on the dev machine).
 - One dark design (Gloock + Schibsted Grotesk, tokens at the top of `site/style.css`); charts
   use `paperGrid` / `smoothPath` from `common.js`. Sound is `site/sound.js` (Web Audio, no
   files); every page loads it and has the `#sound` switch (tested).

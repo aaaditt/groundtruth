@@ -1,5 +1,35 @@
 # presentation/: the final talk
 
+## The story version (docs/21): present from the web deck
+
+The current talk is [`docs/21-story-presentation-script.md`](../docs/21-story-presentation-script.md):
+22 beats that mix **still slides**, **short clips** (cut from the clips below) and the
+**live website**. It has two forms, built from one file, `site/talk/slides.json`:
+
+| Form | Where | Use it for |
+|---|---|---|
+| **Live deck** | `site/talk/` → https://groundtruth-seismic.vercel.app/talk/ | Presenting on the smartboard. Clicker, arrow keys, Next/Back buttons, or a three-finger swipe; one finger uses the live globe and maps. `F` full screen, `N` notes, `P` presenter window, `L` show a live slide's fallback, `B` black screen. |
+| **PPT + video** | `presentation/GroundTruth-story.pptx` (rebuilt, not committed) | Presenting offline: stills as pictures, clips embedded, live beats as their fallback clip plus the live link. |
+| **Submission** | `presentation/GroundTruth-story-submission.pptx` (rebuilt) | Handing in: pictures only (~3 MB), speaker lines in the notes. |
+
+Rebuild (after any result changes):
+
+```bash
+python src/presentation_data.py        # numbers, from the real data (story.json = 7-year beats)
+python src/talk_build.py               # copy data + fonts into site/talk/, cut and compress the clips
+node presentation/story/build_pptx.cjs # photograph each slide (headless Chrome), write both .pptx
+pytest -q tests/test_talk.py           # slides file complete, assets exist, no typed numbers
+```
+
+On the day: open the deck 10 minutes early on the classroom machine so the globe has
+loaded; turn off Windows' own three/four-finger touch gestures (Settings → Bluetooth &
+devices → Touch) so the swipe reaches the browser. If a live page hasn't loaded in 5
+seconds, its fallback appears by itself.
+
+---
+
+## The all-video version (docs/18)
+
 Everything for the 15-minute final presentation: the clips, the slides, and how to
 rebuild them. The words are in [`docs/18-final-presentation-script.md`](../docs/18-final-presentation-script.md).
 

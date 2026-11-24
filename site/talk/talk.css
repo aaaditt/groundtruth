@@ -41,7 +41,7 @@ body { transition: background .4s; }
 
 /* chart vocabulary (SVG) */
 .chart text { font-family: var(--text); fill: var(--ink); }
-.chart .ax { font-size: 26px; fill: var(--graphite); }
+.chart .ax { font-size: 30px; fill: var(--graphite); }
 .chart .lab { font-size: 32px; }
 .chart .lab.small { font-size: 28px; fill: var(--graphite); }
 .chart .big { font-family: var(--display); font-size: 200px; letter-spacing: -.02em; }
@@ -61,7 +61,7 @@ body { transition: background .4s; }
 
 /* the opening question */
 .q { position: absolute; left: 120px; top: 150px; width: 1500px; margin: 0; font: italic 300 132px/1.02 var(--display); letter-spacing: -.015em; }
-.promises { position: absolute; left: 120px; bottom: 150px; margin: 0; padding: 0; list-style: none; display: flex; gap: 56px; }
+.promises { position: absolute; left: 120px; top: 560px; margin: 0; padding: 0; list-style: none; display: flex; gap: 56px; }
 .promises li { font: 400 30px/1.25 var(--text); color: var(--graphite); max-width: 250px; border-top: 3px solid var(--rule); padding-top: 16px; }
 
 /* fallback still (a screenshot) */

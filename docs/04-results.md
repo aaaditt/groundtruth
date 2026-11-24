@@ -916,6 +916,77 @@ Run: `python src/noise_floor.py` (first run ~12 min, mostly downloads; ~1.5 min 
 
 ---
 
+## Result 21 — Does the live model get better if it keeps learning? (pre-registered, not yet graded)
+
+Pre-registered in `docs/19-nightly-learning-preregistration.md` (commit `c4ac455`) before any
+code was written; `groundtruth/pulse.py` `score_walk_forward`, `tests/test_walk_forward.py`.
+
+**The rule: predict, then learn.** Every night, for the 7 live cities, each new day *t* since
+1 Oct 2026 is guessed by a model trained on the training year **plus every ordinary new day
+before *t***; only after it has been guessed may day *t* join the training set. Everything
+else (features, `make_model()`, level scaling) is the frozen City Pulse model, so the only
+difference is the extra days. A test deletes every day after *t* and checks that *t*'s
+guess does not change, so no day is learned before it is scored. Recomputed from 1 Oct
+every night: about 2 more minutes for the daily Action.
+
+**Status.** The primary test (pooled exact McNemar, walk-forward vs frozen, exact weekday,
+ordinary days 1 Oct – 31 Dec 2026, α = 0.05) is graded once, after MUSTANG has data to
+31 Dec (about mid-January 2027). The expectation written down before running: **no
+significant pooled gain** (Result 18: more data had already flattened). The dashboard
+(`today.html#learning`) shows the running numbers, labelled **interim**: they are not the
+test, and are not quoted here.
+
+---
+
+## Result 22 — Second by second, subtracting the people still does not find more earthquakes
+
+Pre-registered in `docs/20-quake-waveform-preregistration.md` (commit `5e70864`) before any
+waveform was downloaded or this code was written; `src/quake_waveform.py`,
+`groundtruth/quakewave.py`. No amendment was needed; two crashes were fixed during the run
+(an empty catalogue and a midnight clock change in Chile), neither touching the rules.
+
+**Why a second test.** Result 19 blurred seconds-long earthquakes into 15-minute averages.
+This test uses the **waveform**: the recording itself, one number per second (4–14 Hz
+displacement RMS), at the 33 globe stations, **2021–2026** (years Result 19 never touched),
+EarthScope data, USGS ComCat M ≥ 2 within 100 km, at most 100 earthquakes per station so no
+swarm decides it. "Learned" compares each second with what the city normally sounds like at
+that weekday and hour (median and spread of the previous 8 weeks of MUSTANG spectra).
+Every detector's threshold gives 1% false alarms on 100 random quiet 15-minute chunks per
+station.
+
+| 775 station–earthquake pairs, 21 stations | raw | rolling | learned |
+|---|---|---|---|
+| Found at 1% false alarms | 501 | **524** | 413 |
+| M 2–3 (382 pairs) | 32% | **38%** | 24% |
+| M 3–4 (56 pairs) | 93% | 93% | 73% |
+| M ≥ 4 (337 pairs) | 97% | 97% | 84% |
+
+- **Primary (learned vs raw): not supported.** Learned found 24 that raw missed, raw found
+  112 that learned missed (exact McNemar p = 9 × 10⁻¹⁵): subtracting the learned normal is
+  significantly **worse**. Without the station with the most pairs (Fairbanks, 99, tied with Cojutepeque; the
+  script drops the first): 384 vs 468, p = 5 × 10⁻¹⁷.
+- **Secondary: rolling beats raw** (43 vs 20 found by one only, p = 0.005), most on the
+  smallest quakes (M 2–3: 38% vs 32%). This repeats, on new years and at the scale of
+  seconds, what Result 19 only saw after the fact.
+- 12 of the 33 stations have no scored pair (no catalogued M ≥ 2 within 100 km on an
+  ordinary day in five years, e.g. Brussels, Dublin, Hobart, or no usable recording).
+
+![Found by magnitude](../outputs/plots/quake_waveform_found.png)
+
+**Exploratory reading (after the result).** The learned normal describes **hours**: its
+spread comes from 16 hourly spectra, while one-second values swing far more within an hour
+(a passing lorry). Dividing by an hourly spread makes ordinary busy seconds look extreme, so
+the threshold must rise and small quakes fall under it. What helps a seconds-long event is
+what happened in the minutes just before it, which is the rolling detector. **Conclusion for
+the dare: a city's weekly rhythm is the right model for reading the day, and the wrong one
+for finding a seconds-long earthquake.** This is detection of earthquakes that happened,
+never prediction.
+
+Run: `python src/quake_waveform.py` (first run about 2 hours of downloads, cached in
+`data/cache/quakewave/`; seconds after).
+
+---
+
 ## An honest negative result
 
 **Lockdown did not make every day look like a Sunday.**

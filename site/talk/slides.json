@@ -34,10 +34,10 @@
      "source": "R12 data, Brussels (BE.UCC), Oct 2025 – Sep 2026, EarthScope MUSTANG",
      "notes": "Held still. Left, the ocean: 11 a.m. and 3 a.m. are almost the same line; the sea doesn't keep office hours. Right, 4 to 14 hertz: daytime is about forty times stronger than night. That gap is us, so that's the band we listen to."},
 
-    {"id": "bands", "title": "Only the people band reads the week", "speaker": "Aradhya", "seconds": 25,
+    {"id": "bands", "title": "The sea band can't read the week", "speaker": "Aradhya", "seconds": 25,
      "kind": "static", "static": {"chart": "bands"},
      "source": "Result 12, 7 cities, Oct 2025 – Sep 2026",
-     "notes": "And we tested it. Same model, same days, five bands. The ocean band reads weekday vs weekend 51% of the time: a coin toss. The people band: almost 99%. Shraddha, how does a model listen?"},
+     "notes": "And we tested it. Same model, same days, five bands. The ocean band reads weekday vs weekend 51% of the time: a coin toss. Every band where people are scores above 95%, and the people band, 4 to 14 hertz, is best: almost 99%. Shraddha, how does a model listen?"},
 
     {"id": "features", "title": "One day becomes 25 numbers", "speaker": "Shraddha", "seconds": 40,
      "kind": "video", "video": {"clip": "S05-features", "start": 20},
@@ -64,12 +64,12 @@
     {"id": "weekend", "title": "It recognises rest, not the name of the day", "speaker": "Aradhya", "seconds": 45,
      "kind": "static", "static": {"chart": "weekend"},
      "source": "Results 3, 9, 10, 2019–20, and UAE 2021–22 (pre-registered, docs/14)",
-     "notes": "A model trained on all the other cities still reads a new one: 83%. Trained only on Saturday-Sunday countries, it calls Salfit's Fridays weekend: it recognises rest, not the name of the day. Jeddah, our third Friday city, didn't transfer. And when the UAE moved its weekend in 2022, we wrote the prediction down before downloading anything: Sundays got 20% quieter, luck would do that about 3 times in 1,000. One sensor, 90 km from Sharjah, and Fridays got busier, which we didn't predict."},
+     "notes": "A model trained on all the other cities still reads a new one: 83%. Trained only on Saturday-Sunday countries, it calls Salfit's Fridays weekend: it recognises rest, not the name of the day. Jeddah, our third Friday city, didn't transfer. And when the UAE moved its weekend in 2022, we wrote the prediction down before downloading anything: Sundays got 20% quieter, luck would do that about 3 times in 1,000. One sensor, 90 km from Sharjah city, and Fridays got 53% busier, which we didn't predict."},
 
     {"id": "dare", "title": "The dare, done properly", "speaker": "Aradhya", "seconds": 55,
      "kind": "video", "video": {"clip": "C5-quake", "then": "dare"},
      "source": "Result 19 (docs/17) and the second-by-second test (docs/20), both written down before running",
-     "notes": "Last time's dare: if we know what a city sounds like at eight on a Tuesday, can we subtract the people and find small earthquakes underneath? On fifteen-minute averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling median did best. A quake lasts seconds; fifteen minutes blurs it away. So we wrote a proper test down in advance: second-by-second recordings, years the first test never touched, at most 100 quakes per station so no swarm decides it. (read the result card) Detecting quakes that happened; never predicting them. Shraddha, what else didn't work?"},
+     "notes": "Last time's dare: if we know what a city sounds like at eight on a Tuesday, can we subtract the people and find small earthquakes underneath? On fifteen-minute averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling median did best. A quake lasts seconds; fifteen minutes blurs it away. So we wrote a proper test down in advance: second-by-second recordings, years the first test never touched, at most 100 quakes per station so no swarm decides it. Result: with the people subtracted, 413 found; the raw recording, 501. Not supported: it made things worse. A plain rolling baseline of the last five minutes did best, 524. A city's weekly rhythm is the right model for reading the day, and the wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them. Shraddha, what else didn't work?"},
 
     {"id": "limits", "title": "What didn't work", "speaker": "Shraddha", "seconds": 30,
      "kind": "static", "static": {"chart": "limits"},
@@ -101,7 +101,7 @@
 
     {"id": "scorecard", "title": "Five promises, kept", "speaker": "Aadit", "seconds": 8,
      "kind": "static", "static": {"chart": "scorecard"},
-     "source": "Results 1, 3, 6, 7, 8 (2019–20, 149 seismometers); Results 15–17 (2019–26, 33 cities); docs/19",
+     "source": "Results 1–8 (2019–20), 15–17 (2019–26); docs/19",
      "notes": "(no read-out: let it sit while you walk to the centre, then Next)"},
 
     {"id": "close", "title": "Still useless?", "speaker": "Aadit", "seconds": 40,

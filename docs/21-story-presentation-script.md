@@ -40,7 +40,7 @@ its fallback appears by itself.
 | 5 | Seismometers on six continents | LIVE research map (fb C3) | Aradhya | 0:35 |
 | 6 | Two kinds of shaking | VIDEO C2 (cut) | Aradhya | 0:25 |
 | 7 | The spectrum: the sea and us | STATIC spectrum | Aradhya | 0:30 |
-| 8 | Only the people band reads the week | STATIC band test | Aradhya | 0:25 |
+| 8 | The sea band can't read the week | STATIC band test | Aradhya | 0:25 |
 | 9 | One day becomes 25 numbers | VIDEO S05 (cut) | Shraddha | 0:40 |
 | 10 | A hundred trees vote | VIDEO C4 | Shraddha | 0:40 |
 | 11 | Tested on weeks it never saw | STATIC CV diagram | Shraddha | 0:35 |
@@ -106,9 +106,10 @@ Never cut 2, 13, 18, 19.
 > the sea doesn't keep office hours. Right, **4 to 14 hertz**: daytime is about **forty
 > times** stronger than night. That gap is us, so that's the band we listen to.
 
-### 8 · ONLY THE PEOPLE BAND READS THE WEEK — `[STATIC band test]` *(R12 · 2025–26 · 7 cities)*
+### 8 · THE SEA BAND CAN'T READ THE WEEK — `[STATIC band test]` *(R12 · 2025–26 · 7 cities)*
 > **[Aradhya]** And we tested it. Same model, same days, five bands. The ocean band reads
-> weekday vs weekend **51%** of the time: a coin toss. The people band: **almost 99%**.
+> weekday vs weekend **51%** of the time: a coin toss. Every band where people are scores
+> above 95%, and the people band, 4 to 14 hertz, is best: **almost 99%**.
 > Shraddha, how does a model listen?
 
 ### 9 · ONE DAY BECOMES 25 NUMBERS — `[VIDEO S05, cut]`
@@ -160,8 +161,10 @@ Never cut 2, 13, 18, 19.
 > averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling
 > median did best. A quake lasts seconds; fifteen minutes blurs it away. So we wrote a
 > proper test down in advance: **second-by-second recordings**, years the first test never
-> touched, at most 100 quakes per station so no swarm decides it. **[R22: one sentence,
-> whatever it found.]** Detecting quakes that happened; never predicting them.
+> touched, at most 100 quakes per station so no swarm decides it. Result: with the people subtracted, **413** found; the raw recording, **501**.
+> **Not supported**: it made things worse. A plain rolling baseline of the last five minutes
+> did best, **524**. A city's weekly rhythm is the right model for reading the day, and the
+> wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them.
 > Shraddha, what else didn't work?
 
 ### 16 · WHAT DIDN'T WORK — `[STATIC]` *(R4, R6, R8)*

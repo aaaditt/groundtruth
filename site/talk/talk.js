@@ -51,14 +51,16 @@ const line = (pts) => pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)} ${p[
 const text = (svg, x, y, str, cls = "lab", anchor = "start") =>
   svg.append(s("text", { x, y, class: cls, "text-anchor": anchor }, str));
 
+// the five promises, worded the same on the opening slide and the scorecard
+const PROMISES = ["Read the day from the ground", "Shape beats loudness", "Let its mistakes find unusual days",
+  "Test it on holidays it never saw", "Move it to another city"];
+
 const CHARTS = {
   question() {
     const box = el("div", { class: "fig" });
     box.append(el("p", { class: "q" }, "Can a seismometer tell what day of the week it is?"));
     box.append(el("ul", { class: "promises" },
-      ...["Read the day from the ground", "Show that the shape of a day beats how loud it is",
-        "Let its mistakes find unusual days", "Test it on holidays it never saw",
-        "Move it to another city"].map((t) => el("li", {}, t))));
+      ...PROMISES.map((t) => el("li", {}, t))));
     return box;
   },
 
@@ -86,7 +88,7 @@ const CHARTS = {
     text(svg, x0, y0 + 90, "slower, one wobble every few seconds", "ax");
     text(svg, x1, y0 + 90, "faster, many wobbles a second", "ax", "end");
     text(svg, fx(0.32), y1 - 30, `the sea: day ÷ night ${sea.toFixed(1)}×`, "lab t-sea", "middle");
-    text(svg, fx(7.5), y1 - 30, `us: day ÷ night ${Math.round(people)}×`, "num t-city", "middle");
+    text(svg, fx(7.5), y1 - 30, `people: day ÷ night ${Math.round(people)}×`, "num t-city", "middle");
     return box;
   },
 
@@ -110,21 +112,18 @@ const CHARTS = {
 
   weeks(b) {
     const d = DATA.folds;
-    const { box, svg } = figure(b, "Each colour is one round's hidden weeks. A week is never split between learning and testing.");
+    const { box, svg } = figure(b, "Each shade is one round's hidden weeks.");
     const weeks = [...new Set(d.days.map((x) => x.week))];
-    const cell = 52, x0 = 220, y0 = 360;
-    const tint = ["#a7480c", "#2e5c95", "#3f7d4e", "#7a5c99", "#8a7a4a"];
-    ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].forEach((n, k) => text(svg, x0 - 24, y0 + k * cell + 36, n, "ax", "end"));
+    const cell = 64, x0 = 220, y0 = 330;
+    const tint = ["#161b21", "#59616f", "#8a7a4a", "#b9b2a3", "#d4c7a1"];   // neutral: orange and blue mean people and sea
+    ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].forEach((n, k) => text(svg, x0 - 24, y0 + k * cell + 42, n, "ax", "end"));
     d.days.forEach((x) => {
       const c = weeks.indexOf(x.week);
-      svg.append(s("rect", { x: x0 + c * cell, y: y0 + x.dow * cell, width: cell - 6, height: cell - 6, fill: tint[x.fold], opacity: .85 }));
+      svg.append(s("rect", { x: x0 + c * cell, y: y0 + x.dow * cell, width: cell - 6, height: cell - 6, fill: tint[x.fold] }));
     });
     text(svg, x0, y0 + 7 * cell + 56, `${d.city}: ${d.n_days} ordinary days in ${d.n_weeks} weeks, ${d.n_folds} rounds`, "ax");
-    const xr = x0 + weeks.length * cell + 90;
-    text(svg, xr, y0 + 40, "Graded with balanced accuracy:", "lab");
-    text(svg, xr, y0 + 90, "right on weekdays and right on", "lab small");
-    text(svg, xr, y0 + 132, "weekends, averaged. Always saying", "lab small");
-    text(svg, xr, y0 + 174, "“weekday” scores a coin toss.", "lab small");
+    text(svg, x0, y0 + 7 * cell + 116, "Scored with balanced accuracy: weekdays and weekends count equally,", "lab");
+    text(svg, x0, y0 + 7 * cell + 162, "so always saying “weekday” scores a coin toss.", "lab");
     return box;
   },
 
@@ -135,18 +134,26 @@ const CHARTS = {
     text(svg, 120, 530, "weekday or weekend, in a typical city", "lab");
     text(svg, 1000, 470, pct(r.dow_median), "big");
     text(svg, 1000, 530, "the exact day, where guessing gets 14%", "lab");
-    // every seismometer as a dot on a 0-100% ruler; the three empty places named
-    const x0 = 120, x1 = 1800, y = 720, fx = (v) => x0 + v * (x1 - x0);
+    // every seismometer as a dot on a 0-100% ruler of weekday-or-weekend scores (the 95%)
+    const x0 = 120, x1 = 840, y = 720, fx = (v) => x0 + v * (x1 - x0);
     svg.append(s("line", { x1: x0, x2: x1, y1: y, y2: y, class: "rule" }));
-    [0, .5, 1].forEach((v) => text(svg, fx(v), y + 50, pct(v), "ax", "middle"));
+    [0, .5, 1].forEach((v) => text(svg, fx(v), y + 46, pct(v), "ax", "middle"));
     const ctl = new Set(r.controls.map((c) => c.station));
-    r.stations.forEach((st, i) => svg.append(s("circle", { cx: fx(st.weekend), cy: y - 18 - (i % 4) * 14, r: 8,
-      class: ctl.has(st.station) ? "city" : "ink", opacity: ctl.has(st.station) ? 1 : .35 })));
-    text(svg, fx(Math.min(...r.controls.map((c) => c.weekend))), y - 100,
-      `${r.controls.map((c) => c.city).join(", ")}: almost nobody lives there`, "lab small t-city");
+    r.stations.forEach((st, i) => { if (!ctl.has(st.station))
+      svg.append(s("circle", { cx: fx(st.weekend), cy: y - 16 - (i % 5) * 12, r: 7, class: "ink", opacity: .35 })); });
+    r.controls.forEach((c) => svg.append(s("circle", { cx: fx(c.weekend), cy: y - 16, r: 9, fill: "none", stroke: "#59616f", "stroke-width": 3 })));
+    const cx = fx(Math.min(...r.controls.map((c) => c.weekend)));
+    svg.append(s("line", { x1: cx, x2: cx, y1: y - 30, y2: y - 92, stroke: "#59616f", "stroke-width": 2 }));
+    text(svg, cx - 10, y - 104, "almost nobody lives there", "ax");
+    text(svg, x0, y + 96, `Each dot: one of ${r.n_stations} seismometers.`, "ax");
     const sv = r.shape_vs_level;
-    text(svg, 120, 900, `Loudness alone names the exact day ${pct(sv.level_dow_median)} of the time. With the shape: ${pct(sv.both_dow_median)}.`, "lab");
-    text(svg, 120, 950, `Each dot: one of ${r.n_stations} seismometers, placed at its weekday-or-weekend score.`, "ax");
+    // under the 47%: what the shape adds to the exact day
+    const bx = 1000, bw = 560, by = 640;
+    [["loudness alone", sv.level_dow_median, "grey"], ["with the shape", sv.both_dow_median, "ink"]].forEach(([k, v, cls], j) => {
+      text(svg, bx, by + j * 96, k, "ax");
+      svg.append(s("rect", { x: bx, y: by + 14 + j * 96, width: bw * v / sv.both_dow_median, height: 40, class: cls }));
+      text(svg, bx + bw * v / sv.both_dow_median + 16, by + 46 + j * 96, pct(v), "lab");
+    });
     return box;
   },
 
@@ -166,14 +173,11 @@ const CHARTS = {
       text(svg, x0 + i * (bw + 24) + bw / 2, base + 40, x.day, "ax", "middle");
     });
     text(svg, x0, base + 90, "Jeddah, the third Friday city, didn't transfer.", "ax");
-    text(svg, 1520, 420, `${Math.round(u.sunday_change * 100)}%`.replace("-", "−"), "mid t-city");
-    text(svg, 1520, 470, "UAE Sundays after the", "lab");
-    text(svg, 1520, 512, "2022 weekend change", "lab");
-    text(svg, 1520, 570, `chance of luck: ${u.p.toFixed(3)}`, "lab small");
-    text(svg, 1520, 612, "written down before the data", "lab small");
-    text(svg, 1520, 690, `Fridays: +${Math.round(u.friday_change * 100)}%, not predicted`, "ax");
-    text(svg, 1520, 730, "One sensor, in the mountains", "ax");
-    text(svg, 1520, 766, "east of Sharjah.", "ax");
+    text(svg, 1460, 420, `${Math.round(u.sunday_change * 100)}%`.replace("-", "−"), "mid t-city");
+    text(svg, 1460, 470, "UAE Sundays after the", "lab");
+    text(svg, 1460, 512, "2022 weekend change", "lab");
+    text(svg, 1460, 570, "predicted before the data", "lab small");
+    text(svg, 1460, 612, `luck: ${Math.round(u.p * 1000)} in 1,000`, "lab small");
     return box;
   },
 
@@ -188,9 +192,9 @@ const CHARTS = {
         const y = 480 + i * 92;
         text(svg, x, y + 30, name, "lab small");
         svg.append(s("rect", { x, y: y + 44, width: 620 * v / max, height: 34, class: cls }));
-        text(svg, x + 620 * v / max + 14, y + 72, fmt(v), "lab");
+        text(svg, x + 620 * v / max + 14, y + 72, `${fmt(v)} found`, "lab");
       });
-      text(svg, x, 480 + rows.length * 92 + 70, verdict, `num it ${ok ? "t-good" : "t-loud"}`);
+      text(svg, x, 480 + rows.length * 92 + 70, verdict, `num it ${ok ? "t-good" : "t-grey"}`);
     };
     col(120, "Fifteen-minute averages", `${fmt(nf.pairs)} earthquake-station pairs, 2019–20`,
       [["with the people subtracted", nf.learned, "city"], ["raw recording", nf.raw, "grey"]],
@@ -210,16 +214,16 @@ const CHARTS = {
 
   limits(b) {
     const { box } = figure(b);
-    box.append(el("ul", { class: "promises", style: "flex-direction:column;gap:34px;top:320px;bottom:auto" },
+    box.append(el("ul", { class: "promises", style: "flex-direction:column;gap:40px;top:300px;bottom:auto" },
       ...["Lockdown didn't look like Sundays. It looked like no day the model had heard.",
         "Our shape-and-level split is about as good as raw hourly numbers, not better.",
-        "One season, and national holidays only."].map((t) => el("li", { style: "max-width:1500px;font-size:40px;color:var(--ink)" }, t))));
+        "One season, and national holidays only."].map((t) => el("li", { style: "max-width:1600px;font-size:48px;line-height:1.25;color:var(--ink);padding-top:26px" }, t))));
     return box;
   },
 
   method(b) {
     const sc = DATA.story.scale;
-    const { box, svg } = figure(b, "A new experiment, so new numbers: not the same model with more data.");
+    const { box, svg } = figure(b);
     text(svg, 120, 470, String(sc.stations), "big");
     text(svg, 120, 530, "cities", "lab");
     const years = Math.floor((Date.parse(sc.end) - Date.parse(sc.start)) / (365.25 * 864e5));
@@ -237,7 +241,7 @@ const CHARTS = {
   curve(b) {
     const st = DATA.story, lc = st.learning_curve;
     const { box, svg } = figure(b, `Weekday or weekend: ${pct(st.ask.weekend_bal_median)}. The exact day is the hard part.`);
-    const x0 = 220, x1 = 1240, y0 = 820, y1 = 300, fy = (v) => y0 - v * (y0 - y1);
+    const x0 = 220, x1 = 1100, y0 = 820, y1 = 300, fy = (v) => y0 - v * (y0 - y1);
     const fx = (i) => x0 + i * (x1 - x0) / (lc.length - 1);
     svg.append(s("line", { x1: x0, x2: 1700, y1: fy(1 / 7), y2: fy(1 / 7), class: "chance" }));
     text(svg, x0, fy(1 / 7) - 14, "guessing", "ax");
@@ -248,15 +252,16 @@ const CHARTS = {
       text(svg, fx(i), y0 + 46, p.days === "all" ? "all" : fmt(+p.days), "ax", "middle");
     });
     text(svg, (x0 + x1) / 2, y0 + 96, "ordinary days each city's model learned from", "ax", "middle");
-    const xb = 1480, wk = st.ask.week_dow_median;
+    const xb = 1620, wk = st.ask.week_dow_median;
     svg.append(s("rect", { x: xb, y: fy(wk), width: 180, height: y0 - fy(wk), class: "city" }));
     text(svg, xb + 90, fy(wk) - 22, pct(wk), "num t-city", "middle");
+    text(svg, xb + 90, fy(wk) - 80, "a different question:", "ax", "middle");
     text(svg, xb + 90, y0 + 46, "the week", "ax", "middle");
     text(svg, xb + 90, y0 + 82, "around the day", "ax", "middle");
     // Result 18: one model for all cities together, on the same days (a hollow dot by "all")
     const pool = st.pooled_model.P1, xa = fx(lc.length - 1);
     svg.append(s("circle", { cx: xa, cy: fy(pool), r: 12, fill: "none", stroke: "#59616f", "stroke-width": 4 }));
-    text(svg, xa + 14, fy(pool) + 62, `${pct(pool)}: one model for all ${st.scale.stations} cities together`, "lab small", "end");
+    text(svg, xa + 26, fy(pool) + 10, `${pct(pool)}: all ${st.scale.stations} cities in one model`, "lab small");
     return box;
   },
 
@@ -276,11 +281,11 @@ const CHARTS = {
   scorecard(b) {
     const r = DATA.results, m = DATA.mistakes, sc = DATA.story.scale;
     const { box, svg } = figure(b);
-    const rows = [["Read the day from the ground", pct(r.weekend_median)],
-      ["The shape beats loudness", `+${Math.round(r.shape_vs_level.median_gain_dow * 100)} points`],
-      ["Its mistakes find holidays", `${m.confusion_wins} of ${m.n_stations}`],
-      ["Holidays it never saw, called weekend", pct(m.holidays_called_weekend)],
-      ["A city it never heard", pct(r.unseen_city_pooled_weekend)],
+    const rows = [[PROMISES[0], pct(r.weekend_median)],
+      [PROMISES[1], `+${Math.round(r.shape_vs_level.median_gain_dow * 100)} points`],
+      [PROMISES[2], `${m.confusion_wins} of ${m.n_stations} seismometers`],
+      [PROMISES[3], `${pct(m.holidays_called_weekend)} called weekend`],
+      [PROMISES[4], pct(r.unseen_city_pooled_weekend)],
       ["And further", `${sc.stations} cities over seven years, and a live test`]];
     rows.forEach(([k, v], i) => {
       const y = 330 + i * 106;
