@@ -916,6 +916,31 @@ Run: `python src/noise_floor.py` (first run ~12 min, mostly downloads; ~1.5 min 
 
 ---
 
+## Result 20 — It remembers every day it trained on; that is why we never grade on them (exploratory)
+
+`src/memorisation.py`, written after Results 16–18 and **not pre-registered**. The question
+a newcomer asks: "if the 7-year model names only 55% of days, can it even name the days it
+was trained on?" Same models as Ask (Result 17 A3 features, gradient boosting, 5 folds of
+whole weeks, 33 stations, Jan 2019 – Sep 2026, ordinary days). Each fold model is scored on
+the days it trained on and on the weeks it never saw.
+
+| Median over 33 stations | Exact weekday |
+|---|---|
+| Days the model **trained on** | **100.0%** (all 33 stations) |
+| Weeks it **never saw** | **55.2%** (18.8% – 80.5%; chance 14.3%) |
+
+The unseen-week median equals Ask's (Result 16 update), as it must: same folds. The gap is
+**memorisation**: gradient boosting can fit every training day exactly, so a score on
+training days says nothing about new days. Every accuracy in this project is on days the
+model never saw.
+
+![Memorisation](../outputs/plots/memorisation.png)
+
+Run: `python src/memorisation.py` (about 30 minutes; needs the day tables in
+`data/cache/weekday/`).
+
+---
+
 ## Result 21 — Does the live model get better if it keeps learning? (pre-registered, not yet graded)
 
 Pre-registered in `docs/19-nightly-learning-preregistration.md` (commit `c4ac455`) before any

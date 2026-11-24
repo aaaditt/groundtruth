@@ -365,7 +365,8 @@ def story():
         ro = int((e["found_raw"] & ~e["found_learned"]).sum())
         out["quake_waveform"] = {"pairs": int(len(e)), "stations": int(e["station"].nunique()),
                                  **{d: int(e[f"found_{d}"].sum()) for d in ["raw", "rolling", "learned"]},
-                                 "learned_only": lo, "raw_only": ro, "p": r(mcnemar_exact(lo, ro))}
+                                 "learned_only": lo, "raw_only": ro,
+                                 "p": float(f"{mcnemar_exact(lo, ro):.3g}")}   # tiny p: keep significant figures
     return out
 
 

@@ -203,7 +203,7 @@ const CHARTS = {
       const ok = q.learned > q.raw && q.p < 0.05;
       col(1000, "Second by second", `${fmt(q.pairs)} pairs at ${q.stations} stations, 2021–26`,
         [["with the people subtracted", q.learned, "city"], ["rolling median", q.rolling, "sea"], ["raw recording", q.raw, "grey"]],
-        `${ok ? "Supported" : "Not supported"} (p = ${q.p < 0.001 ? q.p.toExponential(1) : q.p.toFixed(3)})`, ok);
+        `${ok ? "Supported" : "Not supported"} (p ${q.p < 0.001 ? "< 0.001" : `= ${q.p.toFixed(3)}`})`, ok);
     } else {
       text(svg, 1000, 380, "Second by second", "num");
       text(svg, 1000, 470, "Written down in advance (docs/20).", "lab");
