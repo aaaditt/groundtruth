@@ -321,8 +321,57 @@ def applied():
     }
 
 
+# ── 8. The story talk's scale-up (docs/21): Results 15-18, 20, 22 ────────────────────
+def story():
+    """Numbers for the 7-year beats of the story talk. A result whose table does not exist
+    yet (it has not been run) is exported as null, so the deck can never show a number
+    that was not computed."""
+    ask = pd.read_csv(os.path.join(TABLES, "ask_scores.csv"), keep_default_na=False, na_values=[""])
+    good = ask[ask["weekend_bal_acc"].notna()]
+    curve = pd.read_csv(os.path.join(TABLES, "more_data_L.csv")).groupby("config")["exact"].median()
+    pooled = pd.read_csv(os.path.join(TABLES, "more_data_P.csv"))
+    # lockdown synchrony (Result 15): clearly measured cities (published accuracy >= 80%) at
+    # least 15% quieter than the same weekday over the previous 8 weeks
+    lev = pd.read_csv(os.path.join(TABLES, "history_levels.csv.gz"), usecols=["date", "station", "change_pct"],
+                      parse_dates=["date"])
+    summ = pd.read_csv(os.path.join(TABLES, "history_summary.csv"))
+    clear = set(summ.loc[summ["published_weekend_acc"] >= 0.8, "station"])
+    sync = []
+    for t in ["2020-03-16", "2020-03-23", "2020-03-30"]:
+        x = lev[(lev["date"] == t) & lev["station"].isin(clear)]["change_pct"].dropna()
+        sync.append({"date": t, "quieter_15pct": int((x <= -15).sum()), "measured": int(len(x))})
+    out = {
+        "scale": {"stations": int(len(ask)), "ordinary_days": int(ask["n_scored_baseline"].sum()),
+                  "days_guessed": int(ask["n_scored"].sum()), "start": "2019-01-01", "end": "2026-09-30"},
+        "ask": {"weekend_bal_median": r(good["weekend_bal_acc"].median()),
+                "dow_median": r(good["dow_acc"].median()),
+                "week_dow_median": r(good["week_dow_acc"].median())},
+        "learning_curve": [{"days": c.replace("n=", ""), "exact_median": r(curve[c])}
+                           for c in ["n=100", "n=200", "n=400", "n=800", "n=1600", "n=all"]],
+        "pooled_model": {cfg: r(g["exact"].median()) for cfg, g in pooled.groupby("config")},
+        "lockdown_sync": {"clear_cities": len(clear), "days": sync},
+        "memorisation": None, "quake_waveform": None,
+    }
+    mem = os.path.join(TABLES, "memorisation.csv")
+    if os.path.exists(mem):
+        m = pd.read_csv(mem)
+        out["memorisation"] = {"stations": int(len(m)), "seen_median": r(m["exact_day_seen"].median()),
+                               "unseen_median": r(m["exact_day_unseen"].median())}
+    qw = os.path.join(TABLES, "quake_waveform_events.csv")
+    if os.path.exists(qw):
+        from groundtruth.noisefloor import mcnemar_exact
+        e = pd.read_csv(qw)
+        lo = int((e["found_learned"] & ~e["found_raw"]).sum())
+        ro = int((e["found_raw"] & ~e["found_learned"]).sum())
+        out["quake_waveform"] = {"pairs": int(len(e)), "stations": int(e["station"].nunique()),
+                                 **{d: int(e[f"found_{d}"].sum()) for d in ["raw", "rolling", "learned"]},
+                                 "learned_only": lo, "raw_only": ro, "p": r(mcnemar_exact(lo, ro))}
+    return out
+
+
 def main():
     days = load()
+    save("story.json", story())
     print("Exporting presentation data (real files only)...")
     save("city_day.json", city_day(days))
     save("spectrum.json", spectrum())

@@ -117,6 +117,34 @@ function predictionsBoard(preds) {
   document.getElementById("pred-body").replaceChildren(head, el("div", { class: "scroll" }, table));
 }
 
+// Frozen vs learning, exact weekday on the same ordinary new days: one row per city,
+// a grey dot (frozen) and an orange dot (keeps learning) on a 0-100% line.
+function learningBoard(live) {
+  const cities = live.filter((s) => s.track_record && s.track_record.learn_dow_acc != null);
+  if (!cities.length) { document.getElementById("learn-body").textContent = "Not scored yet."; return; }
+  const W = 640, rowH = 34, H = cities.length * rowH + 34, x0 = 170, x1 = W - 20;
+  const x = (v) => x0 + v * (x1 - x0);
+  const s = svg("svg", { viewBox: `0 0 ${W} ${H}`, class: "learn", role: "img",
+    "aria-label": "Exact weekday accuracy on new days: frozen model vs the model that keeps learning" });
+  [0, 0.25, 0.5, 0.75, 1].forEach((v) => {
+    s.append(svg("line", { class: "tick", x1: x(v), x2: x(v), y1: 4, y2: H - 26 }));
+    const t = svg("text", { class: "axis", x: x(v), y: H - 8, "text-anchor": "middle" }); t.textContent = pct(v); s.append(t);
+  });
+  cities.forEach((st, i) => {
+    const y = 20 + i * rowH, a = st.track_record.dow_acc, b = st.track_record.learn_dow_acc;
+    const name = svg("text", { class: "name", x: 0, y: y + 5 }); name.textContent = st.city; s.append(name);
+    s.append(svg("line", { class: "join", x1: x(a), x2: x(b), y1: y, y2: y }));
+    const fa = svg("circle", { class: "frozen", cx: x(a), cy: y, r: 7 });
+    const fb = svg("circle", { class: "learner", cx: x(b), cy: y, r: 7 });
+    hover(fa, [st.city, `Frozen model: ${pct(a)} of ${st.track_record.normal_days} ordinary new days`]);
+    hover(fb, [st.city, `Keeps learning: ${pct(b)} of the same days`]);
+    s.append(fa, fb);
+  });
+  const key = el("p", { class: "cap" }, el("span", { class: "k frozen" }, "frozen since 1 Oct"), " ",
+    el("span", { class: "k learner" }, "keeps learning"), " · exact weekday named, ordinary new days, interim");
+  document.getElementById("learn-body").replaceChildren(s, key);
+}
+
 async function main() {
   let data;
   try {
@@ -139,6 +167,7 @@ async function main() {
     el("p", {}, "The line on the right is each city's recent record: how far each day was from its normal rhythm. ",
       "Red marks are days the model flagged: further from normal than the dashed line, or so unlike any weekday ",
       "that it could not place them. Shaded columns are weekends. One red mark means little; a cluster means something."));
+  learningBoard(live);
   if (data.predictions) predictionsBoard(data.predictions);
 }
 main();

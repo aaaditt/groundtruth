@@ -34,3 +34,6 @@ outputs/clean_signal/
 
 # Final-talk decks, rebuilt by presentation/video/deck.cjs (the video one is ~100+ MB)
 presentation/*.pptx
+
+# story-talk slide photographs, rebuilt by presentation/story/build_pptx.cjs
+presentation/story/shots/

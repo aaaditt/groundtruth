@@ -9,6 +9,16 @@
 // Nothing is said only by sound: every sound goes with something on screen.
 "use strict";
 (() => {
+  // Inside the talk deck (site/talk/) pages are opened with ?embed=1: no sound at all, and
+  // html.embed hides the site bar and footer (style.css). The visitor's own sound setting
+  // is left untouched, because the deck and the site share localStorage.
+  if (new URLSearchParams(location.search).has("embed")) {
+    document.documentElement.classList.add("embed");
+    const nothing = () => {};
+    window.GTSound = { on: () => false, toggle: nothing, whoosh: nothing, tick: nothing,
+      scratch: nothing, chime: nothing, ambient: nothing };
+    return;
+  }
   const KEY = "gt-sound";
   const read = () => { try { return localStorage.getItem(KEY); } catch (e) { return null; } };
   const save = (v) => { try { localStorage.setItem(KEY, v); } catch (e) { /* private mode */ } };

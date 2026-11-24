@@ -1,6 +1,6 @@
 # 21. GroundTruth: the story talk (v3)
 
-**About 15 minutes, 3 speakers, 21 beats + 2 backup slides.** Replaces the all-video talk
+**About 15 minutes, 3 speakers, 22 beats + 2 backup slides.** Replaces the all-video talk
 (`docs/18`, kept as the previous version). Same results, told as one story that climbs:
 *last time → what the ground records → which shaking is us → how a model reads a day →
 what it gets wrong, and why that's useful → what didn't work → then scale it up: 33 cities,
@@ -37,7 +37,7 @@ its fallback appears by itself.
 | 2 | Weekday or weekend? | VIDEO S01 | Aadit | 0:30 |
 | 3 | Last time: one question | STATIC | Aadit | 0:20 |
 | 4 | What a seismometer records | VIDEO C1 (cut) | Aadit | 0:45 |
-| 5 | 158 seismometers | LIVE research map (fb C3) | Aradhya | 0:35 |
+| 5 | Seismometers on six continents | LIVE research map (fb C3) | Aradhya | 0:35 |
 | 6 | Two kinds of shaking | VIDEO C2 (cut) | Aradhya | 0:25 |
 | 7 | The spectrum: the sea and us | STATIC spectrum | Aradhya | 0:30 |
 | 8 | Only the people band reads the week | STATIC band test | Aradhya | 0:25 |
@@ -53,7 +53,8 @@ its fallback appears by itself.
 | 18 | Does more data make it smarter? | STATIC learning curve | Shraddha | 0:40 |
 | 19 | Ask the ground | LIVE globe#ask (fb S11) | Aadit | 1:15 |
 | 20 | A test running every night | LIVE today.html (fb still) | Shraddha | 0:40 |
-| 21 | Still useless? (scorecard on screen) | VIDEO S14 | Aadit | 0:45 |
+| 21 | Five promises, kept (scorecard, no read-out) | STATIC | Aadit | 0:08 |
+| 22 | Still useless? | VIDEO S14 | Aadit | 0:40 |
 | B1 | *Backup:* memorisation | STATIC | — | — |
 | B2 | *Backup:* running live | VIDEO S11 | — | — |
 
@@ -88,7 +89,7 @@ Never cut 2, 13, 18, 19.
 > under Brussels: quiet at night, a jump at seven, high all day. **The noise is a city
 > waking up.** Aradhya, where does it come from?
 
-### 5 · 158 SEISMOMETERS — `[LIVE research.html]` *(fallback: C3)*
+### 5 · SEISMOMETERS ON SIX CONTINENTS — `[LIVE research.html]` *(fallback: C3)*
 > **[Aradhya]** A 2020 *Science* paper by Lecocq and colleagues published **158
 > seismometers** on six continents, one reading every fifteen minutes, late 2019 to
 > mid-2020. *(touch Brussels)* Brussels is this one, in Uccle. Which days are weekends comes
@@ -201,7 +202,10 @@ Never cut 2, 13, 18, 19.
 > because more data already flattened. The verdict comes in January; until then these
 > numbers say *interim*.
 
-### 21 · STILL USELESS? — `[VIDEO S14]` *(scorecard on screen, no read-out)*
+### 21 · FIVE PROMISES, KEPT — `[STATIC scorecard]`
+> *(no read-out: let it sit while you walk to the centre, then Next)*
+
+### 22 · STILL USELESS? — `[VIDEO S14]`
 > **[Aadit]** So: seismometers. Still useless? There's a network already buried under many
 > of the world's cities, recording for decades, free. It hears a neighbourhood, not a
 > person: no phones, no cameras. And ours is running tonight. **Everyone measures how loud
