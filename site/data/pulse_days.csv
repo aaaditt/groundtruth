@@ -52,6 +52,7 @@ II.UOSS.10.BHZ,Sharjah,2026-11-19,3,0,baseline,,2,0.206,0.369,0.794,3.608,False,
 II.UOSS.10.BHZ,Sharjah,2026-11-20,4,0,baseline,,4,0.419,0.199,0.581,2.476,False,False,4,0.248
 II.UOSS.10.BHZ,Sharjah,2026-11-21,5,1,baseline,,0,0.061,0.37,0.939,3.438,True,True,1,0.268
 II.UOSS.10.BHZ,Sharjah,2026-11-22,6,1,baseline,,1,0.213,0.537,0.787,2.557,False,False,1,0.534
+II.UOSS.10.BHZ,Sharjah,2026-11-23,0,0,baseline,,3,0.221,0.264,0.778,3.057,False,False,2,0.329
 BE.UCC..HHZ,Brussels,2026-10-01,3,0,baseline,,1,0.193,0.0,0.807,2.07,False,False,1,0.0
 BE.UCC..HHZ,Brussels,2026-10-02,4,0,baseline,,2,0.209,0.0,0.791,0.854,False,False,2,0.0
 BE.UCC..HHZ,Brussels,2026-10-03,5,1,baseline,,5,0.951,1.0,0.049,1.249,False,False,5,1.0
@@ -158,6 +159,7 @@ CN.MNTQ..HHZ,Montreal,2026-11-18,2,0,baseline,,1,0.231,0.0,0.769,1.015,False,Fal
 CN.MNTQ..HHZ,Montreal,2026-11-19,3,0,baseline,,0,0.233,0.0,0.767,0.742,False,False,0,0.017
 CN.MNTQ..HHZ,Montreal,2026-11-20,4,0,baseline,,4,0.291,0.149,0.709,1.26,False,False,4,0.211
 CN.MNTQ..HHZ,Montreal,2026-11-21,5,1,baseline,,5,0.484,0.882,0.516,1.573,False,False,5,0.918
+CN.MNTQ..HHZ,Montreal,2026-11-22,6,1,baseline,,6,0.853,0.995,0.147,1.003,False,False,6,1.0
 CI.USC..BHZ,Los Angeles,2026-10-01,3,0,baseline,,3,0.403,0.0,0.597,0.663,False,False,3,0.0
 CI.USC..BHZ,Los Angeles,2026-10-02,4,0,baseline,,4,0.315,0.064,0.685,1.012,False,False,4,0.075
 CI.USC..BHZ,Los Angeles,2026-10-03,5,1,baseline,,5,0.727,0.995,0.273,1.138,False,False,5,1.0
@@ -264,6 +266,7 @@ EI.DSB..HHZ,Dublin,2026-11-19,3,0,baseline,,4,0.158,0.0,0.842,2.519,False,True,4
 EI.DSB..HHZ,Dublin,2026-11-20,4,0,baseline,,4,0.664,0.0,0.336,1.007,False,False,4,0.0
 EI.DSB..HHZ,Dublin,2026-11-21,5,1,baseline,,5,0.966,0.995,0.034,0.774,False,False,5,0.988
 EI.DSB..HHZ,Dublin,2026-11-22,6,1,baseline,,6,0.948,1.0,0.052,0.931,False,False,6,1.0
+EI.DSB..HHZ,Dublin,2026-11-23,0,0,baseline,,1,0.184,0.015,0.816,0.884,False,False,3,0.013
 S1.AUKSC..HHZ,Melbourne,2026-10-02,4,0,baseline,,4,0.378,0.156,0.622,1.7,False,False,4,0.156
 S1.AUKSC..HHZ,Melbourne,2026-10-03,5,1,baseline,,6,0.274,0.686,0.726,3.807,False,True,6,0.732
 S1.AUKSC..HHZ,Melbourne,2026-10-04,6,1,baseline,,6,0.562,0.98,0.438,1.147,False,False,6,0.917
