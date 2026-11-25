@@ -36,6 +36,7 @@ function s(tag, attrs = {}, text) {
   return n;
 }
 const pct = (x, d = 0) => `${(100 * x).toFixed(d)}%`;
+const fmtDate = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const fmt = (n) => n.toLocaleString("en-GB");
 
 let BEATS = [], DATA = {}, CUES = {}, cur = -1, step = 0, started = false;
@@ -103,6 +104,130 @@ function bracket(g, x0, x1, y, label) {
 }
 
 const CHARTS = {
+  // one real guess, start to finish: the Wednesday in Brussels the model never saw
+  guess(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-guess");
+    const ex = DATA.ml.brussels.example, fd = DATA.forest.day, days = DATA.ml.days;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    // the day's 25 numbers
+    box(g0, 120, 280, 620, 420, `${DATA.forest.n_features} numbers in`, [`${fmtDate(ex.date)}, Brussels`], "data");
+    const base = 530, sc = 110 / Math.max(...ex.shape.map(Math.abs)), bw = 18;
+    ex.shape.forEach((v, h) => g0.append(s("rect", { x: 150 + h * 22, y: v > 0 ? base - v * sc : base, width: bw,
+      height: Math.max(2, Math.abs(v) * sc), class: "grey" })));
+    g0.append(s("line", { x1: 146, x2: 680, y1: base, y2: base, class: "rule" }));
+    const lv = Math.max(-1, Math.min(1, ex.level / 3)) * 110;
+    g0.append(s("rect", { x: 690, y: lv > 0 ? base - lv : base, width: bw, height: Math.max(2, Math.abs(lv)), class: "city" }));
+    text(g0, 150, 680, "24 for the shape, hour by hour", "ax");
+    text(g0, 708, 680, "level", "ax", "middle");
+    arrow(g0, "ah-guess", [[750, 490], [818, 490]]);
+    box(g0, 830, 400, 300, 180, `${DATA.forest.n_trees} trees`, ["each asks a few", "yes/no questions"], "model");
+    // the real votes
+    arrow(g1, "ah-guess", [[1140, 490], [1208, 490]]);
+    const max = Math.max(...Object.values(fd.votes));
+    days.forEach((d, i) => {
+      const v = fd.votes[d], y = 300 + i * 56, weekend = i >= 5;
+      text(g1, 1220, y + 34, d, "lab");
+      g1.append(s("rect", { x: 1300, y: y + 8, width: Math.max(3, 420 * v / max), height: 36, class: weekend ? "sea" : "city" }));
+      text(g1, 1300 + Math.max(3, 420 * v / max) + 14, y + 36, String(v), "lab");
+    });
+    text(g1, 1220, 720, "votes from the trees", "ax");
+    // the two answers
+    const top = days.reduce((a, d) => (fd.votes[d] > fd.votes[a] ? d : a), days[0]);
+    const wk = days.slice(0, 5).reduce((a, d) => a + fd.votes[d], 0);
+    const full = { Mon: "Monday", Tue: "Tuesday", Wed: "Wednesday", Thu: "Thursday", Fri: "Friday", Sat: "Saturday", Sun: "Sunday" };
+    text(g2, 120, 830, `Which day? ${full[top]}.`, "num");
+    text(g2, 120, 880, `Wrong: it was a ${full[fd.true]}.`, "lab t-grey");
+    text(g2, 1000, 830, `Weekday or weekend? Weekday.`, "num");
+    text(g2, 1000, 880, `Right: ${wk} of ${DATA.forest.n_trees} trees agree.`, "lab t-good");
+    return fig;
+  },
+
+  // which of the 25 numbers the forest leans on (Brussels, all ordinary days)
+  importance(b) {
+    const { box: fig, svg } = figure(b);
+    const im = DATA.ml.brussels.importance, all = [...im.shape, im.level];
+    const max = Math.max(...all), x0 = 160, bw = 52, gap = 12, base = 820, hmax = 440;
+    const order = im.shape.map((v, h) => [v, h]).sort((a, c) => c[0] - a[0]);
+    const top = new Set(order.slice(0, 3).map(([, h]) => h));
+    const rank = 1 + all.filter((v) => v > im.level).length;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1);
+    all.forEach((v, i) => {
+      const x = x0 + i * (bw + gap) + (i === 24 ? 30 : 0), hgt = hmax * v / max;
+      g0.append(s("rect", { x, y: base - hgt, width: bw, height: hgt, class: i === 24 ? "city" : "grey" }));
+      if (i < 24 && i % 3 === 0) text(g0, x + bw / 2, base + 40, `${String(i).padStart(2, "0")}:00`, "ax", "middle");
+      if (i < 24 && top.has(i)) {
+        g1.append(s("rect", { x, y: base - hgt, width: bw, height: hgt, class: "ink" }));
+        text(g1, x + bw / 2, base - hgt - 16, `${String(i).padStart(2, "0")}:00`, "lab", "middle");
+      }
+    });
+    text(g0, x0 + 24 * (bw + gap) + 30 + bw / 2, base + 40, "level", "ax", "middle");
+    text(g0, 120, 300, "How much each number helps the trees split the days (Brussels, all ordinary days)", "ax");
+    text(g1, 120, 940, `The level, how loud the whole day was, ranks ${rank} of 25. The shape of the day does the work.`, "lab");
+    return fig;
+  },
+
+  // where it goes wrong: real day (rows) against the model's guess (columns)
+  confusion(b) {
+    const { box: fig, svg } = figure(b);
+    const days = DATA.ml.days, br = DATA.ml.brussels, po = DATA.ml.pooled, cell = 64;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    function matrix(g, x0, y0, cm, pctMode, title, sub) {
+      text(g, x0, y0 - 92, title, "lab");
+      text(g, x0, y0 - 54, sub, "ax");
+      days.forEach((d, j) => text(g, x0 + j * cell + cell / 2, y0 - 12, d, "ax", "middle"));
+      cm.forEach((row, i) => {
+        const n = row.reduce((a, v) => a + v, 0);
+        text(g, x0 - 14, y0 + i * cell + cell / 2 + 10, days[i], "ax", "end");
+        row.forEach((v, j) => {
+          const share = n ? v / n : 0;
+          g.append(s("rect", { x: x0 + j * cell, y: y0 + i * cell, width: cell - 3, height: cell - 3,
+            class: "ink", opacity: (0.06 + 0.9 * share).toFixed(3) }));
+          text(g, x0 + j * cell + cell / 2 - 1, y0 + i * cell + cell / 2 + 9, pctMode ? `${Math.round(100 * share)}` : String(v),
+            share > 0.45 ? "cm-t on" : "cm-t", "middle");
+        });
+      });
+    }
+    const xl = 260, xr = 1140, y0 = 360;
+    matrix(g0, xl, y0, br.confusion, false, `Brussels: ${br.n_days} ordinary days`, "rows: the real day · columns: its guess");
+    // the two blocks
+    const sum = (rows, cols) => rows.reduce((a, i) => a + cols.reduce((c, j) => c + br.confusion[i][j], 0), 0);
+    const wd = [0, 1, 2, 3, 4], we = [5, 6];
+    const weRight = br.confusion[5][5] + br.confusion[6][6], weN = sum(we, [0, 1, 2, 3, 4, 5, 6]);
+    const wdAsWe = sum(wd, we), wdN = sum(wd, [0, 1, 2, 3, 4, 5, 6]);
+    g1.append(s("rect", { x: xl - 4, y: y0 - 4, width: 5 * cell + 5, height: 5 * cell + 5, class: "blk-o city-s" }));
+    g1.append(s("rect", { x: xl + 5 * cell - 4, y: y0 + 5 * cell - 4, width: 2 * cell + 5, height: 2 * cell + 5, class: "blk-o sea-s" }));
+    text(g1, xl, y0 + 7 * cell + 54, "Weekdays blur into each other,", "lab t-city");
+    text(g1, xl, y0 + 7 * cell + 96, `but the weekend is right ${weRight} of ${weN} times;`, "lab t-sea");
+    text(g1, xl, y0 + 7 * cell + 138, `a weekday is called a weekend ${wdAsWe} in ${wdN}.`, "lab");
+    matrix(g2, xr, y0, po.confusion, true, `All ${po.n_stations} seismometers: ${fmt(po.n_days)} days`, "the same, in % of each real day");
+    text(g2, xr, y0 + 7 * cell + 54, "The same two blocks, everywhere.", "lab");
+    return fig;
+  },
+
+  // everything we built: data -> code -> the website's pages
+  sitemap(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-site");
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    const sc = DATA.story.scale;
+    box(g0, 120, 330, 320, 170, "2019–20", ["Lecocq et al. 2020"], "data");
+    box(g0, 120, 540, 320, 170, "Every night", ["EarthScope,", `${sc.start.slice(0, 4)} – today`], "data");
+    box(g0, 500, 330, 360, 170, "Python", ["groundtruth/, src/:", "every result, docs/04"], "model");
+    box(g0, 500, 540, 360, 170, "GitHub Action", ["each morning: score", "yesterday, save it"], "model");
+    arrow(g0, "ah-site", [[446, 415], [492, 415]]);
+    arrow(g0, "ah-site", [[446, 625], [492, 625]]);
+    const pages = [["Tour", "the story in two minutes"], ["Globe", "any day, 2019 to today"],
+      ["Ask", "its guess for any day"], ["Research map", "every seismometer scored"],
+      ["City Pulse", "yesterday, every night"], ["Game", "can you beat the model?"],
+      ["About", "how it works, its limits"], ["Demo video", "two minutes, to share"]];
+    const px = (i) => 960 + (i % 2) * 430, py = (i) => 260 + Math.floor(i / 2) * 150;
+    pages.forEach(([t, l], i) => box(i < 4 ? g1 : g2, px(i), py(i), 410, 130, t, [l], "use"));
+    arrow(g1, "ah-site", [[866, 520], [952, 520]]);
+    text(g2, 120, 900, "One static website, no server: every page reads the same saved files.", "lab");
+    return fig;
+  },
+
   // the whole method on one page: the six steps of docs/03-methodology.md, in order
   pipeline(b) {
     const { box: fig, svg } = figure(b);
@@ -861,7 +986,7 @@ function start() {
 async function main() {
   const deck = await (await fetch("slides.json", { cache: "no-cache" })).json();
   BEATS = deck.beats;
-  const names = ["results", "bands", "spectrum", "folds", "mistakes", "applied", "story", "city_day", "forest", "stations"];
+  const names = ["results", "bands", "spectrum", "folds", "mistakes", "applied", "story", "city_day", "forest", "stations", "ml"];
   const files = await Promise.all(names.map((n) => fetch(`data/${n}.json`, { cache: "no-cache" }).then((r) => r.json())));
   names.forEach((n, i) => { DATA[n] = files[i]; });
   DATA.sources = await fetch("../data/sources.json", { cache: "no-cache" }).then((r) => r.json());

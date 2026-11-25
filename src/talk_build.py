@@ -9,7 +9,7 @@ Reads site/talk/slides.json (the one source for both decks) and writes:
   site/talk/media/<clip>.mp4  each clip the deck plays, CUT to the slide's start/end and
                             re-encoded for the web (1080p H.264, no sound, fast start)
   site/talk/media/<clip>.jpg  its last frame: the poster, the fallback still, the PPT image
-  site/talk/media/today.png   the City Pulse fallback (a screenshot from assets/)
+  site/talk/media/{today,tour,game}.png  fallbacks for the live pages (screenshots from assets/)
   site/talk/media/cues.json   where each clip stops and waits for the presenter, moved onto
                             the cut clip's own timeline (from presentation/video/src/cues.json)
   site/talk/media/holds/*.mp4 at a stop with hold=true: an 8 s SEAMLESS loop with the camera
@@ -124,7 +124,8 @@ def main():
     for name in os.listdir(os.path.join(VIDEO, "public", "fonts")):
         if name.endswith((".woff2", ".md")):          # the fonts and their licence note
             shutil.copy(os.path.join(VIDEO, "public", "fonts", name), os.path.join(TALK, "fonts", name))
-    shutil.copy(os.path.join(REPO, "assets", "screenshot-today.png"), os.path.join(TALK, "media", "today.png"))
+    for still in ("today", "tour", "game"):      # fallbacks for the live pages (screenshots in assets/)
+        shutil.copy(os.path.join(REPO, "assets", f"screenshot-{still}.png"), os.path.join(TALK, "media", f"{still}.png"))
 
     total = 0
     for name, (start, end) in clips(beats).items():

@@ -38,6 +38,17 @@ day of data and are not listed.
 - The method diagram now follows `docs/03-methodology.md`'s six steps, labelled Step 1–6
   (it adds Step 3, the calendar labels, which the first version left out). The talk is
   28 beats, about 16 minutes.
+- **How the model decides** (docs/21 beats 16–18): *How one guess is made* (the real
+  Wednesday in Brussels: 25 numbers in, 100 trees vote 31 Fri / 25 Tue / 23 Mon / 5 Wed /
+  3 weekend, so "Friday" is wrong but "weekday" is right), *What the model looks at*
+  (impurity importance: midnight, 13:00 and 06:00 lead; the level ranks 10 of 25) and *Where
+  it gets it wrong* (the 7×7 confusion matrix, Brussels out of fold and all 149 seismometers
+  pooled, 16,554 days: weekdays blur, the weekend stands apart). Exported by
+  `src/presentation_data.py` → `ml.json`; the pooled matrix is in docs/04 under Result 1.
+- **Every website feature in the talk** (beats 27–32): an *Everything we built* diagram,
+  then live: the front-page tour, Ask and the globe, City Pulse in three steps (the nightly
+  board, the learning card, the predictions board) and the Guess-the-day game, each with a
+  screenshot fallback. The talk is 34 beats, 19:53.
 
 ## [1.7.0] - 2026-11-24
 

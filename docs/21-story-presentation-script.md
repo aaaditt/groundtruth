@@ -1,6 +1,6 @@
 # 21. GroundTruth: the story talk (v3)
 
-**About 15 minutes, 3 speakers, 28 beats + 2 backup slides.** Replaces the all-video talk
+**About 15 minutes, 3 speakers, 34 beats + 2 backup slides.** Replaces the all-video talk
 (`docs/18`, kept as the previous version). Same results, told as one story that climbs:
 *last time → what the ground records → which shaking is us → how a model reads a day →
 what it gets wrong, and why that's useful → what didn't work → then scale it up: 33 cities,
@@ -55,26 +55,33 @@ its fallback appears by itself.
 | 13 | One day becomes 25 numbers | VIDEO S05 (cut) | Shraddha | 0:35 |
 | 14 | A hundred trees vote | VIDEO C4 | Shraddha | 0:35 |
 | 15 | Tested on weeks it never saw | STATIC CV diagram | Shraddha | 0:30 |
-| 16 | It reads the day | STATIC results | Aadit | 0:45 |
-| 17 | Its mistakes find holidays | VIDEO S08 | Aradhya, Aadit | 0:55 |
-| 18 | From a mistake to an alarm | DIAGRAM alarm (3 presses) | Aadit | 0:35 |
-| 19 | The weekend moves | STATIC | Aradhya | 0:40 |
-| 20 | The dare, done properly | VIDEO C5 (cut) → STATIC | Aradhya | 0:50 |
-| 21 | What didn't work | STATIC | Shraddha | 0:30 |
-| 22 | Now scale it: 33 cities, 7 years | STATIC method card | Aadit | 0:35 |
-| 23 | Does more data make it smarter? | STATIC learning curve | Shraddha | 0:35 |
-| 24 | What runs every night | DIAGRAM live system (3 presses) | Shraddha | 0:40 |
-| 25 | Ask the ground | LIVE globe#ask (fb S11) | Aadit | 0:55 |
-| 26 | A test running every night | LIVE today.html (fb still) | Shraddha | 0:30 |
-| 27 | Five promises, kept (scorecard, no read-out) | STATIC | Aadit | 0:08 |
-| 28 | Still useless? | VIDEO S14 | Aadit | 0:40 |
+| 16 | How one guess is made | DIAGRAM guess (3 presses) | Shraddha | 0:45 |
+| 17 | What the model looks at | DIAGRAM importance (2 presses) | Aadit | 0:35 |
+| 18 | Where it gets it wrong | DIAGRAM confusion matrix (3 presses) | Aadit | 0:45 |
+| 19 | It reads the day | STATIC results | Aadit | 0:45 |
+| 20 | Its mistakes find holidays | VIDEO S08 | Aradhya, Aadit | 0:55 |
+| 21 | From a mistake to an alarm | DIAGRAM alarm (3 presses) | Aadit | 0:35 |
+| 22 | The weekend moves | STATIC | Aradhya | 0:40 |
+| 23 | The dare, done properly | VIDEO C5 (cut) → STATIC | Aradhya | 0:50 |
+| 24 | What didn't work | STATIC | Shraddha | 0:30 |
+| 25 | Now scale it: 33 cities, 7 years | STATIC method card | Aadit | 0:35 |
+| 26 | Does more data make it smarter? | STATIC learning curve | Shraddha | 0:35 |
+| 27 | Everything we built | DIAGRAM sitemap (3 presses) | Aradhya | 0:35 |
+| 28 | The front page: a two-minute tour | LIVE index.html (fb still) | Aradhya | 0:25 |
+| 29 | Ask the ground | LIVE globe#ask (fb S11) | Aadit | 0:55 |
+| 30 | What runs every night | DIAGRAM live system (3 presses) | Shraddha | 0:40 |
+| 31 | City Pulse: every night | LIVE today.html, 3 steps (fb still) | Shraddha | 0:45 |
+| 32 | Guess the day | LIVE game.html (fb still) | Aradhya | 0:35 |
+| 33 | Five promises, kept (scorecard, no read-out) | STATIC | Aadit | 0:08 |
+| 34 | Still useless? | VIDEO S14 | Aadit | 0:40 |
 | B1 | *Backup:* memorisation | STATIC | — | — |
 | B2 | *Backup:* running live | VIDEO S11 | — | — |
 
-≈ 16:00 with hand-offs. If short of time, cut 19's Salfit half, then 21's last sentence,
-then beat 21 itself. Never cut 2, 6, 12, 17, 23, 25. The six diagrams (5, 6, 8, 12, 18, 24)
-each build in three presses: say one sentence per press, then move on.
-
+≈ 19:53 with hand-offs (limit 20 minutes). If short of time, cut the Salfit half of
+"The weekend moves", then "What didn't work", then the tour. Never cut "Weekday or weekend?",
+"Where they stopped", "From the ground to a guess", "Where it gets it wrong", "Its mistakes
+find holidays" or "Ask the ground". Every diagram builds one group per press: say one
+sentence per press, then move on.
 ---
 
 # The script
@@ -182,14 +189,39 @@ each build in three presses: say one sentence per press, then move on.
 > that always guessing "weekday" gets 50, not five out of seven: **balanced accuracy**.
 > Aadit, how did it do?
 
-### 16 · IT READS THE DAY — `[STATIC results]` *(R1, R2, R6 · 2019–20 · 149 seismometers)*
+### 16 · HOW ONE GUESS IS MADE — `[DIAGRAM guess, 3 presses]` *(forest.json)*
+> **[Shraddha]** So how does one guess actually happen? Take a day the model has never seen:
+> **Wednesday 15 January 2020**, in Brussels. Its 25 numbers go in: 24 for the shape of the
+> day, one for its level. *(Next)* Each of the hundred trees asks its own few yes/no
+> questions and casts **one vote**. These are the real votes: 31 Friday, 25 Tuesday, 23
+> Monday, only 5 Wednesday, and 3 for the weekend. *(Next)* So the exact-day guess is
+> **Friday: wrong**. But **97 of 100 trees agree it's a weekday: right**. That's this model
+> in one day: sure about the weekend, unsure which weekday. Aadit, what does it look at?
+
+### 17 · WHAT THE MODEL LOOKS AT — `[DIAGRAM importance, 2 presses]` *(ml.json)*
+> **[Aadit]** Which of the 25 numbers does the forest lean on? This is Brussels. Each bar is
+> how much that number helps the trees split the days. *(Next)* The tallest: **midnight, one
+> in the afternoon, and six in the morning**. Our reading: six a.m. asks whether the city has
+> woken up yet. And the level, how loud the whole day was, ranks only **tenth**. The shape of
+> the day is what carries the week.
+
+### 18 · WHERE IT GETS IT WRONG — `[DIAGRAM confusion matrix, 3 presses]` *(ml.json, day_scores.csv)*
+> **[Aadit]** So where does it go wrong? This is a **confusion matrix**: each row is the real
+> day, each column the model's guess, and the diagonal is right. Brussels, 115 ordinary days,
+> each guessed by a model that never saw its week. *(Next)* Two blocks. **Weekdays blur into
+> each other**: a Tuesday is often called a Monday. But **the weekend stands apart**: right 28
+> times out of 32, and a weekday is called a weekend only once in 83 days. *(Next)* And it's
+> not just Brussels: across all **149 seismometers, 16,554 days**, the same two blocks. That's
+> why weekday-or-weekend is our headline, and the exact day is the hard part.
+
+### 19 · IT READS THE DAY — `[STATIC results]` *(R1, R2, R6 · 2019–20 · 149 seismometers)*
 > **[Aadit]** One forest per seismometer. Weekday or weekend: **95%** in a typical city. The
 > exact day: **47%**, where guessing gets 14. In three of the emptiest places in the data,
 > a mountain, the Kalahari, the tip of Chile, it's near chance. **No people, no rhythm.**
 > And the shape matters: loudness alone names the exact day **30%** of the time; with the
 > shape, **47%**.
 
-### 17 · ITS MISTAKES FIND HOLIDAYS — `[VIDEO S08]` *(R7, R8)*
+### 20 · ITS MISTAKES FIND HOLIDAYS — `[VIDEO S08]` *(R7, R8)*
 > **[Aradhya]** Back to Christmas: a Wednesday it had never seen, and it said **Sunday**,
 > and so did the models at 71% of seismometers. On weekday holidays it never saw, it said
 > "weekend" **76%** of the time; on ordinary weekdays, **5%**. It learned how people
@@ -197,7 +229,7 @@ each build in three presses: say one sentence per press, then move on.
 > **[Aadit]** Rank every day by how surprised it was, and the holidays float to the top.
 > Here is how that works.
 
-### 18 · FROM A MISTAKE TO AN ALARM — `[DIAGRAM alarm, 3 presses]` *(R7, R8)*
+### 21 · FROM A MISTAKE TO AN ALARM — `[DIAGRAM alarm, 3 presses]` *(R7, R8)*
 > **[Aadit]** How does a mistake become an alarm? Follow Christmas through the boxes. A day
 > it never saw: a Wednesday. The forest says **Sunday**, and gives Wednesday no chance at
 > all. *(Next)* So how surprised is it? One minus the chance it gave the real day: **one**,
@@ -206,7 +238,7 @@ each build in three presses: say one sentence per press, then move on.
 > Across every seismometer, that alarm beat the standard unusual-day alarm at **110 of
 > 147**. We never built a holiday detector. We taught it normal.
 
-### 19 · THE WEEKEND MOVES — `[STATIC]` *(R3, R9, R10)*
+### 22 · THE WEEKEND MOVES — `[STATIC]` *(R3, R9, R10)*
 > **[Aradhya]** A model trained on all the *other* cities still reads a new one: **83%**.
 > Trained only on Saturday–Sunday countries, it calls Salfit's **Fridays** weekend: it
 > recognises rest, not the name of the day. Jeddah, our third Friday city, didn't transfer.
@@ -214,7 +246,7 @@ each build in three presses: say one sentence per press, then move on.
 > downloading anything: Sundays got **20% quieter**, luck would do that about 3 times in
 > 1,000. One sensor, 90 km from Sharjah, and Fridays got busier, which we didn't predict.
 
-### 20 · THE DARE, DONE PROPERLY — `[VIDEO C5, cut → STATIC]` *(R19, R22)*
+### 23 · THE DARE, DONE PROPERLY — `[VIDEO C5, cut → STATIC]` *(R19, R22)*
 > **[Aradhya]** Last time's dare: if we know what a city sounds like at eight on a Tuesday,
 > can we **subtract the people** and find small earthquakes underneath? On fifteen-minute
 > averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling
@@ -226,14 +258,14 @@ each build in three presses: say one sentence per press, then move on.
 > wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them.
 > Shraddha, what else didn't work?
 
-### 21 · WHAT DIDN'T WORK — `[STATIC]` *(R4, R6, R8)*
+### 24 · WHAT DIDN'T WORK — `[STATIC]` *(R4, R6, R8)*
 > **[Shraddha]** Three honest ones. Lockdown didn't make weekdays look like Sundays: only
 > about a quarter were called weekend; it looked like no day the model had heard. Our
 > shape-plus-level split doesn't beat raw hourly numbers; it's about as good, and easier to
 > compare. And all of this is one season, with national holidays only. So: what happens
 > with years?
 
-### 22 · NOW SCALE IT — `[STATIC method card]` *(R15–R17 · 2019–26 · 33 cities)*
+### 25 · NOW SCALE IT — `[STATIC method card]` *(R15–R17 · 2019–26 · 33 cities)*
 > *Card: 33 cities · Jan 2019 – Sep 2026 · 72,395 ordinary days · one model per city ·
 > 3 frequency bands × 48 half-hours · gradient boosting · whole weeks held out.*
 > **[Aadit]** We went back to the source: seven years, every station from the study that is
@@ -241,13 +273,36 @@ each build in three presses: say one sentence per press, then move on.
 > This is a new, bigger model: three frequency bands, every half hour, gradient boosting,
 > still tested only on weeks it never saw. A new experiment, so new numbers.
 
-### 23 · DOES MORE DATA MAKE IT SMARTER? — `[STATIC learning curve]` *(R16–R18)*
+### 26 · DOES MORE DATA MAKE IT SMARTER? — `[STATIC learning curve]` *(R16–R18)*
 > **[Shraddha]** The obvious bet: seven years makes it much smarter. Weekend or not:
 > **97%**. But the exact day climbs from **38%** at 100 days to **57%** with all of them,
 > and flattens. One model for all 33 cities together: worse in every city. A Tuesday just
 > sounds like a Thursday. Show it the **week around** the day instead: **96%**.
 
-### 24 · WHAT RUNS EVERY NIGHT — `[DIAGRAM live system, 3 presses]` *(pulse.yml, src/pulse.py, src/ask.py)*
+### 27 · EVERYTHING WE BUILT — `[DIAGRAM sitemap, 3 presses]`
+> **[Aradhya]** Everything you've seen runs on **one website**, built from these same files.
+> Two sources of data, one set of Python code, and a GitHub Action every morning. *(Next)*
+> The pages to explore: a **two-minute tour**; the **globe**, any day since 2019; **Ask**, the
+> model's guess for any day; and the **research map**, every seismometer scored. *(Next)* And
+> the pages that keep going: **City Pulse**, which scores yesterday every night; a **game**
+> where you try to beat the model; and pages that explain how it works and where it stops.
+> The front page first.
+
+### 28 · THE FRONT PAGE: A TWO-MINUTE TOUR — `[LIVE index.html]` *(fallback: still)*
+> **[Aradhya]** This is the front page: a two-minute tour of the idea for anyone who lands on
+> it. *(scroll with one finger)* The pen draws one real day under Brussels, hour by hour, and
+> the page tells the story as it goes. Aadit, ask it something.
+
+### 29 · ASK THE GROUND — `[LIVE globe.html#ask/BE.UCC..HHZ/2019-12-25]` *(fallback: S11)*
+> **[Aadit]** Here it is, live: 33 cities, any day from 2019 to last September.
+> *(Brussels, Christmas 2019)* From the day alone: Sunday, sure of it. From the week around
+> it: Wednesday, sure of it. **A Wednesday that looked like a day off.**
+> *(Next → the globe on Mon 23 Mar 2020)* And this is the week the world stopped. *(let it
+> sit two seconds)* Of the 24 cities we measure clearly, **12** were at least 15% quieter
+> than their normal that Monday; a week later, **17**. Nobody told the globe there was a
+> pandemic. *(R15)* Shraddha, how does it keep up every night?
+
+### 30 · WHAT RUNS EVERY NIGHT — `[DIAGRAM live system, 3 presses]` *(pulse.yml, src/pulse.py, src/ask.py)*
 > **[Shraddha]** So how does a website know what the ground did last night? Follow the
 > boxes. The seismometers record all day; EarthScope publishes their spectra about two days
 > later; and every morning at six, a **GitHub Action** wakes up and downloads the new days.
@@ -255,28 +310,28 @@ each build in three presses: say one sentence per press, then move on.
 > changed, and a **learner** that guesses a day first and only then studies it. *(Next)*
 > The answers are saved in the repository, Vercel publishes them, and the globe, Ask and
 > City Pulse read them. Ask's seven-year models are built once on a laptop and saved the
-> same way. Aadit, show them.
+> same way. Here it is running.
 
-### 25 · ASK THE GROUND — `[LIVE globe.html#ask/BE.UCC..HHZ/2019-12-25]` *(fallback: S11)*
-> **[Aadit]** Here it is, live: 33 cities, any day from 2019 to last September.
-> *(Brussels, Christmas 2019)* From the day alone: Sunday, sure of it. From the week around
-> it: Wednesday, sure of it. **A Wednesday that looked like a day off.**
-> *(Next → the globe on Mon 23 Mar 2020)* And this is the week the world stopped. *(let it
-> sit two seconds)* Of the 24 cities we measure clearly, **12** were at least 15% quieter
-> than their normal that Monday; a week later, **17**. Nobody told the globe there was a
-> pandemic. *(R15)*
+### 31 · CITY PULSE: EVERY NIGHT — `[LIVE today.html, 3 steps]` *(fallback: still)*
+> **[Shraddha]** Here it is running: **City Pulse**. Every night it shows yesterday, city by
+> city: what the model guessed **before** it was told, and whether it was right. *(Next →
+> the learning card)* Further down, the learner from the diagram: frozen and learning, side by
+> side. Does learning help? We wrote the test down before writing the code, and our own guess
+> is *probably not much*, because more data already flattened. The verdict comes in January;
+> until then these numbers say *interim*. *(Next → the predictions board)* And the
+> **predictions board**: forecasts committed to the repository before the day, with the
+> result filled in after. Aradhya, one more page.
 
-### 26 · A TEST RUNNING EVERY NIGHT — `[LIVE today.html]` *(fallback: still)*
-> **[Shraddha]** And this is the learner from the diagram, running. Every night this page
-> guesses yesterday **before** it's told, frozen and learning side by side. Does learning
-> help? We wrote the test down before writing the code, and our own guess is *probably not
-> much*, because more data already flattened. The verdict comes in January; until then
-> these numbers say *interim*.
+### 32 · GUESS THE DAY — `[LIVE game.html]` *(fallback: still)*
+> **[Aradhya]** And one page for anyone: **Guess the day**. A real day from a real city, hour
+> by hour, with the average Wednesday and Sunday for comparison. Which day was it? *(tap a
+> day)* The model made its guess without ever training on that week, and the score keeps
+> count: you against the model. That's GroundTruth, on one website. Aadit?
 
-### 27 · FIVE PROMISES, KEPT — `[STATIC scorecard]`
+### 33 · FIVE PROMISES, KEPT — `[STATIC scorecard]`
 > *(no read-out: let it sit while you walk to the centre, then Next)*
 
-### 28 · STILL USELESS? — `[VIDEO S14]`
+### 34 · STILL USELESS? — `[VIDEO S14]`
 > **[Aadit]** So: seismometers. Still useless? There's a network already buried under many
 > of the world's cities, recording for decades, free. It hears a neighbourhood, not a
 > person: no phones, no cameras. And ours is running tonight. **Everyone measures how loud
@@ -298,10 +353,10 @@ each build in three presses: say one sentence per press, then move on.
   "So: what happens with years?"
 - **Live slides:** open the deck 10 minutes early on the classroom machine. If a fallback
   appears, keep talking; it says the same thing. `L` forces the fallback.
-- **Beat 25 step:** the next click reloads the globe on 23 Mar 2020 by itself; don't tap
+- **Beat 29 step:** the next click reloads the globe on 23 Mar 2020 by itself; don't tap
   around.
 - **Words to avoid:** "predicts earthquakes", "proves", "it learns everything", "went up
   from 95 to 97" (different experiments). Say "in a typical city" before 95%.
-- **Q&A:** `docs/18` Q&A still holds. New: "Isn't more data always better?" → beat 23.
+- **Q&A:** `docs/18` Q&A still holds. New: "Isn't more data always better?" → beat 26.
   "Does it remember its training days?" → B1. "Is 57% honest?" → it's the best of 8
   configurations on the same data, so slightly optimistic (R17).

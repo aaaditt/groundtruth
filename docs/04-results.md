@@ -80,6 +80,29 @@ weekday with a weekend, but often confuses Tuesday with Wednesday or Thursday. T
 exactly what you'd expect. Those days genuinely look alike to a seismometer, because
 people behave the same way on them.
 
+**The same pattern everywhere (added 2026-11-25 for the talk, descriptive).** Pooling every
+ordinary day's out-of-fold guess at all 149 seismometers (16,554 days,
+`outputs/tables/day_scores.csv`), the exact day is right 45.9% of the time
+(pooled, so not the same as the 47% median per station). In % of each real day (rows),
+against the model's guess (columns):
+
+| real \ guess | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
+|---|---|---|---|---|---|---|---|
+| Mon | 41 | 16 | 13 | 12 | 9 | 5 | 4 |
+| Tue | 17 | 30 | 16 | 17 | 13 | 4 | 3 |
+| Wed | 15 | 18 | 27 | 18 | 13 | 5 | 3 |
+| Thu | 13 | 18 | 18 | 28 | 15 | 5 | 3 |
+| Fri | 9 | 10 | 11 | 12 | 46 | 8 | 3 |
+| Sat | 3 | 2 | 3 | 3 | 5 | 72 | 12 |
+| Sun | 2 | 2 | 2 | 2 | 2 | 10 | 79 |
+
+Weekdays blur into each other; Saturday and Sunday stand apart. In Brussels
+(115 ordinary days, week-held-out, `src/presentation_data.py` → `ml.json`) the
+weekend is right 28 of 32 times and a weekday is called a weekend
+1 time(s) in 83.
+**What the forest leans on** (Brussels, impurity importance, trained on all ordinary days):
+the hours 00:00, 13:00, 06:00 lead; the day's level ranks 10 of 25.
+
 ---
 
 ## Result 2 — The control group: few people, little signal
