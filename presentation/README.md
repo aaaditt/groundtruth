@@ -8,7 +8,7 @@ The current talk is [`docs/21-story-presentation-script.md`](../docs/21-story-pr
 
 | Form | Where | Use it for |
 |---|---|---|
-| **Live deck** | `site/talk/` → https://groundtruth-seismic.vercel.app/talk/ | Presenting on the smartboard. Clicker, arrow keys, Next/Back buttons, or a three-finger swipe; one finger uses the live globe and maps. `F` full screen, `N` notes, `P` presenter window, `L` show a live slide's fallback, `B` black screen. |
+| **Live deck** | `site/talk/` → https://groundtruth-seismic.vercel.app/talk/ | Presenting on the smartboard. Clicker, arrow keys, Space, Next/Back buttons, one tap on a clip or still, or a three-finger swipe; one finger uses the live globe and maps. Clips stop at every beat and wait for you, with the city still moving (below). `F` full screen, `N` notes, `P` presenter window, `L` show a live slide's fallback, `B` black screen. |
 | **PPT + video** | `presentation/GroundTruth-story.pptx` (rebuilt, not committed) | Presenting offline: stills as pictures, clips embedded, live beats as their fallback clip plus the live link. |
 | **Submission** | `presentation/GroundTruth-story-submission.pptx` (rebuilt) | Handing in: pictures only (~3 MB), speaker lines in the notes. |
 
@@ -20,6 +20,22 @@ python src/talk_build.py               # copy data + fonts into site/talk/, cut 
 node presentation/story/build_pptx.cjs # photograph each slide (headless Chrome), write both .pptx
 pytest -q tests/test_talk.py           # slides file complete, assets exist, no typed numbers
 ```
+
+**Block diagrams that build.** A still can have `"steps": n` in slides.json: its chart
+draws `<g data-step="k">` groups (`stepGroup` in talk.js) and each press shows the next
+one. The three diagrams (pipeline, alarm, nightly) use it; their numbers come from
+`data/*.json` like every other chart.
+
+**Stops: you set the pace, not the clip.** Each clip stops at its beats
+(`presentation/video/src/cues.json`) and waits for the next press. Where the city is on
+screen, the stop is a living hold: a separate 8-second loop rendered with the story clock
+(camera, captions, charts) stopped at the stop and the background clock (cars, trains,
+people, ripples, waves) still running (`useSec` vs `useAmbient` in `src/lib.tsx`;
+compositions `<clip>-hold-<tenths>`). The loop's first frame is the clip's frame at the
+stop, and `src/talk_build.py` blends its last second into one second rendered before the
+stop, so it repeats without a jump. Press Next during a clip: it jumps to the stop. To move
+a stop, edit `cues.json`, then `bash render.sh --holds && python src/talk_build.py`. In
+`GroundTruth-story.pptx` each clip is cut at its stops into one slide per segment.
 
 On the day: open the deck 10 minutes early on the classroom machine so the globe has
 loaded; turn off Windows' own three/four-finger touch gestures (Settings → Bluetooth &

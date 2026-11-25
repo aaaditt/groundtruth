@@ -399,6 +399,7 @@ groundtruth/
 │   ├── history.py                33-station history for the globe (needs internet, ~2.5 GB)
 │   ├── ask.py                    every city-day guessed out of fold, for Ask (from the cache)
 │   ├── export_site_research.py   data for the research map and the game
+│   ├── sources_export.py         every station's network and DOI (site/data/sources.json)
 │   ├── check_places.py           sensor-to-city distances for honest map labels (GeoNames)
 │   ├── export_stars.py           the globe's night sky (Yale Bright Star Catalogue)
 │   ├── survey_mustang.py         which stations have recent data (needs internet)

@@ -12,9 +12,9 @@
 import React from "react";
 import { ThreeCanvas } from "@remotion/three";
 import { useCurrentFrame } from "remotion";
-import { C, H, W } from "../theme";
+import { C, FPS, H, W } from "../theme";
 import { busyAt, DAYS, shakeAt } from "../data";
-import { Caption, Clock, fade, IllustrationTag, lerp, Note, ramp, Source, Stage, useSec } from "../lib";
+import { Caption, Clock, fade, IllustrationTag, lerp, Note, ramp, Source, Stage, useAmbient, useSec } from "../lib";
 import { DayAxes, DayTrace } from "../DayChart";
 import { Atmosphere, CameraPath, DayLights, daylight, Shot, skyColor } from "../three/kit";
 import { Buildings, Ground, People, Railway, Ripples, Street, Traffic } from "../three/City";
@@ -49,8 +49,10 @@ const STRIP = { x0: 220, x1: 1700, y0: 800, y1: 960 };
 const FULL = { x0: 200, x1: 1720, y0: 300, y1: 820 };
 
 export const C1City: React.FC = () => {
-  const frame = useCurrentFrame();
+  useCurrentFrame();
   const t = useSec();
+  const a = useAmbient(); // background clock: keeps running while the deck holds a cue
+  const frame = a * FPS;
   const minute = minuteAt(t);
   const busy = busyAt(minute);
   const day = daylight(minute);
@@ -75,16 +77,16 @@ export const C1City: React.FC = () => {
         <DayLights minute={minute} extent={75} shadowSize={4096} />
         <CameraPath t={t} shots={SHOTS} />
         {/* a whole city; one section in front of the seismometer is dug out */}
-        <Metro t={t} busy={busy} lit={night * (0.45 + 0.55 * busy) * 1.3} />
+        <Metro t={a} busy={busy} lit={night * (0.45 + 0.55 * busy) * 1.3} />
         <Ground />
         <PitFill open={open} />
         <Street night={night} />
         <Buildings lit={lit} />
-        <Railway t={t} busy={busy} />
-        <Traffic t={t} busy={busy} night={night} />
-        <People t={t} busy={busy} />
-        <Ripples t={t} busy={busy} strength={ramp(t, 19, 23) * (1 - end) * (0.25 + 0.75 * busy)} />
-        <Seismometer jiggle={jiggle} drumTurn={-t * 0.6} lamp={1.2 + 1.5 * night} />
+        <Railway t={a} busy={busy} />
+        <Traffic t={a} busy={busy} night={night} />
+        <People t={a} busy={busy} />
+        <Ripples t={a} busy={busy} strength={ramp(t, 19, 23) * (1 - end) * (0.25 + 0.75 * busy)} />
+        <Seismometer jiggle={jiggle} drumTurn={-a * 0.6} lamp={1.2 + 1.5 * night} />
       </ThreeCanvas>
 
       {/* paper fades over the city at the end; the real line stays */}

@@ -23,7 +23,7 @@ function tiles(st) {
     el("div", { class: "tile" }, el("div", { class: "big" }, v), el("div", { class: "small" }, l))));
 }
 
-function drawMap(st) {
+function drawMap(st, sources) {
   if (typeof L === "undefined") return;
   const map = L.map("rmap", { scrollWheelZoom: false, worldCopyJump: true }).setView([25, 10], 2);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 8,
@@ -39,6 +39,8 @@ function drawMap(st) {
     // where the sensor really is (labels: groundtruth/places.py)
     if (s.paper_city && s.paper_city !== s.city) pop.append(el("br"), `Listed as “${s.paper_city}” in the paper`);
     if (s.approx_location) pop.append(el("br"), "Position approximate (within ~1 km, for the owner's privacy)");
+    // where its recordings come from: the network (with its DOI) and the 2020 dataset
+    pop.append(sourceLine(s.code, sources, "lecocq2020"));
     mk.bindPopup(pop);
     mk.on("mouseover", () => mk.openPopup());
   }
@@ -83,10 +85,10 @@ function bandChart(rows, col, title, chance) {
 }
 
 async function main() {
-  const [st, bands] = await Promise.all(["data/stations_2020.json", "data/bands.json"]
+  const [st, bands, sources] = await Promise.all(["data/stations_2020.json", "data/bands.json", "data/sources.json"]
     .map((u) => fetch(u).then((r) => r.json())));
   tiles(st);
-  drawMap(st);
+  drawMap(st, sources);
   document.getElementById("bands").replaceChildren(
     bandChart(bands, "weekend_bal_acc", "Weekday vs weekend", .5),
     bandChart(bands, "dow_acc", "Exact day of the week", 1 / 7));

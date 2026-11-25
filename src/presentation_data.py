@@ -188,6 +188,39 @@ def forest_and_folds(days):
     return forest, folds_out
 
 
+# ── 4b. How the model decides, and where it goes wrong (the talk's ML slides) ─────────
+def ml(days):
+    """Brussels: the 7x7 confusion matrix from the same week-held-out testing (every day
+    guessed by a model that never saw its week), the example day's 25 numbers, and which
+    of the 25 numbers the forest leans on (trained on all ordinary days). All seismometers:
+    the confusion matrix pooled over every ordinary day's out-of-fold guess
+    (outputs/tables/day_scores.csv, src/score_days.py)."""
+    from sklearn.model_selection import cross_val_predict
+    g = days[(days.station == CITY) & (days.period == "baseline")].sort_values("date").reset_index(drop=True)
+    X, y, weeks = g[FEATURES].values, g["day_of_week"].values, g["week"].values
+    pred = cross_val_predict(make_model(), X, y, groups=weeks, cv=make_cv())
+    cm = np.zeros((7, 7), int)
+    for t, p in zip(y, pred):
+        cm[int(t), int(p)] += 1
+    full = make_model().fit(X, y)
+    imp = full.feature_importances_
+    day = g[g.date == pd.Timestamp(WEDNESDAY)].iloc[0]
+
+    ds = pd.read_csv(os.path.join(REPO, "outputs", "tables", "day_scores.csv"))
+    b = ds[ds.period == "baseline"].dropna(subset=["pred_dow"])
+    pooled = np.zeros((7, 7), int)
+    for t, p in zip(b.day_of_week.astype(int), b.pred_dow.astype(int)):
+        pooled[t, p] += 1
+    return {"days": SHORT,
+            "brussels": {"city": "Brussels", "station": CITY, "n_days": int(len(g)),
+                         "confusion": cm.tolist(), "accuracy": r(float(np.trace(cm)) / cm.sum(), 4),
+                         "importance": {"shape": [r(v, 4) for v in imp[:24]], "level": r(imp[24], 4)},
+                         "example": {"date": WEDNESDAY, "shape": [r(v, 3) for v in day[SHAPE_COLS].values],
+                                     "level": r(float(day["level"]), 3)}},
+            "pooled": {"n_stations": int(b.station.nunique()), "n_days": int(len(b)),
+                       "confusion": pooled.tolist(), "accuracy": r(float(np.trace(pooled)) / pooled.sum(), 4)}}
+
+
 # ── 5. Results across 149 cities (Results 1, 2, 3, 6) ─────────────────────────────
 def results():
     s = pd.read_csv(os.path.join(REPO, "outputs", "station_scores.csv"), keep_default_na=False,
@@ -380,6 +413,10 @@ def main():
     forest, folds = forest_and_folds(days)
     save("forest.json", forest)
     save("folds.json", folds)
+    m = ml(days)
+    save("ml.json", m)
+    print(f"  ML: Brussels exact day {m['brussels']['accuracy']:.1%} ({m['brussels']['n_days']} days); "
+          f"pooled {m['pooled']['accuracy']:.1%} over {m['pooled']['n_days']:,} days, {m['pooled']['n_stations']} seismometers")
     res = results()
     save("results.json", res)
     mis = mistakes()

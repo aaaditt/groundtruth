@@ -4,11 +4,33 @@ import React from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { C, DISPLAY, MARGIN, MONO, TEXT } from "./theme";
 
-/** Seconds since the clip started. */
+// Two clocks. The STORY clock moves the camera, the captions and the charts; the BACKGROUND
+// clock moves cars, trains, people, ripples and waves. In a normal clip they are the same.
+// In a "hold" clip (cues.json: the deck waits there for the presenter) the story clock is
+// stopped at the cue while the background keeps running, so the city stays alive.
+const HoldCtx = React.createContext<number | null>(null);
+/** The background starts this many seconds before the cue, so the deck can loop it seamlessly. */
+export const HOLD_LEAD = 1;
+
+/** Render `children` frozen at story second `at`, with the background still moving. */
+export const HoldAt: React.FC<{ at: number; children: React.ReactNode }> = ({ at, children }) => (
+  <HoldCtx.Provider value={at}>{children}</HoldCtx.Provider>
+);
+
+/** Seconds on the story clock (camera, captions, charts). */
 export const useSec = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  return frame / fps;
+  const hold = React.useContext(HoldCtx);
+  return hold === null ? frame / fps : hold;
+};
+
+/** Seconds on the background clock (cars, people, trains, ripples, waves). */
+export const useAmbient = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const hold = React.useContext(HoldCtx);
+  return hold === null ? frame / fps : hold - HOLD_LEAD + frame / fps;
 };
 
 const OUT = Easing.bezier(0.16, 1, 0.3, 1); // arrives with momentum, settles

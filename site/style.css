@@ -648,3 +648,7 @@ svg.learn .learner, #learning .k.learner::before { fill: var(--loud); background
 
 /* ---------- embedded in the talk deck (site/talk/): ?embed=1 ---------- */
 html.embed .bar, html.embed footer, html.embed .sound { display: none !important; }
+
+/* where a station's data comes from (sourceLine in common.js) */
+.src-line { margin: .5em 0 0; font-size: .82em; line-height: 1.45; opacity: .85; }
+.src-line a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }

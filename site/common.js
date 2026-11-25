@@ -7,6 +7,24 @@ const SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const tip = document.getElementById("tip");
 
+// Where a station's recordings come from (site/data/sources.json, src/sources_export.py):
+// its seismic network, the network's DOI (the reference to cite), and the dataset we read
+// it through. `via` is a dataset id: "lecocq2020" or "mustang". Built with DOM nodes only.
+function sourceLine(code, sources, via, cls = "src-line") {
+  const net = code.split(".")[0];
+  const n = sources && sources.networks[net];
+  const d = sources && sources.datasets.find((x) => x.id === via);
+  const p = el("p", { class: cls });
+  if (!n) return p;
+  p.append("Data: ", el("strong", {}, `${n.name} (${net})`));
+  if (n.doi) p.append(", ", el("a", { href: `https://doi.org/${n.doi}`, target: "_blank", rel: "noopener" }, `doi:${n.doi}`));
+  else p.append(", registered without a DOI");
+  if (d) p.append(el("br"), "via ", d.doi
+    ? el("a", { href: `https://doi.org/${d.doi}`, target: "_blank", rel: "noopener" }, d.name)
+    : d.name);
+  return p;
+}
+
 function el(tag, attrs = {}, ...kids) {
   const n = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {

@@ -181,6 +181,19 @@ headline results comes from these.** They are used only for the Route A validati
   record for V/50). 9,096 stars, drawn at their J2000 positions, rotated by Greenwich
   sidereal time for 00:00 UTC on the selected date.
 
+### Where each station's data comes from (`src/sources_export.py`)
+
+- Every station code starts with its seismic **network** code (`BE.UCC` = station UCC of
+  network BE). Each network's name and DOI come from the **FDSN network registry**,
+  https://www.fdsn.org/ws/networks/1/query (downloaded 2026-11-25, cached in
+  `data/cache/fdsn_networks.json`, not committed). For temporary networks (codes starting
+  with a digit or X, Y, Z) the entry running in 2019–2020 is used.
+- Result: 59 networks behind the 158 stations of 2019–20 and the 33 globe stations; 54
+  have a DOI; BL, HK, IN, IS and SV are registered without one. Written to
+  `site/data/sources.json`; the research map's popups and the globe's station panel show
+  each station's network and DOI, and the talk's "Where every recording comes from" slide
+  lists them.
+
 ### City Pulse dashboard (`site/`)
 
 - Map: Leaflet 1.9.4 — https://leafletjs.com/ (loaded from unpkg with a pinned
@@ -235,6 +248,41 @@ structure in urban seismic noise.
 A pre-COVID study of urban seismic noise (Bucharest) that characterised its daily and
 weekly cycles and separated transient sources from steady background noise.
 
+**Recent work (2020–2025), added 2026-11-25 for the talk's research-scope slides.**
+Each entry was checked against its publisher's page or abstract (title, authors, venue,
+DOI); the one-line summaries come from those abstracts. Full texts were not read.
+
+> **Cannata, A., et al. (2021).** Seismic evidence of the COVID-19 lockdown measures: a
+> case study from eastern Sicily (Italy). *Solid Earth*, 12, 299–317.
+> doi:[10.5194/se-12-299-2021](https://doi.org/10.5194/se-12-299-2021)
+
+18 stations of INGV's permanent network: anthropogenic noise fell by up to 50% in the
+densest areas, and its time pattern matched Apple, Google and Facebook mobility data.
+
+> **Nimiya, H., Ikeda, T., & Tsuji, T. (2021).** Temporal changes in anthropogenic
+> seismic noise levels associated with economic and leisure activities during the
+> COVID-19 pandemic. *Scientific Reports*, 11, 20439.
+> doi:[10.1038/s41598-021-00063-6](https://doi.org/10.1038/s41598-021-00063-6)
+
+Tokyo's MeSO-net, April 2017 – March 2021, analysed by time of day and day of week:
+weekday daytime noise recovered quickly after the first state of emergency, Sundays more
+slowly. Concludes seismic noise can monitor social activity.
+
+> **Yang, L., Liu, X., Zhu, W., Zhao, L., & Beroza, G. C. (2022).** Toward improved
+> urban earthquake monitoring through deep-learning-based noise suppression. *Science
+> Advances*, 8(15), eabl3564. doi:[10.1126/sciadv.abl3564](https://doi.org/10.1126/sciadv.abl3564)
+
+UrbanDenoiser: a neural network trained on Long Beach dense-array noise to remove city
+noise so small earthquakes show. People are treated as noise to subtract.
+
+> **Liu, J., Li, H., Noh, H. Y., Santi, P., Biondi, B., & Ratti, C. (2025).** Urban
+> sensing using existing fiber-optic networks. *Nature Communications*, 16, 3091.
+> doi:[10.1038/s41467-025-57997-y](https://doi.org/10.1038/s41467-025-57997-y)
+
+50 km of telecom fibre in San Jose used as 50,000 virtual sensors (distributed acoustic
+sensing): maps of seismic source power that correlate with traffic, land use and
+demographics.
+
 **Honesty note:** the Lecocq et al. data and code were downloaded, inspected and used
 directly. The Díaz and Groos & Ritter papers were identified through literature search
 and are cited for context — their citation details were verified, but their full texts
@@ -242,6 +290,16 @@ were not read during this build. Read them before the presentation if you plan t
 describe them in detail.
 
 ## Where this project goes beyond the papers
+
+(Shown in the talk as "Where they stopped, and where we start", docs/21 beat 6.)
+
+| The studies above | This project |
+|---|---|
+| Measure averages: an hour, a type of day, a lockdown | Guesses one day at a time, graded only on weeks the model never saw |
+| One city, or one event | 149 seismometers (2019–20), then 33 cities over 7 years, and transfer to a city it never heard |
+| Compare the noise with phone mobility data | Needs no phones: its own mistakes find holidays, with no labels |
+| Remove people's noise to see earthquakes (Yang 2022) | Keeps people as the signal, and tested the reverse on earthquakes too: it did not help (Results 19, 22, pre-registered) |
+| Need dense arrays or new fibre (Liu 2025) | Uses public seismometers already installed; a test runs every night |
 
 Those papers **describe and measure** urban seismic rhythms. This project **learns**
 them with machine learning, tests that learning honestly across ~150 cities, and turns

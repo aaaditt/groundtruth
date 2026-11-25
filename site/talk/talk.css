@@ -28,6 +28,9 @@ body { transition: background .4s; }
 .slide { position: absolute; inset: 0; opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 .slide.on { opacity: 1; pointer-events: auto; }
 .slide video, .slide > img.full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--paper); }
+/* a stop's loop sits over the clip: on at once (its first frame IS the clip's frame), fades off */
+.slide video.hold { opacity: 0; transition: opacity .45s ease; }
+.slide video.hold.on { opacity: 1; transition: none; }
 .slide .over { position: absolute; inset: 0; background: var(--paper); opacity: 0; transition: opacity .6s ease; }
 .slide .over.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .slide, .slide .over, body { transition: none; } }
@@ -54,6 +57,29 @@ body { transition: background .4s; }
 .chart .ink { fill: var(--ink); } .chart .ink-s { stroke: var(--ink); fill: none; }
 .chart .grey { fill: #b9b2a3; } .chart .grey-s { stroke: #a39c8d; fill: none; }
 .chart .pale { fill: var(--panel); }
+/* block diagrams: paper boxes, ink arrows; the edge colour says what a box is
+   (graphite = the data, ink = the model, burnt orange = what it is for) */
+.chart .blk { fill: #fbf9f4; stroke: var(--graphite); stroke-width: 2.5; }
+.chart .blk.model { stroke: var(--ink); stroke-width: 3.5; }
+.chart .blk.use { stroke: var(--city); stroke-width: 3.5; }
+.chart .blk-t { font-family: var(--display); font-size: 38px; }
+.chart .blk-s { font-size: 27px; fill: var(--graphite); }
+.chart .blk-s.t-ink { fill: var(--ink); }
+.chart .blk-k { font-size: 24px; fill: var(--graphite); letter-spacing: .02em; }
+.chart .cm-t { font-size: 24px; fill: var(--ink); }
+.chart .cm-t.on { fill: var(--paper); }
+.chart .blk-o { fill: none; stroke-width: 4; }
+.chart .t-good { fill: var(--good); }
+.chart .chip { fill: #fbf9f4; stroke: var(--graphite); stroke-width: 1.5; }
+.chart .chip.nodoi { stroke-dasharray: 4 4; }
+.chart .chip-t { font-family: var(--mono); font-size: 20px; fill: var(--ink); }
+.chart .flow { stroke: var(--ink); stroke-width: 3; fill: none; }
+.chart .flow.dashed { stroke-dasharray: 8 8; }
+.chart .ah { fill: var(--ink); }
+.chart .brk { stroke: var(--graphite); stroke-width: 2; fill: none; }
+.chart .stp { opacity: 0; transition: opacity .5s ease; }
+.chart .stp.shown { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .chart .stp { transition: none; } }
 .chart .t-city { fill: var(--city); } .chart .t-sea { fill: var(--sea); } .chart .t-grey { fill: var(--graphite); }
 .chart .t-loud { fill: var(--loud); } .chart .t-good { fill: var(--good); }
 .chart .serif { font-family: var(--display); }

@@ -4,6 +4,52 @@ What changed in each version of GroundTruth. Versions follow semantic versioning
 `1.0.0` is the git tag `v1.0-semester`. The daily `pulse: data` commits only add a new
 day of data and are not listed.
 
+## [1.7.1] - 2026-11-25
+
+### Changed
+
+- **The presenter sets the pace, not the clips.** Every clip in the talk deck stops at
+  each of its beats (29 stops in 9 clips, `presentation/video/src/cues.json`) and waits for
+  Space, the clicker, Next or one tap. Where the city is on screen the stop is a living
+  hold: the camera and captions stay still while cars, people, trains and waves keep
+  moving (15 seamless 8-second loops, rendered with a stopped story clock and a running
+  background clock: `useSec` / `useAmbient` in `presentation/video/src/lib.tsx`). Pressing
+  Next mid-clip jumps to the stop; Back returns to the previous stop, or to the previous
+  slide's last stop. The clips deck PowerPoint cuts each clip at its stops (one slide per
+  segment). The clips themselves are unchanged frame for frame.
+- **Three block diagrams** in the talk (docs/21 beats 9, 15, 21), each building one group
+  of boxes per press: *From the ground to a guess* (data → 25 numbers → forest → graded on
+  hidden weeks → what it is for), *From a mistake to an alarm* (real Christmas Day in
+  Brussels: guess → surprise → above 95% of ordinary days → flag) and *What runs every
+  night* (EarthScope → GitHub Action → frozen and learning models → site/data → Vercel).
+  The speech around them now walks through the boxes; the talk is 25 beats, about 15
+  minutes. In the PowerPoint each diagram is one slide per step.
+- **Research scope and data provenance** (docs/21 beats 5, 6, 8). *Who listened to cities
+  before us*: seven papers from 2009 to 2025 (Groos & Ritter; Díaz; Lecocq; Cannata;
+  Nimiya; Yang; Liu), each checked against its publisher's page and cited with its DOI in
+  docs/02. *Where they stopped, and where we start*: averages vs single unseen days, one
+  city vs 149 and 33 × 7 years, phone data vs none, removing people vs keeping them as the
+  signal, new fibre vs seismometers already in place. *Where every recording comes from*:
+  the four datasets and the 59 seismic networks behind them (54 with a DOI), from the FDSN
+  network registry (`src/sources_export.py` → `site/data/sources.json`).
+- **Every station on the website shows where its data comes from**: the research map's
+  popups and the globe's station panel name the seismic network, link its DOI, and say
+  which dataset it came through (`sourceLine` in `site/common.js`).
+- The method diagram now follows `docs/03-methodology.md`'s six steps, labelled Step 1–6
+  (it adds Step 3, the calendar labels, which the first version left out). The talk is
+  28 beats, about 16 minutes.
+- **How the model decides** (docs/21 beats 16–18): *How one guess is made* (the real
+  Wednesday in Brussels: 25 numbers in, 100 trees vote 31 Fri / 25 Tue / 23 Mon / 5 Wed /
+  3 weekend, so "Friday" is wrong but "weekday" is right), *What the model looks at*
+  (impurity importance: midnight, 13:00 and 06:00 lead; the level ranks 10 of 25) and *Where
+  it gets it wrong* (the 7×7 confusion matrix, Brussels out of fold and all 149 seismometers
+  pooled, 16,554 days: weekdays blur, the weekend stands apart). Exported by
+  `src/presentation_data.py` → `ml.json`; the pooled matrix is in docs/04 under Result 1.
+- **Every website feature in the talk** (beats 27–32): an *Everything we built* diagram,
+  then live: the front-page tour, Ask and the globe, City Pulse in three steps (the nightly
+  board, the learning card, the predictions board) and the Guess-the-day game, each with a
+  screenshot fallback. The talk is 34 beats, 19:53.
+
 ## [1.7.0] - 2026-11-24
 
 ### Added

@@ -1,12 +1,16 @@
 // The talk deck: a web page that behaves like slides (docs/21, site/talk/slides.json).
 //
-//   Next   right arrow, Page Down (clickers), Space, Enter, the Next button, or a swipe
-//          with three or more fingers (one finger is left alone, to use the live pages)
+//   Next   right arrow, Page Down (clickers), Space, Enter, the Next button, a tap on a
+//          clip or still, or a swipe with three or more fingers (one finger is left alone,
+//          to use the live pages)
 //   Back   left arrow, Page Up, Backspace, the Back button, or the opposite swipe
+//   A still can build in steps (a block diagram adds one group of blocks per press).
 //   F full screen   N speaker notes   P presenter window   L show a live slide's fallback
 //   B black screen  Home / End first / last slide
 //
-// Three kinds of slide: a clip (plays once and holds on its last frame), a still drawn
+// Three kinds of slide: a clip that plays to its next STOP and waits for the presenter
+// (media/cues.json; at a stop the camera holds still but the city keeps moving, from a
+// seamless loop in media/holds/; pressing Next while it plays jumps to the stop), a still drawn
 // here from data/*.json (the numbers are never typed: every one comes from the files that
 // src/presentation_data.py writes from the real data), and a live page of the website in
 // an iframe, with a fallback that appears by itself if the page isn't ready in 5 seconds.
@@ -32,9 +36,10 @@ function s(tag, attrs = {}, text) {
   return n;
 }
 const pct = (x, d = 0) => `${(100 * x).toFixed(d)}%`;
+const fmtDate = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const fmt = (n) => n.toLocaleString("en-GB");
 
-let BEATS = [], DATA = {}, cur = -1, step = 0, started = false;
+let BEATS = [], DATA = {}, CUES = {}, cur = -1, step = 0, started = false;
 const isPresenter = new URLSearchParams(location.search).has("presenter");
 const channel = "BroadcastChannel" in window ? new BroadcastChannel("groundtruth-talk") : null;
 
@@ -55,7 +60,329 @@ const text = (svg, x, y, str, cls = "lab", anchor = "start") =>
 const PROMISES = ["Read the day from the ground", "Shape beats loudness", "Let its mistakes find unusual days",
   "Test it on holidays it never saw", "Move it to another city"];
 
+// ------------------------------------------------------------------ block diagrams
+// Boxes joined by arrows. Each group of boxes is a <g data-step="k">: it appears when the
+// presenter reaches step k of the slide (slides.json "static.steps"), so a diagram is
+// explained one part at a time. Every number on them comes from data/*.json.
+const DOW = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+function arrowHead(svg, id) {
+  const m = s("marker", { id, viewBox: "0 0 12 12", refX: 11, refY: 6, markerWidth: 18, markerHeight: 18,
+    orient: "auto", markerUnits: "userSpaceOnUse" });
+  m.append(s("path", { d: "M0,0 L12,6 L0,12 z", class: "ah" }));
+  const d = s("defs"); d.append(m); svg.append(d);
+}
+function stepGroup(svg, k) { const g = s("g", { "data-step": String(k), class: "stp" }); svg.append(g); return g; }
+// a box: a title in Newsreader and up to three short lines under it
+function box(g, x, y, w, h, title, lines = [], tone = "", kicker = "") {
+  g.append(s("rect", { x, y, width: w, height: h, rx: 12, class: `blk ${tone}` }));
+  const dy = kicker ? 34 : 0;
+  if (kicker) text(g, x + 26, y + 44, kicker, "blk-k");
+  text(g, x + 26, y + 54 + dy, title, "blk-t");
+  lines.forEach((t, i) => text(g, x + 26, y + 100 + dy + i * 38, t, "blk-s"));
+}
+
+// the studies before ours, verified against each paper's abstract (docs/02, "Papers")
+const LIT = [
+  { lane: "Describe a city's noise", papers: [
+    ["2009", "Groos & Ritter", "Bucharest", "daily and weekly cycles,", "sorted by source"],
+    ["2017", "Díaz et al.", "Barcelona", "traced to traffic, the", "metro and crowds"]] },
+  { lane: "Measure the lockdown", papers: [
+    ["2020", "Lecocq et al.", "268 stations, worldwide", "human noise fell by", "up to half"],
+    ["2021", "Cannata et al.", "eastern Sicily", "noise tracked phone", "mobility data"],
+    ["2021", "Nimiya et al.", "Tokyo, 2017–2021", "weekdays and Sundays", "recovered differently"]] },
+  { lane: "Remove it, or map it", papers: [
+    ["2022", "Yang et al.", "Long Beach", "deep learning strips city", "noise to see earthquakes"],
+    ["2025", "Liu et al.", "San Jose, 50 km of fibre", "maps activity street", "by street"]] },
+];
+function arrow(g, id, pts, dashed = false) {
+  g.append(s("polyline", { points: pts.map((q) => q.join(",")).join(" "), class: `flow${dashed ? " dashed" : ""}`, "marker-end": `url(#${id})` }));
+}
+// a bracket over a run of boxes, naming what they are
+function bracket(g, x0, x1, y, label) {
+  g.append(s("polyline", { points: `${x0},${y + 14} ${x0},${y} ${x1},${y} ${x1},${y + 14}`, class: "brk" }));
+  text(g, (x0 + x1) / 2, y - 14, label, "ax", "middle");
+}
+
 const CHARTS = {
+  // one real guess, start to finish: the Wednesday in Brussels the model never saw
+  guess(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-guess");
+    const ex = DATA.ml.brussels.example, fd = DATA.forest.day, days = DATA.ml.days;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    // the day's 25 numbers
+    box(g0, 120, 280, 620, 420, `${DATA.forest.n_features} numbers in`, [`${fmtDate(ex.date)}, Brussels`], "data");
+    const base = 530, sc = 110 / Math.max(...ex.shape.map(Math.abs)), bw = 18;
+    ex.shape.forEach((v, h) => g0.append(s("rect", { x: 150 + h * 22, y: v > 0 ? base - v * sc : base, width: bw,
+      height: Math.max(2, Math.abs(v) * sc), class: "grey" })));
+    g0.append(s("line", { x1: 146, x2: 680, y1: base, y2: base, class: "rule" }));
+    const lv = Math.max(-1, Math.min(1, ex.level / 3)) * 110;
+    g0.append(s("rect", { x: 690, y: lv > 0 ? base - lv : base, width: bw, height: Math.max(2, Math.abs(lv)), class: "city" }));
+    text(g0, 150, 680, "24 for the shape, hour by hour", "ax");
+    text(g0, 708, 680, "level", "ax", "middle");
+    arrow(g0, "ah-guess", [[750, 490], [818, 490]]);
+    box(g0, 830, 400, 300, 180, `${DATA.forest.n_trees} trees`, ["each asks a few", "yes/no questions"], "model");
+    // the real votes
+    arrow(g1, "ah-guess", [[1140, 490], [1208, 490]]);
+    const max = Math.max(...Object.values(fd.votes));
+    days.forEach((d, i) => {
+      const v = fd.votes[d], y = 300 + i * 56, weekend = i >= 5;
+      text(g1, 1220, y + 34, d, "lab");
+      g1.append(s("rect", { x: 1300, y: y + 8, width: Math.max(3, 420 * v / max), height: 36, class: weekend ? "sea" : "city" }));
+      text(g1, 1300 + Math.max(3, 420 * v / max) + 14, y + 36, String(v), "lab");
+    });
+    text(g1, 1220, 720, "votes from the trees", "ax");
+    // the two answers
+    const top = days.reduce((a, d) => (fd.votes[d] > fd.votes[a] ? d : a), days[0]);
+    const wk = days.slice(0, 5).reduce((a, d) => a + fd.votes[d], 0);
+    const full = { Mon: "Monday", Tue: "Tuesday", Wed: "Wednesday", Thu: "Thursday", Fri: "Friday", Sat: "Saturday", Sun: "Sunday" };
+    text(g2, 120, 830, `Which day? ${full[top]}.`, "num");
+    text(g2, 120, 880, `Wrong: it was a ${full[fd.true]}.`, "lab t-grey");
+    text(g2, 1000, 830, `Weekday or weekend? Weekday.`, "num");
+    text(g2, 1000, 880, `Right: ${wk} of ${DATA.forest.n_trees} trees agree.`, "lab t-good");
+    return fig;
+  },
+
+  // which of the 25 numbers the forest leans on (Brussels, all ordinary days)
+  importance(b) {
+    const { box: fig, svg } = figure(b);
+    const im = DATA.ml.brussels.importance, all = [...im.shape, im.level];
+    const max = Math.max(...all), x0 = 160, bw = 52, gap = 12, base = 820, hmax = 440;
+    const order = im.shape.map((v, h) => [v, h]).sort((a, c) => c[0] - a[0]);
+    const top = new Set(order.slice(0, 3).map(([, h]) => h));
+    const rank = 1 + all.filter((v) => v > im.level).length;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1);
+    all.forEach((v, i) => {
+      const x = x0 + i * (bw + gap) + (i === 24 ? 30 : 0), hgt = hmax * v / max;
+      g0.append(s("rect", { x, y: base - hgt, width: bw, height: hgt, class: i === 24 ? "city" : "grey" }));
+      if (i < 24 && i % 3 === 0) text(g0, x + bw / 2, base + 40, `${String(i).padStart(2, "0")}:00`, "ax", "middle");
+      if (i < 24 && top.has(i)) {
+        g1.append(s("rect", { x, y: base - hgt, width: bw, height: hgt, class: "ink" }));
+        text(g1, x + bw / 2, base - hgt - 16, `${String(i).padStart(2, "0")}:00`, "lab", "middle");
+      }
+    });
+    text(g0, x0 + 24 * (bw + gap) + 30 + bw / 2, base + 40, "level", "ax", "middle");
+    text(g0, 120, 300, "How much each number helps the trees split the days (Brussels, all ordinary days)", "ax");
+    text(g1, 120, 940, `The level, how loud the whole day was, ranks ${rank} of 25. The shape of the day does the work.`, "lab");
+    return fig;
+  },
+
+  // where it goes wrong: real day (rows) against the model's guess (columns)
+  confusion(b) {
+    const { box: fig, svg } = figure(b);
+    const days = DATA.ml.days, br = DATA.ml.brussels, po = DATA.ml.pooled, cell = 64;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    function matrix(g, x0, y0, cm, pctMode, title, sub) {
+      text(g, x0, y0 - 92, title, "lab");
+      text(g, x0, y0 - 54, sub, "ax");
+      days.forEach((d, j) => text(g, x0 + j * cell + cell / 2, y0 - 12, d, "ax", "middle"));
+      cm.forEach((row, i) => {
+        const n = row.reduce((a, v) => a + v, 0);
+        text(g, x0 - 14, y0 + i * cell + cell / 2 + 10, days[i], "ax", "end");
+        row.forEach((v, j) => {
+          const share = n ? v / n : 0;
+          g.append(s("rect", { x: x0 + j * cell, y: y0 + i * cell, width: cell - 3, height: cell - 3,
+            class: "ink", opacity: (0.06 + 0.9 * share).toFixed(3) }));
+          text(g, x0 + j * cell + cell / 2 - 1, y0 + i * cell + cell / 2 + 9, pctMode ? `${Math.round(100 * share)}` : String(v),
+            share > 0.45 ? "cm-t on" : "cm-t", "middle");
+        });
+      });
+    }
+    const xl = 260, xr = 1140, y0 = 360;
+    matrix(g0, xl, y0, br.confusion, false, `Brussels: ${br.n_days} ordinary days`, "rows: the real day · columns: its guess");
+    // the two blocks
+    const sum = (rows, cols) => rows.reduce((a, i) => a + cols.reduce((c, j) => c + br.confusion[i][j], 0), 0);
+    const wd = [0, 1, 2, 3, 4], we = [5, 6];
+    const weRight = br.confusion[5][5] + br.confusion[6][6], weN = sum(we, [0, 1, 2, 3, 4, 5, 6]);
+    const wdAsWe = sum(wd, we), wdN = sum(wd, [0, 1, 2, 3, 4, 5, 6]);
+    g1.append(s("rect", { x: xl - 4, y: y0 - 4, width: 5 * cell + 5, height: 5 * cell + 5, class: "blk-o city-s" }));
+    g1.append(s("rect", { x: xl + 5 * cell - 4, y: y0 + 5 * cell - 4, width: 2 * cell + 5, height: 2 * cell + 5, class: "blk-o sea-s" }));
+    text(g1, xl, y0 + 7 * cell + 54, "Weekdays blur into each other,", "lab t-city");
+    text(g1, xl, y0 + 7 * cell + 96, `but the weekend is right ${weRight} of ${weN} times;`, "lab t-sea");
+    text(g1, xl, y0 + 7 * cell + 138, `a weekday is called a weekend ${wdAsWe} in ${wdN}.`, "lab");
+    matrix(g2, xr, y0, po.confusion, true, `All ${po.n_stations} seismometers: ${fmt(po.n_days)} days`, "the same, in % of each real day");
+    text(g2, xr, y0 + 7 * cell + 54, "The same two blocks, everywhere.", "lab");
+    return fig;
+  },
+
+  // everything we built: data -> code -> the website's pages
+  sitemap(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-site");
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    const sc = DATA.story.scale;
+    box(g0, 120, 330, 320, 170, "2019–20", ["Lecocq et al. 2020"], "data");
+    box(g0, 120, 540, 320, 170, "Every night", ["EarthScope,", `${sc.start.slice(0, 4)} – today`], "data");
+    box(g0, 500, 330, 360, 170, "Python", ["groundtruth/, src/:", "every result, docs/04"], "model");
+    box(g0, 500, 540, 360, 170, "GitHub Action", ["each morning: score", "yesterday, save it"], "model");
+    arrow(g0, "ah-site", [[446, 415], [492, 415]]);
+    arrow(g0, "ah-site", [[446, 625], [492, 625]]);
+    const pages = [["Tour", "the story in two minutes"], ["Globe", "any day, 2019 to today"],
+      ["Ask", "its guess for any day"], ["Research map", "every seismometer scored"],
+      ["City Pulse", "yesterday, every night"], ["Game", "can you beat the model?"],
+      ["About", "how it works, its limits"], ["Demo video", "two minutes, to share"]];
+    const px = (i) => 960 + (i % 2) * 430, py = (i) => 260 + Math.floor(i / 2) * 150;
+    pages.forEach(([t, l], i) => box(i < 4 ? g1 : g2, px(i), py(i), 410, 130, t, [l], "use"));
+    arrow(g1, "ah-site", [[866, 520], [952, 520]]);
+    text(g2, 120, 900, "One static website, no server: every page reads the same saved files.", "lab");
+    return fig;
+  },
+
+  // the whole method on one page: the six steps of docs/03-methodology.md, in order
+  pipeline(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-pipe");
+    const f = DATA.forest, fo = DATA.folds;
+    const w = 500, gap = 90, X = (i) => 120 + i * (w + gap), h = 210, y1 = 300, y2 = 640;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    const data = [["One row per day", ["4–14 Hz, glitches dropped,", "local time, hourly medians"]],
+      [`${f.n_features} features`, ["24 for the shape of the day,", "1 for its level"]],
+      ["Calendar labels", ["weekends, holidays, lockdown;", "only ordinary days train"]]];
+    data.forEach(([t, l], i) => {
+      box(g0, X(i), y1, w, h, t, l, "data", `Step ${i + 1}`);
+      if (i) arrow(g0, "ah-pipe", [[X(i) - gap + 8, y1 + h / 2], [X(i) - 8, y1 + h / 2]]);
+    });
+    // the row turns: down from step 3, back to step 4
+    const mid = (y1 + h + y2) / 2;
+    const model = [["Random forest", [`${f.n_trees} trees vote on the day,`, "rare days weighted up"], g1],
+      ["Honest testing", ["whole weeks held out,", `${fo.n_folds} rounds, balanced accuracy`], g1],
+      ["Unusual days", ["its own surprise, above", "95% of ordinary days"], g2]];
+    arrow(g1, "ah-pipe", [[X(2) + w / 2, y1 + h + 6], [X(2) + w / 2, mid], [X(0) + w / 2, mid], [X(0) + w / 2, y2 - 8]]);
+    model.forEach(([t, l, g], i) => {
+      box(g, X(i), y2, w, h, t, l, i < 2 ? "model" : "use", `Step ${i + 4}`);
+      if (i) arrow(g, "ah-pipe", [[X(i) - gap + 8, y2 + h / 2], [X(i) - 8, y2 + h / 2]]);
+    });
+    text(g2, 120, 940, "The six steps of docs/03-methodology.md. The next slides open them one by one.", "ax");
+    return fig;
+  },
+
+  // who listened to cities before us (verified papers, DOIs in the source line)
+  research(b) {
+    const { box: fig, svg } = figure(b);
+    const lw = 300, cw = 430, gap = 26, x0 = 120 + lw + 20, h = 172, top = 250, rowH = 200;
+    LIT.forEach((lane, r) => {
+      const g = stepGroup(svg, r), y = top + r * rowH;
+      text(g, 120, y + 60, lane.lane.split(" ").slice(0, 2).join(" "), "lab");
+      text(g, 120, y + 100, lane.lane.split(" ").slice(2).join(" "), "lab");
+      lane.papers.forEach(([yr, who, where, l1, l2], i) => {
+        const x = x0 + i * (cw + gap);
+        g.append(s("rect", { x, y, width: cw, height: h, rx: 12, class: "blk" }));
+        text(g, x + 24, y + 46, `${who}, ${yr}`, "blk-t");
+        text(g, x + 24, y + 86, where, "blk-s t-ink");
+        text(g, x + 24, y + 124, l1, "blk-s");
+        text(g, x + 24, y + 160, l2, "blk-s");
+      });
+    });
+    return fig;
+  },
+
+  // where they stopped, and what this project adds
+  gap(b) {
+    const { box: fig, svg } = figure(b);
+    const r = DATA.results, sc = DATA.story.scale;
+    const years = Math.floor((Date.parse(sc.end) - Date.parse(sc.start)) / (365.25 * 864e5));
+    const rows = [
+      ["measured averages: an hour,", "a type of day, a lockdown", "guesses one day at a time, graded", "only on weeks it never saw", 0],
+      ["one city, or one event", "", `${r.n_stations} seismometers, then ${sc.stations} cities over`, `${years} years, and a city it never heard`, 0],
+      ["compared the noise with", "phone mobility data", "needs no phones: its own mistakes", "find holidays, with no labels", 1],
+      ["removed people to see", "earthquakes", "keeps people as the signal, and tested", "it on earthquakes too: it didn't help", 1],
+      ["needed dense arrays", "or new fibre", "uses seismometers already in place,", "and a test runs every night", 2],
+    ];
+    const xa = 120, xb = 1000, y0 = 290, rh = 132;
+    text(svg, xa, y0 - 30, "The studies before ours", "ax");
+    text(svg, xb, y0 - 30, "This project", "ax t-city");
+    rows.forEach(([a1, a2, b1, b2, k], i) => {
+      const g = stepGroup(svg, k), y = y0 + i * rh;
+      g.append(s("line", { x1: xa, x2: 1800, y1: y + 104, y2: y + 104, class: "rule" }));
+      text(g, xa, y + 40, a1, "lab t-grey"); if (a2) text(g, xa, y + 80, a2, "lab t-grey");
+      text(g, xb, y + 40, b1, "lab"); text(g, xb, y + 80, b2, "lab");
+    });
+    return fig;
+  },
+
+  // where every recording comes from (site/data/sources.json, src/sources_export.py)
+  sources(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-src");
+    const src = DATA.sources, nets = Object.entries(src.networks);
+    const withDoi = nets.filter(([, n]) => n.doi).length;
+    const y0 = 250, h = 112, gapY = 22, xl = 120, wl = 760, xr = 960;
+    src.datasets.forEach((d, i) => {
+      const g = stepGroup(svg, i === 0 ? 0 : 1), y = y0 + i * (h + gapY);
+      box(g, xl, y, wl, h, d.name, [d.what], "data");
+      arrow(g, "ah-src", [[xl + wl + 8, y + h / 2], [xr - 24, y + h / 2]]);
+      text(g, xr, y + h / 2 - 6, "used for", "ax");
+      text(g, xr, y + h / 2 + 36, d.used_for, "lab");
+    });
+    // behind the recordings: every network, each with its own DOI
+    const g2 = stepGroup(svg, 2), yN = y0 + 4 * (h + gapY) + 40;
+    text(g2, 120, yN, `Behind them: ${nets.length} seismic networks, ${withDoi} with a DOI (dashed: none). Click any station on the website to see its own.`, "lab");
+    const cw = 54, per = 31;
+    nets.forEach(([code, n], i) => {
+      const x = 120 + (i % per) * cw, y = yN + 22 + Math.floor(i / per) * 46;
+      g2.append(s("rect", { x, y, width: cw - 6, height: 38, rx: 6, class: n.doi ? "chip" : "chip nodoi" }));
+      text(g2, x + (cw - 6) / 2, y + 27, code, "chip-t", "middle");
+    });
+    return fig;
+  },
+
+  // how a mistake becomes an alarm, on the real Christmas Day in Brussels
+  alarm(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-alarm");
+    const m = DATA.mistakes, x = m.christmas.brussels;
+    // the threshold: 95% of Brussels' ordinary days were less surprising than this
+    const normal = m.calendar.filter((d) => d.period === "baseline").map((d) => d.confusion).sort((a, c) => a - c);
+    const q95 = normal[Math.min(normal.length - 1, Math.floor(0.95 * normal.length))];
+    const realDay = DOW[x.dow], guess = DOW[x.pred];
+    const w = 304, gap = 40, X = (i) => 120 + i * (w + gap), y = 330, h = 220;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    box(g0, X(0), y, w, h, "A new day", [`${realDay},`, "25 December 2019,", `${m.city}: never seen`], "data");
+    box(g0, X(1), y, w, h, "The forest", [`guesses ${guess}`, `gives ${realDay}`, `a ${pct(1 - x.confusion)} chance`], "model");
+    arrow(g0, "ah-alarm", [[X(1) - gap + 6, y + h / 2], [X(1) - 8, y + h / 2]]);
+    box(g1, X(2), y, w, h, "Surprise", ["1 − its chance", "for the real day", `= ${x.confusion.toFixed(2)}`], "model");
+    arrow(g1, "ah-alarm", [[X(2) - gap + 6, y + h / 2], [X(2) - 8, y + h / 2]]);
+    box(g2, X(3), y, w, h, "Unusual?", ["95% of ordinary", "days score below", `${q95.toFixed(2)}: this is above`], "model");
+    box(g2, X(4), y, w, h, "Flag it", ["no labels,", "no holiday list"], "use");
+    arrow(g2, "ah-alarm", [[X(3) - gap + 6, y + h / 2], [X(3) - 8, y + h / 2]]);
+    arrow(g2, "ah-alarm", [[X(4) - gap + 6, y + h / 2], [X(4) - 8, y + h / 2]]);
+    // the scale of it: the real tally across every seismometer
+    text(g2, 120, 760, `${pct(m.holidays_called_weekend)}`, "mid t-city");
+    text(g2, 120, 815, `of ${fmt(m.n_holidays)} weekday holidays it never saw`, "lab");
+    text(g2, 120, 857, "were read as a weekend", "lab");
+    text(g2, 1000, 760, `${m.confusion_wins} of ${m.n_stations}`, "mid");
+    text(g2, 1000, 815, "seismometers: this alarm beat the", "lab");
+    text(g2, 1000, 857, "standard unusual-day alarm", "lab");
+    return fig;
+  },
+
+  // what runs every night, and what was built once
+  nightly(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-night");
+    const sc = DATA.story.scale;
+    const w = 420, X = (i) => 120 + i * 540, y1 = 300, h = 190;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    box(g0, X(0), y1, w, h, "Seismometers", ["the live cities", "record all day"], "data");
+    box(g0, X(1), y1, w, h, "EarthScope", ["publishes the spectra", "about two days later"], "data");
+    box(g0, X(2), y1, w, h, "GitHub Action", ["wakes every morning", "at 06:00 UTC"], "model");
+    arrow(g0, "ah-night", [[X(1) - 114, y1 + h / 2], [X(1) - 8, y1 + h / 2]]);
+    arrow(g0, "ah-night", [[X(2) - 114, y1 + h / 2], [X(2) - 8, y1 + h / 2]]);
+    // two models score each new day
+    const y2 = 580, mw = 420;
+    box(g1, X(2), y2, mw, 150, "Frozen model", ["one year, never changes"], "model");
+    box(g1, X(2), y2 + 180, mw, 150, "Learning model", ["guesses a day, then learns it"], "model");
+    arrow(g1, "ah-night", [[X(2) + w / 2, y1 + h + 6], [X(2) + w / 2, y2 - 8]]);
+    // published
+    box(g2, X(1), y2 + 70, w, 190, "Saved in git", ["site/data, one commit", "a day"], "use");
+    box(g2, X(0), y2 + 70, w, 190, "The website", ["Vercel publishes it:", "globe, Ask, City Pulse"], "use");
+    arrow(g2, "ah-night", [[X(2) - 6, y2 + 75], [X(1) + w + 60, y2 + 75], [X(1) + w + 60, y2 + 165], [X(1) + w + 8, y2 + 165]]);
+    arrow(g2, "ah-night", [[X(2) - 6, y2 + 255], [X(1) + w + 60, y2 + 255], [X(1) + w + 60, y2 + 165]]);
+    arrow(g2, "ah-night", [[X(1) - 6, y2 + 165], [X(0) + w + 8, y2 + 165]]);
+    text(g2, X(0), 960, `Built once on a laptop and saved the same way: Ask's models, ${sc.stations} cities, ${sc.start.slice(0, 4)}–${sc.end.slice(0, 4)}.`, "ax");
+    return fig;
+  },
+
   question() {
     const box = el("div", { class: "fig" });
     box.append(el("p", { class: "q" }, "Can a seismometer tell what day of the week it is?"));
@@ -302,10 +629,17 @@ function build(b, i) {
   const slide = el("section", { class: "slide", "aria-label": b.title, "data-i": String(i) });
   if (b.kind === "static") slide.append(CHARTS[b.static.chart](b));
   if (b.kind === "video") {
-    const v = el("video", { muted: "", playsinline: "", preload: "none", "data-src": `media/${b.video.clip}.mp4`,
+    const v = el("video", { class: "main", muted: "", playsinline: "", preload: "none", "data-src": `media/${b.video.clip}.mp4`,
       poster: `media/${b.video.clip}.jpg` });
     v.muted = true; v.loop = !!b.video.loop;
     slide.append(v);
+    // one looping "hold" per stop: the camera still, the city still moving
+    cuesOf(b).forEach((q, k) => {
+      if (!q.hold) return;
+      const h = el("video", { class: "hold", "data-k": String(k), muted: "", playsinline: "", loop: "", preload: "none", "data-src": `media/${q.hold}` });
+      h.muted = true; h.loop = true;
+      slide.append(h);
+    });
     if (b.video.then) {
       const over = el("div", { class: "over" }, CHARTS[b.video.then](b));
       if (b.source) over.append(el("p", { class: "src" }, b.source));
@@ -377,8 +711,10 @@ function showLive(i) {
     fb.hidden = true; fb.querySelectorAll("video").forEach((v) => v.pause());
     rec.iframe.classList.add("on");
     document.body.classList.add("dark");
-    if (b.live.scroll && !rec.scrolled) {       // bring the part we talk about into view
-      try { rec.iframe.contentDocument.querySelector(b.live.scroll).scrollIntoView({ block: "center" }); } catch (e) { /* ignore */ }
+    // bring the part we talk about into view (each step can name its own section)
+    const sc = rec.step > 0 && b.live.steps ? b.live.steps[rec.step - 1].scroll : b.live.scroll;
+    if (sc && !rec.scrolled) {
+      try { rec.iframe.contentDocument.querySelector(sc).scrollIntoView({ block: rec.step > 0 ? "start" : "center" }); } catch (e) { /* ignore */ }
       rec.scrolled = true;
     }
   }
@@ -406,6 +742,67 @@ function unloadVideo(i) {
   slide.querySelectorAll("video").forEach((v) => { if (v.src) { v.pause(); v.removeAttribute("src"); v.load(); } });
 }
 
+// a still that builds: every group with data-step <= k is shown
+function showSteps(slide, k) {
+  slide.querySelectorAll("[data-step]").forEach((g) => g.classList.toggle("shown", +g.dataset.step <= k));
+}
+
+// ------------------------------------------------------------------ clips with stops
+// A clip with stops is played in segments: segment k runs from stop k-1 (or the start) to
+// stop k, then holds there until the presenter presses Next. `step` is the segment.
+let vs = { i: -1, k: 0, held: false };
+function cuesOf(b) { return (b && b.kind === "video" && CUES[b.video.clip]) || []; }
+const mainOf = (i) => slides[i].querySelector("video.main");
+function seek(v, t) { try { v.currentTime = t; } catch (e) { /* not loaded yet */ } }
+function holdsOff(i) {
+  slides[i].querySelectorAll("video.hold.on").forEach((h) => {
+    h.classList.remove("on");                      // fades out (talk.css), then stops
+    setTimeout(() => { if (!h.classList.contains("on")) h.pause(); }, 600);
+  });
+}
+function playSegment(i, k) {
+  const cues = cuesOf(BEATS[i]), v = mainOf(i);
+  vs = { i, k, held: false };
+  if (!v.src) v.src = v.dataset.src;
+  if (k === 0) seek(v, 0); else if (Math.abs(v.currentTime - cues[k - 1].at) > 0.1) seek(v, cues[k - 1].at);
+  const p = v.play(); if (p) p.catch(() => {});
+  holdsOff(i);
+  if (k >= cues.length) return;                    // the last segment runs to the end
+  const stopAt = cues[k].at;
+  const tick = () => {
+    if (vs.i !== i || vs.k !== k || vs.held || cur !== i) return;
+    if (v.currentTime >= stopAt - 0.02) return holdAt(i, k);
+    wait();
+  };
+  // once per decoded frame where the browser can (exact), else once per screen refresh
+  const wait = () => (v.requestVideoFrameCallback ? v.requestVideoFrameCallback(tick) : requestAnimationFrame(tick));
+  wait();
+}
+function holdAt(i, k) {
+  const q = cuesOf(BEATS[i])[k], v = mainOf(i);
+  vs = { i, k, held: true };
+  v.pause();
+  seek(v, q.at);                                   // the frame the hold loop starts on
+  const h = slides[i].querySelector(`video.hold[data-k="${k}"]`);
+  if (!h) return;                                  // nothing moves here: a plain pause
+  if (!h.src) h.src = h.dataset.src;
+  seek(h, 0);
+  h.addEventListener("playing", () => { if (vs.i === i && vs.k === k && vs.held) h.classList.add("on"); }, { once: true });
+  const p = h.play(); if (p) p.catch(() => {});
+}
+function toEnd(i) {                                // Next while the last segment still plays
+  const v = mainOf(i);
+  if (v.duration) { v.pause(); seek(v, v.duration - 0.04); }
+  slides[i].querySelectorAll(".over").forEach((o) => o.classList.add("on"));
+  vs.held = true;
+}
+function announce() {                              // the address bar, notes and presenter
+  if (history.replaceState) history.replaceState(null, "", `#/${cur + 1}${step ? `.${step}` : ""}`);
+  drawProgress();
+  renderNotes();
+  if (channel && !isPresenter) channel.postMessage({ i: cur, k: step });
+}
+
 // ------------------------------------------------------------------ navigation
 let slides = [], liveTimer = null;
 function go(i, k = 0) {
@@ -415,6 +812,7 @@ function go(i, k = 0) {
   if (prev >= 0 && prev !== i) {
     slides[prev].classList.remove("on");
     slides[prev].querySelectorAll("video").forEach((v) => v.pause());
+    slides[prev].querySelectorAll("video.hold").forEach((h) => h.classList.remove("on"));
     slides[prev].querySelectorAll(".over").forEach((o) => o.classList.remove("on"));
     const rec = frames.get(prev); if (rec) rec.iframe.classList.remove("on");
   }
@@ -423,12 +821,16 @@ function go(i, k = 0) {
   slide.classList.add("on");
   document.body.classList.remove("dark");
   clearTimeout(liveTimer);
-  if (b.kind === "video") slide.querySelectorAll("video").forEach(playFromStart);
+  if (b.kind === "static") showSteps(slide, k);
+  if (b.kind === "video") {
+    if (cuesOf(b).length) playSegment(i, Math.min(k, cuesOf(b).length));
+    else slide.querySelectorAll("video.main").forEach(playFromStart);
+  }
   if (b.kind === "live") {
     const rec = ensureFrame(i);
     if (rec.step !== k) {                        // a scripted step: the page moves by itself
       // each step's URL has its own query string, so it is always a full page load
-      rec.step = k; rec.ready = false;
+      rec.step = k; rec.ready = false; rec.scrolled = false;
       rec.iframe.classList.remove("on");
       rec.iframe.src = liveSrc(b, k);
     }
@@ -449,19 +851,39 @@ function go(i, k = 0) {
       if (i >= j - ahead && i <= j + 1) ensureFrame(j); else if (j !== i) dropFrame(j);
     }
   }
-  if (history.replaceState) history.replaceState(null, "", `#/${i + 1}${k ? `.${k}` : ""}`);
-  drawProgress();
-  renderNotes();
-  if (channel && !isPresenter) channel.postMessage({ i, k });
+  announce();
 }
 function next() {
-  const b = BEATS[cur];
+  const b = BEATS[cur], cues = cuesOf(b);
+  if (b && b.kind === "static" && b.static.steps && step < b.static.steps) return go(cur, step + 1);
+  if (cues.length && vs.i === cur) {
+    if (!vs.held && vs.k < cues.length) return holdAt(cur, vs.k);    // behind? catch up to the stop
+    if (vs.held && vs.k < cues.length && !cues[vs.k].final) return go(cur, vs.k + 1);
+    if (!vs.held && vs.k >= cues.length) { const v = mainOf(cur); if (!v.ended) return toEnd(cur); }
+  }
   if (b && b.kind === "live" && b.live.steps && step < b.live.steps.length) return go(cur, step + 1);
   go(cur + 1);
 }
 function back() {
+  const cues = cuesOf(BEATS[cur]);
+  if (cues.length && vs.i === cur) {                // back to the previous stop
+    const j = Math.min(vs.k, cues.length) - 1;
+    if (j >= 0) {
+      slides[cur].querySelectorAll(".over").forEach((o) => o.classList.remove("on"));
+      holdsOff(cur); step = j; holdAt(cur, j); announce(); return;
+    }
+    return backToSlide(cur - 1);
+  }
   if (step > 0) return go(cur, step - 1);
-  go(cur - 1);
+  return backToSlide(cur - 1);
+}
+// going back lands where that slide was left: a clip at its last stop, not replaying it
+function backToSlide(p) {
+  if (p < 0) return;
+  const bp = BEATS[p];
+  go(p, bp.kind === "static" && bp.static.steps ? bp.static.steps : 0);    // a diagram, fully built
+  const n = cuesOf(BEATS[p]).length;
+  if (n) { step = n - 1; holdAt(p, n - 1); announce(); }
 }
 
 // ------------------------------------------------------------------ input
@@ -566,9 +988,12 @@ function start() {
 async function main() {
   const deck = await (await fetch("slides.json", { cache: "no-cache" })).json();
   BEATS = deck.beats;
-  const names = ["results", "bands", "spectrum", "folds", "mistakes", "applied", "story", "city_day"];
+  const names = ["results", "bands", "spectrum", "folds", "mistakes", "applied", "story", "city_day", "forest", "stations", "ml"];
   const files = await Promise.all(names.map((n) => fetch(`data/${n}.json`, { cache: "no-cache" }).then((r) => r.json())));
   names.forEach((n, i) => { DATA[n] = files[i]; });
+  DATA.sources = await fetch("../data/sources.json", { cache: "no-cache" }).then((r) => r.json());
+  // where each clip stops (src/talk_build.py); without it every clip just plays through
+  CUES = await fetch("media/cues.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
   await document.fonts.ready;
 
   if (isPresenter) {                    // a second window that follows the deck
@@ -584,7 +1009,7 @@ async function main() {
   }
   slides = BEATS.map(build);
   $("stage").append(...slides);
-  // ?shot=N[&then=1]: slide N alone, full 1920x1080, no controls, nothing moving. Used by
+  // ?shot=N[&then=1][&step=k]: slide N alone, full 1920x1080, no controls, nothing moving. Used by
   // presentation/story/build_pptx.cjs to photograph each slide for the PowerPoint.
   const shot = new URLSearchParams(location.search).get("shot");
   if (shot) {
@@ -594,6 +1019,8 @@ async function main() {
     slide.classList.add("on");
     if (b.kind === "live") slide.querySelector(".fallback").hidden = false;
     if (new URLSearchParams(location.search).has("then")) slide.querySelectorAll(".over").forEach((o) => o.classList.add("on"));
+    const at = new URLSearchParams(location.search).get("step");
+    showSteps(slide, at == null ? 99 : +at);
     slide.querySelectorAll("video").forEach((v) => { v.removeAttribute("src"); });   // poster = last frame
     $("stage").style.transform = "none";      // the window is exactly 1920 x 1080: no scaling
     document.body.dataset.ready = "1";
@@ -605,6 +1032,8 @@ async function main() {
   addEventListener("keydown", onKey, true);
   for (const t of ["touchstart", "touchmove", "touchend", "touchcancel"]) addEventListener(t, onTouch, { capture: true, passive: false });
   $("next").addEventListener("click", next);
+  // one tap on a clip or a still = Next (live pages keep their taps: they sit above the stage)
+  $("stage").addEventListener("click", () => { if (started && BEATS[cur] && BEATS[cur].kind !== "live") next(); });
   $("back").addEventListener("click", back);
   $("go").addEventListener("click", start);
   $("blackout").addEventListener("click", () => { $("blackout").hidden = true; });

@@ -6,6 +6,8 @@
 import React from "react";
 import { Composition } from "remotion";
 import { FPS, H, W } from "./theme";
+import { HOLD_LEAD, HoldAt } from "./lib";
+import CUES from "./cues.json";
 import { S00Questions, S01Christmas, S02Promises, S13Scorecard, S14Close } from "./scenes/Open3D";
 import { C1City } from "./scenes/C1City";
 import { C2Sea } from "./scenes/C2Sea";
@@ -35,10 +37,31 @@ export const CLIPS: { id: string; seconds: number; component: React.FC; three?: 
   { id: "S14-close", seconds: 32, component: S14Close },
 ];
 
+// The deck's holds (src/cues.json): at each cue with hold=true, a short clip whose story
+// clock is stopped at the cue while cars, people and waves keep moving. It starts HOLD_LEAD
+// seconds of background early so src/talk_build.py can turn it into a seamless loop.
+const cueMap = CUES.clips as Record<string, { at: number; hold: boolean }[]>;
+export const HOLDS = CLIPS.flatMap((c) =>
+  (cueMap[c.id] || [])
+    .filter((q) => q.hold)
+    .map((q) => {
+      const Comp = c.component;
+      const Held: React.FC = () => (
+        <HoldAt at={q.at}>
+          <Comp />
+        </HoldAt>
+      );
+      return { id: `${c.id}-hold-${Math.round(q.at * 10)}`, component: Held };
+    }),
+);
+
 export const RemotionRoot: React.FC = () => (
   <>
     {CLIPS.map((c) => (
       <Composition key={c.id} id={c.id} component={c.component} durationInFrames={Math.round(c.seconds * FPS)} fps={FPS} width={W} height={H} />
+    ))}
+    {HOLDS.map((h) => (
+      <Composition key={h.id} id={h.id} component={h.component} durationInFrames={Math.round((HOLD_LEAD + CUES.hold_seconds) * FPS)} fps={FPS} width={W} height={H} />
     ))}
   </>
 );

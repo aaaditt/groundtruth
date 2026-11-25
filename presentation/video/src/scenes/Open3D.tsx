@@ -8,9 +8,9 @@
 import React from "react";
 import { ThreeCanvas } from "@remotion/three";
 import { useCurrentFrame } from "remotion";
-import { C, DISPLAY, H, W } from "../theme";
+import { C, DISPLAY, FPS, H, W } from "../theme";
 import { busyOn, cityDay, mistakes, pct as pctText, results } from "../data";
-import { Caption, fade, IllustrationTag, lerp, ramp, Source, Stage, useSec } from "../lib";
+import { Caption, fade, IllustrationTag, lerp, ramp, Source, Stage, useAmbient, useSec } from "../lib";
 import { DayAxes, DayTrace } from "../DayChart";
 import { Shot } from "../three/kit";
 import { CityWorld, PaperSign, SignFace } from "../three/World";
@@ -87,12 +87,14 @@ const S00_SHOTS: Shot[] = [
 
 export const S00Questions: React.FC = () => {
   const t = useSec();
-  const frame = useCurrentFrame();
+  useCurrentFrame();
+  const a = useAmbient(); // background clock: keeps running while the deck holds a cue
+  const frame = a * FPS;
   const minute = 8 * 60 + 20 + t * 0.6;
   return (
     <Stage>
       <ThreeCanvas width={W} height={H} shadows gl={{ antialias: true }} flat>
-        <CityWorld t={t} frame={frame} minute={minute} busy={busyOn("wednesday", minute)} shots={S00_SHOTS} />
+        <CityWorld t={t} amb={a} frame={frame} minute={minute} busy={busyOn("wednesday", minute)} shots={S00_SHOTS} />
       </ThreeCanvas>
       <QCard text="How did you get here today?" at={0.5} until={14} y={84} size={84} />
       <Caption text="By car? By bus? On foot?" at={3} until={7} y={232} size={44} />
@@ -147,14 +149,16 @@ const XmasTree: React.FC<{ grow: number; t: number }> = ({ grow, t }) => {
 
 export const S01Christmas: React.FC = () => {
   const t = useSec();
-  const frame = useCurrentFrame();
+  useCurrentFrame();
+  const a = useAmbient(); // background clock: keeps running while the deck holds a cue
+  const frame = a * FPS;
   const minute = 10 * 60 + t * 3;
   const reveal = ramp(t, 12.5, 14.5);
   return (
     <Stage>
       <ThreeCanvas width={W} height={H} shadows gl={{ antialias: true }} flat>
-        <CityWorld t={t} frame={frame} minute={minute} busy={busyOn("christmas", minute)} shots={S01_SHOTS}>
-          <XmasTree grow={reveal} t={t} />
+        <CityWorld t={t} amb={a} frame={frame} minute={minute} busy={busyOn("christmas", minute)} shots={S01_SHOTS}>
+          <XmasTree grow={reveal} t={a} />
         </CityWorld>
       </ThreeCanvas>
       <Caption text="Weekday or weekend?" at={0.4} until={12.5} y={84} serif size={96} />
@@ -204,12 +208,14 @@ const S02_SHOTS = s02Shots();
 
 export const S02Promises: React.FC = () => {
   const t = useSec();
-  const frame = useCurrentFrame();
+  useCurrentFrame();
+  const a = useAmbient(); // background clock: keeps running while the deck holds a cue
+  const frame = a * FPS;
   const minute = 15 * 60 + 20;
   return (
     <Stage>
       <ThreeCanvas width={W} height={H} shadows gl={{ antialias: true }} flat>
-        <CityWorld t={t} frame={frame} minute={minute} busy={busyOn("wednesday", minute)} shots={S02_SHOTS} plazaTrees={false}>
+        <CityWorld t={t} amb={a} frame={frame} minute={minute} busy={busyOn("wednesday", minute)} shots={S02_SHOTS} plazaTrees={false}>
           {PROMISES.map((f, i) => {
             const s = signAt(i, 6);
             const at = 4 + i * 2.2 + (i === 5 ? 2 : 0);
@@ -241,13 +247,15 @@ const S13_SHOTS: Shot[] = [
 
 export const S13Scorecard: React.FC = () => {
   const t = useSec();
-  const frame = useCurrentFrame();
+  useCurrentFrame();
+  const a = useAmbient(); // background clock: keeps running while the deck holds a cue
+  const frame = a * FPS;
   const minute = 16 * 60 + 15;
   const step = 3.2;
   return (
     <Stage>
       <ThreeCanvas width={W} height={H} shadows gl={{ antialias: true }} flat>
-        <CityWorld t={t} frame={frame} minute={minute} busy={busyOn("wednesday", minute)} shots={S13_SHOTS} plazaTrees={false}>
+        <CityWorld t={t} amb={a} frame={frame} minute={minute} busy={busyOn("wednesday", minute)} shots={S13_SHOTS} plazaTrees={false}>
           {SCORE.map((f, i) => {
             const s = signAt(i, 6);
             return <PaperSign key={i} face={f} position={s.pos} rotY={s.rotY} w={5} h={3.4} rise={ramp(t, 0.2 + i * 0.15, 1.2 + i * 0.15)} stamp={ramp(t, 1 + i * step, 1.5 + i * step)} />;
@@ -270,13 +278,15 @@ const S14_SHOTS: Shot[] = [
 
 export const S14Close: React.FC = () => {
   const t = useSec();
-  const frame = useCurrentFrame();
+  useCurrentFrame();
+  const a = useAmbient(); // background clock: keeps running while the deck holds a cue
+  const frame = a * FPS;
   const minute = 16 * 60 + 40 + t * 3.5; // dusk into evening: the windows come on
   const title = ramp(t, 24, 25.5);
   return (
     <Stage>
       <ThreeCanvas width={W} height={H} shadows gl={{ antialias: true }} flat>
-        <CityWorld t={t} frame={frame} minute={minute} busy={busyOn("wednesday", minute)} open={1} ripples={0.6} shake={0.08} shots={S14_SHOTS} />
+        <CityWorld t={t} amb={a} frame={frame} minute={minute} busy={busyOn("wednesday", minute)} open={1} ripples={0.6} shake={0.08} shots={S14_SHOTS} />
       </ThreeCanvas>
       <Caption text="Still useless?" at={0.3} until={23.5} y={84} serif size={96} />
       <Caption text="Already buried under many of the world's cities. Decades of recordings, free." at={7} until={23.5} y={240} size={38} width={1500} />
