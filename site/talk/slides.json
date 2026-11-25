@@ -177,7 +177,7 @@
 
     {"id": "nightly", "title": "City Pulse: every night", "speaker": "Shraddha", "seconds": 45,
      "kind": "live",
-     "live": {"src": "../today.html?embed=1", "ready": "#rows li", "preload": 2, "steps": [{"src": "../today.html?embed=1&s=learn#learning", "ready": "#learn-body svg"}, {"src": "../today.html?embed=1&s=pred#predictions", "ready": "#pred-body table"}], "fallback": {"still": "today"}},
+     "live": {"src": "../today.html?embed=1", "ready": "#rows li", "preload": 2, "steps": [{"src": "../today.html?embed=1&s=learn#learning", "ready": "#learn-body svg", "scroll": "#learning"}, {"src": "../today.html?embed=1&s=pred#predictions", "ready": "#pred-body table", "scroll": "#predictions"}], "fallback": {"still": "today"}},
      "source": "City Pulse, pre-registered in docs/19, interim",
      "notes": "Here it is running: City Pulse. Every night it shows yesterday, city by city: what the model guessed before it was told, and whether it was right. (Next) Further down, the learner from the diagram: frozen and learning, side by side. Does learning help? We wrote the test down before writing the code, and our own guess is probably not much, because more data already flattened. The verdict comes in January; until then these numbers say interim. (Next) And the predictions board: forecasts committed to the repository before the day, with the result filled in after. Aradhya, one more page."},
 

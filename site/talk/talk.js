@@ -711,8 +711,10 @@ function showLive(i) {
     fb.hidden = true; fb.querySelectorAll("video").forEach((v) => v.pause());
     rec.iframe.classList.add("on");
     document.body.classList.add("dark");
-    if (b.live.scroll && !rec.scrolled) {       // bring the part we talk about into view
-      try { rec.iframe.contentDocument.querySelector(b.live.scroll).scrollIntoView({ block: "center" }); } catch (e) { /* ignore */ }
+    // bring the part we talk about into view (each step can name its own section)
+    const sc = rec.step > 0 && b.live.steps ? b.live.steps[rec.step - 1].scroll : b.live.scroll;
+    if (sc && !rec.scrolled) {
+      try { rec.iframe.contentDocument.querySelector(sc).scrollIntoView({ block: rec.step > 0 ? "start" : "center" }); } catch (e) { /* ignore */ }
       rec.scrolled = true;
     }
   }
@@ -828,7 +830,7 @@ function go(i, k = 0) {
     const rec = ensureFrame(i);
     if (rec.step !== k) {                        // a scripted step: the page moves by itself
       // each step's URL has its own query string, so it is always a full page load
-      rec.step = k; rec.ready = false;
+      rec.step = k; rec.ready = false; rec.scrolled = false;
       rec.iframe.classList.remove("on");
       rec.iframe.src = liveSrc(b, k);
     }
