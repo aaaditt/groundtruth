@@ -10,8 +10,14 @@ Reads site/talk/slides.json (the one source for both decks) and writes:
                             re-encoded for the web (1080p H.264, no sound, fast start)
   site/talk/media/<clip>.jpg  its last frame: the poster, the fallback still, the PPT image
   site/talk/media/today.png   the City Pulse fallback (a screenshot from assets/)
+  site/talk/media/cues.json   where each clip stops and waits for the presenter, moved onto
+                            the cut clip's own timeline (from presentation/video/src/cues.json)
+  site/talk/media/holds/*.mp4 at a stop with hold=true: an 8 s SEAMLESS loop with the camera
+                            and captions stopped but the cars, people and waves still moving
+                            (from out/holds/, rendered by `bash render.sh --holds`)
 
-Needs ffmpeg and the rendered clips in presentation/video/out/ (bash render.sh).
+Needs ffmpeg and the rendered clips in presentation/video/out/ (bash render.sh, and
+bash render.sh --holds for the holds).
 Run:  python src/presentation_data.py && python src/talk_build.py
 """
 import json
@@ -52,6 +58,59 @@ def encode(name, start, end):
     return os.path.getsize(dst)
 
 
+def duration(path):
+    out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+                         check=True, capture_output=True, text=True).stdout
+    return float(out)
+
+
+def make_loop(src, dst, lead):
+    """A hold clip is `lead` seconds of background before the cue, then the loop itself.
+    Play the loop, and over its last `lead` seconds fade into those first seconds: the loop
+    then ends one frame before it starts again, so it repeats without a jump. Its first frame
+    is exactly the main clip's frame at the cue, so the deck can switch with no visible cut."""
+    total = duration(src)
+    body = total - lead
+    graph = (f"[0:v]split[a][b];[a]trim=start={lead}:end={total},setpts=PTS-STARTPTS[A];"
+             f"[b]trim=start=0:end={lead},setpts=PTS-STARTPTS[B];"
+             f"[A][B]xfade=transition=fade:duration={lead}:offset={body - lead}[v]")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-filter_complex", graph, "-map", "[v]", "-an",
+                    "-c:v", "libx264", "-preset", "slow", "-crf", CRF, "-pix_fmt", "yuv420p", "-movflags", "+faststart", dst],
+                   check=True)
+    return os.path.getsize(dst)
+
+
+def cues(beats):
+    """{clip: [{at, hold, final}]} on the timeline of the clip the deck plays (after its cut).
+    final: the stop is the clip's last frame, so the next press goes to the next slide."""
+    with open(os.path.join(VIDEO, "src", "cues.json"), encoding="utf-8") as f:
+        spec = json.load(f)
+    lead = 1      # HOLD_LEAD in presentation/video/src/lib.tsx
+    os.makedirs(os.path.join(TALK, "media", "holds"), exist_ok=True)
+    out, size = {}, 0
+    for b in beats:
+        v = b.get("video")
+        if not v or v["clip"] not in spec["clips"]:
+            continue
+        clip, start = v["clip"], v.get("start") or 0
+        end = v.get("end") or duration(os.path.join(VIDEO, "out", f"{clip}.mp4"))
+        rows = []
+        for q in spec["clips"][clip]:
+            if not start < q["at"] <= end:
+                continue                     # this stop is cut out of the deck's version
+            row = {"at": round(q["at"] - start, 3), "final": end - q["at"] < 0.3, "hold": None}
+            if q["hold"]:
+                name = f"{clip}-hold-{round(q['at'] * 10)}.mp4"
+                size += make_loop(os.path.join(VIDEO, "out", "holds", name), os.path.join(TALK, "media", "holds", name), lead)
+                row["hold"] = f"holds/{name}"
+            rows.append(row)
+        out[clip] = rows
+    with open(os.path.join(TALK, "media", "cues.json"), "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=1)
+    n = sum(len(r) for r in out.values())
+    print(f"site/talk/media/cues.json: {n} stops in {len(out)} clips; holds {size / 1e6:.1f} MB")
+
+
 def main():
     with open(os.path.join(TALK, "slides.json"), encoding="utf-8") as f:
         beats = json.load(f)["beats"]
@@ -74,6 +133,7 @@ def main():
         cut = f" cut {start or 0}s to {end or 'end'}" if (start or end) else ""
         print(f"  {name:16s}{cut:22s} {size / 1e6:5.1f} MB")
     print(f"site/talk/media: {total / 1e6:.1f} MB of clips for {len(beats)} beats")
+    cues(beats)
 
 
 if __name__ == "__main__":

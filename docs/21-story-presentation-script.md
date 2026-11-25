@@ -14,11 +14,17 @@ as a new model rather than "the same model, better", and a limits beat is back.
 1. **Live deck** (`site/talk/`, a web page that behaves like slides): clicker or arrow keys,
    Next/Back buttons at the bottom, **swipe with three or more fingers** to change slide,
    one finger to use the globe or a chart. Clips play inside it; live pages open inside it.
+   **Every clip stops at each of its beats and waits for you** (Space, clicker, Next or one
+   tap on the screen). At a stop the camera and captions hold still but the city keeps
+   moving: cars drive, people walk, the sea rolls. Pressing Next while a clip is still
+   playing jumps straight to its stop, so if you're behind you catch up at once; Back
+   returns to the previous stop. The stops are listed in
+   `presentation/video/src/cues.json`.
 2. **PowerPoint** (`presentation/GroundTruth-story.pptx`): the same beats as stills and
    embedded clips; live beats become their fallback. For submission and as the backup.
 
-**Formats:** `[STATIC]` a still you talk over · `[VIDEO name]` a short clip that holds on its
-last frame · `[LIVE page]` the real website inside the deck; if it hasn't loaded in 5 seconds
+**Formats:** `[STATIC]` a still you talk over · `[VIDEO name]` a clip that plays to its next
+stop and waits there (one press per stop) · `[LIVE page]` the real website inside the deck; if it hasn't loaded in 5 seconds
 its fallback appears by itself.
 
 **The room will not participate.** Every question is rhetorical and answered at once.
@@ -33,7 +39,7 @@ its fallback appears by itself.
 
 | # | Beat | Format | Speaker | Time |
 |---|---|---|---|---|
-| 1 | You shook the ground today | VIDEO S00 (loop) | Aadit | 0:25 |
+| 1 | You shook the ground today | VIDEO S00 (3 stops) | Aadit | 0:25 |
 | 2 | Weekday or weekend? | VIDEO S01 | Aadit | 0:30 |
 | 3 | Last time: one question | STATIC | Aadit | 0:20 |
 | 4 | What a seismometer records | VIDEO C1 (cut) | Aadit | 0:45 |
@@ -65,7 +71,7 @@ Never cut 2, 13, 18, 19.
 
 # The script
 
-### 1 · YOU SHOOK THE GROUND TODAY — `[VIDEO S00 loop]`
+### 1 · YOU SHOOK THE GROUND TODAY — `[VIDEO S00, 3 stops]`
 > **[Aadit]** *(no greeting)* Every one of you shook the ground on the way here. By car, by
 > bus, on foot. A few billionths of a metre, but you did. And somewhere under this city, an
 > instrument wrote it down. Here's one day of that writing.

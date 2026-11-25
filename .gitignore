@@ -37,3 +37,4 @@ presentation/*.pptx
 
 # story-talk slide photographs, rebuilt by presentation/story/build_pptx.cjs
 presentation/story/shots/
+presentation/story/segments/

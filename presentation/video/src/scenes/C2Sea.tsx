@@ -14,7 +14,7 @@ import * as THREE from "three";
 import { useCurrentFrame } from "remotion";
 import { C, DISPLAY, H, TEXT, W } from "../theme";
 import { bands, spectrum } from "../data";
-import { Caption, Clock, fade, HBar, IllustrationTag, lerp, Note, ramp, Source, Stage, useSec } from "../lib";
+import { Caption, Clock, fade, HBar, IllustrationTag, lerp, Note, ramp, Source, Stage, useAmbient, useSec } from "../lib";
 import { Atmosphere, CameraPath, DayLights, P, rnd, screenOf, Shot } from "../three/kit";
 import { Box, M } from "../three/City";
 
@@ -105,7 +105,7 @@ const COAST_SHOTS: Shot[] = [
   { t: 19.5, pos: [10, -3, 64], look: [8, -5, 4], fov: 36 },
 ];
 
-const Coast: React.FC<{ t: number }> = ({ t }) => {
+const Coast: React.FC<{ t: number; a: number }> = ({ t, a }) => {
   const sea = ramp(t, 8, 10);
   const city = ramp(t, 12.5, 14);
   return (
@@ -127,7 +127,7 @@ const Coast: React.FC<{ t: number }> = ({ t }) => {
         <Box key={`s${i}`} x={[-140, SEA_X + 4]} y={[y0, Math.min(y1, -4.8)]} z={[-12, FACE]} m={m} shadow={false} />
       ))}
       <Box x={[-140, SEA_X + 0.5]} y={[-4.8, -1.1]} z={[-12, FACE - 0.02]} m={waterFace} shadow={false} />
-      <Swell t={t} />
+      <Swell t={a} />
       {/* the city: a road with cars and two rows of buildings */}
       <Box x={[SEA_X + 6, 64]} y={[0, 0.04]} z={[4, 8]} m={M.road} shadow={false} />
       <Box x={[SEA_X + 6, 64]} y={[0, 0.14]} z={[2.6, 4]} m={M.pavement} shadow={false} />
@@ -135,7 +135,7 @@ const Coast: React.FC<{ t: number }> = ({ t }) => {
         <Box key={`h${i}`} x={b.x} y={[0, b.h]} z={b.z} m={b.m} />
       ))}
       {COAST_CARS.map((c, i) => {
-        const x = carX(c, t);
+        const x = carX(c, a);
         if (x > 60) return null;
         return (
           <group key={`car${i}`} position={[x, 0, c.lane === 0 ? 5 : 7]}>
@@ -149,7 +149,7 @@ const Coast: React.FC<{ t: number }> = ({ t }) => {
       <mesh position={[28.5, -9.4, FACE - 0.6]} material={M.trunk}>
         <cylinderGeometry args={[0.45, 0.45, 0.9, 20]} />
       </mesh>
-      <FaceWaves t={t} sea={sea} city={city} />
+      <FaceWaves t={a} sea={sea} city={city} />
     </ThreeCanvas>
   );
 };
@@ -301,6 +301,7 @@ const Pin: React.FC<{ t: number; p: [number, number, number]; text: string; at: 
 // ======================= the clip ==========================================================
 export const C2Sea: React.FC = () => {
   const t = useSec();
+  const a = useAmbient(); // background clock: keeps running while the deck holds a cue
   useCurrentFrame();
   const cut = ramp(t, 18.2, 19.5, "inout") * (1 - ramp(t, 19.5, 21, "inout")); // paper wipe between parts
   const clock = 24 * ramp(t, CLOCK.a, CLOCK.b, "inout");
@@ -311,7 +312,7 @@ export const C2Sea: React.FC = () => {
   const peopleZ = zOf(8);
   return (
     <Stage>
-      {t < 19.5 ? <Coast t={t} /> : <Land t={t} />}
+      {t < 19.5 ? <Coast t={t} a={a} /> : <Land t={t} />}
       <div style={{ position: "absolute", inset: 0, background: C.paper, opacity: cut }} />
 
       {/* Part A captions */}

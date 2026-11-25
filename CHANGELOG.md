@@ -4,6 +4,20 @@ What changed in each version of GroundTruth. Versions follow semantic versioning
 `1.0.0` is the git tag `v1.0-semester`. The daily `pulse: data` commits only add a new
 day of data and are not listed.
 
+## [1.7.1] - 2026-11-25
+
+### Changed
+
+- **The presenter sets the pace, not the clips.** Every clip in the talk deck stops at
+  each of its beats (29 stops in 9 clips, `presentation/video/src/cues.json`) and waits for
+  Space, the clicker, Next or one tap. Where the city is on screen the stop is a living
+  hold: the camera and captions stay still while cars, people, trains and waves keep
+  moving (15 seamless 8-second loops, rendered with a stopped story clock and a running
+  background clock: `useSec` / `useAmbient` in `presentation/video/src/lib.tsx`). Pressing
+  Next mid-clip jumps to the stop; Back returns to the previous stop, or to the previous
+  slide's last stop. The clips deck PowerPoint cuts each clip at its stops (one slide per
+  segment). The clips themselves are unchanged frame for frame.
+
 ## [1.7.0] - 2026-11-24
 
 ### Added

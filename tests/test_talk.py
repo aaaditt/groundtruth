@@ -98,3 +98,34 @@ def test_deck_runs_offline(deck):
     assert "http" not in re.sub(r'href="data:[^"]*"', "", html)
     for font in re.findall(r"url\((fonts/[^)]+)\)", css):
         assert os.path.exists(os.path.join(TALK, font)), font
+
+
+def test_stops_are_ordered_and_every_hold_exists(deck):
+    """media/cues.json (src/talk_build.py): each clip's stops come in order, inside the
+    clip, and every living hold it names has its loop file. Only the last stop can be final."""
+    with open(os.path.join(TALK, "media", "cues.json"), encoding="utf-8") as f:
+        cues = json.load(f)
+    played = {b["video"]["clip"] for b in deck["beats"] if b["kind"] == "video"}
+    assert set(cues) <= played
+    for clip, stops in cues.items():
+        ats = [q["at"] for q in stops]
+        assert ats == sorted(ats) and ats[0] > 0, clip
+        assert not any(q["final"] for q in stops[:-1]), clip
+        for q in stops:
+            if q["hold"]:
+                assert os.path.exists(os.path.join(TALK, "media", q["hold"])), f"{clip}: {q['hold']}"
+
+
+def test_stops_come_from_the_clips_own_list():
+    """The deck's stops are the renderer's (presentation/video/src/cues.json), moved by the cut."""
+    with open(os.path.join(REPO, "presentation", "video", "src", "cues.json"), encoding="utf-8") as f:
+        spec = json.load(f)["clips"]
+    with open(os.path.join(TALK, "media", "cues.json"), encoding="utf-8") as f:
+        cues = json.load(f)
+    with open(os.path.join(TALK, "slides.json"), encoding="utf-8") as f:
+        start = {b["video"]["clip"]: b["video"].get("start") or 0 for b in json.load(f)["beats"] if b["kind"] == "video"}
+    for clip, stops in cues.items():
+        src = {round(q["at"] - start[clip], 3): q["hold"] for q in spec[clip]}
+        for q in stops:
+            assert q["at"] in src, clip
+            assert bool(q["hold"]) == src[q["at"]], clip

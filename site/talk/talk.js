@@ -1,12 +1,15 @@
 // The talk deck: a web page that behaves like slides (docs/21, site/talk/slides.json).
 //
-//   Next   right arrow, Page Down (clickers), Space, Enter, the Next button, or a swipe
-//          with three or more fingers (one finger is left alone, to use the live pages)
+//   Next   right arrow, Page Down (clickers), Space, Enter, the Next button, a tap on a
+//          clip or still, or a swipe with three or more fingers (one finger is left alone,
+//          to use the live pages)
 //   Back   left arrow, Page Up, Backspace, the Back button, or the opposite swipe
 //   F full screen   N speaker notes   P presenter window   L show a live slide's fallback
 //   B black screen  Home / End first / last slide
 //
-// Three kinds of slide: a clip (plays once and holds on its last frame), a still drawn
+// Three kinds of slide: a clip that plays to its next STOP and waits for the presenter
+// (media/cues.json; at a stop the camera holds still but the city keeps moving, from a
+// seamless loop in media/holds/; pressing Next while it plays jumps to the stop), a still drawn
 // here from data/*.json (the numbers are never typed: every one comes from the files that
 // src/presentation_data.py writes from the real data), and a live page of the website in
 // an iframe, with a fallback that appears by itself if the page isn't ready in 5 seconds.
@@ -34,7 +37,7 @@ function s(tag, attrs = {}, text) {
 const pct = (x, d = 0) => `${(100 * x).toFixed(d)}%`;
 const fmt = (n) => n.toLocaleString("en-GB");
 
-let BEATS = [], DATA = {}, cur = -1, step = 0, started = false;
+let BEATS = [], DATA = {}, CUES = {}, cur = -1, step = 0, started = false;
 const isPresenter = new URLSearchParams(location.search).has("presenter");
 const channel = "BroadcastChannel" in window ? new BroadcastChannel("groundtruth-talk") : null;
 
@@ -302,10 +305,17 @@ function build(b, i) {
   const slide = el("section", { class: "slide", "aria-label": b.title, "data-i": String(i) });
   if (b.kind === "static") slide.append(CHARTS[b.static.chart](b));
   if (b.kind === "video") {
-    const v = el("video", { muted: "", playsinline: "", preload: "none", "data-src": `media/${b.video.clip}.mp4`,
+    const v = el("video", { class: "main", muted: "", playsinline: "", preload: "none", "data-src": `media/${b.video.clip}.mp4`,
       poster: `media/${b.video.clip}.jpg` });
     v.muted = true; v.loop = !!b.video.loop;
     slide.append(v);
+    // one looping "hold" per stop: the camera still, the city still moving
+    cuesOf(b).forEach((q, k) => {
+      if (!q.hold) return;
+      const h = el("video", { class: "hold", "data-k": String(k), muted: "", playsinline: "", loop: "", preload: "none", "data-src": `media/${q.hold}` });
+      h.muted = true; h.loop = true;
+      slide.append(h);
+    });
     if (b.video.then) {
       const over = el("div", { class: "over" }, CHARTS[b.video.then](b));
       if (b.source) over.append(el("p", { class: "src" }, b.source));
@@ -406,6 +416,62 @@ function unloadVideo(i) {
   slide.querySelectorAll("video").forEach((v) => { if (v.src) { v.pause(); v.removeAttribute("src"); v.load(); } });
 }
 
+// ------------------------------------------------------------------ clips with stops
+// A clip with stops is played in segments: segment k runs from stop k-1 (or the start) to
+// stop k, then holds there until the presenter presses Next. `step` is the segment.
+let vs = { i: -1, k: 0, held: false };
+function cuesOf(b) { return (b && b.kind === "video" && CUES[b.video.clip]) || []; }
+const mainOf = (i) => slides[i].querySelector("video.main");
+function seek(v, t) { try { v.currentTime = t; } catch (e) { /* not loaded yet */ } }
+function holdsOff(i) {
+  slides[i].querySelectorAll("video.hold.on").forEach((h) => {
+    h.classList.remove("on");                      // fades out (talk.css), then stops
+    setTimeout(() => { if (!h.classList.contains("on")) h.pause(); }, 600);
+  });
+}
+function playSegment(i, k) {
+  const cues = cuesOf(BEATS[i]), v = mainOf(i);
+  vs = { i, k, held: false };
+  if (!v.src) v.src = v.dataset.src;
+  if (k === 0) seek(v, 0); else if (Math.abs(v.currentTime - cues[k - 1].at) > 0.1) seek(v, cues[k - 1].at);
+  const p = v.play(); if (p) p.catch(() => {});
+  holdsOff(i);
+  if (k >= cues.length) return;                    // the last segment runs to the end
+  const stopAt = cues[k].at;
+  const tick = () => {
+    if (vs.i !== i || vs.k !== k || vs.held || cur !== i) return;
+    if (v.currentTime >= stopAt - 0.02) return holdAt(i, k);
+    wait();
+  };
+  // once per decoded frame where the browser can (exact), else once per screen refresh
+  const wait = () => (v.requestVideoFrameCallback ? v.requestVideoFrameCallback(tick) : requestAnimationFrame(tick));
+  wait();
+}
+function holdAt(i, k) {
+  const q = cuesOf(BEATS[i])[k], v = mainOf(i);
+  vs = { i, k, held: true };
+  v.pause();
+  seek(v, q.at);                                   // the frame the hold loop starts on
+  const h = slides[i].querySelector(`video.hold[data-k="${k}"]`);
+  if (!h) return;                                  // nothing moves here: a plain pause
+  if (!h.src) h.src = h.dataset.src;
+  seek(h, 0);
+  h.addEventListener("playing", () => { if (vs.i === i && vs.k === k && vs.held) h.classList.add("on"); }, { once: true });
+  const p = h.play(); if (p) p.catch(() => {});
+}
+function toEnd(i) {                                // Next while the last segment still plays
+  const v = mainOf(i);
+  if (v.duration) { v.pause(); seek(v, v.duration - 0.04); }
+  slides[i].querySelectorAll(".over").forEach((o) => o.classList.add("on"));
+  vs.held = true;
+}
+function announce() {                              // the address bar, notes and presenter
+  if (history.replaceState) history.replaceState(null, "", `#/${cur + 1}${step ? `.${step}` : ""}`);
+  drawProgress();
+  renderNotes();
+  if (channel && !isPresenter) channel.postMessage({ i: cur, k: step });
+}
+
 // ------------------------------------------------------------------ navigation
 let slides = [], liveTimer = null;
 function go(i, k = 0) {
@@ -415,6 +481,7 @@ function go(i, k = 0) {
   if (prev >= 0 && prev !== i) {
     slides[prev].classList.remove("on");
     slides[prev].querySelectorAll("video").forEach((v) => v.pause());
+    slides[prev].querySelectorAll("video.hold").forEach((h) => h.classList.remove("on"));
     slides[prev].querySelectorAll(".over").forEach((o) => o.classList.remove("on"));
     const rec = frames.get(prev); if (rec) rec.iframe.classList.remove("on");
   }
@@ -423,7 +490,10 @@ function go(i, k = 0) {
   slide.classList.add("on");
   document.body.classList.remove("dark");
   clearTimeout(liveTimer);
-  if (b.kind === "video") slide.querySelectorAll("video").forEach(playFromStart);
+  if (b.kind === "video") {
+    if (cuesOf(b).length) playSegment(i, Math.min(k, cuesOf(b).length));
+    else slide.querySelectorAll("video.main").forEach(playFromStart);
+  }
   if (b.kind === "live") {
     const rec = ensureFrame(i);
     if (rec.step !== k) {                        // a scripted step: the page moves by itself
@@ -449,19 +519,37 @@ function go(i, k = 0) {
       if (i >= j - ahead && i <= j + 1) ensureFrame(j); else if (j !== i) dropFrame(j);
     }
   }
-  if (history.replaceState) history.replaceState(null, "", `#/${i + 1}${k ? `.${k}` : ""}`);
-  drawProgress();
-  renderNotes();
-  if (channel && !isPresenter) channel.postMessage({ i, k });
+  announce();
 }
 function next() {
-  const b = BEATS[cur];
+  const b = BEATS[cur], cues = cuesOf(b);
+  if (cues.length && vs.i === cur) {
+    if (!vs.held && vs.k < cues.length) return holdAt(cur, vs.k);    // behind? catch up to the stop
+    if (vs.held && vs.k < cues.length && !cues[vs.k].final) return go(cur, vs.k + 1);
+    if (!vs.held && vs.k >= cues.length) { const v = mainOf(cur); if (!v.ended) return toEnd(cur); }
+  }
   if (b && b.kind === "live" && b.live.steps && step < b.live.steps.length) return go(cur, step + 1);
   go(cur + 1);
 }
 function back() {
+  const cues = cuesOf(BEATS[cur]);
+  if (cues.length && vs.i === cur) {                // back to the previous stop
+    const j = Math.min(vs.k, cues.length) - 1;
+    if (j >= 0) {
+      slides[cur].querySelectorAll(".over").forEach((o) => o.classList.remove("on"));
+      holdsOff(cur); step = j; holdAt(cur, j); announce(); return;
+    }
+    return backToSlide(cur - 1);
+  }
   if (step > 0) return go(cur, step - 1);
-  go(cur - 1);
+  return backToSlide(cur - 1);
+}
+// going back lands where that slide was left: a clip at its last stop, not replaying it
+function backToSlide(p) {
+  if (p < 0) return;
+  go(p);
+  const n = cuesOf(BEATS[p]).length;
+  if (n) { step = n - 1; holdAt(p, n - 1); announce(); }
 }
 
 // ------------------------------------------------------------------ input
@@ -569,6 +657,8 @@ async function main() {
   const names = ["results", "bands", "spectrum", "folds", "mistakes", "applied", "story", "city_day"];
   const files = await Promise.all(names.map((n) => fetch(`data/${n}.json`, { cache: "no-cache" }).then((r) => r.json())));
   names.forEach((n, i) => { DATA[n] = files[i]; });
+  // where each clip stops (src/talk_build.py); without it every clip just plays through
+  CUES = await fetch("media/cues.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
   await document.fonts.ready;
 
   if (isPresenter) {                    // a second window that follows the deck
@@ -605,6 +695,8 @@ async function main() {
   addEventListener("keydown", onKey, true);
   for (const t of ["touchstart", "touchmove", "touchend", "touchcancel"]) addEventListener(t, onTouch, { capture: true, passive: false });
   $("next").addEventListener("click", next);
+  // one tap on a clip or a still = Next (live pages keep their taps: they sit above the stage)
+  $("stage").addEventListener("click", () => { if (started && BEATS[cur] && BEATS[cur].kind !== "live") next(); });
   $("back").addEventListener("click", back);
   $("go").addEventListener("click", start);
   $("blackout").addEventListener("click", () => { $("blackout").hidden = true; });

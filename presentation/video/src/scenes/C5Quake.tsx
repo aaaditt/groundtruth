@@ -10,9 +10,9 @@ import { ThreeCanvas } from "@remotion/three";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useCurrentFrame } from "remotion";
-import { C, DISPLAY, H, W } from "../theme";
+import { C, DISPLAY, FPS, H, W } from "../theme";
 import { applied, busyAt } from "../data";
-import { Caption, IllustrationTag, lerp, Note, ramp, Source, Stage, useSec } from "../lib";
+import { Caption, IllustrationTag, lerp, Note, ramp, Source, Stage, useAmbient, useSec } from "../lib";
 import { Atmosphere, CameraPath, DayLights, Shot, skyColor } from "../three/kit";
 import { BLOCK, Buildings, Ground, People, Railway, Ripples, Street, Traffic } from "../three/City";
 import { Metro, PitFill } from "../three/Metro";
@@ -64,8 +64,10 @@ const SHOTS: Shot[] = [
 ];
 
 export const C5Quake: React.FC = () => {
-  const frame = useCurrentFrame();
+  useCurrentFrame();
   const t = useSec();
+  const a = useAmbient(); // background clock: keeps running while the deck holds a cue
+  const frame = a * FPS;
   const busy = busyAt(MINUTE);
   const subtract = ramp(t, 16.5, 19.5, "inout");
   const quake = ramp(t, 9, 10);
@@ -81,17 +83,17 @@ export const C5Quake: React.FC = () => {
         <Atmosphere color={skyColor(MINUTE)} near={110} far={300} />
         <DayLights minute={MINUTE} extent={75} shadowSize={4096} />
         <CameraPath t={t} shots={SHOTS} />
-        <Metro t={t} busy={busy} lit={0.2} />
+        <Metro t={a} busy={busy} lit={0.2} />
         <Ground />
         <PitFill open={1} />
         <Street night={0} />
         <Buildings lit={0.1} />
-        <Railway t={t} busy={busy} />
-        <Traffic t={t} busy={busy} night={0} />
-        <People t={t} busy={busy} />
-        <Ripples t={t} busy={busy} strength={ramp(t, 1, 3) * (1 - subtract)} />
+        <Railway t={a} busy={busy} />
+        <Traffic t={a} busy={busy} night={0} />
+        <People t={a} busy={busy} />
+        <Ripples t={a} busy={busy} strength={ramp(t, 1, 3) * (1 - subtract)} />
         <QuakeWave t={t} start={9} strength={quake * (1 - ramp(t, 23, 25))} />
-        <Seismometer jiggle={jiggle} drumTurn={-t * 0.6} lamp={1.4} />
+        <Seismometer jiggle={jiggle} drumTurn={-a * 0.6} lamp={1.4} />
       </ThreeCanvas>
 
       <Caption text="Rush hour: every car shakes the ground" at={0.5} until={8.5} y={84} />

@@ -4,7 +4,7 @@
   "note": "The one source for both decks: the live deck (site/talk/) reads it, and presentation/story/build_pptx.cjs builds the PowerPoint from it. Numbers are never typed here: a static slide names a chart, and talk.js draws its numbers from data/*.json (written by src/presentation_data.py). Clip cuts (start/end, seconds) are applied by src/talk_build.py.",
   "beats": [
     {"id": "hook", "title": "You shook the ground today", "speaker": "Aadit", "seconds": 25,
-     "kind": "video", "video": {"clip": "S00-questions", "loop": true},
+     "kind": "video", "video": {"clip": "S00-questions"},
      "notes": "Every one of you shook the ground on the way here. By car, by bus, on foot. A few billionths of a metre, but you did. And somewhere under this city, an instrument wrote it down. Here's one day of that writing."},
 
     {"id": "christmas", "title": "Weekday or weekend?", "speaker": "Aadit", "seconds": 30,
@@ -26,7 +26,7 @@
      "notes": "A 2020 Science paper by Lecocq and colleagues published 158 seismometers on six continents, one reading every fifteen minutes, late 2019 to mid-2020. (touch Brussels) Brussels is this one, in Uccle. Which days are weekends comes from each country's calendar, never from the shaking. Holidays and lockdown are set aside. That leaves 17,027 ordinary days to learn from."},
 
     {"id": "sea", "title": "Two kinds of shaking", "speaker": "Aradhya", "seconds": 25,
-     "kind": "video", "video": {"clip": "C2-sea", "end": 20},
+     "kind": "video", "video": {"clip": "C2-sea", "end": 17.1},
      "notes": "Not all shaking is us. The slow wobbles, one every few seconds, are the ocean, waves hitting coasts hundreds of kilometres away. The fast ones, several a second, are engines, wheels and feet."},
 
     {"id": "spectrum", "title": "The sea keeps no office hours", "speaker": "Aradhya", "seconds": 30,

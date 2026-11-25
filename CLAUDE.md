@@ -111,7 +111,11 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
   (copied by `src/talk_build.py` from `src/presentation_data.py`; `story()` holds the 7-year
   numbers, null until a result exists). Never type a number into a static headline
   (`tests/test_talk.py`). Clip cuts are `start`/`end` in slides.json, applied by ffmpeg in
-  `src/talk_build.py`. The deck is light paper (theme.ts); live pages stay dark and open
+  `src/talk_build.py`. Clips STOP at their beats (`presentation/video/src/cues.json`) and
+  wait for the presenter; a stop with hold=true shows a seamless loop rendered with the story
+  clock frozen and the background clock running (`useSec` = camera/captions, `useAmbient` =
+  cars/people/waves; pass ambient things `useAmbient()`, never `useSec()`). Rebuild holds:
+  `bash render.sh --holds`. The deck is light paper (theme.ts); live pages stay dark and open
   with `?embed=1` (silent, no site bar: `sound.js`, `html.embed` in style.css). Deck keys
   win over iframe keys (capture listener in each iframe); a live step's URL must change its
   query string so the page reloads. Rebuild: `python src/presentation_data.py && python

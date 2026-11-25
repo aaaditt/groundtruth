@@ -28,6 +28,9 @@ body { transition: background .4s; }
 .slide { position: absolute; inset: 0; opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 .slide.on { opacity: 1; pointer-events: auto; }
 .slide video, .slide > img.full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--paper); }
+/* a stop's loop sits over the clip: on at once (its first frame IS the clip's frame), fades off */
+.slide video.hold { opacity: 0; transition: opacity .45s ease; }
+.slide video.hold.on { opacity: 1; transition: none; }
 .slide .over { position: absolute; inset: 0; background: var(--paper); opacity: 0; transition: opacity .6s ease; }
 .slide .over.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .slide, .slide .over, body { transition: none; } }

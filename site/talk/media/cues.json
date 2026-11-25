@@ -1,0 +1,165 @@
+{
+ "S00-questions": [
+  {
+   "at": 13.5,
+   "final": false,
+   "hold": "holds/S00-questions-hold-135.mp4"
+  },
+  {
+   "at": 28.5,
+   "final": false,
+   "hold": "holds/S00-questions-hold-285.mp4"
+  },
+  {
+   "at": 44.9,
+   "final": true,
+   "hold": "holds/S00-questions-hold-449.mp4"
+  }
+ ],
+ "S01-christmas": [
+  {
+   "at": 12.0,
+   "final": false,
+   "hold": "holds/S01-christmas-hold-120.mp4"
+  },
+  {
+   "at": 19.9,
+   "final": true,
+   "hold": "holds/S01-christmas-hold-199.mp4"
+  }
+ ],
+ "C1-city": [
+  {
+   "at": 6.5,
+   "final": false,
+   "hold": "holds/C1-city-hold-215.mp4"
+  },
+  {
+   "at": 22.0,
+   "final": false,
+   "hold": "holds/C1-city-hold-370.mp4"
+  },
+  {
+   "at": 31.0,
+   "final": false,
+   "hold": "holds/C1-city-hold-460.mp4"
+  },
+  {
+   "at": 59.9,
+   "final": true,
+   "hold": null
+  }
+ ],
+ "C2-sea": [
+  {
+   "at": 10.5,
+   "final": false,
+   "hold": "holds/C2-sea-hold-105.mp4"
+  },
+  {
+   "at": 17.0,
+   "final": true,
+   "hold": "holds/C2-sea-hold-170.mp4"
+  }
+ ],
+ "S05-features": [
+  {
+   "at": 9.0,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 17.0,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 29.5,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 39.9,
+   "final": true,
+   "hold": null
+  }
+ ],
+ "C4-forest": [
+  {
+   "at": 12.2,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 22.5,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 30.8,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 39.9,
+   "final": true,
+   "hold": null
+  }
+ ],
+ "S08-mistakes": [
+  {
+   "at": 17.0,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 32.5,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 40.5,
+   "final": false,
+   "hold": null
+  },
+  {
+   "at": 59.9,
+   "final": true,
+   "hold": null
+  }
+ ],
+ "C5-quake": [
+  {
+   "at": 8.0,
+   "final": false,
+   "hold": "holds/C5-quake-hold-80.mp4"
+  },
+  {
+   "at": 15.5,
+   "final": false,
+   "hold": "holds/C5-quake-hold-155.mp4"
+  },
+  {
+   "at": 23.0,
+   "final": false,
+   "hold": "holds/C5-quake-hold-230.mp4"
+  },
+  {
+   "at": 33.5,
+   "final": false,
+   "hold": null
+  }
+ ],
+ "S14-close": [
+  {
+   "at": 23.0,
+   "final": false,
+   "hold": "holds/S14-close-hold-230.mp4"
+  },
+  {
+   "at": 31.9,
+   "final": true,
+   "hold": "holds/S14-close-hold-319.mp4"
+  }
+ ]
+}

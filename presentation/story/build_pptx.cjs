@@ -10,8 +10,11 @@
 //   GroundTruth-story.pptx             PPT + video: still slides as pictures, clips embedded
 //                                      (click to play), live slides as their fallback clip
 //                                      with the live link. Present from this when offline.
-//   GroundTruth-story-submission.pptx  pictures only (a clip is its last frame), small enough
-//                                      to submit or import into Canva.
+//                                      A clip with stops (site/talk/media/cues.json) is cut
+//                                      into one slide per segment, so each click plays to
+//                                      the next stop and the presenter sets the pace.
+//   GroundTruth-story-submission.pptx  pictures only (a clip is its stops' frames), small
+//                                      enough to submit or import into Canva.
 // The speaker's lines go into the notes of every slide.
 const fs = require("fs");
 const path = require("path");
@@ -23,6 +26,7 @@ const REPO = path.resolve(__dirname, "..", "..");
 const SITE = path.join(REPO, "site");
 const TALK = path.join(SITE, "talk");
 const SHOTS = path.join(__dirname, "shots");
+const SEGS = path.join(__dirname, "segments");     // clips cut at their stops (not committed)
 const LIVE_SITE = "https://groundtruth-seismic.vercel.app";
 // pptxgenjs and jszip are already installed for the clips' deck (presentation/video/)
 const need = createRequire(path.join(REPO, "presentation", "video", "package.json"));
@@ -52,6 +56,27 @@ function serve() {                               // a tiny static server for sit
 
 // async on purpose: this same process is the web server Chrome loads the slide from, so a
 // synchronous call would block the server and Chrome would wait for ever
+function ffmpeg(args) {
+  return new Promise((resolve, reject) => execFile("ffmpeg", ["-v", "error", "-y", ...args], (e) => (e ? reject(e) : resolve())));
+}
+
+// a clip with stops -> [{video, cover, still}] one per segment: segment k runs from stop k-1
+// (or the start) to stop k; after a final stop nothing is left to play
+async function segments(clip, stops) {
+  const src = media(`${clip}.mp4`), out = [];
+  const bounds = [0, ...stops.map((q) => q.at)];
+  if (!stops.length || !stops[stops.length - 1].final) bounds.push(null);
+  for (let k = 0; k < bounds.length - 1; k++) {
+    const a = bounds[k], b = bounds[k + 1], base = path.join(SEGS, `${clip}-${k}`);
+    await ffmpeg(["-i", src, "-ss", String(a), ...(b == null ? [] : ["-to", String(b)]), "-an", "-c:v", "libx264", "-crf", "30",
+      "-pix_fmt", "yuv420p", "-movflags", "+faststart", `${base}.mp4`]);
+    await ffmpeg(["-i", `${base}.mp4`, "-frames:v", "1", "-q:v", "3", `${base}-first.jpg`]);
+    await ffmpeg(["-sseof", "-0.1", "-i", `${base}.mp4`, "-frames:v", "1", "-q:v", "3", `${base}-last.jpg`]);
+    out.push({ video: `${base}.mp4`, cover: `${base}-first.jpg`, still: `${base}-last.jpg` });
+  }
+  return out;
+}
+
 function shoot(port, n, then, file) {
   return new Promise((resolve, reject) => {
     execFile(CHROME, ["--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=1",
@@ -78,7 +103,7 @@ const b64 = (file) => "image/" + (file.endsWith(".png") ? "png" : "jpeg") + ";ba
 
 function liveUrl(src) { return LIVE_SITE + "/" + src.replace(/^\.\.\//, "").replace(/[?&]embed=1/, "").replace("?&", "?"); }
 
-async function build(beats, shots, withVideo) {
+async function build(beats, shots, withVideo, segs) {
   const pres = new pptxgen();
   pres.layout = "LAYOUT_16x9";
   pres.title = "GroundTruth: what the ground knows about the week";
@@ -97,7 +122,12 @@ async function build(beats, shots, withVideo) {
   let n = 0;
   for (const [i, b] of beats.entries()) {
     if (b.kind === "static") add(b, (s) => s.addImage({ path: shots[i], ...FULL, altText: b.title }));
-    if (b.kind === "video") {
+    if (b.kind === "video" && segs[b.video.clip]) {
+      for (const g of segs[b.video.clip]) add(b, (s) => withVideo
+        ? s.addMedia({ type: "video", path: g.video, ...FULL, cover: b64(g.cover), objectName: b.title })
+        : s.addImage({ path: g.still, ...FULL, altText: b.title, objectName: b.title }));
+      if (b.video.then) add(b, (s) => s.addImage({ path: shots[`${i}-then`], ...FULL, altText: b.title }));
+    } else if (b.kind === "video") {
       add(b, (s) => clip(s, b.video.clip, b.title));
       if (b.video.then) add(b, (s) => s.addImage({ path: shots[`${i}-then`], ...FULL, altText: b.title }));
     }
@@ -134,8 +164,14 @@ async function main() {
   }
   srv.close();
   console.log(`photographed ${Object.keys(shots).length} slides into presentation/story/shots/`);
-  await build(beats, shots, true);
-  await build(beats, shots, false);
+  const cuesFile = path.join(TALK, "media", "cues.json");
+  const cues = fs.existsSync(cuesFile) ? JSON.parse(fs.readFileSync(cuesFile, "utf8")) : {};
+  fs.mkdirSync(SEGS, { recursive: true });
+  const segs = {};
+  for (const [clip, stops] of Object.entries(cues)) segs[clip] = await segments(clip, stops);
+  console.log(`cut ${Object.values(segs).flat().length} segments at the stops into presentation/story/segments/`);
+  await build(beats, shots, true, segs);
+  await build(beats, shots, false, segs);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

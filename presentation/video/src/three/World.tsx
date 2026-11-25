@@ -17,6 +17,7 @@ import { fade } from "../lib";
 // ---- the city ----------------------------------------------------------------------------
 export const CityWorld: React.FC<{
   t: number;
+  amb?: number; // background clock (cars, people, trains); defaults to t
   frame: number;
   minute: number; // local time: sets the light and the sky
   busy: number; // 0..1: how many cars, buses and people are out (from real data)
@@ -26,7 +27,7 @@ export const CityWorld: React.FC<{
   shots: Shot[];
   plazaTrees?: boolean;
   children?: React.ReactNode;
-}> = ({ t, frame, minute, busy, open = 0, ripples = 0, shake = 0, shots, plazaTrees = true, children }) => {
+}> = ({ t, amb = t, frame, minute, busy, open = 0, ripples = 0, shake = 0, shots, plazaTrees = true, children }) => {
   const night = 1 - daylight(minute);
   const jiggle = Math.min(0.26, shake) * (Math.sin(frame * 1.9) * 0.7 + Math.sin(frame * 3.3 + 1) * 0.3);
   return (
@@ -34,16 +35,16 @@ export const CityWorld: React.FC<{
       <Atmosphere color={skyColor(minute)} near={110} far={300} />
       <DayLights minute={minute} extent={75} shadowSize={4096} />
       <CameraPath t={t} shots={shots} />
-      <Metro t={t} busy={busy} lit={night * (0.45 + 0.55 * busy) * 1.3} />
+      <Metro t={amb} busy={busy} lit={night * (0.45 + 0.55 * busy) * 1.3} />
       <Ground />
       <PitFill open={open} trees={plazaTrees} />
       <Street night={night} />
       <Buildings lit={0.08 + 0.75 * night * (0.35 + 0.65 * busy)} />
-      <Railway t={t} busy={busy} />
-      <Traffic t={t} busy={busy} night={night} />
-      <People t={t} busy={busy} />
-      {ripples > 0 ? <Ripples t={t} busy={busy} strength={ripples * (0.25 + 0.75 * busy)} /> : null}
-      <Seismometer jiggle={jiggle} drumTurn={-t * 0.6} lamp={1.2 + 1.5 * night} />
+      <Railway t={amb} busy={busy} />
+      <Traffic t={amb} busy={busy} night={night} />
+      <People t={amb} busy={busy} />
+      {ripples > 0 ? <Ripples t={amb} busy={busy} strength={ripples * (0.25 + 0.75 * busy)} /> : null}
+      <Seismometer jiggle={jiggle} drumTurn={-amb * 0.6} lamp={1.2 + 1.5 * night} />
       {children}
     </>
   );

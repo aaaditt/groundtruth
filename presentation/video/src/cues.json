@@ -1,0 +1,15 @@
+{
+  "about": "Where each clip stops and waits for the presenter (seconds on the clip's own timeline, before any cut in site/talk/slides.json). hold=true: the deck shows a loop there with the camera and captions stopped but the city still moving (rendered as <clip>-hold-<tenths>, see Root.tsx). hold=false: the video simply pauses (nothing in the background moves anyway). Rebuild: bash render.sh --holds && python src/talk_build.py.",
+  "hold_seconds": 8,
+  "clips": {
+    "S00-questions": [{ "at": 13.5, "hold": true }, { "at": 28.5, "hold": true }, { "at": 44.9, "hold": true }],
+    "S01-christmas": [{ "at": 12.0, "hold": true }, { "at": 19.9, "hold": true }],
+    "C1-city": [{ "at": 21.5, "hold": true }, { "at": 37.0, "hold": true }, { "at": 46.0, "hold": true }, { "at": 74.9, "hold": false }],
+    "C2-sea": [{ "at": 10.5, "hold": true }, { "at": 17.0, "hold": true }],
+    "S05-features": [{ "at": 29.0, "hold": false }, { "at": 37.0, "hold": false }, { "at": 49.5, "hold": false }, { "at": 59.9, "hold": false }],
+    "C4-forest": [{ "at": 12.2, "hold": false }, { "at": 22.5, "hold": false }, { "at": 30.8, "hold": false }, { "at": 39.9, "hold": false }],
+    "S08-mistakes": [{ "at": 17.0, "hold": false }, { "at": 32.5, "hold": false }, { "at": 40.5, "hold": false }, { "at": 59.9, "hold": false }],
+    "C5-quake": [{ "at": 8.0, "hold": true }, { "at": 15.5, "hold": true }, { "at": 23.0, "hold": true }, { "at": 33.5, "hold": false }],
+    "S14-close": [{ "at": 23.0, "hold": true }, { "at": 31.9, "hold": true }]
+  }
+}
