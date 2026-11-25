@@ -21,6 +21,11 @@ node presentation/story/build_pptx.cjs # photograph each slide (headless Chrome)
 pytest -q tests/test_talk.py           # slides file complete, assets exist, no typed numbers
 ```
 
+**Block diagrams that build.** A still can have `"steps": n` in slides.json: its chart
+draws `<g data-step="k">` groups (`stepGroup` in talk.js) and each press shows the next
+one. The three diagrams (pipeline, alarm, nightly) use it; their numbers come from
+`data/*.json` like every other chart.
+
 **Stops: you set the pace, not the clip.** Each clip stops at its beats
 (`presentation/video/src/cues.json`) and waits for the next press. Where the city is on
 screen, the stop is a living hold: a separate 8-second loop rendered with the story clock

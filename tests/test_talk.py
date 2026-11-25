@@ -129,3 +129,15 @@ def test_stops_come_from_the_clips_own_list():
         for q in stops:
             assert q["at"] in src, clip
             assert bool(q["hold"]) == src[q["at"]], clip
+
+
+def test_every_building_diagram_has_a_group_per_step(deck, talk_js):
+    """A still with "steps": n builds in n presses, so its chart must draw groups 0..n."""
+    for b in deck["beats"]:
+        n = b["kind"] == "static" and b["static"].get("steps")
+        if not n:
+            continue
+        body = talk_js[talk_js.index(f"  {b['static']['chart']}(b) {{"):]
+        body = body[:body.index("\n  },")]
+        for k in range(n + 1):
+            assert f"stepGroup(svg, {k})" in body, f"{b['id']}: no group for step {k}"

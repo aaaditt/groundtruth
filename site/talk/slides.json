@@ -39,27 +39,37 @@
      "source": "Result 12, 7 cities, Oct 2025 – Sep 2026",
      "notes": "And we tested it. Same model, same days, five bands. The ocean band reads weekday vs weekend 51% of the time: a coin toss. Every band where people are scores above 95%, and the people band, 4 to 14 hertz, is best: almost 99%. Shraddha, how does a model listen?"},
 
-    {"id": "features", "title": "One day becomes 25 numbers", "speaker": "Shraddha", "seconds": 40,
+    {"id": "pipeline", "title": "From the ground to a guess", "speaker": "Shraddha", "seconds": 35,
+     "kind": "static", "static": {"chart": "pipeline", "steps": 2},
+     "source": "groundtruth/features.py, groundtruth/models.py; docs/03-methodology.md",
+     "notes": "Before the details, the whole machine on one page. (step 1) On the left, the data: one reading every fifteen minutes from each seismometer, only the 4 to 14 hertz band. We clean out sensor glitches, move every clock to local time, and squeeze each day into 25 numbers. (Next) In the middle, the model: a forest of a hundred trees votes on the day, and we only ever grade it on whole weeks it never saw. (Next) And what it is for: what day is it, which days were unusual, and does it work in a city it never heard. The next slides open these boxes one by one, starting with the 25 numbers."},
+
+    {"id": "features", "title": "One day becomes 25 numbers", "speaker": "Shraddha", "seconds": 35,
      "kind": "video", "video": {"clip": "S05-features", "start": 20},
-     "notes": "A model can't look at a picture, so each day becomes 25 numbers. Twenty-four say when the city was busy, hour by hour: the shape. One says how loud the whole day was compared with that station's usual day: the level. We split them because every station is different, some next to a motorway, some in a basement. The shape is what makes cities comparable."},
+     "notes": "The first boxes, up close. A model can't look at a picture, so each day becomes 25 numbers. Twenty-four say when the city was busy, hour by hour: the shape. One says how loud the whole day was compared with that station's usual day: the level. Every station is different, some by a motorway, some in a basement; the shape is what makes them comparable."},
 
-    {"id": "forest", "title": "A hundred trees vote", "speaker": "Shraddha", "seconds": 40,
+    {"id": "forest", "title": "A hundred trees vote", "speaker": "Shraddha", "seconds": 35,
      "kind": "video", "video": {"clip": "C4-forest"},
-     "notes": "The model is a random forest: a hundred decision trees, each asking a few yes/no questions. A real one from Brussels: at six in the morning, was the ground still no busier than the rest of the day? Yes leads to weekend. On a Wednesday it never saw, 97 of 100 trees say weekday, but they split on which weekday."},
+     "notes": "The next box: the model is a random forest, a hundred decision trees, each asking a few yes/no questions. A real one from Brussels: at six in the morning, was the ground still no busier than the rest of the day? Yes leads to weekend. On a Wednesday it never saw, 97 of 100 trees say weekday, but they split on which weekday."},
 
-    {"id": "weeks", "title": "Graded only on weeks it never saw", "speaker": "Shraddha", "seconds": 35,
+    {"id": "weeks", "title": "Graded only on weeks it never saw", "speaker": "Shraddha", "seconds": 30,
      "kind": "static", "static": {"chart": "weeks"},
      "source": "Brussels (BE.UCC), 2019–20, GroupKFold by week",
-     "notes": "One rule: we never grade it on a week it studied. Monday and Tuesday are near-twins, so we hide whole weeks, five rounds. And we score it so that always guessing weekday gets 50, not five out of seven: balanced accuracy. A coin toss is the floor. Aadit, how did it do?"},
+     "notes": "And the last box: grading. We never grade it on a week it studied. Monday and Tuesday are near-twins, so we hide whole weeks, five rounds. And we score it so that always guessing weekday gets 50, not five out of seven: balanced accuracy. Aadit, how did it do?"},
 
     {"id": "results", "title": "It reads the day", "speaker": "Aadit", "seconds": 50,
      "kind": "static", "static": {"chart": "results"},
      "source": "Results 1, 2, 6, 2019–20, 149 seismometers",
      "notes": "One forest per seismometer. Weekday or weekend: 95% in a typical city. The exact day: 47%, where guessing gets 14. In three of the emptiest places in the data, a mountain, the Kalahari, the tip of Chile, it's near chance. No people, no rhythm. And the shape matters: loudness alone names the exact day 30% of the time; with the shape, 47%."},
 
-    {"id": "mistakes", "title": "Its mistakes find holidays", "speaker": "Aradhya, Aadit", "seconds": 70,
+    {"id": "mistakes", "title": "Its mistakes find holidays", "speaker": "Aradhya, Aadit", "seconds": 55,
      "kind": "video", "video": {"clip": "S08-mistakes"},
-     "notes": "[Aradhya] Back to Christmas: a Wednesday it had never seen, and it said Sunday, and so did the models at 71% of seismometers. On weekday holidays it never saw, it said weekend 76% of the time; on ordinary weekdays, 5%. It learned how people behave, not the calendar. [Aadit] So we turned its surprise into an alarm. Rank every day by how surprised it was, and the holidays float to the top, beating the standard alarm at 110 of 147 seismometers. We never built a holiday detector. We taught it normal."},
+     "notes": "[Aradhya] Back to Christmas: a Wednesday it had never seen, and it said Sunday, and so did the models at 71% of seismometers. On weekday holidays it never saw, it said weekend 76% of the time; on ordinary weekdays, 5%. It learned how people behave, not the calendar. [Aadit] Rank every day by how surprised it was, and the holidays float to the top. Here is how that works."},
+
+    {"id": "alarm", "title": "From a mistake to an alarm", "speaker": "Aadit", "seconds": 35,
+     "kind": "static", "static": {"chart": "alarm", "steps": 2},
+     "source": "Results 7 and 8; groundtruth/detect.py (95th percentile of out-of-fold ordinary days)",
+     "notes": "How does a mistake become an alarm? Follow Christmas through the boxes. A day it never saw: a Wednesday. The forest says Sunday, and gives Wednesday no chance at all. (Next) So how surprised is it? One minus the chance it gave the real day: one, the maximum. (Next) Then compare that with ordinary days: ninety-five out of a hundred are less surprising than this line. Above the line, flag it. No labels, no list of holidays. Across every seismometer, that alarm beat the standard unusual-day alarm at 110 of 147. We never built a holiday detector. We taught it normal."},
 
     {"id": "weekend", "title": "It recognises rest, not the name of the day", "speaker": "Aradhya", "seconds": 45,
      "kind": "static", "static": {"chart": "weekend"},
@@ -86,18 +96,23 @@
      "source": "Results 16–18, 2019–26, 33 cities, every score on weeks the model never saw",
      "notes": "The obvious bet: seven years makes it much smarter. Weekend or not: 97%. But the exact day climbs from 38% at 100 days to 57% with all of them, and flattens. One model for all 33 cities together: worse in every city. A Tuesday just sounds like a Thursday. Show it the week around the day instead: 96%."},
 
-    {"id": "ask", "title": "Ask the ground", "speaker": "Aadit", "seconds": 75,
+    {"id": "nightly-diagram", "title": "What runs every night", "speaker": "Shraddha", "seconds": 40,
+     "kind": "static", "static": {"chart": "nightly", "steps": 2},
+     "source": ".github/workflows/pulse.yml, src/pulse.py, groundtruth/pulse.py; Ask: src/ask.py",
+     "notes": "So how does a website know what the ground did last night? Follow the boxes. The seismometers record all day; EarthScope publishes their spectra about two days later; and every morning at six, a GitHub Action wakes up and downloads the new days. (Next) Two models score each day: the frozen one, trained on one year and never changed, and a learner that guesses a day first and only then studies it. (Next) The answers are saved in the repository, Vercel publishes them, and the globe, Ask and City Pulse read them. Ask's seven-year models are built once on a laptop and saved the same way. Aadit, show them."},
+
+    {"id": "ask", "title": "Ask the ground", "speaker": "Aadit", "seconds": 65,
      "kind": "live", "live": {"src": "../globe.html?embed=1#ask/BE.UCC..HHZ/2019-12-25", "ready": "#ask-ans .ask-says", "preload": 3,
        "steps": [{"src": "../globe.html?embed=1&step=lockdown#2020-03-23", "ready": "#globe .maplibregl-canvas"}],
        "fallback": {"clip": "S11-live"}},
      "source": "Results 15–17, live site",
-     "notes": "This is all of it, live: 33 cities, any day from 2019 to last September. (Brussels, Christmas 2019) From the day alone: Sunday, sure of it. From the week around it: Wednesday, sure of it. A Wednesday that looked like a day off. (Next: the globe on Monday 23 March 2020) And this is the week the world stopped. (two seconds) Of the 24 cities we measure clearly, 12 were at least 15% quieter than their normal that Monday; a week later, 17. Nobody told the globe there was a pandemic."},
+     "notes": "Here it is, live: 33 cities, any day from 2019 to last September. (Brussels, Christmas 2019) From the day alone: Sunday, sure of it. From the week around it: Wednesday, sure of it. A Wednesday that looked like a day off. (Next: the globe on Monday 23 March 2020) And this is the week the world stopped. (two seconds) Of the 24 cities we measure clearly, 12 were at least 15% quieter than their normal that Monday; a week later, 17. Nobody told the globe there was a pandemic."},
 
-    {"id": "nightly", "title": "A test running every night", "speaker": "Shraddha", "seconds": 40,
+    {"id": "nightly", "title": "A test running every night", "speaker": "Shraddha", "seconds": 30,
      "kind": "live", "live": {"src": "../today.html?embed=1#learning", "ready": "#learn-body svg", "preload": 2,
        "fallback": {"still": "today"}},
      "source": "City Pulse, pre-registered in docs/19, interim",
-     "notes": "And it doesn't stop in September. Every night this page downloads yesterday for seven cities and guesses the day before it's told. This term we added a second model that also learns each ordinary day once it has been graded. Does learning help? We wrote the test down before writing the code, and our own guess is probably not much, because more data already flattened. The verdict comes in January; until then these numbers say interim."},
+     "notes": "And this is the learner from the diagram, running. Every night this page guesses yesterday before it's told, frozen and learning side by side. Does learning help? We wrote the test down before writing the code, and our own guess is probably not much, because more data already flattened. The verdict comes in January; until then these numbers say interim."},
 
     {"id": "scorecard", "title": "Five promises, kept", "speaker": "Aadit", "seconds": 8,
      "kind": "static", "static": {"chart": "scorecard"},

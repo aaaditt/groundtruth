@@ -4,6 +4,7 @@
 //          clip or still, or a swipe with three or more fingers (one finger is left alone,
 //          to use the live pages)
 //   Back   left arrow, Page Up, Backspace, the Back button, or the opposite swipe
+//   A still can build in steps (a block diagram adds one group of blocks per press).
 //   F full screen   N speaker notes   P presenter window   L show a live slide's fallback
 //   B black screen  Home / End first / last slide
 //
@@ -58,7 +59,126 @@ const text = (svg, x, y, str, cls = "lab", anchor = "start") =>
 const PROMISES = ["Read the day from the ground", "Shape beats loudness", "Let its mistakes find unusual days",
   "Test it on holidays it never saw", "Move it to another city"];
 
+// ------------------------------------------------------------------ block diagrams
+// Boxes joined by arrows. Each group of boxes is a <g data-step="k">: it appears when the
+// presenter reaches step k of the slide (slides.json "static.steps"), so a diagram is
+// explained one part at a time. Every number on them comes from data/*.json.
+const DOW = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+function arrowHead(svg, id) {
+  const m = s("marker", { id, viewBox: "0 0 12 12", refX: 11, refY: 6, markerWidth: 18, markerHeight: 18,
+    orient: "auto", markerUnits: "userSpaceOnUse" });
+  m.append(s("path", { d: "M0,0 L12,6 L0,12 z", class: "ah" }));
+  const d = s("defs"); d.append(m); svg.append(d);
+}
+function stepGroup(svg, k) { const g = s("g", { "data-step": String(k), class: "stp" }); svg.append(g); return g; }
+// a box: a title in Newsreader and up to three short lines under it
+function box(g, x, y, w, h, title, lines = [], tone = "") {
+  g.append(s("rect", { x, y, width: w, height: h, rx: 12, class: `blk ${tone}` }));
+  text(g, x + 26, y + 54, title, "blk-t");
+  lines.forEach((t, i) => text(g, x + 26, y + 100 + i * 38, t, "blk-s"));
+}
+function arrow(g, id, pts, dashed = false) {
+  g.append(s("polyline", { points: pts.map((q) => q.join(",")).join(" "), class: `flow${dashed ? " dashed" : ""}`, "marker-end": `url(#${id})` }));
+}
+// a bracket over a run of boxes, naming what they are
+function bracket(g, x0, x1, y, label) {
+  g.append(s("polyline", { points: `${x0},${y + 14} ${x0},${y} ${x1},${y} ${x1},${y + 14}`, class: "brk" }));
+  text(g, (x0 + x1) / 2, y - 14, label, "ax", "middle");
+}
+
 const CHARTS = {
+  // the whole method on one page: data -> model -> what it's for (beats 10-16 open each box)
+  pipeline(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-pipe");
+    const r = DATA.results, f = DATA.forest, fo = DATA.folds;
+    const w = 304, gap = 40, x = (i) => 120 + i * (w + gap), y = 360, h = 210;
+    const blocks = [
+      ["Recordings", [`${r.n_stations} seismometers`, "every 15 minutes", "4 to 14 Hz only"]],
+      ["Clean it", ["drop sensor glitches", "move to local time"]],
+      [`${f.n_features} numbers`, ["per day: 24 for", "the shape, 1 for", "the level"]],
+      ["Random forest", [`${f.n_trees} trees vote`, "on the day"]],
+      ["Grade it", ["only on whole", "weeks it never saw", `${fo.n_folds} rounds`]],
+    ];
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    blocks.forEach(([t, l], i) => {
+      const g = i < 3 ? g0 : g1;
+      box(g, x(i), y, w, h, t, l, i < 3 ? "data" : "model");
+      if (i > 0) arrow(g, "ah-pipe", [[x(i) - gap + 6, y + h / 2], [x(i) - 8, y + h / 2]]);
+    });
+    bracket(g0, x(0), x(2) + w, y - 40, "the data");
+    bracket(g1, x(3), x(4) + w, y - 40, "the model");
+    // what it is for: three questions, each answered later in the talk
+    const uses = [["What day is it?", [`all ${r.n_stations} seismometers`]],
+      ["Which days were unusual?", ["from its own mistakes"]],
+      ["Does it travel?", ["to a city it never heard"]]];
+    const uy = 730, uw = 500, ux = (i) => 120 + i * (uw + 90), bus = 670, from = x(4) + w / 2;
+    g2.append(s("polyline", { points: `${from},${y + h + 6} ${from},${bus} ${ux(0) + uw / 2},${bus}`, class: "flow" }));
+    uses.forEach(([t, l], i) => {
+      box(g2, ux(i), uy, uw, 150, t, l, "use");
+      arrow(g2, "ah-pipe", [[ux(i) + uw / 2, bus], [ux(i) + uw / 2, uy - 8]]);
+    });
+    text(g2, 120, 960, "Each box is one of the next slides.", "ax");
+    return fig;
+  },
+
+  // how a mistake becomes an alarm, on the real Christmas Day in Brussels
+  alarm(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-alarm");
+    const m = DATA.mistakes, x = m.christmas.brussels;
+    // the threshold: 95% of Brussels' ordinary days were less surprising than this
+    const normal = m.calendar.filter((d) => d.period === "baseline").map((d) => d.confusion).sort((a, c) => a - c);
+    const q95 = normal[Math.min(normal.length - 1, Math.floor(0.95 * normal.length))];
+    const realDay = DOW[x.dow], guess = DOW[x.pred];
+    const w = 304, gap = 40, X = (i) => 120 + i * (w + gap), y = 330, h = 220;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    box(g0, X(0), y, w, h, "A new day", [`${realDay},`, "25 December 2019,", `${m.city}: never seen`], "data");
+    box(g0, X(1), y, w, h, "The forest", [`guesses ${guess}`, `gives ${realDay}`, `a ${pct(1 - x.confusion)} chance`], "model");
+    arrow(g0, "ah-alarm", [[X(1) - gap + 6, y + h / 2], [X(1) - 8, y + h / 2]]);
+    box(g1, X(2), y, w, h, "Surprise", ["1 − its chance", "for the real day", `= ${x.confusion.toFixed(2)}`], "model");
+    arrow(g1, "ah-alarm", [[X(2) - gap + 6, y + h / 2], [X(2) - 8, y + h / 2]]);
+    box(g2, X(3), y, w, h, "Unusual?", ["95% of ordinary", "days score below", `${q95.toFixed(2)}: this is above`], "model");
+    box(g2, X(4), y, w, h, "Flag it", ["no labels,", "no holiday list"], "use");
+    arrow(g2, "ah-alarm", [[X(3) - gap + 6, y + h / 2], [X(3) - 8, y + h / 2]]);
+    arrow(g2, "ah-alarm", [[X(4) - gap + 6, y + h / 2], [X(4) - 8, y + h / 2]]);
+    // the scale of it: the real tally across every seismometer
+    text(g2, 120, 760, `${pct(m.holidays_called_weekend)}`, "mid t-city");
+    text(g2, 120, 815, `of ${fmt(m.n_holidays)} weekday holidays it never saw`, "lab");
+    text(g2, 120, 857, "were read as a weekend", "lab");
+    text(g2, 1000, 760, `${m.confusion_wins} of ${m.n_stations}`, "mid");
+    text(g2, 1000, 815, "seismometers: this alarm beat the", "lab");
+    text(g2, 1000, 857, "standard unusual-day alarm", "lab");
+    return fig;
+  },
+
+  // what runs every night, and what was built once
+  nightly(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-night");
+    const sc = DATA.story.scale;
+    const w = 420, X = (i) => 120 + i * 540, y1 = 300, h = 190;
+    const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
+    box(g0, X(0), y1, w, h, "Seismometers", ["the live cities", "record all day"], "data");
+    box(g0, X(1), y1, w, h, "EarthScope", ["publishes the spectra", "about two days later"], "data");
+    box(g0, X(2), y1, w, h, "GitHub Action", ["wakes every morning", "at 06:00 UTC"], "model");
+    arrow(g0, "ah-night", [[X(1) - 114, y1 + h / 2], [X(1) - 8, y1 + h / 2]]);
+    arrow(g0, "ah-night", [[X(2) - 114, y1 + h / 2], [X(2) - 8, y1 + h / 2]]);
+    // two models score each new day
+    const y2 = 580, mw = 420;
+    box(g1, X(2), y2, mw, 150, "Frozen model", ["one year, never changes"], "model");
+    box(g1, X(2), y2 + 180, mw, 150, "Learning model", ["guesses a day, then learns it"], "model");
+    arrow(g1, "ah-night", [[X(2) + w / 2, y1 + h + 6], [X(2) + w / 2, y2 - 8]]);
+    // published
+    box(g2, X(1), y2 + 70, w, 190, "Saved in git", ["site/data, one commit", "a day"], "use");
+    box(g2, X(0), y2 + 70, w, 190, "The website", ["Vercel publishes it:", "globe, Ask, City Pulse"], "use");
+    arrow(g2, "ah-night", [[X(2) - 6, y2 + 75], [X(1) + w + 60, y2 + 75], [X(1) + w + 60, y2 + 165], [X(1) + w + 8, y2 + 165]]);
+    arrow(g2, "ah-night", [[X(2) - 6, y2 + 255], [X(1) + w + 60, y2 + 255], [X(1) + w + 60, y2 + 165]]);
+    arrow(g2, "ah-night", [[X(1) - 6, y2 + 165], [X(0) + w + 8, y2 + 165]]);
+    text(g2, X(0), 960, `Built once on a laptop and saved the same way: Ask's models, ${sc.stations} cities, ${sc.start.slice(0, 4)}–${sc.end.slice(0, 4)}.`, "ax");
+    return fig;
+  },
+
   question() {
     const box = el("div", { class: "fig" });
     box.append(el("p", { class: "q" }, "Can a seismometer tell what day of the week it is?"));
@@ -416,6 +536,11 @@ function unloadVideo(i) {
   slide.querySelectorAll("video").forEach((v) => { if (v.src) { v.pause(); v.removeAttribute("src"); v.load(); } });
 }
 
+// a still that builds: every group with data-step <= k is shown
+function showSteps(slide, k) {
+  slide.querySelectorAll("[data-step]").forEach((g) => g.classList.toggle("shown", +g.dataset.step <= k));
+}
+
 // ------------------------------------------------------------------ clips with stops
 // A clip with stops is played in segments: segment k runs from stop k-1 (or the start) to
 // stop k, then holds there until the presenter presses Next. `step` is the segment.
@@ -490,6 +615,7 @@ function go(i, k = 0) {
   slide.classList.add("on");
   document.body.classList.remove("dark");
   clearTimeout(liveTimer);
+  if (b.kind === "static") showSteps(slide, k);
   if (b.kind === "video") {
     if (cuesOf(b).length) playSegment(i, Math.min(k, cuesOf(b).length));
     else slide.querySelectorAll("video.main").forEach(playFromStart);
@@ -523,6 +649,7 @@ function go(i, k = 0) {
 }
 function next() {
   const b = BEATS[cur], cues = cuesOf(b);
+  if (b && b.kind === "static" && b.static.steps && step < b.static.steps) return go(cur, step + 1);
   if (cues.length && vs.i === cur) {
     if (!vs.held && vs.k < cues.length) return holdAt(cur, vs.k);    // behind? catch up to the stop
     if (vs.held && vs.k < cues.length && !cues[vs.k].final) return go(cur, vs.k + 1);
@@ -547,7 +674,8 @@ function back() {
 // going back lands where that slide was left: a clip at its last stop, not replaying it
 function backToSlide(p) {
   if (p < 0) return;
-  go(p);
+  const bp = BEATS[p];
+  go(p, bp.kind === "static" && bp.static.steps ? bp.static.steps : 0);    // a diagram, fully built
   const n = cuesOf(BEATS[p]).length;
   if (n) { step = n - 1; holdAt(p, n - 1); announce(); }
 }
@@ -654,7 +782,7 @@ function start() {
 async function main() {
   const deck = await (await fetch("slides.json", { cache: "no-cache" })).json();
   BEATS = deck.beats;
-  const names = ["results", "bands", "spectrum", "folds", "mistakes", "applied", "story", "city_day"];
+  const names = ["results", "bands", "spectrum", "folds", "mistakes", "applied", "story", "city_day", "forest", "stations"];
   const files = await Promise.all(names.map((n) => fetch(`data/${n}.json`, { cache: "no-cache" }).then((r) => r.json())));
   names.forEach((n, i) => { DATA[n] = files[i]; });
   // where each clip stops (src/talk_build.py); without it every clip just plays through
@@ -674,7 +802,7 @@ async function main() {
   }
   slides = BEATS.map(build);
   $("stage").append(...slides);
-  // ?shot=N[&then=1]: slide N alone, full 1920x1080, no controls, nothing moving. Used by
+  // ?shot=N[&then=1][&step=k]: slide N alone, full 1920x1080, no controls, nothing moving. Used by
   // presentation/story/build_pptx.cjs to photograph each slide for the PowerPoint.
   const shot = new URLSearchParams(location.search).get("shot");
   if (shot) {
@@ -684,6 +812,8 @@ async function main() {
     slide.classList.add("on");
     if (b.kind === "live") slide.querySelector(".fallback").hidden = false;
     if (new URLSearchParams(location.search).has("then")) slide.querySelectorAll(".over").forEach((o) => o.classList.add("on"));
+    const at = new URLSearchParams(location.search).get("step");
+    showSteps(slide, at == null ? 99 : +at);
     slide.querySelectorAll("video").forEach((v) => { v.removeAttribute("src"); });   // poster = last frame
     $("stage").style.transform = "none";      // the window is exactly 1920 x 1080: no scaling
     document.body.dataset.ready = "1";

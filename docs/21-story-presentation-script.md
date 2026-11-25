@@ -1,6 +1,6 @@
 # 21. GroundTruth: the story talk (v3)
 
-**About 15 minutes, 3 speakers, 22 beats + 2 backup slides.** Replaces the all-video talk
+**About 15 minutes, 3 speakers, 25 beats + 2 backup slides.** Replaces the all-video talk
 (`docs/18`, kept as the previous version). Same results, told as one story that climbs:
 *last time → what the ground records → which shaking is us → how a model reads a day →
 what it gets wrong, and why that's useful → what didn't work → then scale it up: 33 cities,
@@ -23,7 +23,8 @@ as a new model rather than "the same model, better", and a limits beat is back.
 2. **PowerPoint** (`presentation/GroundTruth-story.pptx`): the same beats as stills and
    embedded clips; live beats become their fallback. For submission and as the backup.
 
-**Formats:** `[STATIC]` a still you talk over · `[VIDEO name]` a clip that plays to its next
+**Formats:** `[STATIC]` a still you talk over · `[DIAGRAM]` a block diagram that builds one
+group of boxes per press (it shows how the parts connect; the slides after it open each box) · `[VIDEO name]` a clip that plays to its next
 stop and waits there (one press per stop) · `[LIVE page]` the real website inside the deck; if it hasn't loaded in 5 seconds
 its fallback appears by itself.
 
@@ -47,25 +48,29 @@ its fallback appears by itself.
 | 6 | Two kinds of shaking | VIDEO C2 (cut) | Aradhya | 0:25 |
 | 7 | The spectrum: the sea and us | STATIC spectrum | Aradhya | 0:30 |
 | 8 | The sea band can't read the week | STATIC band test | Aradhya | 0:25 |
-| 9 | One day becomes 25 numbers | VIDEO S05 (cut) | Shraddha | 0:40 |
-| 10 | A hundred trees vote | VIDEO C4 | Shraddha | 0:40 |
-| 11 | Tested on weeks it never saw | STATIC CV diagram | Shraddha | 0:35 |
-| 12 | It reads the day | STATIC results | Aadit | 0:50 |
-| 13 | Its mistakes find holidays | VIDEO S08 | Aradhya, Aadit | 1:10 |
-| 14 | The weekend moves | STATIC | Aradhya | 0:45 |
-| 15 | The dare, done properly | VIDEO C5 (cut) → STATIC | Aradhya | 0:55 |
-| 16 | What didn't work | STATIC | Shraddha | 0:30 |
-| 17 | Now scale it: 33 cities, 7 years | STATIC method card | Aadit | 0:35 |
-| 18 | Does more data make it smarter? | STATIC learning curve | Shraddha | 0:40 |
-| 19 | Ask the ground | LIVE globe#ask (fb S11) | Aadit | 1:15 |
-| 20 | A test running every night | LIVE today.html (fb still) | Shraddha | 0:40 |
-| 21 | Five promises, kept (scorecard, no read-out) | STATIC | Aadit | 0:08 |
-| 22 | Still useless? | VIDEO S14 | Aadit | 0:40 |
+| 9 | From the ground to a guess | DIAGRAM pipeline (3 presses) | Shraddha | 0:35 |
+| 10 | One day becomes 25 numbers | VIDEO S05 (cut) | Shraddha | 0:35 |
+| 11 | A hundred trees vote | VIDEO C4 | Shraddha | 0:35 |
+| 12 | Tested on weeks it never saw | STATIC CV diagram | Shraddha | 0:30 |
+| 13 | It reads the day | STATIC results | Aadit | 0:50 |
+| 14 | Its mistakes find holidays | VIDEO S08 | Aradhya, Aadit | 0:55 |
+| 15 | From a mistake to an alarm | DIAGRAM alarm (3 presses) | Aadit | 0:35 |
+| 16 | The weekend moves | STATIC | Aradhya | 0:45 |
+| 17 | The dare, done properly | VIDEO C5 (cut) → STATIC | Aradhya | 0:55 |
+| 18 | What didn't work | STATIC | Shraddha | 0:30 |
+| 19 | Now scale it: 33 cities, 7 years | STATIC method card | Aadit | 0:35 |
+| 20 | Does more data make it smarter? | STATIC learning curve | Shraddha | 0:40 |
+| 21 | What runs every night | DIAGRAM live system (3 presses) | Shraddha | 0:40 |
+| 22 | Ask the ground | LIVE globe#ask (fb S11) | Aadit | 1:05 |
+| 23 | A test running every night | LIVE today.html (fb still) | Shraddha | 0:30 |
+| 24 | Five promises, kept (scorecard, no read-out) | STATIC | Aadit | 0:08 |
+| 25 | Still useless? | VIDEO S14 | Aadit | 0:40 |
 | B1 | *Backup:* memorisation | STATIC | — | — |
 | B2 | *Backup:* running live | VIDEO S11 | — | — |
 
-≈ 14:30 with hand-offs. If short of time, cut 14's Salfit half, then 16's last sentence.
-Never cut 2, 13, 18, 19.
+≈ 15:00 with hand-offs. If short of time, cut 16's Salfit half, then 18's last sentence.
+Never cut 2, 9, 14, 20, 22. The three diagrams (9, 15, 21) each build in three presses: say
+one sentence per press, then move on.
 
 ---
 
@@ -118,42 +123,59 @@ Never cut 2, 13, 18, 19.
 > above 95%, and the people band, 4 to 14 hertz, is best: **almost 99%**.
 > Shraddha, how does a model listen?
 
-### 9 · ONE DAY BECOMES 25 NUMBERS — `[VIDEO S05, cut]`
-> **[Shraddha]** A model can't look at a picture, so each day becomes 25 numbers.
-> Twenty-four say *when* the city was busy, hour by hour: the **shape**. One says how loud
-> the whole day was compared with that station's usual day: the **level**. We split them
-> because every station is different, some next to a motorway, some in a basement. The
-> shape is what makes cities comparable.
+### 9 · FROM THE GROUND TO A GUESS — `[DIAGRAM pipeline, 3 presses]` *(docs/03)*
+> **[Shraddha]** Before the details, the whole machine on one page. On the left, **the
+> data**: one reading every fifteen minutes from each seismometer, only the 4 to 14 hertz
+> band. We clean out sensor glitches, move every clock to local time, and squeeze each day
+> into **25 numbers**. *(Next)* In the middle, **the model**: a forest of a hundred trees
+> votes on the day, and we only ever grade it on **whole weeks it never saw**. *(Next)* And
+> what it is for: what day is it, which days were unusual, and does it work in a city it
+> never heard. The next slides open these boxes one by one, starting with the 25 numbers.
 
-### 10 · A HUNDRED TREES VOTE — `[VIDEO C4]`
-> **[Shraddha]** The model is a **random forest**: a hundred decision trees, each asking a
-> few yes/no questions. A real one from Brussels: *at six in the morning, was the ground
-> still no busier than the rest of the day?* Yes leads to weekend. On a Wednesday it never
-> saw, **97 of 100 trees say weekday**, but they split on *which* weekday.
+### 10 · ONE DAY BECOMES 25 NUMBERS — `[VIDEO S05, cut]`
+> **[Shraddha]** The first boxes, up close. A model can't look at a picture, so each day
+> becomes 25 numbers. Twenty-four say *when* the city was busy, hour by hour: the **shape**.
+> One says how loud the whole day was compared with that station's usual day: the
+> **level**. Every station is different, some by a motorway, some in a basement; the shape
+> is what makes them comparable.
 
-### 11 · TESTED ON WEEKS IT NEVER SAW — `[STATIC CV diagram]`
-> **[Shraddha]** One rule: we never grade it on a week it studied. Monday and Tuesday are
-> near-twins, so we hide **whole weeks**, five rounds. And we score it so that always
-> guessing "weekday" gets 50, not five out of seven: **balanced accuracy**. A coin toss is
-> the floor. Aadit, how did it do?
+### 11 · A HUNDRED TREES VOTE — `[VIDEO C4]`
+> **[Shraddha]** The next box: the model is a **random forest**, a hundred decision trees,
+> each asking a few yes/no questions. A real one from Brussels: *at six in the morning, was
+> the ground still no busier than the rest of the day?* Yes leads to weekend. On a Wednesday
+> it never saw, **97 of 100 trees say weekday**, but they split on *which* weekday.
 
-### 12 · IT READS THE DAY — `[STATIC results]` *(R1, R2, R6 · 2019–20 · 149 seismometers)*
+### 12 · TESTED ON WEEKS IT NEVER SAW — `[STATIC CV diagram]`
+> **[Shraddha]** And the last box: grading. We never grade it on a week it studied. Monday
+> and Tuesday are near-twins, so we hide **whole weeks**, five rounds. And we score it so
+> that always guessing "weekday" gets 50, not five out of seven: **balanced accuracy**.
+> Aadit, how did it do?
+
+### 13 · IT READS THE DAY — `[STATIC results]` *(R1, R2, R6 · 2019–20 · 149 seismometers)*
 > **[Aadit]** One forest per seismometer. Weekday or weekend: **95%** in a typical city. The
 > exact day: **47%**, where guessing gets 14. In three of the emptiest places in the data,
 > a mountain, the Kalahari, the tip of Chile, it's near chance. **No people, no rhythm.**
 > And the shape matters: loudness alone names the exact day **30%** of the time; with the
 > shape, **47%**.
 
-### 13 · ITS MISTAKES FIND HOLIDAYS — `[VIDEO S08]` *(R7, R8)*
+### 14 · ITS MISTAKES FIND HOLIDAYS — `[VIDEO S08]` *(R7, R8)*
 > **[Aradhya]** Back to Christmas: a Wednesday it had never seen, and it said **Sunday**,
 > and so did the models at 71% of seismometers. On weekday holidays it never saw, it said
 > "weekend" **76%** of the time; on ordinary weekdays, **5%**. It learned how people
 > behave, not the calendar.
-> **[Aadit]** So we turned its surprise into an alarm. Rank every day by how surprised it
-> was, and the holidays float to the top, beating the standard alarm at **110 of 147
-> seismometers**. We never built a holiday detector. We taught it normal.
+> **[Aadit]** Rank every day by how surprised it was, and the holidays float to the top.
+> Here is how that works.
 
-### 14 · THE WEEKEND MOVES — `[STATIC]` *(R3, R9, R10)*
+### 15 · FROM A MISTAKE TO AN ALARM — `[DIAGRAM alarm, 3 presses]` *(R7, R8)*
+> **[Aadit]** How does a mistake become an alarm? Follow Christmas through the boxes. A day
+> it never saw: a Wednesday. The forest says **Sunday**, and gives Wednesday no chance at
+> all. *(Next)* So how surprised is it? One minus the chance it gave the real day: **one**,
+> the maximum. *(Next)* Then compare it with ordinary days: ninety-five out of a hundred are
+> less surprising than this line. Above the line, flag it. No labels, no list of holidays.
+> Across every seismometer, that alarm beat the standard unusual-day alarm at **110 of
+> 147**. We never built a holiday detector. We taught it normal.
+
+### 16 · THE WEEKEND MOVES — `[STATIC]` *(R3, R9, R10)*
 > **[Aradhya]** A model trained on all the *other* cities still reads a new one: **83%**.
 > Trained only on Saturday–Sunday countries, it calls Salfit's **Fridays** weekend: it
 > recognises rest, not the name of the day. Jeddah, our third Friday city, didn't transfer.
@@ -161,7 +183,7 @@ Never cut 2, 13, 18, 19.
 > downloading anything: Sundays got **20% quieter**, luck would do that about 3 times in
 > 1,000. One sensor, 90 km from Sharjah, and Fridays got busier, which we didn't predict.
 
-### 15 · THE DARE, DONE PROPERLY — `[VIDEO C5, cut → STATIC]` *(R19, R22)*
+### 17 · THE DARE, DONE PROPERLY — `[VIDEO C5, cut → STATIC]` *(R19, R22)*
 > **[Aradhya]** Last time's dare: if we know what a city sounds like at eight on a Tuesday,
 > can we **subtract the people** and find small earthquakes underneath? On fifteen-minute
 > averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling
@@ -173,14 +195,14 @@ Never cut 2, 13, 18, 19.
 > wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them.
 > Shraddha, what else didn't work?
 
-### 16 · WHAT DIDN'T WORK — `[STATIC]` *(R4, R6, R8)*
+### 18 · WHAT DIDN'T WORK — `[STATIC]` *(R4, R6, R8)*
 > **[Shraddha]** Three honest ones. Lockdown didn't make weekdays look like Sundays: only
 > about a quarter were called weekend; it looked like no day the model had heard. Our
 > shape-plus-level split doesn't beat raw hourly numbers; it's about as good, and easier to
 > compare. And all of this is one season, with national holidays only. So: what happens
 > with years?
 
-### 17 · NOW SCALE IT — `[STATIC method card]` *(R15–R17 · 2019–26 · 33 cities)*
+### 19 · NOW SCALE IT — `[STATIC method card]` *(R15–R17 · 2019–26 · 33 cities)*
 > *Card: 33 cities · Jan 2019 – Sep 2026 · 72,395 ordinary days · one model per city ·
 > 3 frequency bands × 48 half-hours · gradient boosting · whole weeks held out.*
 > **[Aadit]** We went back to the source: seven years, every station from the study that is
@@ -188,14 +210,24 @@ Never cut 2, 13, 18, 19.
 > This is a new, bigger model: three frequency bands, every half hour, gradient boosting,
 > still tested only on weeks it never saw. A new experiment, so new numbers.
 
-### 18 · DOES MORE DATA MAKE IT SMARTER? — `[STATIC learning curve]` *(R16–R18)*
+### 20 · DOES MORE DATA MAKE IT SMARTER? — `[STATIC learning curve]` *(R16–R18)*
 > **[Shraddha]** The obvious bet: seven years makes it much smarter. Weekend or not:
 > **97%**. But the exact day climbs from **38%** at 100 days to **57%** with all of them,
 > and flattens. One model for all 33 cities together: worse in every city. A Tuesday just
 > sounds like a Thursday. Show it the **week around** the day instead: **96%**.
 
-### 19 · ASK THE GROUND — `[LIVE globe.html#ask/BE.UCC..HHZ/2019-12-25]` *(fallback: S11)*
-> **[Aadit]** This is all of it, live: 33 cities, any day from 2019 to last September.
+### 21 · WHAT RUNS EVERY NIGHT — `[DIAGRAM live system, 3 presses]` *(pulse.yml, src/pulse.py, src/ask.py)*
+> **[Shraddha]** So how does a website know what the ground did last night? Follow the
+> boxes. The seismometers record all day; EarthScope publishes their spectra about two days
+> later; and every morning at six, a **GitHub Action** wakes up and downloads the new days.
+> *(Next)* Two models score each day: the **frozen** one, trained on one year and never
+> changed, and a **learner** that guesses a day first and only then studies it. *(Next)*
+> The answers are saved in the repository, Vercel publishes them, and the globe, Ask and
+> City Pulse read them. Ask's seven-year models are built once on a laptop and saved the
+> same way. Aadit, show them.
+
+### 22 · ASK THE GROUND — `[LIVE globe.html#ask/BE.UCC..HHZ/2019-12-25]` *(fallback: S11)*
+> **[Aadit]** Here it is, live: 33 cities, any day from 2019 to last September.
 > *(Brussels, Christmas 2019)* From the day alone: Sunday, sure of it. From the week around
 > it: Wednesday, sure of it. **A Wednesday that looked like a day off.**
 > *(Next → the globe on Mon 23 Mar 2020)* And this is the week the world stopped. *(let it
@@ -203,18 +235,17 @@ Never cut 2, 13, 18, 19.
 > than their normal that Monday; a week later, **17**. Nobody told the globe there was a
 > pandemic. *(R15)*
 
-### 20 · A TEST RUNNING EVERY NIGHT — `[LIVE today.html]` *(fallback: still)*
-> **[Shraddha]** And it doesn't stop in September. Every night this page downloads yesterday
-> for seven cities and guesses the day **before** it's told. This term we added a second
-> model that also **learns** each ordinary day once it has been graded. Does learning help?
-> We wrote the test down before writing the code, and our own guess is *probably not much*,
-> because more data already flattened. The verdict comes in January; until then these
-> numbers say *interim*.
+### 23 · A TEST RUNNING EVERY NIGHT — `[LIVE today.html]` *(fallback: still)*
+> **[Shraddha]** And this is the learner from the diagram, running. Every night this page
+> guesses yesterday **before** it's told, frozen and learning side by side. Does learning
+> help? We wrote the test down before writing the code, and our own guess is *probably not
+> much*, because more data already flattened. The verdict comes in January; until then
+> these numbers say *interim*.
 
-### 21 · FIVE PROMISES, KEPT — `[STATIC scorecard]`
+### 24 · FIVE PROMISES, KEPT — `[STATIC scorecard]`
 > *(no read-out: let it sit while you walk to the centre, then Next)*
 
-### 22 · STILL USELESS? — `[VIDEO S14]`
+### 25 · STILL USELESS? — `[VIDEO S14]`
 > **[Aadit]** So: seismometers. Still useless? There's a network already buried under many
 > of the world's cities, recording for decades, free. It hears a neighbourhood, not a
 > person: no phones, no cameras. And ours is running tonight. **Everyone measures how loud
@@ -236,10 +267,10 @@ Never cut 2, 13, 18, 19.
   "So: what happens with years?"
 - **Live slides:** open the deck 10 minutes early on the classroom machine. If a fallback
   appears, keep talking; it says the same thing. `L` forces the fallback.
-- **Beat 19 step:** the next click reloads the globe on 23 Mar 2020 by itself; don't tap
+- **Beat 22 step:** the next click reloads the globe on 23 Mar 2020 by itself; don't tap
   around.
 - **Words to avoid:** "predicts earthquakes", "proves", "it learns everything", "went up
   from 95 to 97" (different experiments). Say "in a typical city" before 95%.
-- **Q&A:** `docs/18` Q&A still holds. New: "Isn't more data always better?" → beat 18.
+- **Q&A:** `docs/18` Q&A still holds. New: "Isn't more data always better?" → beat 20.
   "Does it remember its training days?" → B1. "Is 57% honest?" → it's the best of 8
   configurations on the same data, so slightly optimistic (R17).

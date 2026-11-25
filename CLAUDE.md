@@ -115,7 +115,8 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
   wait for the presenter; a stop with hold=true shows a seamless loop rendered with the story
   clock frozen and the background clock running (`useSec` = camera/captions, `useAmbient` =
   cars/people/waves; pass ambient things `useAmbient()`, never `useSec()`). Rebuild holds:
-  `bash render.sh --holds`. The deck is light paper (theme.ts); live pages stay dark and open
+  `bash render.sh --holds`. Block diagrams (`pipeline`, `alarm`, `nightly` in talk.js) build
+  one `stepGroup` per press (`"steps"` in slides.json); keep their numbers from data/*.json. The deck is light paper (theme.ts); live pages stay dark and open
   with `?embed=1` (silent, no site bar: `sound.js`, `html.embed` in style.css). Deck keys
   win over iframe keys (capture listener in each iframe); a live step's URL must change its
   query string so the page reloads. Rebuild: `python src/presentation_data.py && python

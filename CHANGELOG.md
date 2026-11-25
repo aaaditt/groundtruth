@@ -17,6 +17,13 @@ day of data and are not listed.
   Next mid-clip jumps to the stop; Back returns to the previous stop, or to the previous
   slide's last stop. The clips deck PowerPoint cuts each clip at its stops (one slide per
   segment). The clips themselves are unchanged frame for frame.
+- **Three block diagrams** in the talk (docs/21 beats 9, 15, 21), each building one group
+  of boxes per press: *From the ground to a guess* (data → 25 numbers → forest → graded on
+  hidden weeks → what it is for), *From a mistake to an alarm* (real Christmas Day in
+  Brussels: guess → surprise → above 95% of ordinary days → flag) and *What runs every
+  night* (EarthScope → GitHub Action → frozen and learning models → site/data → Vercel).
+  The speech around them now walks through the boxes; the talk is 25 beats, about 15
+  minutes. In the PowerPoint each diagram is one slide per step.
 
 ## [1.7.0] - 2026-11-24
 
