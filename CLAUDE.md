@@ -116,7 +116,12 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
   clock frozen and the background clock running (`useSec` = camera/captions, `useAmbient` =
   cars/people/waves; pass ambient things `useAmbient()`, never `useSec()`). Rebuild holds:
   `bash render.sh --holds`. Block diagrams (`pipeline`, `alarm`, `nightly` in talk.js) build
-  one `stepGroup` per press (`"steps"` in slides.json); keep their numbers from data/*.json. The deck is light paper (theme.ts); live pages stay dark and open
+  one `stepGroup` per press (`"steps"` in slides.json); keep their numbers from data/*.json.
+  The method diagram mirrors docs/03's six steps: change both together.
+- **Data provenance**: `src/sources_export.py` writes `site/data/sources.json` (each
+  network's name and DOI from the FDSN registry, plus the four datasets). The research
+  map, the globe panel and the talk's sources slide read it; rerun it when stations change.
+  New literature for the talk goes in docs/02 "Papers" AND the `LIT` list in talk.js. The deck is light paper (theme.ts); live pages stay dark and open
   with `?embed=1` (silent, no site bar: `sound.js`, `html.embed` in style.css). Deck keys
   win over iframe keys (capture listener in each iframe); a live step's URL must change its
   query string so the page reloads. Rebuild: `python src/presentation_data.py && python

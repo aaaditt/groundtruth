@@ -64,6 +64,11 @@ body { transition: background .4s; }
 .chart .blk.use { stroke: var(--city); stroke-width: 3.5; }
 .chart .blk-t { font-family: var(--display); font-size: 38px; }
 .chart .blk-s { font-size: 27px; fill: var(--graphite); }
+.chart .blk-s.t-ink { fill: var(--ink); }
+.chart .blk-k { font-size: 24px; fill: var(--graphite); letter-spacing: .02em; }
+.chart .chip { fill: #fbf9f4; stroke: var(--graphite); stroke-width: 1.5; }
+.chart .chip.nodoi { stroke-dasharray: 4 4; }
+.chart .chip-t { font-family: var(--mono); font-size: 20px; fill: var(--ink); }
 .chart .flow { stroke: var(--ink); stroke-width: 3; fill: none; }
 .chart .flow.dashed { stroke-dasharray: 8 8; }
 .chart .ah { fill: var(--ink); }

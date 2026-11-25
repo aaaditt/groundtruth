@@ -52,6 +52,7 @@ const weekdayOf = (i) => DAY_NAMES[(new Date(T0 + i * DAY_MS).getUTCDay() + 6) %
 const weak = (s) => s.published_weekend_acc === null || s.published_weekend_acc < 80;
 const holidayOf = (s, i) => s.holidays[String(i)] || "";
 const renamed = (s) => s.paper_city && s.paper_city !== s.city;
+let SOURCES = null;       // data/sources.json: each network's name and DOI
 
 // Where the sensor really is: the dot is the seismometer, which can be tens of km from
 // the city the 2020 paper named (labels: groundtruth/places.py, distances: GeoNames).
@@ -317,6 +318,7 @@ function detail(keepCalendar) {
     el("h2", {}, s.city),
     el("p", { class: "sub" }, `${s.site || s.id} · ${s.country} · ${s.id}`),
     ...whereLines(s).map((t) => el("p", { class: "sub where" }, t)),
+    sourceLine(s.id, SOURCES, "mustang", "sub src-line"),
     valueLine(s, v),
     el("p", { class: "note" }, acc + (weak(s) ? " The weekly rhythm is hard to read here, so treat colours with care." : "")),
     yearButtons(),
@@ -474,6 +476,8 @@ function readHash() {
 
 async function main() {
   H = await (await fetch("data/history.json")).json();
+  // where each station's recordings come from (network + DOI); the page works without it
+  SOURCES = await fetch("data/sources.json").then((r) => (r.ok ? r.json() : null)).catch(() => null);
   T0 = Date.parse(H.start + "T00:00:00Z");
   H.n = H.stations[0].values.length - 1;
   const slider = document.getElementById("slider");

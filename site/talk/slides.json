@@ -15,15 +15,30 @@
      "kind": "static", "static": {"chart": "question"},
      "notes": "Two months ago we asked one question: can a seismometer tell what day it is? We made five promises. Short answer: we kept all five, then kept going. So, what is it actually hearing?"},
 
-    {"id": "seismometer", "title": "What a seismometer records", "speaker": "Aadit", "seconds": 45,
+    {"id": "seismometer", "title": "What a seismometer records", "speaker": "Aadit", "seconds": 40,
      "kind": "video", "video": {"clip": "C1-city", "start": 15},
-     "notes": "Every car, bus and footstep pushes on the ground and sends a tiny wave down through the rock. A seismometer is a weight on a spring: the ground moves, the weight lags, and it measures the difference. Seismologists built these for earthquakes, and everything else they call noise. This is an ordinary Wednesday in January 2020 under Brussels: quiet at night, a jump at seven, high all day. The noise is a city waking up. Aradhya, where does it come from?"},
+     "notes": "Every car, bus and footstep pushes on the ground and sends a tiny wave down through the rock. A seismometer is a weight on a spring: the ground moves, the weight lags, and it measures the difference. Seismologists built these for earthquakes, and everything else they call noise. This is an ordinary Wednesday in January 2020 under Brussels: quiet at night, a jump at seven, high all day. The noise is a city waking up. Shraddha, who else has listened?"},
 
-    {"id": "stations", "title": "Seismometers on six continents", "speaker": "Aradhya", "seconds": 35,
+    {"id": "research", "title": "Who listened to cities before us", "speaker": "Shraddha", "seconds": 40,
+     "kind": "static", "static": {"chart": "research", "steps": 2},
+     "source": "Groos & Ritter 2009, GJI 179:1213 · Díaz et al. 2017, Sci Rep, doi:10.1038/s41598-017-15499-y · Lecocq et al. 2020, Science, doi:10.1126/science.abd2438 · Cannata et al. 2021, Solid Earth, doi:10.5194/se-12-299-2021 · Nimiya et al. 2021, Sci Rep, doi:10.1038/s41598-021-00063-6 · Yang et al. 2022, Sci Adv, doi:10.1126/sciadv.abl3564 · Liu et al. 2025, Nat Commun, doi:10.1038/s41467-025-57997-y",
+     "notes": "We're not the first to listen to cities. In 2009 a team in Bucharest sorted city noise into its daily and weekly cycles; in 2017, Barcelona traced it to traffic, the metro and crowds. (Next) Then the pandemic. Lecocq and colleagues showed lockdowns cut human noise by up to half, at 268 stations: that's the paper whose data we use. Sicily and Tokyo compared the noise with phone mobility data and found it tracked how people moved. (Next) And most recently, people either strip city noise out to see earthquakes better, as in Long Beach, or map it street by street with fifty kilometres of fibre-optic cable, as in San Jose."},
+
+    {"id": "gap", "title": "Where they stopped, and where we start", "speaker": "Shraddha", "seconds": 35,
+     "kind": "static", "static": {"chart": "gap", "steps": 2},
+     "source": "docs/02-data-and-sources.md, \"Papers\" and \"Where this project goes beyond the papers\"",
+     "notes": "So where did they stop? They measured averages: an hour, a type of day, a lockdown. We guess one day at a time, graded only on weeks the model never saw. They studied one city or one event; we used 149 seismometers, then 33 cities over seven years, and tested a city the model never heard. (Next) They needed phone data to compare with; our model needs none, and its own mistakes find holidays without labels. They removed people to see earthquakes; we kept people as the signal, and tested that idea on earthquakes too. It didn't help, and we'll show you. (Next) And they needed dense arrays or new fibre; we use seismometers that are already in the ground, and a test runs every night. Aradhya, where do ours come from?"},
+
+    {"id": "stations", "title": "Seismometers on six continents", "speaker": "Aradhya", "seconds": 25,
      "kind": "live", "live": {"src": "../research.html?embed=1", "ready": "#rmap .leaflet-tile-loaded", "scroll": "#rmap", "preload": 2,
        "fallback": {"clip": "C3-globe"}},
      "source": "Lecocq et al. (2020), Science, 2019–20",
-     "notes": "A 2020 Science paper by Lecocq and colleagues published 158 seismometers on six continents, one reading every fifteen minutes, late 2019 to mid-2020. (touch Brussels) Brussels is this one, in Uccle. Which days are weekends comes from each country's calendar, never from the shaking. Holidays and lockdown are set aside. That leaves 17,027 ordinary days to learn from."},
+     "notes": "Here they are: 158 seismometers on six continents, one reading every fifteen minutes, late 2019 to mid-2020. (touch Brussels) Brussels is this one, in Uccle. Holidays and lockdown are set aside, which leaves 17,027 ordinary days to learn from. So whose recordings are these?"},
+
+    {"id": "sources", "title": "Where every recording comes from", "speaker": "Aradhya", "seconds": 30,
+     "kind": "static", "static": {"chart": "sources", "steps": 2},
+     "source": "site/data/sources.json (src/sources_export.py, FDSN network registry); docs/02-data-and-sources.md",
+     "notes": "Every recording has an owner. The 2019 to 2020 recordings are Lecocq and colleagues' published data. (Next) Everything since, 2019 to today, comes from EarthScope's public noise spectra; the earthquakes from the US Geological Survey's catalogue; and holidays and weekends from public calendars, never from the shaking itself. (Next) Behind them are 59 seismic networks, and 54 have a DOI you can cite. On the website, click any station and it shows its network and DOI."},
 
     {"id": "sea", "title": "Two kinds of shaking", "speaker": "Aradhya", "seconds": 25,
      "kind": "video", "video": {"clip": "C2-sea", "end": 17.1},
@@ -42,7 +57,7 @@
     {"id": "pipeline", "title": "From the ground to a guess", "speaker": "Shraddha", "seconds": 35,
      "kind": "static", "static": {"chart": "pipeline", "steps": 2},
      "source": "groundtruth/features.py, groundtruth/models.py; docs/03-methodology.md",
-     "notes": "Before the details, the whole machine on one page. (step 1) On the left, the data: one reading every fifteen minutes from each seismometer, only the 4 to 14 hertz band. We clean out sensor glitches, move every clock to local time, and squeeze each day into 25 numbers. (Next) In the middle, the model: a forest of a hundred trees votes on the day, and we only ever grade it on whole weeks it never saw. (Next) And what it is for: what day is it, which days were unusual, and does it work in a city it never heard. The next slides open these boxes one by one, starting with the 25 numbers."},
+     "notes": "Before the details, the whole method on one page: the six steps of our methodology document. (step 1) The data: each day becomes one row, only the 4 to 14 hertz band, glitches dropped, every clock moved to local time. Then 25 features. Then the labels: weekends and holidays come from public calendars, and only ordinary days ever train. (Next) The model: a forest of a hundred trees votes on the day, and we only grade it on whole weeks it never saw. (Next) And step six turns its surprise into a detector of unusual days. The next slides open these steps one by one."},
 
     {"id": "features", "title": "One day becomes 25 numbers", "speaker": "Shraddha", "seconds": 35,
      "kind": "video", "video": {"clip": "S05-features", "start": 20},
@@ -57,7 +72,7 @@
      "source": "Brussels (BE.UCC), 2019–20, GroupKFold by week",
      "notes": "And the last box: grading. We never grade it on a week it studied. Monday and Tuesday are near-twins, so we hide whole weeks, five rounds. And we score it so that always guessing weekday gets 50, not five out of seven: balanced accuracy. Aadit, how did it do?"},
 
-    {"id": "results", "title": "It reads the day", "speaker": "Aadit", "seconds": 50,
+    {"id": "results", "title": "It reads the day", "speaker": "Aadit", "seconds": 45,
      "kind": "static", "static": {"chart": "results"},
      "source": "Results 1, 2, 6, 2019–20, 149 seismometers",
      "notes": "One forest per seismometer. Weekday or weekend: 95% in a typical city. The exact day: 47%, where guessing gets 14. In three of the emptiest places in the data, a mountain, the Kalahari, the tip of Chile, it's near chance. No people, no rhythm. And the shape matters: loudness alone names the exact day 30% of the time; with the shape, 47%."},
@@ -71,12 +86,12 @@
      "source": "Results 7 and 8; groundtruth/detect.py (95th percentile of out-of-fold ordinary days)",
      "notes": "How does a mistake become an alarm? Follow Christmas through the boxes. A day it never saw: a Wednesday. The forest says Sunday, and gives Wednesday no chance at all. (Next) So how surprised is it? One minus the chance it gave the real day: one, the maximum. (Next) Then compare that with ordinary days: ninety-five out of a hundred are less surprising than this line. Above the line, flag it. No labels, no list of holidays. Across every seismometer, that alarm beat the standard unusual-day alarm at 110 of 147. We never built a holiday detector. We taught it normal."},
 
-    {"id": "weekend", "title": "It recognises rest, not the name of the day", "speaker": "Aradhya", "seconds": 45,
+    {"id": "weekend", "title": "It recognises rest, not the name of the day", "speaker": "Aradhya", "seconds": 40,
      "kind": "static", "static": {"chart": "weekend"},
      "source": "Results 3, 9, 10, 2019–20, and UAE 2021–22 (pre-registered, docs/14)",
      "notes": "A model trained on all the other cities still reads a new one: 83%. Trained only on Saturday-Sunday countries, it calls Salfit's Fridays weekend: it recognises rest, not the name of the day. Jeddah, our third Friday city, didn't transfer. And when the UAE moved its weekend in 2022, we wrote the prediction down before downloading anything: Sundays got 20% quieter, luck would do that about 3 times in 1,000. One sensor, 90 km from Sharjah city, and Fridays got 53% busier, which we didn't predict."},
 
-    {"id": "dare", "title": "The dare, done properly", "speaker": "Aradhya", "seconds": 55,
+    {"id": "dare", "title": "The dare, done properly", "speaker": "Aradhya", "seconds": 50,
      "kind": "video", "video": {"clip": "C5-quake", "then": "dare"},
      "source": "Result 19 (docs/17) and the second-by-second test (docs/20), both written down before running",
      "notes": "Last time's dare: if we know what a city sounds like at eight on a Tuesday, can we subtract the people and find small earthquakes underneath? On fifteen-minute averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling median did best. A quake lasts seconds; fifteen minutes blurs it away. So we wrote a proper test down in advance: second-by-second recordings, years the first test never touched, at most 100 quakes per station so no swarm decides it. Result: with the people subtracted, 413 found; the raw recording, 501. Not supported: it made things worse. A plain rolling baseline of the last five minutes did best, 524. A city's weekly rhythm is the right model for reading the day, and the wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them. Shraddha, what else didn't work?"},
@@ -91,7 +106,7 @@
      "source": "Results 15–17, Jan 2019 – Sep 2026, 33 cities, EarthScope MUSTANG",
      "notes": "We went back to the source: seven years, every station from the study that is still recording and publicly served, plus Sharjah. 33 cities, 72,000 ordinary days. This is a new, bigger model: three frequency bands, every half hour, gradient boosting, still tested only on weeks it never saw. A new experiment, so new numbers."},
 
-    {"id": "curve", "title": "More data helps, then flattens", "speaker": "Shraddha", "seconds": 40,
+    {"id": "curve", "title": "More data helps, then flattens", "speaker": "Shraddha", "seconds": 35,
      "kind": "static", "static": {"chart": "curve"},
      "source": "Results 16–18, 2019–26, 33 cities, every score on weeks the model never saw",
      "notes": "The obvious bet: seven years makes it much smarter. Weekend or not: 97%. But the exact day climbs from 38% at 100 days to 57% with all of them, and flattens. One model for all 33 cities together: worse in every city. A Tuesday just sounds like a Thursday. Show it the week around the day instead: 96%."},
@@ -101,7 +116,7 @@
      "source": ".github/workflows/pulse.yml, src/pulse.py, groundtruth/pulse.py; Ask: src/ask.py",
      "notes": "So how does a website know what the ground did last night? Follow the boxes. The seismometers record all day; EarthScope publishes their spectra about two days later; and every morning at six, a GitHub Action wakes up and downloads the new days. (Next) Two models score each day: the frozen one, trained on one year and never changed, and a learner that guesses a day first and only then studies it. (Next) The answers are saved in the repository, Vercel publishes them, and the globe, Ask and City Pulse read them. Ask's seven-year models are built once on a laptop and saved the same way. Aadit, show them."},
 
-    {"id": "ask", "title": "Ask the ground", "speaker": "Aadit", "seconds": 65,
+    {"id": "ask", "title": "Ask the ground", "speaker": "Aadit", "seconds": 55,
      "kind": "live", "live": {"src": "../globe.html?embed=1#ask/BE.UCC..HHZ/2019-12-25", "ready": "#ask-ans .ask-says", "preload": 3,
        "steps": [{"src": "../globe.html?embed=1&step=lockdown#2020-03-23", "ready": "#globe .maplibregl-canvas"}],
        "fallback": {"clip": "S11-live"}},

@@ -72,11 +72,27 @@ function arrowHead(svg, id) {
 }
 function stepGroup(svg, k) { const g = s("g", { "data-step": String(k), class: "stp" }); svg.append(g); return g; }
 // a box: a title in Newsreader and up to three short lines under it
-function box(g, x, y, w, h, title, lines = [], tone = "") {
+function box(g, x, y, w, h, title, lines = [], tone = "", kicker = "") {
   g.append(s("rect", { x, y, width: w, height: h, rx: 12, class: `blk ${tone}` }));
-  text(g, x + 26, y + 54, title, "blk-t");
-  lines.forEach((t, i) => text(g, x + 26, y + 100 + i * 38, t, "blk-s"));
+  const dy = kicker ? 34 : 0;
+  if (kicker) text(g, x + 26, y + 44, kicker, "blk-k");
+  text(g, x + 26, y + 54 + dy, title, "blk-t");
+  lines.forEach((t, i) => text(g, x + 26, y + 100 + dy + i * 38, t, "blk-s"));
 }
+
+// the studies before ours, verified against each paper's abstract (docs/02, "Papers")
+const LIT = [
+  { lane: "Describe a city's noise", papers: [
+    ["2009", "Groos & Ritter", "Bucharest", "daily and weekly cycles,", "sorted by source"],
+    ["2017", "Díaz et al.", "Barcelona", "traced to traffic, the", "metro and crowds"]] },
+  { lane: "Measure the lockdown", papers: [
+    ["2020", "Lecocq et al.", "268 stations, worldwide", "human noise fell by", "up to half"],
+    ["2021", "Cannata et al.", "eastern Sicily", "noise tracked phone", "mobility data"],
+    ["2021", "Nimiya et al.", "Tokyo, 2017–2021", "weekdays and Sundays", "recovered differently"]] },
+  { lane: "Remove it, or map it", papers: [
+    ["2022", "Yang et al.", "Long Beach", "deep learning strips city", "noise to see earthquakes"],
+    ["2025", "Liu et al.", "San Jose, 50 km of fibre", "maps activity street", "by street"]] },
+];
 function arrow(g, id, pts, dashed = false) {
   g.append(s("polyline", { points: pts.map((q) => q.join(",")).join(" "), class: `flow${dashed ? " dashed" : ""}`, "marker-end": `url(#${id})` }));
 }
@@ -87,38 +103,101 @@ function bracket(g, x0, x1, y, label) {
 }
 
 const CHARTS = {
-  // the whole method on one page: data -> model -> what it's for (beats 10-16 open each box)
+  // the whole method on one page: the six steps of docs/03-methodology.md, in order
   pipeline(b) {
     const { box: fig, svg } = figure(b);
     arrowHead(svg, "ah-pipe");
-    const r = DATA.results, f = DATA.forest, fo = DATA.folds;
-    const w = 304, gap = 40, x = (i) => 120 + i * (w + gap), y = 360, h = 210;
-    const blocks = [
-      ["Recordings", [`${r.n_stations} seismometers`, "every 15 minutes", "4 to 14 Hz only"]],
-      ["Clean it", ["drop sensor glitches", "move to local time"]],
-      [`${f.n_features} numbers`, ["per day: 24 for", "the shape, 1 for", "the level"]],
-      ["Random forest", [`${f.n_trees} trees vote`, "on the day"]],
-      ["Grade it", ["only on whole", "weeks it never saw", `${fo.n_folds} rounds`]],
-    ];
+    const f = DATA.forest, fo = DATA.folds;
+    const w = 500, gap = 90, X = (i) => 120 + i * (w + gap), h = 210, y1 = 300, y2 = 640;
     const g0 = stepGroup(svg, 0), g1 = stepGroup(svg, 1), g2 = stepGroup(svg, 2);
-    blocks.forEach(([t, l], i) => {
-      const g = i < 3 ? g0 : g1;
-      box(g, x(i), y, w, h, t, l, i < 3 ? "data" : "model");
-      if (i > 0) arrow(g, "ah-pipe", [[x(i) - gap + 6, y + h / 2], [x(i) - 8, y + h / 2]]);
+    const data = [["One row per day", ["4–14 Hz, glitches dropped,", "local time, hourly medians"]],
+      [`${f.n_features} features`, ["24 for the shape of the day,", "1 for its level"]],
+      ["Calendar labels", ["weekends, holidays, lockdown;", "only ordinary days train"]]];
+    data.forEach(([t, l], i) => {
+      box(g0, X(i), y1, w, h, t, l, "data", `Step ${i + 1}`);
+      if (i) arrow(g0, "ah-pipe", [[X(i) - gap + 8, y1 + h / 2], [X(i) - 8, y1 + h / 2]]);
     });
-    bracket(g0, x(0), x(2) + w, y - 40, "the data");
-    bracket(g1, x(3), x(4) + w, y - 40, "the model");
-    // what it is for: three questions, each answered later in the talk
-    const uses = [["What day is it?", [`all ${r.n_stations} seismometers`]],
-      ["Which days were unusual?", ["from its own mistakes"]],
-      ["Does it travel?", ["to a city it never heard"]]];
-    const uy = 730, uw = 500, ux = (i) => 120 + i * (uw + 90), bus = 670, from = x(4) + w / 2;
-    g2.append(s("polyline", { points: `${from},${y + h + 6} ${from},${bus} ${ux(0) + uw / 2},${bus}`, class: "flow" }));
-    uses.forEach(([t, l], i) => {
-      box(g2, ux(i), uy, uw, 150, t, l, "use");
-      arrow(g2, "ah-pipe", [[ux(i) + uw / 2, bus], [ux(i) + uw / 2, uy - 8]]);
+    // the row turns: down from step 3, back to step 4
+    const mid = (y1 + h + y2) / 2;
+    const model = [["Random forest", [`${f.n_trees} trees vote on the day,`, "rare days weighted up"], g1],
+      ["Honest testing", ["whole weeks held out,", `${fo.n_folds} rounds, balanced accuracy`], g1],
+      ["Unusual days", ["its own surprise, above", "95% of ordinary days"], g2]];
+    arrow(g1, "ah-pipe", [[X(2) + w / 2, y1 + h + 6], [X(2) + w / 2, mid], [X(0) + w / 2, mid], [X(0) + w / 2, y2 - 8]]);
+    model.forEach(([t, l, g], i) => {
+      box(g, X(i), y2, w, h, t, l, i < 2 ? "model" : "use", `Step ${i + 4}`);
+      if (i) arrow(g, "ah-pipe", [[X(i) - gap + 8, y2 + h / 2], [X(i) - 8, y2 + h / 2]]);
     });
-    text(g2, 120, 960, "Each box is one of the next slides.", "ax");
+    text(g2, 120, 940, "The six steps of docs/03-methodology.md. The next slides open them one by one.", "ax");
+    return fig;
+  },
+
+  // who listened to cities before us (verified papers, DOIs in the source line)
+  research(b) {
+    const { box: fig, svg } = figure(b);
+    const lw = 300, cw = 430, gap = 26, x0 = 120 + lw + 20, h = 172, top = 250, rowH = 200;
+    LIT.forEach((lane, r) => {
+      const g = stepGroup(svg, r), y = top + r * rowH;
+      text(g, 120, y + 60, lane.lane.split(" ").slice(0, 2).join(" "), "lab");
+      text(g, 120, y + 100, lane.lane.split(" ").slice(2).join(" "), "lab");
+      lane.papers.forEach(([yr, who, where, l1, l2], i) => {
+        const x = x0 + i * (cw + gap);
+        g.append(s("rect", { x, y, width: cw, height: h, rx: 12, class: "blk" }));
+        text(g, x + 24, y + 46, `${who}, ${yr}`, "blk-t");
+        text(g, x + 24, y + 86, where, "blk-s t-ink");
+        text(g, x + 24, y + 124, l1, "blk-s");
+        text(g, x + 24, y + 160, l2, "blk-s");
+      });
+    });
+    return fig;
+  },
+
+  // where they stopped, and what this project adds
+  gap(b) {
+    const { box: fig, svg } = figure(b);
+    const r = DATA.results, sc = DATA.story.scale;
+    const years = Math.floor((Date.parse(sc.end) - Date.parse(sc.start)) / (365.25 * 864e5));
+    const rows = [
+      ["measured averages: an hour,", "a type of day, a lockdown", "guesses one day at a time, graded", "only on weeks it never saw", 0],
+      ["one city, or one event", "", `${r.n_stations} seismometers, then ${sc.stations} cities over`, `${years} years, and a city it never heard`, 0],
+      ["compared the noise with", "phone mobility data", "needs no phones: its own mistakes", "find holidays, with no labels", 1],
+      ["removed people to see", "earthquakes", "keeps people as the signal, and tested", "it on earthquakes too: it didn't help", 1],
+      ["needed dense arrays", "or new fibre", "uses seismometers already in place,", "and a test runs every night", 2],
+    ];
+    const xa = 120, xb = 1000, y0 = 290, rh = 132;
+    text(svg, xa, y0 - 30, "The studies before ours", "ax");
+    text(svg, xb, y0 - 30, "This project", "ax t-city");
+    rows.forEach(([a1, a2, b1, b2, k], i) => {
+      const g = stepGroup(svg, k), y = y0 + i * rh;
+      g.append(s("line", { x1: xa, x2: 1800, y1: y + 104, y2: y + 104, class: "rule" }));
+      text(g, xa, y + 40, a1, "lab t-grey"); if (a2) text(g, xa, y + 80, a2, "lab t-grey");
+      text(g, xb, y + 40, b1, "lab"); text(g, xb, y + 80, b2, "lab");
+    });
+    return fig;
+  },
+
+  // where every recording comes from (site/data/sources.json, src/sources_export.py)
+  sources(b) {
+    const { box: fig, svg } = figure(b);
+    arrowHead(svg, "ah-src");
+    const src = DATA.sources, nets = Object.entries(src.networks);
+    const withDoi = nets.filter(([, n]) => n.doi).length;
+    const y0 = 250, h = 112, gapY = 22, xl = 120, wl = 760, xr = 960;
+    src.datasets.forEach((d, i) => {
+      const g = stepGroup(svg, i === 0 ? 0 : 1), y = y0 + i * (h + gapY);
+      box(g, xl, y, wl, h, d.name, [d.what], "data");
+      arrow(g, "ah-src", [[xl + wl + 8, y + h / 2], [xr - 24, y + h / 2]]);
+      text(g, xr, y + h / 2 - 6, "used for", "ax");
+      text(g, xr, y + h / 2 + 36, d.used_for, "lab");
+    });
+    // behind the recordings: every network, each with its own DOI
+    const g2 = stepGroup(svg, 2), yN = y0 + 4 * (h + gapY) + 40;
+    text(g2, 120, yN, `Behind them: ${nets.length} seismic networks, ${withDoi} with a DOI (dashed: none). Click any station on the website to see its own.`, "lab");
+    const cw = 54, per = 31;
+    nets.forEach(([code, n], i) => {
+      const x = 120 + (i % per) * cw, y = yN + 22 + Math.floor(i / per) * 46;
+      g2.append(s("rect", { x, y, width: cw - 6, height: 38, rx: 6, class: n.doi ? "chip" : "chip nodoi" }));
+      text(g2, x + (cw - 6) / 2, y + 27, code, "chip-t", "middle");
+    });
     return fig;
   },
 
@@ -785,6 +864,7 @@ async function main() {
   const names = ["results", "bands", "spectrum", "folds", "mistakes", "applied", "story", "city_day", "forest", "stations"];
   const files = await Promise.all(names.map((n) => fetch(`data/${n}.json`, { cache: "no-cache" }).then((r) => r.json())));
   names.forEach((n, i) => { DATA[n] = files[i]; });
+  DATA.sources = await fetch("../data/sources.json", { cache: "no-cache" }).then((r) => r.json());
   // where each clip stops (src/talk_build.py); without it every clip just plays through
   CUES = await fetch("media/cues.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
   await document.fonts.ready;

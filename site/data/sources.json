@@ -1,0 +1,393 @@
+{
+ "about": "Written by src/sources_export.py from the FDSN network registry (https://www.fdsn.org/ws/networks/1/query). Never edit by hand.",
+ "datasets": [
+  {
+   "id": "lecocq2020",
+   "name": "Lecocq et al. (2020), Science",
+   "what": "15-minute readings, 4–14 Hz, Oct 2019 – May 2020",
+   "used_for": "the 2019–20 models, holidays, lockdowns, the UAE test",
+   "doi": "10.1126/science.abd2438",
+   "url": "https://github.com/ThomasLecocq/2020_Science_GlobalQuieting"
+  },
+  {
+   "id": "mustang",
+   "name": "EarthScope MUSTANG noise-psd",
+   "what": "public noise spectra, every half hour, 2019 – today",
+   "used_for": "the globe, Ask, City Pulse every night",
+   "doi": "10.1785/0220170191",
+   "url": "https://service.earthscope.org/mustang/noise-psd/1/"
+  },
+  {
+   "id": "comcat",
+   "name": "USGS ComCat earthquake catalogue",
+   "what": "earthquakes: time, place, magnitude",
+   "used_for": "the two earthquake tests",
+   "doi": "10.5066/F7MS3QZH",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/"
+  },
+  {
+   "id": "holidays",
+   "name": "Public calendars",
+   "what": "holidays (Python package), weekends (Wikipedia)",
+   "used_for": "the labels: never from the seismic data",
+   "doi": null,
+   "url": "https://github.com/vacanza/holidays"
+  }
+ ],
+ "networks": {
+  "AC": {
+   "name": "Albanian Seismological Network",
+   "doi": "10.7914/SN/AC",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "AF": {
+   "name": "AfricaArray",
+   "doi": "10.7914/SN/AF",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "AK": {
+   "name": "Alaska Geophysical Network",
+   "doi": "10.7914/SN/AK",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "AM": {
+   "name": "Raspberry Shake",
+   "doi": "10.7914/SN/AM",
+   "stations_2020": 55,
+   "stations_globe": 0
+  },
+  "AU": {
+   "name": "Australian National Seismograph Network",
+   "doi": "10.26186/144675",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "BE": {
+   "name": "Belgian Seismic Network",
+   "doi": "10.7914/SN/BE",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "BK": {
+   "name": "Berkeley Digital Seismograph Network",
+   "doi": "10.7932/BDSN",
+   "stations_2020": 3,
+   "stations_globe": 0
+  },
+  "BL": {
+   "name": "Brazilian Lithospheric Seismic Project",
+   "doi": "",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "BW": {
+   "name": "BayernNetz",
+   "doi": "10.7914/SN/BW",
+   "stations_2020": 2,
+   "stations_globe": 0
+  },
+  "BX": {
+   "name": "Botswana Seismological Network",
+   "doi": "10.7914/SN/BX",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "C1": {
+   "name": "Red Sismologica Nacional",
+   "doi": "10.7914/SN/C1",
+   "stations_2020": 2,
+   "stations_globe": 2
+  },
+  "CA": {
+   "name": "Catalan Seismic Network",
+   "doi": "10.7914/SN/CA",
+   "stations_2020": 2,
+   "stations_globe": 0
+  },
+  "CH": {
+   "name": "Switzerland Seismological Network",
+   "doi": "10.12686/sed/networks/ch",
+   "stations_2020": 6,
+   "stations_globe": 0
+  },
+  "CI": {
+   "name": "Southern California Seismic Network",
+   "doi": "10.7914/SN/CI",
+   "stations_2020": 2,
+   "stations_globe": 2
+  },
+  "CN": {
+   "name": "Canadian National Seismograph Network",
+   "doi": "10.7914/SN/CN",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "CQ": {
+   "name": "Cyprus Broadband Seismological Network",
+   "doi": "10.7914/SN/CQ",
+   "stations_2020": 2,
+   "stations_globe": 0
+  },
+  "CU": {
+   "name": "Caribbean Network",
+   "doi": "10.7914/SN/CU",
+   "stations_2020": 2,
+   "stations_globe": 2
+  },
+  "EI": {
+   "name": "Irish National Seismic Network",
+   "doi": "10.7914/SN/EI",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "FR": {
+   "name": "RESIF and other broad-band and accelerometric permanent networks in metropolitan France",
+   "doi": "10.15778/RESIF.FR",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "G": {
+   "name": "GEOSCOPE - French Global Network of Seismological Broadband Stations",
+   "doi": "10.18715/GEOSCOPE.G",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "GB": {
+   "name": "Great Britain Seismograph Network",
+   "doi": "10.7914/av8j-nc83",
+   "stations_2020": 2,
+   "stations_globe": 0
+  },
+  "GE": {
+   "name": "GEOFON",
+   "doi": "10.14470/TR560404",
+   "stations_2020": 4,
+   "stations_globe": 0
+  },
+  "GO": {
+   "name": "National Seismic Network of Georgia",
+   "doi": "10.7914/1yx9-8844",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "GR": {
+   "name": "German Regional Seismic Network",
+   "doi": "10.25928/mbx6-hr74",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "GT": {
+   "name": "Global Telemetered Seismograph Network (USAF/USGS)",
+   "doi": "10.7914/SN/GT",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "HE": {
+   "name": "Finnish National Seismic Network",
+   "doi": "10.14470/UR044600",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "HK": {
+   "name": "Hong Kong Seismograph Network",
+   "doi": "",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "HL": {
+   "name": "Hellenic Unified Seismological Network",
+   "doi": "10.7914/SN/HL",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "HT": {
+   "name": "Hellenic Unified Seismological Network",
+   "doi": "10.7914/SN/HT",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "II": {
+   "name": "Global Seismograph Network - II",
+   "doi": "10.7914/SN/II",
+   "stations_2020": 7,
+   "stations_globe": 8
+  },
+  "IN": {
+   "name": "National Seismic Network of India",
+   "doi": "",
+   "stations_2020": 2,
+   "stations_globe": 2
+  },
+  "IS": {
+   "name": "Israel Seismic Network",
+   "doi": "",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "IU": {
+   "name": "Global Seismograph Network (GSN - IRIS/USGS)",
+   "doi": "10.7914/SN/IU",
+   "stations_2020": 4,
+   "stations_globe": 3
+  },
+  "IV": {
+   "name": "Italian National Seismic Network",
+   "doi": "10.13127/sd/x0fxnh7qfy",
+   "stations_2020": 3,
+   "stations_globe": 0
+  },
+  "KO": {
+   "name": "Kandilli Observatory And Earthquake Research Institute (KOERI)",
+   "doi": "10.7914/SN/KO",
+   "stations_2020": 2,
+   "stations_globe": 0
+  },
+  "KV": {
+   "name": "Kivu Seismological Network",
+   "doi": "10.14470/XI058335",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "LD": {
+   "name": "Lamont-Doherty Cooperative Seismographic Network",
+   "doi": "10.7914/SN/LD",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "MD": {
+   "name": "Moldova Digital Seismic Network",
+   "doi": "10.7914/SN/MD",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "MN": {
+   "name": "Mediterranean Very Broadband Seismographic Network",
+   "doi": "10.13127/sd/fbbbtdtd6q",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "MQ": {
+   "name": "Martinique Seismic and Volcano Observatory Network",
+   "doi": "10.18715/martinique.mq",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "NC": {
+   "name": "USGS Northern California Seismic Network",
+   "doi": "10.7914/SN/NC",
+   "stations_2020": 2,
+   "stations_globe": 0
+  },
+  "NE": {
+   "name": "New England Seismic Network",
+   "doi": "10.7914/SN/NE",
+   "stations_2020": 3,
+   "stations_globe": 2
+  },
+  "NL": {
+   "name": "Netherlands Seismic and Acoustic Network",
+   "doi": "10.21944/e970fd34-23b9-3411-b366-e4f72877d2c5",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "NP": {
+   "name": "United States National Strong-Motion Network",
+   "doi": "10.7914/SN/NP",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "NS": {
+   "name": "University of Bergen Seismic Network",
+   "doi": "10.7914/SN/NS",
+   "stations_2020": 6,
+   "stations_globe": 0
+  },
+  "NZ": {
+   "name": "New Zealand National Seismograph Network",
+   "doi": "10.21420/G19Y-9D40",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "OE": {
+   "name": "Austrian Seismic Network",
+   "doi": "10.7914/SN/OE",
+   "stations_2020": 2,
+   "stations_globe": 0
+  },
+  "ON": {
+   "name": "Rede Sismográfica do Sul e do Sudeste",
+   "doi": "10.7914/SN/ON",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "PA": {
+   "name": "ChiriNet",
+   "doi": "10.7914/SN/PA",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "PF": {
+   "name": "Piton de la Fournaise Volcano Observatory Network (Reunion Island)",
+   "doi": "10.18715/reunion.PF",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "PT": {
+   "name": "Pacific Tsunami Warning Seismic System",
+   "doi": "10.7914/SN/PT",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "QM": {
+   "name": "Comoros Archipelago Seismic and Volcano Network",
+   "doi": "10.18715/MAYOTTE.QM",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "RM": {
+   "name": "Regional Integrated Multi-Hazard Early Warning System",
+   "doi": "10.7914/SN/RM",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "RO": {
+   "name": "Romanian Seismic Network",
+   "doi": "10.7914/SN/RO",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "S1": {
+   "name": "Australian Seismometers in Schools",
+   "doi": "10.7914/SN/S1",
+   "stations_2020": 4,
+   "stations_globe": 3
+  },
+  "SV": {
+   "name": "Servicio Nacional de Estudios Territoriales (SNET), El Salvador",
+   "doi": "",
+   "stations_2020": 1,
+   "stations_globe": 1
+  },
+  "TC": {
+   "name": "Red Sismológica Nacional de Costa Rica",
+   "doi": "10.15517/TC",
+   "stations_2020": 4,
+   "stations_globe": 0
+  },
+  "US": {
+   "name": "United States National Seismic Network",
+   "doi": "10.7914/SN/US",
+   "stations_2020": 1,
+   "stations_globe": 0
+  },
+  "YS": {
+   "name": "SANIMS",
+   "doi": "10.7914/SN/YS_2019",
+   "stations_2020": 1,
+   "stations_globe": 0
+  }
+ }
+}

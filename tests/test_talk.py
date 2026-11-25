@@ -139,5 +139,8 @@ def test_every_building_diagram_has_a_group_per_step(deck, talk_js):
             continue
         body = talk_js[talk_js.index(f"  {b['static']['chart']}(b) {{"):]
         body = body[:body.index("\n  },")]
-        for k in range(n + 1):
-            assert f"stepGroup(svg, {k})" in body, f"{b['id']}: no group for step {k}"
+        assert "stepGroup(svg, " in body, f"{b['id']}: builds in steps but draws no step groups"
+        literal = {int(k) for k in re.findall(r"stepGroup\(svg, (\d+)\)", body)}
+        computed = re.search(r"stepGroup\(svg, [^\d)]", body)
+        if not computed:                       # every group written out: all steps present
+            assert literal == set(range(n + 1)), f"{b['id']}: groups {sorted(literal)} for {n} steps"

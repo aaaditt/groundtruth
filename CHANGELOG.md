@@ -24,6 +24,20 @@ day of data and are not listed.
   night* (EarthScope → GitHub Action → frozen and learning models → site/data → Vercel).
   The speech around them now walks through the boxes; the talk is 25 beats, about 15
   minutes. In the PowerPoint each diagram is one slide per step.
+- **Research scope and data provenance** (docs/21 beats 5, 6, 8). *Who listened to cities
+  before us*: seven papers from 2009 to 2025 (Groos & Ritter; Díaz; Lecocq; Cannata;
+  Nimiya; Yang; Liu), each checked against its publisher's page and cited with its DOI in
+  docs/02. *Where they stopped, and where we start*: averages vs single unseen days, one
+  city vs 149 and 33 × 7 years, phone data vs none, removing people vs keeping them as the
+  signal, new fibre vs seismometers already in place. *Where every recording comes from*:
+  the four datasets and the 59 seismic networks behind them (54 with a DOI), from the FDSN
+  network registry (`src/sources_export.py` → `site/data/sources.json`).
+- **Every station on the website shows where its data comes from**: the research map's
+  popups and the globe's station panel name the seismic network, link its DOI, and say
+  which dataset it came through (`sourceLine` in `site/common.js`).
+- The method diagram now follows `docs/03-methodology.md`'s six steps, labelled Step 1–6
+  (it adds Step 3, the calendar labels, which the first version left out). The talk is
+  28 beats, about 16 minutes.
 
 ## [1.7.0] - 2026-11-24
 
