@@ -30,7 +30,8 @@ OUT = os.path.join("site", "data")
 LIVE_DAYS = os.path.join("outputs", "tables", "live_days.csv")
 LIVE_MODELS = os.path.join("outputs", "tables", "live_models.csv")
 CSV_COLS = ["station", "city", "date", "dow", "is_weekend", "calendar", "holiday", "pred_dow",
-            "p_true_dow", "p_weekend", "confusion", "anomaly", "confusion_flag", "anomaly_flag"]
+            "p_true_dow", "p_weekend", "confusion", "anomaly", "confusion_flag", "anomaly_flag",
+            "learn_pred_dow", "learn_p_weekend"]   # walk-forward model (docs/19, Result 21)
 
 
 PREDICTIONS = os.path.join("config", "predictions.csv")
@@ -71,11 +72,15 @@ def track_record(days):
         return None
     wk = [d for d in n if d["is_weekend"]]
     wd = [d for d in n if not d["is_weekend"]]
-    rec = lambda g, want: sum((d["p_weekend"] > .5) == want for d in g) / len(g) if g else None  # noqa: E731
-    parts = [r for r in (rec(wk, True), rec(wd, False)) if r is not None]
-    return {"normal_days": len(n),
-            "weekend_bal_acc": round(sum(parts) / len(parts), 3),
-            "dow_acc": round(sum(d["pred_dow"] == d["dow"] for d in n) / len(n), 3)}
+    def scores(pred, p_we):
+        rec = lambda g, want: sum((d[p_we] > .5) == want for d in g) / len(g) if g else None  # noqa: E731
+        parts = [r for r in (rec(wk, True), rec(wd, False)) if r is not None]
+        return round(sum(parts) / len(parts), 3), round(sum(d[pred] == d["dow"] for d in n) / len(n), 3)
+    bal, dow = scores("pred_dow", "p_weekend")
+    out = {"normal_days": len(n), "weekend_bal_acc": bal, "dow_acc": dow}
+    # the same days, scored by the model that keeps learning (docs/19; interim until graded)
+    out["learn_weekend_bal_acc"], out["learn_dow_acc"] = scores("learn_pred_dow", "learn_p_weekend")
+    return out
 
 
 def station_entry(st):
@@ -105,6 +110,8 @@ def main():
                     e["error"] = "MUSTANG returned no complete days since the model was trained"
                 else:
                     scored, thr = pulse.score_new(train, new)
+                    wf = pulse.score_walk_forward(train, new)        # predict, then learn
+                    scored = scored.merge(wf, on="date", how="left")
                     e["thresholds"] = {k: round(v, 3) for k, v in thr.items()}
                     e["days"] = [pulse.day_record(r) for _, r in scored.iterrows()]
                     for d in e["days"]:

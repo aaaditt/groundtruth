@@ -183,6 +183,10 @@ gotchas already solved.
 | [`docs/13-final-report.md`](docs/13-final-report.md) | **The final written report**: question, data, method, every headline result, limits, ethics |
 | [`docs/14-uae-preregistration.md`](docs/14-uae-preregistration.md) | The pre-registered UAE weekend experiment, frozen before any data was downloaded, then its results |
 | [`docs/17-noise-floor-preregistration.md`](docs/17-noise-floor-preregistration.md) | Pre-registered test: does subtracting the learned human noise reveal small earthquakes? (Result 19) |
+| [`docs/18-final-presentation-script.md`](docs/18-final-presentation-script.md) | The all-video version of the final talk: one 3D clip per slide. Kept as the previous version; the clips are reused by `docs/21` |
+| [`docs/19-nightly-learning-preregistration.md`](docs/19-nightly-learning-preregistration.md) | Pre-registered: does the live model get better if it keeps learning every night? (Result 21, graded January 2027) |
+| [`docs/20-quake-waveform-preregistration.md`](docs/20-quake-waveform-preregistration.md) | Pre-registered: subtract the people second by second, on waveforms, to find small earthquakes (Result 22) |
+| [`docs/21-story-presentation-script.md`](docs/21-story-presentation-script.md) | **The final talk, story version**: 22 beats mixing stills, short clips and the live site. Presented from the web deck [`site/talk/`](site/talk/) (also as PowerPoint, [`presentation/`](presentation/README.md)) |
 
 ---
 
@@ -208,7 +212,9 @@ All scores are out-of-sample, with **whole weeks held out** (see
 | Exact weekday from one day, 3 frequency bands, median over 33 stations (Result 17) | **56.7%** | 14.3% |
 | Exact weekday given **the 7 days around it**, median over 33 stations (Result 17) | **96.1%** | 14.3% |
 | One day, more data / all cities in one model / more training rounds (Result 18) | 56.7% / 50.4% / 56.5% | no gain past ~1,600 days |
+| The same 7-year models scored on the days they **trained on** vs weeks they never saw (Result 20, exploratory) | **100.0%** vs 55.2% | the gap is memorisation |
 | Earthquakes found after subtracting the learned human noise vs raw, 5,236 station–quake pairs, same false-alarm rate (Result 19, pre-registered) | 998 vs 953, p = 0.053: **not supported** | without the Puerto Rico swarm: 254 vs 275 |
+| Same test **second by second** (waveforms, 2021–2026, 775 pairs at 21 stations; Result 22, pre-registered) | learned 413 vs raw 501: **not supported** (learned worse, p = 9 × 10⁻¹⁵) | a rolling 5-minute baseline finds 524 (p = 0.005 vs raw) |
 
 Showcase cities: New York `AM.R7885` (100.0% / 66.1%), Athens `HL.ATH` (100.0% / 69.6%),
 Brussels `BE.UCC` (100.0% / 47.8%).

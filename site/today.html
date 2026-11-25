@@ -33,6 +33,16 @@
     <ol class="rows" id="rows"></ol>
     <div class="after" id="after"></div>
 
+    <section class="card board" id="learning" aria-labelledby="learn-h">
+      <h2 id="learn-h">Does it get better if it keeps learning?</h2>
+      <p class="sub">A second model guesses each new day too, but after the day is graded it
+        <i>learns</i> it (ordinary days only). It never sees a day before guessing it. We wrote down
+        how to judge this before writing the code
+        (<a href="https://github.com/aaaditt/groundtruth/blob/main/docs/19-nightly-learning-preregistration.md">the test</a>);
+        the verdict uses 1 October to 31 December 2026. Until then these numbers are <b>interim</b>.</p>
+      <div id="learn-body">Loading</div>
+    </section>
+
     <section class="card board" id="predictions" aria-labelledby="pred-h">
       <h2 id="pred-h">Predictions made before the day</h2>
       <p class="sub">Written down and committed to the public repository <i>before</i> each date

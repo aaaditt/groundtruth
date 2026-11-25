@@ -634,3 +634,17 @@ body.asking #how { display: none; }
   .ask-year { margin-top: 30px; }
   .ask-yhead h2 { font-size: 24px; }
 }
+
+/* ---------- Today: frozen vs keeps-learning (docs/19) ---------- */
+svg.learn { width: 100%; max-width: 720px; height: auto; display: block; margin-top: 8px; }
+svg.learn .tick { stroke: var(--rule); stroke-width: 1; }
+svg.learn .axis { fill: var(--ash); font: 400 12px var(--text); }
+svg.learn .name { fill: var(--ink); font: 500 14px var(--text); }
+svg.learn .join { stroke: var(--rule-2); stroke-width: 3; }
+svg.learn .frozen, #learning .k.frozen::before { fill: var(--graphite); background: var(--graphite); }
+svg.learn .learner, #learning .k.learner::before { fill: var(--loud); background: var(--loud); }
+#learning .cap { font-size: 13px; color: var(--graphite); }
+#learning .k::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+
+/* ---------- embedded in the talk deck (site/talk/): ?embed=1 ---------- */
+html.embed .bar, html.embed footer, html.embed .sound { display: none !important; }

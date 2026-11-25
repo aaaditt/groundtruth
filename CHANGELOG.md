@@ -4,6 +4,31 @@ What changed in each version of GroundTruth. Versions follow semantic versioning
 `1.0.0` is the git tag `v1.0-semester`. The daily `pulse: data` commits only add a new
 day of data and are not listed.
 
+## [1.7.0] - 2026-11-24
+
+### Added
+
+- **The story talk** (`docs/21`): 22 beats mixing stills, short clips and the live site,
+  revised after three read-only reviews. Presented from a **web deck**, `site/talk/`
+  (clicker, arrows, Next/Back, three-finger swipe; live globe, Ask and City Pulse inside it
+  with automatic fallbacks; a progress strip drawn from the real Brussels recording), and
+  built as two PowerPoints from the same `slides.json` (`presentation/story/build_pptx.cjs`).
+  `src/talk_build.py`, `tests/test_talk.py`.
+- **Result 20** (exploratory): the 7-year models score 100.0% on days they trained on and
+  55.2% on weeks they never saw. `src/memorisation.py`.
+- **Result 21** (pre-registered, `docs/19`): nightly walk-forward learning, predict then
+  learn, on the 7 live cities. City Pulse shows frozen vs learning as interim; graded in
+  January 2027. `groundtruth/pulse.py` `score_walk_forward`, `tests/test_walk_forward.py`.
+- **Result 22** (pre-registered, `docs/20`): second-by-second waveforms, 775 pairs at 21
+  stations: subtracting the learned normal finds fewer earthquakes than the raw recording
+  (413 vs 501, not supported); a rolling 5-minute baseline finds most (524).
+  `src/quake_waveform.py`, `groundtruth/quakewave.py`.
+- `src/plot_learning_curve.py`: Result 18 as one picture.
+
+### Changed
+
+- Site pages opened with `?embed=1` are silent and hide the site bar (for the deck).
+
 ## [1.6.0] - 2026-11-07
 
 ### Added

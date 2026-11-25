@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GroundTruth: the talk</title>
+  <meta name="description" content="The GroundTruth final talk as a web page that behaves like slides: clips, charts drawn from the real data, and the live website inside it.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16h6l3-9 5 18 4-13 3 4h7' fill='none' stroke='%23a7480c' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="talk.css">
+</head>
+<body>
+  <!-- The slides: a fixed 1920 x 1080 stage, scaled to fit above the control strip. -->
+  <main id="stage" aria-live="polite"></main>
+  <!-- Live pages of the website sit in their own full-size layer, never scaled. -->
+  <div id="live" aria-hidden="true"></div>
+
+  <nav id="controls" aria-label="Slides">
+    <button id="back" type="button" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg></button>
+    <div id="trace" aria-hidden="true"></div>
+    <p id="count"></p>
+    <button id="next" type="button" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8"/></svg></button>
+  </nav>
+
+  <aside id="notes" hidden></aside>
+  <div id="blackout" hidden></div>
+
+  <section id="start">
+    <h1>Can a seismometer tell what day of the week it is?</h1>
+    <p>GroundTruth, the final talk. Aadit Chandra, Shraddha Pradeep, Aradhya Gupta.</p>
+    <button id="go" type="button">Start the talk</button>
+    <p class="keys">Next: right arrow, Space, clicker or a swipe with three fingers. Back: left arrow.
+      F full screen, N speaker notes, P presenter window, L show a live slide's fallback, B black screen.</p>
+  </section>
+
+  <script src="talk.js"></script>
+</body>
+</html>
