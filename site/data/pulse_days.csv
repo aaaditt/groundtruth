@@ -319,6 +319,7 @@ S1.AUKSC..HHZ,Melbourne,2026-11-19,3,0,baseline,,3,0.523,0.007,0.477,1.026,False
 S1.AUKSC..HHZ,Melbourne,2026-11-20,4,0,baseline,,4,0.377,0.038,0.623,1.554,False,False,4,0.052
 S1.AUKSC..HHZ,Melbourne,2026-11-21,5,1,baseline,,6,0.405,0.997,0.595,1.2,False,False,5,0.99
 S1.AUKSC..HHZ,Melbourne,2026-11-22,6,1,baseline,,6,0.836,0.968,0.164,0.802,False,False,6,0.995
+S1.AUKSC..HHZ,Melbourne,2026-11-23,0,0,baseline,,2,0.201,0.0,0.799,0.722,False,False,2,0.0
 C1.MG01..HHZ,Puerto Williams,2026-10-01,3,0,baseline,,4,0.225,0.353,0.775,0.485,False,False,4,0.353
 C1.MG01..HHZ,Puerto Williams,2026-10-02,4,0,baseline,,3,0.259,0.336,0.741,1.217,False,False,3,0.325
 C1.MG01..HHZ,Puerto Williams,2026-10-03,5,1,baseline,,5,0.263,0.546,0.738,0.864,False,False,5,0.654
