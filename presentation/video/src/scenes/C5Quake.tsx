@@ -12,7 +12,7 @@ import * as THREE from "three";
 import { useCurrentFrame } from "remotion";
 import { C, DISPLAY, FPS, H, W } from "../theme";
 import { applied, busyAt } from "../data";
-import { Caption, IllustrationTag, lerp, Note, ramp, Source, Stage, useAmbient, useSec } from "../lib";
+import { Caption, IllustrationTag, Note, ramp, Source, Stage, useAmbient, useSec } from "../lib";
 import { Atmosphere, CameraPath, DayLights, Shot, skyColor } from "../three/kit";
 import { BLOCK, Buildings, Ground, People, Railway, Ripples, Street, Traffic } from "../three/City";
 import { Metro, PitFill } from "../three/Metro";
@@ -128,23 +128,9 @@ export const C5Quake: React.FC = () => {
         })}
       </svg>
       <Note text={`Could luck do this? Our bar, set in advance: under 5%. We got ${(nf.p * 100).toFixed(1)}%.`} at={31.5} x={160} y={730} size={40} color={C.ink} width={1600} />
-      <div
-        style={{
-          position: "absolute",
-          left: 1250,
-          top: 820,
-          padding: "10px 34px 16px",
-          border: `5px solid ${C.loud}`,
-          color: C.loud,
-          fontFamily: DISPLAY,
-          fontSize: 96,
-          transform: `rotate(-4deg) scale(${lerp(1.4, 1, ramp(t, 34, 34.6))})`,
-          opacity: ramp(t, 34, 34.4),
-        }}
-      >
-        Not supported
-      </div>
-      <Note text="Most of the lead comes from one station in Puerto Rico, during an earthquake swarm." at={37} x={160} y={880} size={32} width={1050} />
+      {/* the verdict, stated plainly (no stamp): the bar was set before the test ran */}
+      <Note text="Verdict: not supported." at={34} x={160} y={800} size={40} color={C.ink} width={1600} weight={500} />
+      <Note text="Most of the lead comes from one station in Puerto Rico, during an earthquake swarm." at={37} x={160} y={880} size={32} width={1500} />
       <Source text="Real data: Result 19 (docs/17, pre-registered). The city and the waves are an illustration." at={26} />
     </Stage>
   );

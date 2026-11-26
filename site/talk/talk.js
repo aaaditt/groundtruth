@@ -966,9 +966,14 @@ function renderNotes() {
   const b = BEATS[cur], nb = BEATS[cur + 1];
   const kids = [];
   if (isPresenter) kids.push(el("p", { class: "clock" }, clockText()));
-  kids.push(el("h3", {}, `${cur + 1}. ${b.title}, ${b.speaker}, about ${b.seconds} s`), el("p", {}, b.notes));
-  if (b.live && b.live.steps && step < b.live.steps.length) kids.push(el("p", { class: "next" }, "Next click: the page moves on by itself."));
-  if (nb) kids.push(el("p", { class: "next" }, `Then: ${nb.title} (${nb.speaker})`));
+  kids.push(el("h3", {}, `${cur + 1}. ${b.title}, ${b.speaker}, about ${b.seconds} s`));
+  // practice cues (slides.json): what is on screen, and what the next press does
+  if (b.screen) kids.push(el("p", { class: "cue" }, `On screen: ${b.screen}`));
+  kids.push(el("p", {}, b.notes));
+  const presses = b.presses || [];
+  const nextPress = step < presses.length ? `Press ${step + 1} of ${presses.length}: ${presses[step]}`
+    : nb ? `Next press: next slide, ${nb.title} (${nb.speaker})` : "Last slide.";
+  kids.push(el("p", { class: "next" }, nextPress));
   box.replaceChildren(...kids);
 }
 let t0 = null;
