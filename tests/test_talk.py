@@ -144,3 +144,22 @@ def test_every_building_diagram_has_a_group_per_step(deck, talk_js):
         computed = re.search(r"stepGroup\(svg, [^\d)]", body)
         if not computed:                       # every group written out: all steps present
             assert literal == set(range(n + 1)), f"{b['id']}: groups {sorted(literal)} for {n} steps"
+
+
+def test_every_press_has_a_cue(deck):
+    """Practice cues (docs/21, the deck's notes): one line per press, matching what the press
+    really does: a diagram's steps, a live page's steps, or a clip's stops after the first
+    (the clip reaches its first stop by itself; a clip whose last stop is not its end needs one
+    more press to play to the end)."""
+    with open(os.path.join(TALK, "media", "cues.json"), encoding="utf-8") as f:
+        stops = json.load(f)
+    for b in deck["beats"]:
+        assert b.get("screen"), f"{b['id']}: no 'screen' cue"
+        if b["kind"] == "static":
+            want = b["static"].get("steps", 0)
+        elif b["kind"] == "live":
+            want = len(b["live"].get("steps", []))
+        else:
+            q = stops.get(b["video"]["clip"], [])
+            want = max(0, len(q) - 1) + (1 if q and not q[-1]["final"] else 0)
+        assert len(b["presses"]) == want, f"{b['id']}: {len(b['presses'])} cues for {want} presses"
