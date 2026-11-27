@@ -109,6 +109,7 @@ BE.UCC..HHZ,Brussels,2026-11-21,5,1,baseline,,5,0.943,1.0,0.057,0.763,False,Fals
 BE.UCC..HHZ,Brussels,2026-11-22,6,1,baseline,,6,0.673,1.0,0.327,0.883,False,False,6,1.0
 BE.UCC..HHZ,Brussels,2026-11-23,0,0,baseline,,1,0.267,0.005,0.733,2.453,False,False,1,0.02
 BE.UCC..HHZ,Brussels,2026-11-24,1,0,baseline,,1,0.415,0.0,0.585,1.284,False,False,1,0.0
+BE.UCC..HHZ,Brussels,2026-11-25,2,0,baseline,,2,0.313,0.0,0.687,1.082,False,False,2,0.0
 CN.MNTQ..HHZ,Montreal,2026-10-01,3,0,baseline,,1,0.076,0.084,0.924,1.944,True,False,1,0.084
 CN.MNTQ..HHZ,Montreal,2026-10-02,4,0,baseline,,4,0.313,0.007,0.687,2.299,False,True,2,0.014
 CN.MNTQ..HHZ,Montreal,2026-10-03,5,1,baseline,,2,0.129,0.249,0.871,2.365,False,True,2,0.252

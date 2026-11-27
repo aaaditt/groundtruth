@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-26T15:53:08Z",
+ "generated_utc": "2026-11-27T15:42:00Z",
  "model_version": "live-1",
  "train_window": [
   "2025-10-01",
@@ -2919,9 +2919,35 @@
      "learn_pred_dow": 1,
      "learn_p_weekend": 0.0,
      "summary": "Looked like a Tuesday (42%) — correct."
+    },
+    {
+     "date": "2026-11-25",
+     "dow": 2,
+     "is_weekend": 0,
+     "calendar": "baseline",
+     "holiday": "",
+     "pred_dow": 2,
+     "p_true_dow": 0.313,
+     "p_weekend": 0.0,
+     "probs": [
+      0.22,
+      0.163,
+      0.313,
+      0.23,
+      0.073,
+      0.0,
+      0.0
+     ],
+     "confusion": 0.687,
+     "anomaly": 1.082,
+     "confusion_flag": false,
+     "anomaly_flag": false,
+     "learn_pred_dow": 2,
+     "learn_p_weekend": 0.0,
+     "summary": "Looked like a Wednesday (31%) — correct."
     }
    ],
-   "latest": "2026-11-24",
+   "latest": "2026-11-25",
    "error": null,
    "model": {
     "version": "live-1",
@@ -2936,11 +2962,11 @@
     "anomaly": 3.255
    },
    "track_record": {
-    "normal_days": 53,
+    "normal_days": 54,
     "weekend_bal_acc": 1.0,
-    "dow_acc": 0.566,
+    "dow_acc": 0.574,
     "learn_weekend_bal_acc": 1.0,
-    "learn_dow_acc": 0.66
+    "learn_dow_acc": 0.667
    }
   },
   {
