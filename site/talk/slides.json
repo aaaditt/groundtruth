@@ -207,7 +207,7 @@
      "kind": "static",
      "static": {"chart": "curve"},
      "source": "Results 16–18, 2019–26, 33 cities, every score on weeks the model never saw",
-     "notes": "We might expect seven years of data to make the model much better. For weekday versus weekend classification, it reaches 97%. But exact-day accuracy only increases from 38% with 100 days of data to 57% with all the data, and then improvement slows down. Training one model on all 33 cities together actually performs worse in every city. This is because a Tuesday can sound different from one city to another. But when we give the model the full week around a day instead of just that day, accuracy reaches 96%.",
+     "notes": "We might expect seven years of data to make the model much better. For weekday versus weekend classification, it reaches 97%. But exact-day accuracy only increases from 38% with 100 days of data to 57% with all the data, and then improvement slows down. Training one model on all 33 cities together actually performs worse in every city. Probably because a Tuesday can sound different from one city to another. But when we give the model the full week around a day instead of just that day, accuracy reaches 96%.",
      "screen": "A still: the learning curve from 100 days to all of them, and 96% for the week.",
      "presses": []},
 
