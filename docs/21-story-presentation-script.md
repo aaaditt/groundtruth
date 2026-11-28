@@ -89,7 +89,13 @@ sentence per press, then move on.
 **How to practise with the cues.** Under every beat: 🎬 what is on screen when the slide
 opens, ⏵ what each press of Space (or the clicker, Next, or one tap) does, and ⏭ when the
 next press moves to the next slide. Clips stop by themselves and wait; pressing while a clip
-is still playing jumps it to its stop, so you can't fall behind. The same cues are in the
+is still playing jumps it to its stop, so you can't fall behind.
+
+**Talk over the clips, never after them.** Start speaking the moment a clip starts. Each clip's
+words are split by its stops (`"say"` in slides.json): part 1 goes with the stretch before the
+first stop, part 2 with the next, and so on. The presenter window lights the part for the
+stretch playing now. Press as you finish it; if the clip is already waiting at its stop, it
+moves on at once, and if you finish early, let it reach the stop first. No silent watching. The same cues are in the
 deck: press **N** for notes (or **P** for a presenter window on a second screen) and the last
 line always says what the next press will do. The whole talk is
 77 presses.
@@ -159,19 +165,19 @@ anything else). Without them, presenter windows still work on the same computer.
 > up.** Shraddha, who else has listened?
 
 ### 5 · WHO LISTENED TO CITIES BEFORE US — `[DIAGRAM research, 3 presses]` *(docs/02, "Papers")*
-> 🎬 **On screen:** Row 1: Groos & Ritter 2009, Díaz 2017.
-> ⏵ **Space 1:** Row 2: Lecocq 2020, Cannata 2021, Nimiya 2021
-> ⏵ **Space 2:** Row 3: Yang 2022, Liu 2025
+> 🎬 **On screen:** Row 1: Díaz 2017, Barcelona.
+> ⏵ **Space 1:** Row 2: Nimiya 2021, Tokyo
+> ⏵ **Space 2:** Row 3: Liu 2025, San Jose
 > ⏭ **Then Space:** next slide, *Where they stopped, and where we start*
 >
-> **[Shraddha]** We're not the first to listen to cities. In 2009 a team in Bucharest sorted
-> city noise into its daily and weekly cycles; in 2017, Barcelona traced it to traffic, the
-> metro and crowds. *(Next)* Then the pandemic. Lecocq and colleagues showed lockdowns cut
-> human noise by **up to half**, at 268 stations: that's the paper whose data we use. Sicily
-> and Tokyo compared the noise with **phone mobility data** and found it tracked how people
-> moved. *(Next)* And most recently, people either **strip city noise out** to see
-> earthquakes better, as in Long Beach, or **map it street by street** with fifty
-> kilometres of fibre-optic cable, as in San Jose.
+> **[Shraddha]** We're not the first to listen to cities. In 2017, a team in Barcelona traced
+> city noise to traffic, the metro and crowds. *(Next)* Then the pandemic. In Tokyo, four years
+> of recordings showed weekday daytime noise recovered quickly after the first state of
+> emergency, and Sundays more slowly. *(Next)* And most recently, people **map it street by
+> street** with fifty kilometres of fibre-optic cable, as in San Jose.
+>
+> *(Three papers on screen; all seven, and what each gave us, are in
+> [`docs/22-research-papers.md`](22-research-papers.md), for questions.)*
 
 ### 6 · WHERE THEY STOPPED, AND WHERE WE START — `[DIAGRAM gap, 3 presses]`
 > 🎬 **On screen:** Rows 1–2: averages vs one day at a time; one city vs 149 seismometers and 33 cities.

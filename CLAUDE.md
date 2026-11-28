@@ -128,7 +128,7 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
 - **Data provenance**: `src/sources_export.py` writes `site/data/sources.json` (each
   network's name and DOI from the FDSN registry, plus the four datasets). The research
   map, the globe panel and the talk's sources slide read it; rerun it when stations change.
-  New literature for the talk goes in docs/02 "Papers" AND the `LIT` list in talk.js. The deck is light paper (theme.ts); live pages stay dark and open
+  New literature goes in docs/02 "Papers" and docs/22 (what each paper gave us); the talk's `LIT` list in talk.js shows only Díaz, Nimiya and Liu (the team cut the rest). The deck is light paper (theme.ts); live pages stay dark and open
   with `?embed=1` (silent, no site bar: `sound.js`, `html.embed` in style.css). Deck keys
   win over iframe keys (capture listener in each iframe); a live step's URL must change its
   query string so the page reloads. Rebuild: `python src/presentation_data.py && python

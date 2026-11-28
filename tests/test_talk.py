@@ -185,3 +185,14 @@ def test_remote_config_never_holds_a_secret_key():
     assert set(cfg) >= {"url", "key"}
     assert cfg["key"] == "" or cfg["key"].startswith("sb_publishable_"), "publishable key only"
     assert cfg["url"] == "" or re.fullmatch(r"https://[a-z0-9]+\.supabase\.co", cfg["url"])
+
+
+def test_clip_lines_are_the_script_split_by_stops(deck):
+    """Talk over the clips (docs/21): each clip's "say" is its notes cut at the stops, one
+    part per stretch of the clip, with no word added or lost."""
+    for b in deck["beats"]:
+        if b["kind"] != "video" or b.get("backup"):
+            continue
+        assert "say" in b, f"{b['id']}: no 'say' lines"
+        assert len(b["say"]) == len(b["presses"]) + 1, b["id"]
+        assert " ".join(" ".join(b["say"]).split()) == " ".join(b["notes"].split()), b["id"]

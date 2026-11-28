@@ -116,7 +116,8 @@ async function build(beats, shots, withVideo, segs) {
   // speaker notes: who, the practice cues (what is on screen, what each press does), the words
   const notes = (b) => [`${b.speaker.toUpperCase()}: ${b.title}${b.seconds ? ` (about ${b.seconds} s)` : ""}`,
     ...(b.screen ? [`ON SCREEN: ${b.screen}`] : []), ...(b.presses || []).map((t, k) => `PRESS ${k + 1}: ${t}`),
-    "", b.notes].join("\n");
+    "", ...(b.say ? ["TALK WHILE IT PLAYS (press when you finish each part):",
+      ...b.say.map((t, k) => `${k + 1}. ${t}`)] : [b.notes])].join("\n");
   const add = (b, fill) => { const s = pres.addSlide({ masterName: "Paper" }); fill(s); s.addNotes(notes(b)); return s; };
   const clip = (s, name, label) => {
     const video = media(`${name}.mp4`), cover = media(`${name}.jpg`);

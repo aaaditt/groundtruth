@@ -129,6 +129,9 @@ body.dark #trace .all { stroke: #1a2230; } body.dark #trace .done { stroke: #eef
   background: rgba(22,27,33,.94); color: #f5f1eb; font: 400 26px/1.45 var(--text); z-index: 20; }
 #notes h3 { margin: 0 0 8px; font: 500 22px var(--mono); color: #f5993c; }
 #notes .cue { margin: 0 0 10px; font: 400 20px var(--mono); color: #f5c26b; }
+#notes .say { margin: 0 0 10px; color: #8a94a3; }
+#notes .say.now { color: #f5f1eb; border-left: 4px solid #f5993c; padding-left: 14px; margin-left: -18px; }
+#notes .say.done { color: #4f5763; }
 #notes .next { margin-top: 14px; font: 400 20px var(--mono); color: #aab3c0; }
 #blackout { position: fixed; inset: 0; background: #000; z-index: 30; }
 #start { position: fixed; inset: 0; z-index: 40; background: var(--paper); display: flex; flex-direction: column;

@@ -187,6 +187,8 @@ gotchas already solved.
 | [`docs/19-nightly-learning-preregistration.md`](docs/19-nightly-learning-preregistration.md) | Pre-registered: does the live model get better if it keeps learning every night? (Result 21, graded January 2027) |
 | [`docs/20-quake-waveform-preregistration.md`](docs/20-quake-waveform-preregistration.md) | Pre-registered: subtract the people second by second, on waveforms, to find small earthquakes (Result 22) |
 | [`docs/21-story-presentation-script.md`](docs/21-story-presentation-script.md) | **The final talk, story version**: 22 beats mixing stills, short clips and the live site. Presented from the web deck [`site/talk/`](site/talk/) (also as PowerPoint, [`presentation/`](presentation/README.md)) |
+| [`docs/22-research-papers.md`](docs/22-research-papers.md) | The seven papers we cite: what each did and found, and what it gave this project (the talk shows three) |
+| [`docs/team/`](docs/team/) | Who did what: [Aadit](docs/team/aadit-chandra.md) (data pipeline, models, alarm, 7 years, the talk), [Shraddha](docs/team/shraddha-pradeep.md) (literature, method, validation, live system), [Aradhya](docs/team/aradhya-gupta.md) (data sources, the signal, the experiments) |
 
 ---
 

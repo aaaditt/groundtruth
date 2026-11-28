@@ -7,6 +7,7 @@
      "kind": "video",
      "video": {"clip": "S00-questions"},
      "notes": "Every one of you shook the ground on the way here. By car, by bus, on foot. A few billionths of a metre, but you did. And somewhere under this city, an instrument wrote it down. Here's one day of that writing.",
+     "say": ["Every one of you shook the ground on the way here. By car, by bus, on foot.", "A few billionths of a metre, but you did. And somewhere under this city, an instrument wrote it down.", "Here's one day of that writing."],
      "screen": "The clip plays by itself: a street at morning rush, “How did you get here today?”. It stops on “Every one of you just shook the ground…” (the city keeps moving).",
      "presses": ["Plays on, stops on “What day is it?” and “How do you know?”", "Plays on, stops on “Can a seismometer tell what day of the week it is?” over the whole city"]},
 
@@ -14,6 +15,7 @@
      "kind": "video",
      "video": {"clip": "S01-christmas"},
      "notes": "One whole day under Brussels, midnight to midnight. Look at the morning. Weekday, or weekend? (one beat, don't wait) It was a Wednesday: Christmas Day, 2019. Our model said Sunday. In a few minutes you'll see why it was right to be wrong.",
+     "say": ["One whole day under Brussels, midnight to midnight. Look at the morning. Weekday, or weekend? (one beat, don't wait)", "It was a Wednesday: Christmas Day, 2019. Our model said Sunday. In a few minutes you'll see why it was right to be wrong."],
      "screen": "The clip plays by itself: “Weekday or weekend?” while one real day of shaking draws itself along the bottom. It stops there.",
      "presses": ["Reveal: “Wednesday, 25 December 2019”, a Christmas tree appears, “Our model said: Sunday”"]},
 
@@ -28,16 +30,17 @@
      "kind": "video",
      "video": {"clip": "C1-city", "start": 15},
      "notes": "Every car, bus and footstep pushes on the ground and sends a tiny wave down through the rock. A seismometer is a weight on a spring: the ground moves, the weight lags, and it measures the difference. Seismologists built these for earthquakes, and everything else they call noise. This is an ordinary Wednesday in January 2020 under Brussels: quiet at night, a jump at seven, high all day. The noise is a city waking up. Shraddha, who else has listened?",
+     "say": ["Every car, bus and footstep pushes on the ground and sends a tiny wave down through the rock.", "A seismometer is a weight on a spring: the ground moves, the weight lags, and it measures the difference.", "Seismologists built these for earthquakes, and everything else they call noise.", "This is an ordinary Wednesday in January 2020 under Brussels: quiet at night, a jump at seven, high all day. The noise is a city waking up. Shraddha, who else has listened?"],
      "screen": "The clip plays by itself from street level; the ground opens. It stops on “Each push sends a tiny wave down…” with orange ripples.",
      "presses": ["Sinks to the seismometer, stops on “A seismometer: a heavy weight on a spring…”", "Pulls out to the city at night with a clock, stops on “Now, one whole day” (the pen barely moves)", "The whole day runs fast while the real line draws; ends on “A real recording… an ordinary Wednesday, 15 January 2020”"]},
 
     {"id": "research", "title": "Who listened to cities before us", "speaker": "Shraddha", "seconds": 40,
      "kind": "static",
      "static": {"chart": "research", "steps": 2},
-     "source": "Groos & Ritter 2009, GJI 179:1213 · Díaz et al. 2017, Sci Rep, doi:10.1038/s41598-017-15499-y · Lecocq et al. 2020, Science, doi:10.1126/science.abd2438 · Cannata et al. 2021, Solid Earth, doi:10.5194/se-12-299-2021 · Nimiya et al. 2021, Sci Rep, doi:10.1038/s41598-021-00063-6 · Yang et al. 2022, Sci Adv, doi:10.1126/sciadv.abl3564 · Liu et al. 2025, Nat Commun, doi:10.1038/s41467-025-57997-y",
-     "notes": "We're not the first to listen to cities. In 2009 a team in Bucharest sorted city noise into its daily and weekly cycles; in 2017, Barcelona traced it to traffic, the metro and crowds. (Next) Then the pandemic. Lecocq and colleagues showed lockdowns cut human noise by up to half, at 268 stations: that's the paper whose data we use. Sicily and Tokyo compared the noise with phone mobility data and found it tracked how people moved. (Next) And most recently, people either strip city noise out to see earthquakes better, as in Long Beach, or map it street by street with fifty kilometres of fibre-optic cable, as in San Jose.",
-     "screen": "Row 1: Groos & Ritter 2009, Díaz 2017.",
-     "presses": ["Row 2: Lecocq 2020, Cannata 2021, Nimiya 2021", "Row 3: Yang 2022, Liu 2025"]},
+     "source": "Díaz et al. 2017, Sci Rep, doi:10.1038/s41598-017-15499-y · Nimiya et al. 2021, Sci Rep, doi:10.1038/s41598-021-00063-6 · Liu et al. 2025, Nat Commun, doi:10.1038/s41467-025-57997-y",
+     "notes": "We're not the first to listen to cities. In 2017, a team in Barcelona traced city noise to traffic, the metro and crowds. (Next) Then the pandemic. In Tokyo, four years of recordings showed weekday daytime noise recovered quickly after the first state of emergency, and Sundays more slowly. (Next) And most recently, people map it street by street with fifty kilometres of fibre-optic cable, as in San Jose.",
+     "screen": "Row 1: Díaz 2017, Barcelona.",
+     "presses": ["Row 2: Nimiya 2021, Tokyo", "Row 3: Liu 2025, San Jose"]},
 
     {"id": "gap", "title": "Where they stopped, and where we start", "speaker": "Shraddha", "seconds": 35,
      "kind": "static",
@@ -67,6 +70,7 @@
      "kind": "video",
      "video": {"clip": "C2-sea", "end": 17.1},
      "notes": "Not all shaking is us. The slow wobbles, one every few seconds, are the ocean, waves hitting coasts hundreds of kilometres away. The fast ones, several a second, are engines, wheels and feet.",
+     "say": ["Not all shaking is us. The slow wobbles, one every few seconds, are the ocean, waves hitting coasts hundreds of kilometres away.", "The fast ones, several a second, are engines, wheels and feet."],
      "screen": "The clip plays by itself: “Two kinds of shaking”, the coast. It stops on “Slow: ocean waves…” with big blue rings.",
      "presses": ["Stops on “Fast: engines, wheels and feet” with small orange rings from the cars"]},
 
@@ -98,6 +102,7 @@
      "kind": "video",
      "video": {"clip": "S05-features", "start": 20},
      "notes": "The first boxes, up close. A model can't look at a picture, so each day becomes 25 numbers. Twenty-four say when the city was busy, hour by hour: the shape. One says how loud the whole day was compared with that station's usual day: the level. Every station is different, some by a motorway, some in a basement; the shape is what makes them comparable.",
+     "say": ["The first boxes, up close.", "A model can't look at a picture, so each day becomes 25 numbers.", "Twenty-four say when the city was busy, hour by hour: the shape. One says how loud the whole day was compared with that station's usual day: the level.", "Every station is different, some by a motorway, some in a basement; the shape is what makes them comparable."],
      "screen": "The clip plays by itself: one real day's readings on a table. It stops on “3. One number per hour”.",
      "presses": ["Stops on “Then a logarithm…”", "Stops on “4. Split the day: shape and level”", "Ends on “24 + 1 = 25 numbers per day”"]},
 
@@ -105,6 +110,7 @@
      "kind": "video",
      "video": {"clip": "C4-forest"},
      "notes": "The next box: the model is a random forest, a hundred decision trees, each asking a few yes/no questions. A real one from Brussels: at six in the morning, was the ground still no busier than the rest of the day? Yes leads to weekend. On a Wednesday it never saw, 97 of 100 trees say weekday, but they split on which weekday.",
+     "say": ["The next box: the model is a random forest, a hundred decision trees, each asking a few yes/no questions. A real one from Brussels: at six in the morning, was the ground still no busier than the rest of the day? Yes leads to weekend.", "On a Wednesday it never saw,", "97 of 100 trees say weekday,", "but they split on which weekday."],
      "screen": "The clip plays by itself: one real tree and its first question. It stops on “yes: mostly weekends / no: mostly weekdays”.",
      "presses": ["The grove grows: “A hundred trees, each from a random slice of days”", "The trees vote: the tally fills in, “97 of 100 say weekday”", "Ends on “But only 5 say Wednesday…”"]},
 
@@ -152,6 +158,7 @@
      "kind": "video",
      "video": {"clip": "S08-mistakes"},
      "notes": "[Aradhya] Back to Christmas: a Wednesday it had never seen, and it said Sunday, and so did the models at 71% of seismometers. On weekday holidays it never saw, it said weekend 76% of the time; on ordinary weekdays, 5%. It learned how people behave, not the calendar. [Aadit] Rank every day by how surprised it was, and the holidays float to the top. Here is how that works.",
+     "say": ["[Aradhya] Back to Christmas: a Wednesday it had never seen, and it said Sunday, and so did the models at 71% of seismometers.", "On weekday holidays it never saw, it said weekend 76% of the time; on ordinary weekdays, 5%. It learned how people behave, not the calendar.", "[Aadit] Rank every day by how surprised it was, and the holidays float to the top.", "Here is how that works."],
      "screen": "The clip plays by itself: Brussels' calendar, Christmas read as a weekend. It stops on “So did the models in 71% of cities”.",
      "presses": ["Stops on the two towers: holidays it never saw against ordinary weekdays", "Stops on “Confusion = 1 − P(the real day). Brussels' most surprising days”", "Ends on “Better than a standard unusual-day alarm in 110 of 147 cities”"]},
 
@@ -176,6 +183,7 @@
      "video": {"clip": "C5-quake", "then": "dare"},
      "source": "Result 19 (docs/17) and the second-by-second test (docs/20), both written down before running",
      "notes": "Last time's dare: if we know what a city sounds like at eight on a Tuesday, can we subtract the people and find small earthquakes underneath? On fifteen-minute averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling median did best. A quake lasts seconds; fifteen minutes blurs it away. So we wrote a proper test down in advance: second-by-second recordings, years the first test never touched, at most 100 quakes per station so no swarm decides it. Result: with the people subtracted, 413 found; the raw recording, 501. Not supported: it made things worse. A plain rolling baseline of the last five minutes did best, 524. A city's weekly rhythm is the right model for reading the day, and the wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them. Shraddha, what else didn't work?",
+     "say": ["Last time's dare: if we know what a city sounds like at eight on a Tuesday, can we subtract the people and find small earthquakes underneath?", "On fifteen-minute averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling median did best.", "A quake lasts seconds; fifteen minutes blurs it away.", "So we wrote a proper test down in advance: second-by-second recordings, years the first test never touched, at most 100 quakes per station so no swarm decides it.", "Result: with the people subtracted, 413 found; the raw recording, 501. Not supported: it made things worse. A plain rolling baseline of the last five minutes did best, 524. A city's weekly rhythm is the right model for reading the day, and the wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them. Shraddha, what else didn't work?"],
      "screen": "The clip plays by itself: rush hour, every car shaking the ground. It stops there.",
      "presses": ["Stops on “A small earthquake, far away, arrives from below” (blue wave)", "Stops on “The dare: subtract what this hour normally sounds like…”", "Stops on the result card: 998 against 953, “We got 5.3%”", "Plays on to “Verdict: not supported…”; the second-by-second chart then appears by itself"]},
 
@@ -263,6 +271,7 @@
      "kind": "video",
      "video": {"clip": "S14-close"},
      "notes": "So: seismometers. Still useless? There's a network already buried under many of the world's cities, recording for decades, free. It hears a neighbourhood, not a person: no phones, no cameras. And ours is running tonight. Everyone measures how loud the ground is. We taught a model what normal sounds like, and its mistakes tell us when something happened. That's GroundTruth. Thank you.",
+     "say": ["So: seismometers. Still useless? There's a network already buried under many of the world's cities, recording for decades, free. It hears a neighbourhood, not a person: no phones, no cameras. And ours is running tonight.", "Everyone measures how loud the ground is. We taught a model what normal sounds like, and its mistakes tell us when something happened. That's GroundTruth. Thank you."],
      "screen": "The clip plays by itself: out of the vault, up over the city at dusk. It stops on “Still useless?” and the captions.",
      "presses": ["Ends on the title: GroundTruth, your names, “Thank you. Questions?” (the city keeps moving)"]},
 
