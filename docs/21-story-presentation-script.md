@@ -44,8 +44,8 @@ its fallback appears by itself.
 | 2 | Weekday or weekend? | VIDEO S01 | Aadit | 0:30 |
 | 3 | Last time: one question | STATIC | Aadit | 0:20 |
 | 4 | What a seismometer records | VIDEO C1 (cut) | Aadit | 0:40 |
-| 5 | Who listened to cities before us | DIAGRAM research (3 presses) | Shraddha | 0:40 |
-| 6 | Where they stopped, and where we start | DIAGRAM gap (3 presses) | Shraddha | 0:35 |
+| 5 | Who listened to cities before us | DIAGRAM research (3 presses) | Aadit | 0:40 |
+| 6 | Where they stopped, and where we start | DIAGRAM gap (3 presses) | Aadit | 0:35 |
 | 7 | Seismometers on six continents | LIVE research map (fb C3) | Aradhya | 0:25 |
 | 8 | Where every recording comes from | DIAGRAM sources (3 presses) | Aradhya | 0:30 |
 | 9 | Two kinds of shaking | VIDEO C2 (cut) | Aradhya | 0:25 |
@@ -170,7 +170,7 @@ anything else). Without them, presenter windows still work on the same computer.
 >
 > ⏵ **Space 3:** The whole day runs fast while the real line draws; ends on “A real recording… an ordinary Wednesday, 15 January 2020”
 >
-> Then the morning comes. This is a real recording from under Brussels, on an ordinary Wednesday in January 2020. It's quiet at night, it jumps at around seven, and it stays high all day. In the evening it falls again. That so-called noise is the city waking up, working and going to sleep. Shraddha, who else has listened to cities?
+> Then the morning comes. This is a real recording from under Brussels, on an ordinary Wednesday in January 2020. It's quiet at night, it jumps at around seven, and it stays high all day. In the evening it falls again. That so-called noise is the city waking up, working and going to sleep. So, who else has listened to cities?
 >
 > ⏭ **Then Space:** next slide, *Who listened to cities before us*
 
@@ -180,7 +180,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** Row 3: Liu 2025, San Jose
 > ⏭ **Then Space:** next slide, *Where they stopped, and where we start*
 >
-> **[Shraddha]** We're not the first to study noise in cities. In 2017, a team in Barcelona connected city noise to traffic, the metro and crowds. (Next) During the pandemic, four years of recordings from Tokyo showed that weekday daytime noise returned quickly after the first state of emergency, while Sunday noise took longer to return. (Next) More recently, researchers have mapped city activity street by street using fifty kilometres of fibre-optic cable, as they did in San Jose.
+> **[Aadit]** We're not the first to study noise in cities. In 2017, a team in Barcelona connected city noise to traffic, the metro and crowds. (Next) During the pandemic, four years of recordings from Tokyo showed that weekday noise came back quickly after the first state of emergency. Sunday noise took longer. (Next) More recently, researchers in San Jose mapped city activity street by street, using fifty kilometres of fibre-optic cable.
 >
 > *(Three papers on screen; all seven, and what each gave us, are in
 > [`docs/22-research-papers.md`](22-research-papers.md), for questions.)*
@@ -191,7 +191,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** Row 5: dense arrays or fibre vs seismometers already in place
 > ⏭ **Then Space:** next slide, *Seismometers on six continents*
 >
-> **[Shraddha]** So where did they stop? They mainly measured average patterns: over an hour, a type of day, or during a lockdown. We look at one day at a time, testing the model only on weeks it hasn't seen before. They focused on one city or one event, while we used 149 seismometers, then expanded to 33 cities over seven years, and tested the model on cities it hadn't seen before. (Next) Some studies needed phone data for comparison. Our model doesn't need that, and its own mistakes can help find holidays without being given holiday labels. Other researchers removed human activity to study earthquakes. We kept it as our main signal and also tested whether removing it could help detect earthquakes. It didn't, and we'll show you why. (Next) Some studies needed large sensor networks or new fibre-optic cables. We use seismometers already installed in the ground, and our system runs a test every night. Aradhya, where do our recordings come from?
+> **[Aadit]** So where did they stop? Most of them measured averages, like an hour, a type of day, or a lockdown. We look at one day at a time, and we only test the model on weeks it has never seen. They studied one city or one event. We used 149 seismometers, then 33 cities over seven years. (Next) Some of them needed phone data to compare with. Our model doesn't, and its own mistakes find holidays without being told. Others removed people to see earthquakes better. We kept people as our signal, and we also tested removing them for earthquakes. It didn't help, and we'll show you why. (Next) Some needed big sensor networks or new fibre cables. We use seismometers that are already in the ground, and our system runs a test every night. Aradhya, where does our data come from?
 
 ### 7 · SEISMOMETERS ON SIX CONTINENTS — `[LIVE research.html]` *(fallback: C3)*
 > 🎬 **On screen:** The live research map, 158 dots (if it hasn't loaded in 5 s, the globe clip plays instead). Touch Brussels with one finger: its card shows the network and its DOI.
