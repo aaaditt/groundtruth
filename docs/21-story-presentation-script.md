@@ -125,26 +125,26 @@ anything else). Without them, presenter windows still work on the same computer.
 ### 1 · YOU SHOOK THE GROUND TODAY — `[VIDEO S00, 3 stops]`
 > 🎬 **On screen:** The clip plays by itself: a street at morning rush, “How did you get here today?”. It stops on “Every one of you just shook the ground…” (the city keeps moving).
 >
-> **[Aadit]** Think about how you got here today. A car, a bus, the metro, or your own two feet. Every one of those pushed on the ground. A few billionths of a metre, far too small to feel, but real.
+> **[Aadit]** Think about how you got here today. Maybe by car, by bus, or on foot. Every one of those steps pushed on the ground. Only a tiny bit, far too small to feel. But it happened.
 >
 > ⏵ **Space 1:** Plays on, stops on “What day is it?” and “How do you know?”
 >
-> So here's a question. What day is it today? Easy: you'd check your phone, or remember what you did yesterday. But how do you actually know? Mostly from what everyone around you is doing.
+> So here's a question. What day is it today? You'd probably check your phone. But really, you know because of what everyone around you is doing.
 >
 > ⏵ **Space 2:** Plays on, stops on “Can a seismometer tell what day of the week it is?” over the whole city
 >
-> Now imagine you had no phone and no calendar, only an instrument buried under the city, writing down every shake. Could it tell you what day of the week it is? That's our question. Here's one day of that writing.
+> Now imagine you had no phone and no calendar. Just one instrument buried under the city, recording every shake. Could it tell you what day it is? That's our project.
 >
 > ⏭ **Then Space:** next slide, *Weekday or weekend?*
 
 ### 2 · WEEKDAY OR WEEKEND? — `[VIDEO S01]`
 > 🎬 **On screen:** The clip plays by itself: “Weekday or weekend?” while one real day of shaking draws itself along the bottom. It stops there.
 >
-> **[Aadit]** One whole day under Brussels, midnight to midnight, drawing itself along the bottom. Look at the morning: it stays quiet much longer than you'd expect. So, weekday or weekend? Take a second.
+> **[Aadit]** This is one whole day under Brussels, from midnight to midnight. Look at the morning. It stays quiet for a long time. So is this a weekday or a weekend?
 >
 > ⏵ **Space 1:** Reveal: “Wednesday, 25 December 2019”, a Christmas tree appears, “Our model said: Sunday”
 >
-> It was a Wednesday: Christmas Day, 2019. Our model said Sunday. In a few minutes you'll see why it was right to be wrong.
+> It was a Wednesday. Christmas Day, 2019. Our model said Sunday. And in a few minutes you'll see why that mistake is actually useful.
 >
 > ⏭ **Then Space:** next slide, *Last time: one question*
 
@@ -153,26 +153,24 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏭ **Then Space:** next slide, *What a seismometer records*
 >
 > *The proposal's question in large type; five small promises underneath.*
-> **[Aadit]** Two months ago we asked one question: **can a seismometer tell what day it
-> is?** We made five promises. Short answer: we kept all five, then kept going. So, what is
-> it actually hearing?
+> **[Aadit]** Two months ago we asked one question. Can a seismometer tell what day it is? We made five promises. We kept all five, and then we kept going.
 
 ### 4 · WHAT A SEISMOMETER RECORDS — `[VIDEO C1, cut]`
 > 🎬 **On screen:** The clip plays by itself from street level; the ground opens. It stops on “Each push sends a tiny wave down…” with orange ripples.
 >
-> **[Aadit]** Every car, bus and footstep pushes on the ground and sends a tiny wave down through the rock.
+> **[Aadit]** Every car, bus and footstep pushes on the ground. That sends a tiny wave down into the rock.
 >
 > ⏵ **Space 1:** Sinks to the seismometer, stops on “A seismometer: a heavy weight on a spring…”
 >
-> Down here is the instrument that catches it. A seismometer is a heavy weight on a spring. When the ground moves, the weight lags behind, and the instrument measures that difference. Seismologists built these for earthquakes, and everything else they call noise.
+> Down here is a seismometer. It's basically a heavy weight on a spring. When the ground moves, the weight lags behind, and the machine measures that gap. These were built for earthquakes. Everything else, they call noise.
 >
 > ⏵ **Space 2:** Pulls out to the city at night with a clock, stops on “Now, one whole day” (the pen barely moves)
 >
-> Now watch one whole day. At night the city sleeps, and the pen barely moves. Hardly anyone is driving or walking.
+> Now let's watch one whole day. At night the city is asleep, and the line barely moves. Almost nobody is out.
 >
 > ⏵ **Space 3:** The whole day runs fast while the real line draws; ends on “A real recording… an ordinary Wednesday, 15 January 2020”
 >
-> Then morning arrives. This is a real recording: an ordinary Wednesday, the fifteenth of January 2020, under Brussels. Quiet at night, a jump at around seven when people start moving, and high all day while the city works. In the evening it slowly falls again. That noise is a city waking up, working and going to sleep. Shraddha, who else has listened?
+> Then the morning comes. This is a real recording from under Brussels, on an ordinary Wednesday in January 2020. It's quiet at night, it jumps at around seven, and it stays high all day. In the evening it falls again. That so-called noise is the city waking up, working and going to sleep. Shraddha, who else has listened to cities?
 >
 > ⏭ **Then Space:** next slide, *Who listened to cities before us*
 
@@ -199,10 +197,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > 🎬 **On screen:** The live research map, 158 dots (if it hasn't loaded in 5 s, the globe clip plays instead). Touch Brussels with one finger: its card shows the network and its DOI.
 > ⏭ **Then Space:** next slide, *Where every recording comes from*
 >
-> **[Aradhya]** Here they are: **158 seismometers** on six continents, one reading every
-> fifteen minutes, late 2019 to mid-2020. *(touch Brussels)* Brussels is this one, in
-> Uccle. Holidays and lockdown are set aside, which leaves **17,027 ordinary days** to learn
-> from. So whose recordings are these?
+> **[Aradhya]** Here they are. 158 seismometers on six continents, from late 2019 to mid 2020. (touch Brussels) This one is Brussels. Leave out holidays and the lockdown, and we have about 17,000 normal days to learn from. So where does all this data come from?
 
 ### 8 · WHERE EVERY RECORDING COMES FROM — `[DIAGRAM sources, 3 presses]` *(site/data/sources.json)*
 > 🎬 **On screen:** Box 1: Lecocq et al. (2020) → used for the 2019–20 models.
@@ -210,21 +205,16 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** The 59 network codes; dashed ones have no DOI
 > ⏭ **Then Space:** next slide, *Two kinds of shaking*
 >
-> **[Aradhya]** Every recording has an owner. The 2019 to 2020 recordings are Lecocq and
-> colleagues' published data. *(Next)* Everything since, 2019 to today, comes from
-> **EarthScope's** public noise spectra; the earthquakes from the **US Geological Survey's**
-> catalogue; and holidays and weekends from **public calendars**, never from the shaking
-> itself. *(Next)* Behind them are **59 seismic networks**, and 54 have a DOI you can cite.
-> On the website, click any station and it shows its network and DOI.
+> **[Aradhya]** Every recording has an owner. The 2019 to 2020 data comes from the study by Lecocq and colleagues. (Next) Data from 2019 to today comes from EarthScope. Earthquakes come from the US Geological Survey. Holidays come from public calendars, never from the shaking. (Next) Behind it all are 59 seismic networks. On our website you can click any station to see where its data comes from.
 
 ### 9 · TWO KINDS OF SHAKING — `[VIDEO C2, cut]`
 > 🎬 **On screen:** The clip plays by itself: “Two kinds of shaking”, the coast. It stops on “Slow: ocean waves…” with big blue rings.
 >
-> **[Aradhya]** Not all shaking is us. Here's the coast. The slow wobbles, one every few seconds, are the ocean: waves hitting coasts hundreds of kilometres away, day and night, weekday or weekend.
+> **[Aradhya]** Not all shaking comes from people. Here's the coast. These slow wobbles, about one every few seconds, are the ocean. Waves hitting coastlines hundreds of kilometres away.
 >
 > ⏵ **Space 1:** Stops on “Fast: engines, wheels and feet” with small orange rings from the cars
 >
-> The fast ones, several a second, are engines, wheels and feet. Those small, quick ripples are the ones that carry the week.
+> The fast ones, several every second, come from engines, wheels and feet. Those are the ones that follow the week.
 >
 > ⏭ **Then Space:** next slide, *The sea keeps no office hours*
 
@@ -232,18 +222,13 @@ anything else). Without them, presenter windows still work on the same computer.
 > 🎬 **On screen:** A still: the spectrum, the sea band against the people band.
 > ⏭ **Then Space:** next slide, *The sea band can't read the week*
 >
-> **[Aradhya]** Held still. Left, the ocean: 11 a.m. and 3 a.m. are almost the same line;
-> the sea doesn't keep office hours. Right, **4 to 14 hertz**: daytime is about **forty
-> times** stronger than night. That gap is us, so that's the band we listen to.
+> **[Aradhya]** On the left is the ocean. Morning and night look almost the same. The sea doesn't care what time it is. On the right is 4 to 14 hertz. Here the day is about forty times stronger than the night. That difference is us, so that's the band we use.
 
 ### 11 · THE SEA BAND CAN'T READ THE WEEK — `[STATIC band test]` *(R12 · 2025–26 · 7 cities)*
 > 🎬 **On screen:** A still: five bands; the sea band is a coin toss, the people band almost 99%.
 > ⏭ **Then Space:** next slide, *From the ground to a guess*
 >
-> **[Aradhya]** And we tested it. Same model, same days, five bands. The ocean band reads
-> weekday vs weekend **51%** of the time: a coin toss. Every band where people are scores
-> above 95%, and the people band, 4 to 14 hertz, is best: **almost 99%**.
-> Shraddha, how does a model listen?
+> **[Aradhya]** We tested this. The ocean band gets weekday or weekend right only 51% of the time. That's a coin toss. Our band, 4 to 14 hertz, gets almost 99%. Shraddha, how does the model listen?
 
 ### 12 · FROM THE GROUND TO A GUESS — `[DIAGRAM docs/03's six steps, 3 presses]` *(docs/03)*
 > 🎬 **On screen:** Row 1: Steps 1–3 (one row per day, 25 features, calendar labels).
@@ -310,11 +295,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 1:** The top three hours turn black (00:00, 06:00, 13:00), and the line “the level ranks 10 of 25”
 > ⏭ **Then Space:** next slide, *Where it gets it wrong*
 >
-> **[Aadit]** Which of the 25 numbers does the forest lean on? This is Brussels. Each bar is
-> how much that number helps the trees split the days. *(Next)* The tallest: **midnight, one
-> in the afternoon, and six in the morning**. Our reading: six a.m. asks whether the city has
-> woken up yet. And the level, how loud the whole day was, ranks only **tenth**. The shape of
-> the day is what carries the week.
+> **[Aadit]** Which of the 25 numbers matter most? Each bar shows how much one number helps. (Next) The top three are midnight, 1 p.m. and 6 a.m. Six a.m. basically asks, is the city awake yet? Overall loudness only comes tenth. It's the shape of the day that tells the week.
 
 ### 18 · WHERE IT GETS IT WRONG — `[DIAGRAM confusion matrix, 3 presses]` *(ml.json, day_scores.csv)*
 > 🎬 **On screen:** Brussels' 7×7 confusion matrix, in counts.
@@ -322,40 +303,30 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** The second matrix: all 149 seismometers, in %
 > ⏭ **Then Space:** next slide, *It reads the day*
 >
-> **[Aadit]** So where does it go wrong? This is a **confusion matrix**: each row is the real
-> day, each column the model's guess, and the diagonal is right. Brussels, 115 ordinary days,
-> each guessed by a model that never saw its week. *(Next)* Two blocks. **Weekdays blur into
-> each other**: a Tuesday is often called a Monday. But **the weekend stands apart**: right 28
-> times out of 32, and a weekday is called a weekend only once in 83 days. *(Next)* And it's
-> not just Brussels: across all **149 seismometers, 16,554 days**, the same two blocks. That's
-> why weekday-or-weekend is our headline, and the exact day is the hard part.
+> **[Aadit]** So where does it go wrong? Each row is the real day, and each column is the guess. The diagonal means correct. This is Brussels, 115 normal days. (Next) Weekdays get mixed up with each other. A Tuesday often looks like a Monday. But the weekend stands out. It's right 28 times out of 32. (Next) And it's the same across all 149 seismometers. Weekday or weekend is easy. The exact day is hard.
 
 ### 19 · IT READS THE DAY — `[STATIC results]` *(R1, R2, R6 · 2019–20 · 149 seismometers)*
 > 🎬 **On screen:** A still: 95% weekday or weekend, 47% exact day; every seismometer as a dot.
 > ⏭ **Then Space:** next slide, *Its mistakes find holidays*
 >
-> **[Aadit]** One forest per seismometer. Weekday or weekend: **95%** in a typical city. The
-> exact day: **47%**, where guessing gets 14. In three of the emptiest places in the data,
-> a mountain, the Kalahari, the tip of Chile, it's near chance. **No people, no rhythm.**
-> And the shape matters: loudness alone names the exact day **30%** of the time; with the
-> shape, **47%**.
+> **[Aadit]** In a typical city, it tells weekday from weekend 95% of the time. The exact day, 47%. Guessing would get 14. In empty places, like a mountain or the Kalahari desert, it's close to chance. No people, no rhythm. And loudness alone only gets the exact day 30% of the time. The shape of the day is what matters.
 
 ### 20 · ITS MISTAKES FIND HOLIDAYS — `[VIDEO S08]` *(R7, R8)*
 > 🎬 **On screen:** The clip plays by itself: Brussels' calendar, Christmas read as a weekend. It stops on “So did the models in 71% of cities”.
 >
-> **[Aradhya]** Back to Christmas. Here's Brussels' whole calendar, one square per day. Christmas was a Wednesday the model had never seen, and it said Sunday. And not just in Brussels: the models at 71% of seismometers did the same.
+> **[Aradhya]** Remember Christmas? Here's the whole calendar for Brussels, one square per day. Christmas was a Wednesday the model had never seen, and it said Sunday. And it wasn't just Brussels. Models at 71% of the seismometers did the same thing.
 >
 > ⏵ **Space 1:** Stops on the two towers: holidays it never saw against ordinary weekdays
 >
-> Here are two towers. On weekday holidays it never saw, it said weekend 76% of the time. On ordinary weekdays, only 5%. That gap is the whole point: it learned how people behave, not the calendar.
+> Look at these two bars. On weekday holidays it had never seen, it said weekend 76% of the time. On normal weekdays, only 5%. So it learned how people behave, not the calendar.
 >
 > ⏵ **Space 2:** Stops on “Confusion = 1 − P(the real day). Brussels' most surprising days”
 >
-> **[Aadit]** So we turn that into a score: how surprised was the model? One minus the chance it gave the real day. Rank every day by it, and the holidays float to the top.
+> **[Aadit]** So we turned that into a score. How surprised was the model? Rank every day by that, and the holidays rise to the top.
 >
 > ⏵ **Space 3:** Ends on “Better than a standard unusual-day alarm in 110 of 147 cities”
 >
-> And it holds across the network: this surprise score beats a standard unusual-day alarm in 110 of 147 cities. No holiday labels went into it, and it never trained on these days; the model's own mistakes find them. Here is how that works, step by step.
+> And this works across the network. This score beats a standard method for spotting unusual days in 110 out of 147 cities. We never gave it a list of holidays. Its own mistakes found them. Let me show you how.
 >
 > ⏭ **Then Space:** next slide, *From a mistake to an alarm*
 
@@ -365,45 +336,34 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** Boxes 4–5: above 95% of ordinary days → flag it; then 76% and 110 of 147
 > ⏭ **Then Space:** next slide, *It recognises rest, not the name of the day*
 >
-> **[Aadit]** How does a mistake become an alarm? Follow Christmas through the boxes. A day
-> it never saw: a Wednesday. The forest says **Sunday**, and gives Wednesday no chance at
-> all. *(Next)* So how surprised is it? One minus the chance it gave the real day: **one**,
-> the maximum. *(Next)* Then compare it with ordinary days: ninety-five out of a hundred are
-> less surprising than this line. Above the line, flag it. No labels, no list of holidays.
-> Across every seismometer, that alarm beat the standard unusual-day alarm at **110 of
-> 147**. We never built a holiday detector. We taught it normal.
+> **[Aadit]** How does a mistake become an alarm? Take Christmas. The model says Sunday, and gives Wednesday no chance at all. (Next) So it's as surprised as it can be. (Next) If a day is more surprising than 95% of normal days, we flag it. No list of holidays needed. This beat the standard method in 110 out of 147 cities. We never built a holiday detector. We just taught it what normal looks like.
 
 ### 22 · THE WEEKEND MOVES — `[STATIC]` *(R3, R9, R10)*
 > 🎬 **On screen:** A still: the weekend moves (Salfit and the UAE).
 > ⏭ **Then Space:** next slide, *The dare, done properly*
 >
-> **[Aradhya]** A model trained on all the *other* cities still reads a new one: **83%**.
-> Trained only on Saturday–Sunday countries, it calls Salfit's **Fridays** weekend: it
-> recognises rest, not the name of the day. Jeddah, our third Friday city, didn't transfer.
-> And when the UAE moved its weekend in 2022, we wrote the prediction down **before**
-> downloading anything: Sundays got **20% quieter**, luck would do that about 3 times in
-> 1,000. One sensor, 90 km from Sharjah, and Fridays got busier, which we didn't predict.
+> **[Aradhya]** Can it read a city it has never seen? Yes, 83% of the time. A model trained only on countries with a Saturday and Sunday weekend still called Fridays the weekend in Salfit, where the weekend is on Friday. So it recognises rest, not the name of the day. It didn't work for Jeddah, though. And when the UAE moved its weekend in 2022, we wrote our prediction down first. Sundays got 20% quieter, which is very unlikely to be luck. But Fridays got busier, which we didn't expect.
 
 ### 23 · THE DARE, DONE PROPERLY — `[VIDEO C5, cut → STATIC]` *(R19, R22)*
 > 🎬 **On screen:** The clip plays by itself: rush hour, every car shaking the ground. It stops there.
 >
-> **[Aradhya]** Last time we made a dare. Here's rush hour: every car on this street shaking the ground at once.
+> **[Aradhya]** Last time, we made a dare. Here's rush hour, with every car shaking the ground.
 >
 > ⏵ **Space 1:** Stops on “A small earthquake, far away, arrives from below” (blue wave)
 >
-> Now a small earthquake, far away, arrives from below. In all that traffic, it's easy to miss.
+> Now a small earthquake arrives from far away. With all this traffic, it's easy to miss.
 >
 > ⏵ **Space 2:** Stops on “The dare: subtract what this hour normally sounds like…”
 >
-> The dare: if we know what this hour normally sounds like, subtract the people, and find the quake underneath.
+> So the dare was this. If we know what this hour normally sounds like, can we subtract the people and find the earthquake?
 >
 > ⏵ **Space 3:** Stops on the result card: 998 against 953, “We got 5.3%”
 >
-> We tried it first on fifteen-minute averages: 998 against 953, p = 0.053. Not supported, and outside one Puerto Rico swarm a simple rolling median did best.
+> First, on fifteen-minute averages, the result could have been luck. And a simple rolling baseline did better.
 >
 > ⏵ **Space 4:** Plays on to “Verdict: not supported…”; the second-by-second chart then appears by itself
 >
-> A quake lasts seconds; fifteen minutes blurs it away. So we wrote a proper test down in advance: second-by-second recordings, years the first test never touched, at most 100 quakes per station so no swarm decides it. Result: with the people subtracted, 413 found; the raw recording, 501. Not supported: it made things worse. A plain rolling baseline of the last five minutes did best, 524. A city's weekly rhythm is the right model for reading the day, and the wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them. Shraddha, what else didn't work?
+> But a quake lasts seconds, and fifteen minutes blurs it out. So we planned a proper test, second by second. With the people subtracted, it found 413 quakes. Without, 501. So subtracting people made it worse. A city's weekly rhythm is great for reading the day, but wrong for a quake that lasts seconds. And this finds quakes that already happened. It never predicts them. Shraddha, what else didn't work?
 >
 > ⏭ **Then Space:** next slide, *What didn't work*
 
@@ -419,10 +379,7 @@ anything else). Without them, presenter windows still work on the same computer.
 >
 > *Card: 33 cities · Jan 2019 – Sep 2026 · 72,395 ordinary days · one model per city ·
 > 3 frequency bands × 48 half-hours · gradient boosting · whole weeks held out.*
-> **[Aadit]** We went back to the source: seven years, every station from the study that is
-> still recording and publicly served, plus Sharjah. **33 cities, 72,000 ordinary days.**
-> This is a new, bigger model: three frequency bands, every half hour, gradient boosting,
-> still tested only on weeks it never saw. A new experiment, so new numbers.
+> **[Aadit]** Then we went back for more data. Seven years, 33 cities, about 72,000 normal days. This is a new and bigger model, still tested only on weeks it never saw. So the numbers are new too.
 
 ### 26 · DOES MORE DATA MAKE IT SMARTER? — `[STATIC learning curve]` *(R16–R18)*
 > 🎬 **On screen:** A still: the learning curve from 100 days to all of them, and 96% for the week.
@@ -436,34 +393,20 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** Pages: City Pulse, Game, About, Demo video
 > ⏭ **Then Space:** next slide, *The front page: a two-minute tour*
 >
-> **[Aradhya]** Everything you've seen runs on **one website**, built from these same files.
-> Two sources of data, one set of Python code, and a GitHub Action every morning. *(Next)*
-> The pages to explore: a **two-minute tour**; the **globe**, any day since 2019; **Ask**, the
-> model's guess for any day; and the **research map**, every seismometer scored. *(Next)* And
-> the pages that keep going: **City Pulse**, which scores yesterday every night; a **game**
-> where you try to beat the model; and pages that explain how it works and where it stops.
-> The front page first.
+> **[Aradhya]** Everything you've seen runs on one website. One set of Python code, updated automatically every morning. (Next) You can explore. There's a two-minute tour, a globe for any day since 2019, and Ask, which shows the model's guess for any day. (Next) And some pages keep running. City Pulse checks yesterday every night, and there's a game where you try to beat the model. Let's start with the front page.
 
 ### 28 · THE FRONT PAGE: A TWO-MINUTE TOUR — `[LIVE index.html]` *(fallback: still)*
 > 🎬 **On screen:** The live front page. Scroll down slowly with one finger: the pen draws the day.
 > ⏭ **Then Space:** next slide, *Ask the ground*
 >
-> **[Aradhya]** This is the front page: a two-minute tour of the idea for anyone who lands on
-> it. *(scroll with one finger)* The pen draws one real day under Brussels, hour by hour, and
-> the page tells the story as it goes. Aadit, ask it something.
+> **[Aradhya]** This is the front page. (scroll with one finger) The line draws one real day under Brussels, and the page explains it as you go. Aadit, let's ask it something.
 
 ### 29 · ASK THE GROUND — `[LIVE globe.html#ask/BE.UCC..HHZ/2019-12-25]` *(fallback: S11)*
 > 🎬 **On screen:** Live Ask on Brussels, 25 Dec 2019: “from the day: Sunday”, “from the week: Wednesday”.
 > ⏵ **Space 1:** The page reloads by itself to the globe on Mon 23 Mar 2020 (blue = quieter). Don't tap while it loads.
 > ⏭ **Then Space:** next slide, *What runs every night*
 >
-> **[Aadit]** Here it is, live: 33 cities, any day from 2019 to last September.
-> *(Brussels, Christmas 2019)* From the day alone: Sunday, sure of it. From the week around
-> it: Wednesday, sure of it. **A Wednesday that looked like a day off.**
-> *(Next → the globe on Mon 23 Mar 2020)* And this is the week the world stopped. *(let it
-> sit two seconds)* Of the 24 cities we measure clearly, **12** were at least 15% quieter
-> than their normal that Monday; a week later, **17**. Nobody told the globe there was a
-> pandemic. *(R15)* Shraddha, how does it keep up every night?
+> **[Aadit]** Here it is, live. (Brussels, Christmas 2019) Looking at just the day, it says Sunday. Looking at the whole week, it says Wednesday. A Wednesday that looked like a day off. (Next: the globe on Monday 23 March 2020) And this is the week the world stopped. (let it sit two seconds) Half the cities we can measure clearly were at least 15% quieter that Monday. Nobody told it there was a pandemic. Shraddha, how does this keep running every night?
 
 ### 30 · WHAT RUNS EVERY NIGHT — `[DIAGRAM live system, 3 presses]` *(pulse.yml, src/pulse.py, src/ask.py)*
 > 🎬 **On screen:** Seismometers → EarthScope → GitHub Action.
@@ -485,10 +428,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > 🎬 **On screen:** The live game: one real day's line. Tap a day with one finger to guess; the model's answer appears.
 > ⏭ **Then Space:** next slide, *Five promises, kept*
 >
-> **[Aradhya]** And one page for anyone: **Guess the day**. A real day from a real city, hour
-> by hour, with the average Wednesday and Sunday for comparison. Which day was it? *(tap a
-> day)* The model made its guess without ever training on that week, and the score keeps
-> count: you against the model. That's GroundTruth, on one website. Aadit?
+> **[Aradhya]** And one page for anyone. Guess the day. Here's a real day from a real city. Which day was it? (tap a day) The model guessed without ever seeing that week. It's you against the model. Aadit?
 
 ### 33 · FIVE PROMISES, KEPT — `[STATIC scorecard]`
 > 🎬 **On screen:** A still: the five promises with their numbers. Don't read it out.
@@ -499,7 +439,7 @@ anything else). Without them, presenter windows still work on the same computer.
 ### 34 · STILL USELESS? — `[VIDEO S14]`
 > 🎬 **On screen:** The clip plays by itself: out of the vault, up over the city at dusk. It stops on “Still useless?” and the captions.
 >
-> **[Aadit]** So, back to where we started. Seismologists call this shaking noise, and throw it away. Still useless? There's a network already buried under many of the world's cities, recording for decades, free. It hears a neighbourhood, not a person: no phones, no cameras. And ours is running tonight.
+> **[Aadit]** So, back to where we started. Seismologists call this shaking noise and throw it away. But is it really useless? There are seismometers already buried under cities all over the world. They've been recording for decades, and the data is free. They hear a neighbourhood, not a person. No phones, no cameras. And ours is running tonight.
 >
 > ⏵ **Space 1:** Ends on the title: GroundTruth, your names, “Thank you. Questions?” (the city keeps moving)
 >
