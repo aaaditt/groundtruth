@@ -124,22 +124,29 @@ anything else). Without them, presenter windows still work on the same computer.
 
 ### 1 · YOU SHOOK THE GROUND TODAY — `[VIDEO S00, 3 stops]`
 > 🎬 **On screen:** The clip plays by itself: a street at morning rush, “How did you get here today?”. It stops on “Every one of you just shook the ground…” (the city keeps moving).
-> ⏵ **Space 1:** Plays on, stops on “What day is it?” and “How do you know?”
-> ⏵ **Space 2:** Plays on, stops on “Can a seismometer tell what day of the week it is?” over the whole city
-> ⏭ **Then Space:** next slide, *Weekday or weekend?*
 >
-> **[Aadit]** *(no greeting)* Every one of you shook the ground on the way here. By car, by
-> bus, on foot. A few billionths of a metre, but you did. And somewhere under this city, an
-> instrument wrote it down. Here's one day of that writing.
+> **[Aadit]** Think about how you got here today. A car, a bus, the metro, or your own two feet. Every one of those pushed on the ground. A few billionths of a metre, far too small to feel, but real.
+>
+> ⏵ **Space 1:** Plays on, stops on “What day is it?” and “How do you know?”
+>
+> So here's a question. What day is it today? Easy: you'd check your phone, or remember what you did yesterday. But how do you actually know? Mostly from what everyone around you is doing.
+>
+> ⏵ **Space 2:** Plays on, stops on “Can a seismometer tell what day of the week it is?” over the whole city
+>
+> Now imagine you had no phone and no calendar, only an instrument buried under the city, writing down every shake. Could it tell you what day of the week it is? That's our question. Here's one day of that writing.
+>
+> ⏭ **Then Space:** next slide, *Weekday or weekend?*
 
 ### 2 · WEEKDAY OR WEEKEND? — `[VIDEO S01]`
 > 🎬 **On screen:** The clip plays by itself: “Weekday or weekend?” while one real day of shaking draws itself along the bottom. It stops there.
-> ⏵ **Space 1:** Reveal: “Wednesday, 25 December 2019”, a Christmas tree appears, “Our model said: Sunday”
-> ⏭ **Then Space:** next slide, *Last time: one question*
 >
-> **[Aadit]** One whole day under Brussels, midnight to midnight. Look at the morning.
-> Weekday, or weekend? *(one beat — don't wait)* It was a Wednesday: **Christmas Day, 2019.**
-> Our model said **Sunday**. In a few minutes you'll see why it was right to be wrong.
+> **[Aadit]** One whole day under Brussels, midnight to midnight, drawing itself along the bottom. Look at the morning: it stays quiet much longer than you'd expect. So, weekday or weekend? Take a second.
+>
+> ⏵ **Space 1:** Reveal: “Wednesday, 25 December 2019”, a Christmas tree appears, “Our model said: Sunday”
+>
+> It was a Wednesday: Christmas Day, 2019. Our model said Sunday. In a few minutes you'll see why it was right to be wrong.
+>
+> ⏭ **Then Space:** next slide, *Last time: one question*
 
 ### 3 · LAST TIME — `[STATIC]`
 > 🎬 **On screen:** A still: last time's question and the five promises.
@@ -152,17 +159,22 @@ anything else). Without them, presenter windows still work on the same computer.
 
 ### 4 · WHAT A SEISMOMETER RECORDS — `[VIDEO C1, cut]`
 > 🎬 **On screen:** The clip plays by itself from street level; the ground opens. It stops on “Each push sends a tiny wave down…” with orange ripples.
-> ⏵ **Space 1:** Sinks to the seismometer, stops on “A seismometer: a heavy weight on a spring…”
-> ⏵ **Space 2:** Pulls out to the city at night with a clock, stops on “Now, one whole day” (the pen barely moves)
-> ⏵ **Space 3:** The whole day runs fast while the real line draws; ends on “A real recording… an ordinary Wednesday, 15 January 2020”
-> ⏭ **Then Space:** next slide, *Who listened to cities before us*
 >
-> **[Aadit]** Every car, bus and footstep pushes on the ground and sends a tiny wave down
-> through the rock. A seismometer is a weight on a spring: the ground moves, the weight
-> lags, and it measures the difference. Seismologists built these for earthquakes, and
-> everything else they call noise. This is an ordinary Wednesday in January 2020 under
-> Brussels: quiet at night, a jump at seven, high all day. **The noise is a city waking
-> up.** Shraddha, who else has listened?
+> **[Aadit]** Every car, bus and footstep pushes on the ground and sends a tiny wave down through the rock.
+>
+> ⏵ **Space 1:** Sinks to the seismometer, stops on “A seismometer: a heavy weight on a spring…”
+>
+> Down here is the instrument that catches it. A seismometer is a heavy weight on a spring. When the ground moves, the weight lags behind, and the instrument measures that difference. Seismologists built these for earthquakes, and everything else they call noise.
+>
+> ⏵ **Space 2:** Pulls out to the city at night with a clock, stops on “Now, one whole day” (the pen barely moves)
+>
+> Now watch one whole day. At night the city sleeps, and the pen barely moves. Hardly anyone is driving or walking.
+>
+> ⏵ **Space 3:** The whole day runs fast while the real line draws; ends on “A real recording… an ordinary Wednesday, 15 January 2020”
+>
+> Then morning arrives. This is a real recording: an ordinary Wednesday, the fifteenth of January 2020, under Brussels. Quiet at night, a jump at around seven when people start moving, and high all day while the city works. In the evening it slowly falls again. That noise is a city waking up, working and going to sleep. Shraddha, who else has listened?
+>
+> ⏭ **Then Space:** next slide, *Who listened to cities before us*
 
 ### 5 · WHO LISTENED TO CITIES BEFORE US — `[DIAGRAM research, 3 presses]` *(docs/02, "Papers")*
 > 🎬 **On screen:** Row 1: Díaz 2017, Barcelona.
@@ -219,12 +231,14 @@ anything else). Without them, presenter windows still work on the same computer.
 
 ### 9 · TWO KINDS OF SHAKING — `[VIDEO C2, cut]`
 > 🎬 **On screen:** The clip plays by itself: “Two kinds of shaking”, the coast. It stops on “Slow: ocean waves…” with big blue rings.
-> ⏵ **Space 1:** Stops on “Fast: engines, wheels and feet” with small orange rings from the cars
-> ⏭ **Then Space:** next slide, *The sea keeps no office hours*
 >
-> **[Aradhya]** Not all shaking is us. The **slow** wobbles, one every few seconds, are the
-> **ocean**, waves hitting coasts hundreds of kilometres away. The **fast** ones, several a
-> second, are engines, wheels and feet.
+> **[Aradhya]** Not all shaking is us. Here's the coast. The slow wobbles, one every few seconds, are the ocean: waves hitting coasts hundreds of kilometres away, day and night, weekday or weekend.
+>
+> ⏵ **Space 1:** Stops on “Fast: engines, wheels and feet” with small orange rings from the cars
+>
+> The fast ones, several a second, are engines, wheels and feet. Those small, quick ripples are the ones that carry the week.
+>
+> ⏭ **Then Space:** next slide, *The sea keeps no office hours*
 
 ### 10 · THE SPECTRUM — `[STATIC spectrum]` *(R12 data · Brussels · 2025–26)*
 > 🎬 **On screen:** A still: the spectrum, the sea band against the people band.
@@ -259,28 +273,41 @@ anything else). Without them, presenter windows still work on the same computer.
 
 ### 13 · ONE DAY BECOMES 25 NUMBERS — `[VIDEO S05, cut]`
 > 🎬 **On screen:** The clip plays by itself: one real day's readings on a table. It stops on “3. One number per hour”.
-> ⏵ **Space 1:** Stops on “Then a logarithm…”
-> ⏵ **Space 2:** Stops on “4. Split the day: shape and level”
-> ⏵ **Space 3:** Ends on “24 + 1 = 25 numbers per day”
-> ⏭ **Then Space:** next slide, *A hundred trees vote*
 >
-> **[Shraddha]** The first boxes, up close. A model can't look at a picture, so each day
-> becomes 25 numbers. Twenty-four say *when* the city was busy, hour by hour: the **shape**.
-> One says how loud the whole day was compared with that station's usual day: the
-> **level**. Every station is different, some by a motorway, some in a basement; the shape
-> is what makes them comparable.
+> **[Shraddha]** The first boxes, up close. Here's one real day's readings, one every fifteen minutes. A model can't look at a picture, so we boil them down to one number per hour.
+>
+> ⏵ **Space 1:** Stops on “Then a logarithm…”
+>
+> Then a logarithm. City shaking spans huge ranges, so the log puts a quiet night and a busy day on one scale.
+>
+> ⏵ **Space 2:** Stops on “4. Split the day: shape and level”
+>
+> Then we split the day in two. Twenty-four numbers say when the city was busy, hour by hour: that's the shape. One says how loud the whole day was compared with that station's usual day: the level.
+>
+> ⏵ **Space 3:** Ends on “24 + 1 = 25 numbers per day”
+>
+> So each day becomes 25 numbers. Every station is different, some by a motorway, some in a basement; the shape is what makes them comparable.
+>
+> ⏭ **Then Space:** next slide, *A hundred trees vote*
 
 ### 14 · A HUNDRED TREES VOTE — `[VIDEO C4]`
 > 🎬 **On screen:** The clip plays by itself: one real tree and its first question. It stops on “yes: mostly weekends / no: mostly weekdays”.
-> ⏵ **Space 1:** The grove grows: “A hundred trees, each from a random slice of days”
-> ⏵ **Space 2:** The trees vote: the tally fills in, “97 of 100 say weekday”
-> ⏵ **Space 3:** Ends on “But only 5 say Wednesday…”
-> ⏭ **Then Space:** next slide, *Graded only on weeks it never saw*
 >
-> **[Shraddha]** The next box: the model is a **random forest**, a hundred decision trees,
-> each asking a few yes/no questions. A real one from Brussels: *at six in the morning, was
-> the ground still no busier than the rest of the day?* Yes leads to weekend. On a Wednesday
-> it never saw, **97 of 100 trees say weekday**, but they split on *which* weekday.
+> **[Shraddha]** The next box is the model: a random forest. Here's one real tree from Brussels. Its first question: at six in the morning, was the ground still no busier than the rest of the day? Yes leads mostly to weekends; no, mostly to weekdays.
+>
+> ⏵ **Space 1:** The grove grows: “A hundred trees, each from a random slice of days”
+>
+> One tree can be fooled, so we grow a hundred. Each one learns from a random slice of days, and asks its own few yes-or-no questions.
+>
+> ⏵ **Space 2:** The trees vote: the tally fills in, “97 of 100 say weekday”
+>
+> Then they vote. On a Wednesday the model never saw, 97 of the 100 trees say weekday.
+>
+> ⏵ **Space 3:** Ends on “But only 5 say Wednesday…”
+>
+> But only 5 say Wednesday. They agree it's a working day; they split on which one. Weekday or weekend is easy; the exact day is much harder.
+>
+> ⏭ **Then Space:** next slide, *Graded only on weeks it never saw*
 
 ### 15 · TESTED ON WEEKS IT NEVER SAW — `[STATIC CV diagram]`
 > 🎬 **On screen:** A still: the calendar of weeks, each shade one round's hidden weeks.
@@ -342,17 +369,22 @@ anything else). Without them, presenter windows still work on the same computer.
 
 ### 20 · ITS MISTAKES FIND HOLIDAYS — `[VIDEO S08]` *(R7, R8)*
 > 🎬 **On screen:** The clip plays by itself: Brussels' calendar, Christmas read as a weekend. It stops on “So did the models in 71% of cities”.
-> ⏵ **Space 1:** Stops on the two towers: holidays it never saw against ordinary weekdays
-> ⏵ **Space 2:** Stops on “Confusion = 1 − P(the real day). Brussels' most surprising days”
-> ⏵ **Space 3:** Ends on “Better than a standard unusual-day alarm in 110 of 147 cities”
-> ⏭ **Then Space:** next slide, *From a mistake to an alarm*
 >
-> **[Aradhya]** Back to Christmas: a Wednesday it had never seen, and it said **Sunday**,
-> and so did the models at 71% of seismometers. On weekday holidays it never saw, it said
-> "weekend" **76%** of the time; on ordinary weekdays, **5%**. It learned how people
-> behave, not the calendar.
-> **[Aadit]** Rank every day by how surprised it was, and the holidays float to the top.
-> Here is how that works.
+> **[Aradhya]** Back to Christmas. Here's Brussels' whole calendar, one square per day. Christmas was a Wednesday the model had never seen, and it said Sunday. And not just in Brussels: the models at 71% of seismometers did the same.
+>
+> ⏵ **Space 1:** Stops on the two towers: holidays it never saw against ordinary weekdays
+>
+> Here are two towers. On weekday holidays it never saw, it said weekend 76% of the time. On ordinary weekdays, only 5%. That gap is the whole point: it learned how people behave, not the calendar.
+>
+> ⏵ **Space 2:** Stops on “Confusion = 1 − P(the real day). Brussels' most surprising days”
+>
+> **[Aadit]** So we turn that into a score: how surprised was the model? One minus the chance it gave the real day. Rank every day by it, and the holidays float to the top.
+>
+> ⏵ **Space 3:** Ends on “Better than a standard unusual-day alarm in 110 of 147 cities”
+>
+> And it holds across the network: this surprise score beats a standard unusual-day alarm in 110 of 147 cities. No holiday labels went into it, and it never trained on these days; the model's own mistakes find them. Here is how that works, step by step.
+>
+> ⏭ **Then Space:** next slide, *From a mistake to an alarm*
 
 ### 21 · FROM A MISTAKE TO AN ALARM — `[DIAGRAM alarm, 3 presses]` *(R7, R8)*
 > 🎬 **On screen:** Boxes 1–2: a new day (Christmas 2019) → the forest guesses Sunday.
@@ -381,22 +413,26 @@ anything else). Without them, presenter windows still work on the same computer.
 
 ### 23 · THE DARE, DONE PROPERLY — `[VIDEO C5, cut → STATIC]` *(R19, R22)*
 > 🎬 **On screen:** The clip plays by itself: rush hour, every car shaking the ground. It stops there.
-> ⏵ **Space 1:** Stops on “A small earthquake, far away, arrives from below” (blue wave)
-> ⏵ **Space 2:** Stops on “The dare: subtract what this hour normally sounds like…”
-> ⏵ **Space 3:** Stops on the result card: 998 against 953, “We got 5.3%”
-> ⏵ **Space 4:** Plays on to “Verdict: not supported…”; the second-by-second chart then appears by itself
-> ⏭ **Then Space:** next slide, *What didn't work*
 >
-> **[Aradhya]** Last time's dare: if we know what a city sounds like at eight on a Tuesday,
-> can we **subtract the people** and find small earthquakes underneath? On fifteen-minute
-> averages: not supported, p = 0.053, and outside one Puerto Rico swarm a simple rolling
-> median did best. A quake lasts seconds; fifteen minutes blurs it away. So we wrote a
-> proper test down in advance: **second-by-second recordings**, years the first test never
-> touched, at most 100 quakes per station so no swarm decides it. Result: with the people subtracted, **413** found; the raw recording, **501**.
-> **Not supported**: it made things worse. A plain rolling baseline of the last five minutes
-> did best, **524**. A city's weekly rhythm is the right model for reading the day, and the
-> wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them.
-> Shraddha, what else didn't work?
+> **[Aradhya]** Last time we made a dare. Here's rush hour: every car on this street shaking the ground at once.
+>
+> ⏵ **Space 1:** Stops on “A small earthquake, far away, arrives from below” (blue wave)
+>
+> Now a small earthquake, far away, arrives from below. In all that traffic, it's easy to miss.
+>
+> ⏵ **Space 2:** Stops on “The dare: subtract what this hour normally sounds like…”
+>
+> The dare: if we know what this hour normally sounds like, subtract the people, and find the quake underneath.
+>
+> ⏵ **Space 3:** Stops on the result card: 998 against 953, “We got 5.3%”
+>
+> We tried it first on fifteen-minute averages: 998 against 953, p = 0.053. Not supported, and outside one Puerto Rico swarm a simple rolling median did best.
+>
+> ⏵ **Space 4:** Plays on to “Verdict: not supported…”; the second-by-second chart then appears by itself
+>
+> A quake lasts seconds; fifteen minutes blurs it away. So we wrote a proper test down in advance: second-by-second recordings, years the first test never touched, at most 100 quakes per station so no swarm decides it. Result: with the people subtracted, 413 found; the raw recording, 501. Not supported: it made things worse. A plain rolling baseline of the last five minutes did best, 524. A city's weekly rhythm is the right model for reading the day, and the wrong one for finding a quake that lasts seconds. Detecting quakes that happened; never predicting them. Shraddha, what else didn't work?
+>
+> ⏭ **Then Space:** next slide, *What didn't work*
 
 ### 24 · WHAT DIDN'T WORK — `[STATIC]` *(R4, R6, R8)*
 > 🎬 **On screen:** A still: three things that didn't work.
@@ -510,14 +546,14 @@ anything else). Without them, presenter windows still work on the same computer.
 
 ### 34 · STILL USELESS? — `[VIDEO S14]`
 > 🎬 **On screen:** The clip plays by itself: out of the vault, up over the city at dusk. It stops on “Still useless?” and the captions.
-> ⏵ **Space 1:** Ends on the title: GroundTruth, your names, “Thank you. Questions?” (the city keeps moving)
-> ⏹ **End of the talk.**
 >
-> **[Aadit]** So: seismometers. Still useless? There's a network already buried under many
-> of the world's cities, recording for decades, free. It hears a neighbourhood, not a
-> person: no phones, no cameras. And ours is running tonight. **Everyone measures how loud
-> the ground is. We taught a model what normal sounds like, and its mistakes tell us when
-> something happened.** That's GroundTruth. Thank you.
+> **[Aadit]** So, back to where we started. Seismologists call this shaking noise, and throw it away. Still useless? There's a network already buried under many of the world's cities, recording for decades, free. It hears a neighbourhood, not a person: no phones, no cameras. And ours is running tonight.
+>
+> ⏵ **Space 1:** Ends on the title: GroundTruth, your names, “Thank you. Questions?” (the city keeps moving)
+>
+> Everyone measures how loud the ground is. We taught a model what normal sounds like, and its mistakes tell us when something happened. That's GroundTruth. Thank you.
+>
+> ⏭ Last slide.
 
 ### B1 · BACKUP: DOES IT REMEMBER WHAT IT STUDIED? — `[STATIC memorisation]` *(R20, exploratory)*
 > 🎬 **On screen:** Backup still for Q&A: 100% on days it studied, 55% on weeks it never saw.
