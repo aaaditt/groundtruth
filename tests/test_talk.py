@@ -163,3 +163,25 @@ def test_every_press_has_a_cue(deck):
             q = stops.get(b["video"]["clip"], [])
             want = max(0, len(q) - 1) + (1 if q and not q[-1]["final"] else 0)
         assert len(b["presses"]) == want, f"{b['id']}: {len(b['presses'])} cues for {want} presses"
+
+
+# ---- presenting online (site/talk/remote.js): presenter windows steer the deck
+def test_remote_link_is_vendored_and_safe():
+    """The Supabase library is a local file (no CDN, so test_deck_runs_offline still holds),
+    and the link code builds no HTML from messages."""
+    with open(os.path.join(TALK, "index.html"), encoding="utf-8") as f:
+        html = f.read()
+    for src in re.findall(r'<script src="([^"]+)"', html):
+        assert os.path.exists(os.path.join(TALK, src)), src
+    with open(os.path.join(TALK, "remote.js"), encoding="utf-8") as f:
+        js = f.read()
+    assert not re.search(r"\.(inner|outer)HTML\s*[+]?=|insertAdjacentHTML", js)
+
+
+def test_remote_config_never_holds_a_secret_key():
+    """remote-config.json is served to every visitor: only the publishable key may go in it."""
+    with open(os.path.join(TALK, "remote-config.json"), encoding="utf-8") as f:
+        cfg = json.load(f)
+    assert set(cfg) >= {"url", "key"}
+    assert cfg["key"] == "" or cfg["key"].startswith("sb_publishable_"), "publishable key only"
+    assert cfg["url"] == "" or re.fullmatch(r"https://[a-z0-9]+\.supabase\.co", cfg["url"])

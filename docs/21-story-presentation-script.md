@@ -94,6 +94,25 @@ deck: press **N** for notes (or **P** for a presenter window on a second screen)
 line always says what the next press will do. The whole talk is
 77 presses.
 
+**Presenting online** (`site/talk/remote.js`). One person shares the deck's tab in the call;
+every speaker steers it from their own presenter window.
+
+1. Open `/talk/` on the sharing laptop and press **Present online** on the start screen. The
+   address becomes `/talk/?room=CODE` (a random 12-letter code), and the start screen shows the
+   presenter link `/talk/?presenter&room=CODE` with a copy button. Send it to the speakers.
+2. Each speaker opens the link on a laptop or a phone. A green dot means it can hear the deck,
+   amber means it is in the room but the deck is silent, and red means it has no connection.
+   The window shows the slide's script, what the next press does, the clock, and Back / Next.
+3. The sharer can open a presenter window too (press **P** on the deck, or open the link in
+   another window). Share the **deck's tab or window** in the call, never the whole screen.
+4. Space, the arrows, a clicker or the buttons in any presenter window move the deck. Each press
+   carries the slide it was meant for, so if two speakers press at once the deck moves once.
+   The deck still answers its own keys, which is the fallback if the internet drops.
+
+The link is Supabase Realtime Broadcast: a room that passes messages and stores nothing. The
+project's address and **publishable** key go in `site/talk/remote-config.json` (a test refuses
+anything else). Without them, presenter windows still work on the same computer.
+
 
 ### 1 · YOU SHOOK THE GROUND TODAY — `[VIDEO S00, 3 stops]`
 > 🎬 **On screen:** The clip plays by itself: a street at morning rush, “How did you get here today?”. It stops on “Every one of you just shook the ground…” (the city keeps moving).
