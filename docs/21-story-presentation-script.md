@@ -125,7 +125,7 @@ anything else). Without them, presenter windows still work on the same computer.
 ### 1 · YOU SHOOK THE GROUND TODAY — `[VIDEO S00, 3 stops]`
 > 🎬 **On screen:** The clip plays by itself: a street at morning rush, “How did you get here today?”. It stops on “Every one of you just shook the ground…” (the city keeps moving).
 >
-> **[Aadit]** Think about how you got to our University today. A car, a bus, the metro, or your own two feet. Every one of those pushed on the ground. A few billionths of a metre, far too small to feel, but real.
+> **[Aadit]** Think about how you got here today. A car, a bus, the metro, or your own two feet. Every one of those pushed on the ground. A few billionths of a metre, far too small to feel, but real.
 >
 > ⏵ **Space 1:** Plays on, stops on “What day is it?” and “How do you know?”
 >
