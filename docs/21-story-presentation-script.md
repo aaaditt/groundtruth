@@ -428,7 +428,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > 🎬 **On screen:** A still: the learning curve from 100 days to all of them, and 96% for the week.
 > ⏭ **Then Space:** next slide, *Everything we built*
 >
-> **[Shraddha]** We might expect seven years of data to make the model much better. For weekday versus weekend classification, it reaches 97%. But exact-day accuracy only increases from 38% with 100 days of data to 57% with all the data, and then improvement slows down. Training one model on all 33 cities together actually performs worse in every city. This is because a Tuesday can sound different from one city to another. But when we give the model the full week around a day instead of just that day, accuracy reaches 96%.
+> **[Shraddha]** We might expect seven years of data to make the model much better. For weekday versus weekend classification, it reaches 97%. But exact-day accuracy only increases from 38% with 100 days of data to 57% with all the data, and then improvement slows down. Training one model on all 33 cities together actually performs worse in every city. Probably because a Tuesday can sound different from one city to another. But when we give the model the full week around a day instead of just that day, accuracy reaches 96%.
 
 ### 27 · EVERYTHING WE BUILT — `[DIAGRAM sitemap, 3 presses]`
 > 🎬 **On screen:** Data (2019–20, every night) → Python and the GitHub Action.
