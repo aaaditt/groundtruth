@@ -21,17 +21,29 @@
     <button id="next" type="button" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8"/></svg></button>
   </nav>
 
+  <!-- presenter window only (talk/?presenter): where the deck is, and big Back / Next -->
+  <header id="pbar" hidden><span id="pdot" aria-hidden="true"></span><span id="pstate"></span></header>
   <aside id="notes" hidden></aside>
+  <p id="plink" hidden></p>
+  <div id="pbuttons" hidden>
+    <button id="pback" type="button">Back</button>
+    <button id="pnext" type="button">Next</button>
+  </div>
   <div id="blackout" hidden></div>
 
   <section id="start">
     <h1>Can a seismometer tell what day of the week it is?</h1>
     <p>GroundTruth, the final talk. Aadit Chandra, Shraddha Pradeep, Aradhya Gupta.</p>
-    <button id="go" type="button">Start the talk</button>
+    <button id="go" type="button">Start the presentation</button>
+    <p id="roomline" hidden><button id="mkroom" type="button">Present online</button>
+      <span id="roomtext"></span> <button id="copyroom" type="button" hidden>Copy presenter link</button></p>
     <p class="keys">Next: right arrow, Space, clicker or a swipe with three fingers. Back: left arrow.
-      F full screen, N speaker notes, P presenter window, L show a live slide's fallback, B black screen.</p>
+      F full screen, N speaker notes, P presenter window, L show a live slide's fallback, B black screen.
+      Presenting online: press Present online, then send the presenter link to each speaker.</p>
   </section>
 
+  <script src="vendor/supabase-2.119.2.js"></script>
+  <script src="remote.js"></script>
   <script src="talk.js"></script>
 </body>
 </html>

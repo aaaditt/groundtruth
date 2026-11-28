@@ -1,0 +1,5 @@
+{
+  "note": "Presenting online (remote.js, docs/21). The Supabase project's address and its PUBLISHABLE key (sb_publishable_..., made to be public). Never put the secret key here. Empty = presenter windows work on the same computer only.",
+  "url": "https://ulauvxtydjcadlqyytvf.supabase.co",
+  "key": "sb_publishable_imPW5QQVqrE0dhukQIkH8Q_LtdT8x2U"
+}

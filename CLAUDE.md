@@ -118,6 +118,13 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
   `bash render.sh --holds`. Block diagrams (`pipeline`, `alarm`, `nightly` in talk.js) build
   one `stepGroup` per press (`"steps"` in slides.json); keep their numbers from data/*.json.
   The method diagram mirrors docs/03's six steps: change both together.
+- **Presenting online** (`site/talk/remote.js`, docs/21): the screen-shared deck is
+  `talk/?room=CODE`; presenter windows `talk/?presenter&room=CODE` send presses
+  `{cmd, at: "slide.step"}` and the deck ignores any press whose `at` isn't where it is (two
+  speakers pressing at once move it once). The deck alone decides the position and reports it
+  (`sendState`, also every 3 s). Transport: BroadcastChannel (same computer) plus Supabase
+  Realtime Broadcast, with the vendored `vendor/supabase-2.119.2.js` (no CDN) and only the
+  publishable key in `remote-config.json` (tested). The room code lives in the URL, never in the repo.
 - **Data provenance**: `src/sources_export.py` writes `site/data/sources.json` (each
   network's name and DOI from the FDSN registry, plus the four datasets). The research
   map, the globe panel and the talk's sources slide read it; rerun it when stations change.

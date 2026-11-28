@@ -8,6 +8,10 @@
 //   F full screen   N speaker notes   P presenter window   L show a live slide's fallback
 //   B black screen  Home / End first / last slide
 //
+// Presenting online (remote.js): the deck opened as talk/?room=CODE is screen-shared; each
+// speaker opens talk/?presenter&room=CODE on their own laptop or phone. A press there moves
+// the deck, and every presenter window follows it.
+//
 // Three kinds of slide: a clip that plays to its next STOP and waits for the presenter
 // (media/cues.json; at a stop the camera holds still but the city keeps moving, from a
 // seamless loop in media/holds/; pressing Next while it plays jumps to the stop), a still drawn
@@ -41,7 +45,6 @@ const fmt = (n) => n.toLocaleString("en-GB");
 
 let BEATS = [], DATA = {}, CUES = {}, cur = -1, step = 0, started = false;
 const isPresenter = new URLSearchParams(location.search).has("presenter");
-const channel = "BroadcastChannel" in window ? new BroadcastChannel("groundtruth-talk") : null;
 
 // ------------------------------------------------------------------ charts (static slides)
 // Each returns the slide's content. h(title) is the slide headline, src the source line.
@@ -781,6 +784,7 @@ function playSegment(i, k) {
 function holdAt(i, k) {
   const q = cuesOf(BEATS[i])[k], v = mainOf(i);
   vs = { i, k, held: true };
+  sendState();
   v.pause();
   seek(v, q.at);                                   // the frame the hold loop starts on
   const h = slides[i].querySelector(`video.hold[data-k="${k}"]`);
@@ -800,7 +804,27 @@ function announce() {                              // the address bar, notes and
   if (history.replaceState) history.replaceState(null, "", `#/${cur + 1}${step ? `.${step}` : ""}`);
   drawProgress();
   renderNotes();
-  if (channel && !isPresenter) channel.postMessage({ i: cur, k: step });
+  sendState();
+}
+// Where the deck is, for the presenter windows (remote.js). `waiting` = nothing is playing:
+// the deck is waiting for a press, so the speaker can talk. `elapsed` rather than the start
+// time, because the laptops' clocks need not agree.
+const pos = () => `${cur}.${step}`;
+function sendState() {
+  if (isPresenter || !BEATS.length) return;
+  const b = BEATS[cur], cues = cuesOf(b);
+  const waiting = !started ? true : !cues.length || (vs.i === cur && vs.held);
+  // before the start nothing is on screen (cur is -1): the presenters show slide 1's script
+  Link.send({ type: "state", i: Math.max(0, cur), k: step, started, waiting, elapsed: t0 ? Date.now() - t0 : 0 });
+}
+// A press from a presenter window counts only if it was meant for the slide the deck is on:
+// if two speakers press at the same moment, the deck moves once, not twice.
+function onLink(m) {
+  if (m.type === "hello") return sendState();
+  if (m.type !== "cmd" || !started) return sendState();
+  if (m.at !== pos()) return sendState();
+  if (m.cmd === "next") next(); else if (m.cmd === "back") back();
+  sendState();                         // even if nothing moved (a clip caught up to its stop)
 }
 
 // ------------------------------------------------------------------ navigation
@@ -898,7 +922,7 @@ function onKey(e) {
     case "End": go(BEATS.length - 1); break;
     case "f": case "F": toggleFullscreen(); break;
     case "n": case "N": $("notes").hidden = !$("notes").hidden; renderNotes(); break;
-    case "p": case "P": window.open(`${location.pathname}?presenter`, "groundtruth-presenter", "width=1100,height=760"); break;
+    case "p": case "P": window.open(`${location.pathname}?presenter${Link.room ? `&room=${Link.room}` : ""}`, "groundtruth-presenter", "width=1100,height=760"); break;
     case "l": case "L": if (BEATS[cur].kind === "live") { slides[cur].dataset.forced = "1"; showFallback(cur); } break;
     case "b": case "B": case ".": $("blackout").hidden = !$("blackout").hidden; break;
   }
@@ -987,7 +1011,7 @@ function start() {
     document.documentElement.requestFullscreen().catch(() => {});
   const m = /^#\/(\d+)(?:\.(\d+))?$/.exec(location.hash);
   go(m ? +m[1] - 1 : 0, m && m[2] ? +m[2] : 0);
-  if (channel) channel.postMessage({ started: true, t0 });
+  sendState();
 }
 
 async function main() {
@@ -1001,17 +1025,7 @@ async function main() {
   CUES = await fetch("media/cues.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
   await document.fonts.ready;
 
-  if (isPresenter) {                    // a second window that follows the deck
-    document.body.classList.add("presenter");
-    $("notes").hidden = false;
-    cur = 0; renderNotes();
-    if (channel) channel.onmessage = (e) => {
-      if (e.data.started) t0 = e.data.t0;
-      if (e.data.i != null) { cur = e.data.i; step = e.data.k || 0; renderNotes(); }
-    };
-    setInterval(renderNotes, 1000);
-    return;
-  }
+  if (isPresenter) { presenter(); return; }
   slides = BEATS.map(build);
   $("stage").append(...slides);
   // ?shot=N[&then=1][&step=k]: slide N alone, full 1920x1080, no controls, nothing moving. Used by
@@ -1042,6 +1056,81 @@ async function main() {
   $("back").addEventListener("click", back);
   $("go").addEventListener("click", start);
   $("blackout").addEventListener("click", () => { $("blackout").hidden = true; });
-  if (channel) channel.onmessage = (e) => { if (e.data.goto != null) go(e.data.goto); };
+  Link.on(onLink);
+  roomSetup();
+  Link.connect();
+  setInterval(sendState, 3000);        // a heartbeat: presenters know the deck is still there
+}
+
+// The start screen's "Present online": make a room code, put it in the address, and show
+// the link the speakers open. Reloading the page keeps the room (it's in the address).
+function roomSetup() {
+  $("roomline").hidden = false;
+  const link = () => `${location.origin}${location.pathname}?presenter&room=${Link.room}`;
+  if (Link.room) {
+    $("mkroom").hidden = true;
+    $("copyroom").hidden = false;
+    // never print the link here: the audience may see this screen once it is shared, and
+    // anyone with the link can move the deck. Copy it, or read it in the presenter window.
+    $("roomtext").textContent = "Online.";
+    $("copyroom").addEventListener("click", () => {
+      navigator.clipboard.writeText(link()).then(() => { $("copyroom").textContent = "Copied"; }, () => {});
+    });
+    Link.onStatus((st) => { $("roomline").dataset.status = st; });
+  } else {
+    $("mkroom").addEventListener("click", () => {
+      location.search = `?room=${Link.makeRoom()}`;    // reloads the deck, now in the room
+    });
+  }
+}
+
+// ------------------------------------------------------------------ presenter window
+// talk/?presenter[&room=CODE]: the script for the slide the deck is on, the clock, and big
+// Back / Next buttons. Its keys are the deck's keys, sent to the deck instead of used here.
+function presenter() {
+  document.body.classList.add("presenter");
+  $("notes").hidden = false; $("pbar").hidden = false; $("pbuttons").hidden = false;
+  let deck = null, lastHeard = 0;      // the deck's last report
+  cur = 0;
+  const press = (cmd) => { if (deck) Link.send({ type: "cmd", cmd, at: `${deck.i}.${deck.k}` }); };
+  const draw = () => {
+    const fresh = Date.now() - lastHeard < 8000;
+    $("pdot").className = Link.status === "off" ? "off" : fresh ? "live" : "lost";
+    const where = Link.room ? "online" : "this computer only";
+    $("pstate").textContent = !deck || !fresh
+      ? `Looking for the deck (${where}, ${Link.status})`
+      : !deck.started ? `Deck is on its start screen (${where})`
+      : `Deck on slide ${deck.i + 1}${deck.k ? `.${deck.k}` : ""}: ${deck.waiting ? "waiting for a press" : "playing to the next stop"}`;
+    renderNotes();
+  };
+  // anyone in the room can send; only believe a slide number that exists
+  const ok = (m) => Number.isInteger(m.i) && m.i >= 0 && m.i < BEATS.length && Number.isInteger(m.k) && m.k >= 0
+    && Number.isFinite(m.elapsed);
+  Link.on((m) => {
+    if (m.type !== "state" || !ok(m)) return;
+    deck = m; lastHeard = Date.now();
+    cur = m.i; step = m.k || 0; started = m.started;
+    t0 = m.started ? Date.now() - m.elapsed : null;
+    draw();
+  });
+  Link.onStatus((st) => { if (st === "online") Link.send({ type: "hello" }); draw(); });
+  addEventListener("keydown", (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const k = e.key;
+    if (k === "ArrowRight" || k === "PageDown" || k === " " || k === "Enter") { e.preventDefault(); press("next"); }
+    if (k === "ArrowLeft" || k === "PageUp" || k === "Backspace") { e.preventDefault(); press("back"); }
+  });
+  // a clicked button lets go of the keyboard, or the next Space would press it a second time
+  // the link for the other speakers, shown only here (never on the shared deck)
+  if (Link.room) {
+    $("plink").hidden = false;
+    $("plink").textContent = `Presenter link: ${location.origin}${location.pathname}?presenter&room=${Link.room}`;
+  }
+  $("pnext").addEventListener("click", (e) => { e.currentTarget.blur(); press("next"); });
+  $("pback").addEventListener("click", (e) => { e.currentTarget.blur(); press("back"); });
+  Link.connect();
+  Link.send({ type: "hello" });        // the same-computer road answers at once
+  draw();
+  setInterval(draw, 1000);
 }
 main();
