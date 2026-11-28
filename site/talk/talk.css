@@ -129,9 +129,19 @@ body.dark #trace .all { stroke: #1a2230; } body.dark #trace .done { stroke: #eef
   background: rgba(22,27,33,.94); color: #f5f1eb; font: 400 26px/1.45 var(--text); z-index: 20; }
 #notes h3 { margin: 0 0 8px; font: 500 22px var(--mono); color: #f5993c; }
 #notes .cue { margin: 0 0 10px; font: 400 20px var(--mono); color: #f5c26b; }
-#notes .say { margin: 0 0 10px; color: #8a94a3; }
-#notes .say.now { color: #f5f1eb; border-left: 4px solid #f5993c; padding-left: 14px; margin-left: -18px; }
-#notes .say.done { color: #4f5763; }
+/* one colour per speaker: the bar beside every part and the name tag say whose turn it is */
+.who-aadit { --who: #f5993c; }
+.who-shraddha { --who: #5cb8ff; }
+.who-aradhya { --who: #c792ff; }
+.who-none { --who: #8a94a3; }
+#notes .say { margin: 0 0 10px; color: #8a94a3; border-left: 6px solid var(--who); padding: 6px 0 6px 16px; }
+#notes .say.now { color: #f5f1eb; background: color-mix(in srgb, var(--who) 14%, transparent); }
+#notes .say.done { color: #4f5763; border-left-color: color-mix(in srgb, var(--who) 35%, transparent); }
+.name { display: inline-block; margin-right: 10px; padding: 1px 10px; border-radius: 4px; font: 600 0.72em var(--mono);
+  letter-spacing: .06em; text-transform: uppercase; color: #161b21; background: var(--who); vertical-align: 2px; }
+#notes .say.done .name { opacity: .45; }
+#plegend { margin-left: auto; display: flex; gap: 6px; }
+#plegend .name { font-size: 14px; margin: 0; }
 #notes .press { margin: 4px 0 18px; font: 500 19px var(--mono); color: #6b7380; }
 #notes .press.now { color: #f5993c; }         /* the press you make when you finish the lit part */
 #notes .press.done { color: #3f4650; }

@@ -981,13 +981,29 @@ function drawProgress() {
   if (upto) upto.setAttribute("width", String(traceLen * frac));
   $("count").textContent = BEATS[cur].backup ? "backup" : `${cur + 1} of ${main}`;
 }
+// each speaker has a colour in the notes (talk.css .who-*), so everyone sees at a glance
+// whose turn it is. "[Name] " inside a script hands over to that person mid-slide.
+const SPEAKERS = ["Aadit", "Shraddha", "Aradhya"];
+const whoClass = (name) => `who-${SPEAKERS.includes(name) ? name.toLowerCase() : "none"}`;
+const firstSpeaker = (b) => b.speaker.split(",")[0].trim();
+// one part of the script -> its runs, one per speaker: [{who, text}]
+function runsOf(text, who) {
+  const runs = [];
+  text.split(/\[(Aadit|Shraddha|Aradhya)\]\s*/).forEach((piece, i) => {
+    if (i % 2) { who = piece; return; }
+    if (piece.trim()) runs.push({ who, text: piece.trim() });
+  });
+  return runs;
+}
+function nameTag(who) { return el("span", { class: `name ${whoClass(who)}` }, who); }
+
 function renderNotes() {
   const box = $("notes");
   if (box.hidden && !isPresenter) return;
   const b = BEATS[cur], nb = BEATS[cur + 1];
   const kids = [];
   if (isPresenter) kids.push(el("p", { class: "clock" }, clockText()));
-  kids.push(el("h3", {}, `${cur + 1}. ${b.title}, ${b.speaker}, about ${b.seconds} s`));
+  kids.push(el("h3", {}, `${cur + 1}. ${b.title}, about ${b.seconds} s`));
   // practice cues (slides.json): what is on screen, and what the next press does
   if (b.screen) kids.push(el("p", { class: "cue" }, `On screen: ${b.screen}`));
   // the script with every press inside it: words, then PRESS (what it does), then the words
@@ -998,14 +1014,29 @@ function renderNotes() {
   const parts = b.say || b.notes.split(/\s*\(Next[^)]*\)\s*/);
   const cls = (k) => (k === step ? " now" : k < step ? " done" : "");
   if (b.say) kids.push(el("p", { class: "cue" }, "Clip: start talking the moment it starts."));
+  // every run of words carries its speaker's colour and name; the name shows again only
+  // when the speaker changes
+  let who = firstSpeaker(b), shown = null;
+  const say = (t, c) => runsOf(t, who).forEach((r) => {
+    who = r.who;
+    const p = el("p", { class: `say ${whoClass(r.who)}${c}` });
+    if (r.who !== shown) { p.append(nameTag(r.who)); shown = r.who; }
+    p.append(r.text);
+    kids.push(p);
+  });
   if (parts.length === presses.length + 1) {
     parts.forEach((t, k) => {
-      kids.push(el("p", { class: `say${cls(k)}` }, t));
+      say(t, cls(k));
       if (k < presses.length) kids.push(el("p", { class: `press${cls(k)}` }, `⏵ PRESS: ${presses[k]}`));
     });
-  } else kids.push(el("p", { class: "say now" }, b.notes));
-  kids.push(el("p", { class: `press${cls(presses.length)}` },
-    nb ? `⏭ PRESS: next slide, ${nb.title} (${nb.speaker})` : "Last slide."));
+  } else say(b.notes, " now");
+  const end = el("p", { class: `press${cls(presses.length)}` });
+  if (nb) {
+    const next = firstSpeaker(nb);
+    end.append(`⏭ PRESS: next slide, ${nb.title}  `, nameTag(next),
+      next === who ? " keeps going" : " speaks next");
+  } else end.append("Last slide.");
+  kids.push(end);
   box.replaceChildren(...kids);
   // keep the lit part in view, but only scroll when the place in the script changes
   const where = `${cur}.${step}`;
@@ -1105,6 +1136,7 @@ function roomSetup() {
 function presenter() {
   document.body.classList.add("presenter");
   $("notes").hidden = false; $("pbar").hidden = false; $("pbuttons").hidden = false;
+  $("plegend").replaceChildren(...SPEAKERS.map(nameTag));
   let deck = null, lastHeard = 0;      // the deck's last report
   cur = 0;
   const press = (cmd) => { if (deck) Link.send({ type: "cmd", cmd, at: `${deck.i}.${deck.k}` }); };

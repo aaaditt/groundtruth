@@ -95,7 +95,7 @@ is still playing jumps it to its stop, so you can't fall behind.
 words are split by its stops (`"say"` in slides.json): part 1 goes with the stretch before the
 first stop, part 2 with the next, and so on. The presenter window lights the part for the
 stretch playing now. Press as you finish it; if the clip is already waiting at its stop, it
-moves on at once, and if you finish early, let it reach the stop first. No silent watching. The same cues are in the
+moves on at once, and if you finish early, let it reach the stop first. No silent watching. Each speaker has a colour in the presenter window (Aadit orange, Shraddha blue, Aradhya violet): the bar beside every part and its name tag say whose turn it is, and the last line names who speaks next. The same cues are in the
 deck: press **N** for notes (or **P** for a presenter window on a second screen) and the last
 line always says what the next press will do. The whole talk is
 77 presses.

@@ -217,3 +217,20 @@ def test_every_press_is_marked_in_the_script(deck):
         if b["kind"] == "video" or not b["presses"]:
             continue
         assert len(re.findall(r"\(Next[^)]*\)", b["notes"])) == len(b["presses"]), b["id"]
+
+
+def test_every_speaker_has_a_colour(deck, talk_js):
+    """The presenter notes colour each speaker (talk.js SPEAKERS, talk.css .who-*): every
+    slide's speaker and every "[Name]" hand-over in a script must be one of them."""
+    names = set(re.search(r"const SPEAKERS = \[([^\]]+)\]", talk_js).group(1).replace('"', "").replace(" ", "").split(","))
+    with open(os.path.join(TALK, "talk.css"), encoding="utf-8") as f:
+        css = f.read()
+    for n in names:
+        assert f".who-{n.lower()}" in css, n
+    for b in deck["beats"]:
+        if b.get("backup"):
+            continue
+        assert b["speaker"].split(",")[0].strip() in names, b["id"]
+        for tag in re.findall(r"\[(\w+)\]", " ".join(b.get("say") or [b["notes"]])):
+            if tag[0].isupper() and not tag.startswith("R"):
+                assert tag in names, f"{b['id']}: [{tag}]"
