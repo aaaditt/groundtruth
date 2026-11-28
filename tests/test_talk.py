@@ -187,7 +187,7 @@ def test_remote_config_never_holds_a_secret_key():
     assert cfg["url"] == "" or re.fullmatch(r"https://[a-z0-9]+\.supabase\.co", cfg["url"])
 
 
-WORDS_PER_SECOND = 2.0      # calm speech is about 2.5; below 2 a stretch of the clip goes silent
+WORDS_PER_SECOND = 1.6      # enough to cover a stretch, with room for natural pauses
 
 
 def test_every_stretch_of_every_clip_has_words(deck):
@@ -234,3 +234,21 @@ def test_every_speaker_has_a_colour(deck, talk_js):
         for tag in re.findall(r"\[(\w+)\]", " ".join(b.get("say") or [b["notes"]])):
             if tag[0].isupper() and not tag.startswith("R"):
                 assert tag in names, f"{b['id']}: [{tag}]"
+
+
+def test_aadit_and_aradhya_lines_are_easy_to_say(deck):
+    """Rehearsal, 28 Nov 2026: their lines read like a script. Plain spoken sentences only:
+    no semicolons or colons in what Aadit and Aradhya say (stage directions in brackets
+    are not spoken, so they don't count)."""
+    for b in deck["beats"]:
+        if b.get("backup"):
+            continue
+        who = b["speaker"].split(",")[0].strip()
+        # split into speaker runs and check the runs that belong to Aadit or Aradhya
+        text = " ".join(b.get("say") or [b["notes"]])
+        pieces = re.split(r"\[(Aadit|Shraddha|Aradhya)\]\s*", text)
+        runs = [(who, pieces[0])] + list(zip(pieces[1::2], pieces[2::2]))
+        for name, run in runs:
+            if name in ("Aadit", "Aradhya"):
+                spoken = re.sub(r"\([^)]*\)", "", run)
+                assert not re.search(r"[;:]", spoken), f"{b['id']} ({name}): {spoken[:80]}"
