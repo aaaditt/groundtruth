@@ -125,7 +125,7 @@ anything else). Without them, presenter windows still work on the same computer.
 ### 1 · YOU SHOOK THE GROUND TODAY — `[VIDEO S00, 3 stops]`
 > 🎬 **On screen:** The clip plays by itself: a street at morning rush, “How did you get here today?”. It stops on “Every one of you just shook the ground…” (the city keeps moving).
 >
-> **[Aadit]** Think about how you got here today. A car, a bus, the metro, or your own two feet. Every one of those pushed on the ground. A few billionths of a metre, far too small to feel, but real.
+> **[Aadit]** Think about how you got to our University today. A car, a bus, the metro, or your own two feet. Every one of those pushed on the ground. A few billionths of a metre, far too small to feel, but real.
 >
 > ⏵ **Space 1:** Plays on, stops on “What day is it?” and “How do you know?”
 >
@@ -182,11 +182,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** Row 3: Liu 2025, San Jose
 > ⏭ **Then Space:** next slide, *Where they stopped, and where we start*
 >
-> **[Shraddha]** We're not the first to listen to cities. In 2017, a team in Barcelona traced
-> city noise to traffic, the metro and crowds. *(Next)* Then the pandemic. In Tokyo, four years
-> of recordings showed weekday daytime noise recovered quickly after the first state of
-> emergency, and Sundays more slowly. *(Next)* And most recently, people **map it street by
-> street** with fifty kilometres of fibre-optic cable, as in San Jose.
+> **[Shraddha]** We're not the first to study noise in cities. In 2017, a team in Barcelona connected city noise to traffic, the metro and crowds. (Next) During the pandemic, four years of recordings from Tokyo showed that weekday daytime noise returned quickly after the first state of emergency, while Sunday noise took longer to return. (Next) More recently, researchers have mapped city activity street by street using fifty kilometres of fibre-optic cable, as they did in San Jose.
 >
 > *(Three papers on screen; all seven, and what each gave us, are in
 > [`docs/22-research-papers.md`](22-research-papers.md), for questions.)*
@@ -197,15 +193,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** Row 5: dense arrays or fibre vs seismometers already in place
 > ⏭ **Then Space:** next slide, *Seismometers on six continents*
 >
-> **[Shraddha]** So where did they stop? They measured **averages**: an hour, a type of
-> day, a lockdown. We guess **one day at a time**, graded only on weeks the model never saw.
-> They studied one city or one event; we used **149 seismometers**, then **33 cities over
-> seven years**, and tested a city the model never heard. *(Next)* They needed phone data to
-> compare with; our model needs none, and **its own mistakes find holidays** without labels.
-> They removed people to see earthquakes; we kept people as the signal, and tested that
-> idea on earthquakes too. It didn't help, and we'll show you. *(Next)* And they needed
-> dense arrays or new fibre; we use seismometers **already in the ground**, and a test runs
-> every night. Aradhya, where do ours come from?
+> **[Shraddha]** So where did they stop? They mainly measured average patterns: over an hour, a type of day, or during a lockdown. We look at one day at a time, testing the model only on weeks it hasn't seen before. They focused on one city or one event, while we used 149 seismometers, then expanded to 33 cities over seven years, and tested the model on cities it hadn't seen before. (Next) Some studies needed phone data for comparison. Our model doesn't need that, and its own mistakes can help find holidays without being given holiday labels. Other researchers removed human activity to study earthquakes. We kept it as our main signal and also tested whether removing it could help detect earthquakes. It didn't, and we'll show you why. (Next) Some studies needed large sensor networks or new fibre-optic cables. We use seismometers already installed in the ground, and our system runs a test every night. Aradhya, where do our recordings come from?
 
 ### 7 · SEISMOMETERS ON SIX CONTINENTS — `[LIVE research.html]` *(fallback: C3)*
 > 🎬 **On screen:** The live research map, 158 dots (if it hasn't loaded in 5 s, the globe clip plays instead). Touch Brussels with one finger: its card shows the network and its DOI.
@@ -263,18 +251,12 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** Step 6: unusual days
 > ⏭ **Then Space:** next slide, *One day becomes 25 numbers*
 >
-> **[Shraddha]** Before the details, the whole method on one page: the **six steps of our
-> methodology document** (docs/03). The data: each day becomes **one row**, only the 4 to 14
-> hertz band, glitches dropped, every clock moved to local time. Then **25 features**. Then
-> the **labels**: weekends and holidays come from public calendars, and only ordinary days
-> ever train. *(Next)* The model: a **forest** of a hundred trees votes on the day, and we
-> only grade it on **whole weeks it never saw**. *(Next)* And step six turns its surprise
-> into a detector of **unusual days**. The next slides open these steps one by one.
+> **[Shraddha]** Before going into the details, here's our entire method in six steps. First, we prepare the data: each day becomes one row, we use the 4 to 14 hertz band, remove faulty readings and convert the times to local time. Then we create 25 features. Next, we add labels using public calendars for weekends and holidays. Only ordinary days are used for training. (Next) The model is a Random Forest with 100 decision trees that vote on the day. We test it using entire weeks it hasn't seen before. (Next) Finally, the model's unusual predictions help us identify days that don't follow normal patterns. The next slides explain these steps in more detail.
 
 ### 13 · ONE DAY BECOMES 25 NUMBERS — `[VIDEO S05, cut]`
 > 🎬 **On screen:** The clip plays by itself: one real day's readings on a table. It stops on “3. One number per hour”.
 >
-> **[Shraddha]** The first boxes, up close. Here's one real day's readings, one every fifteen minutes. A model can't look at a picture, so we boil them down to one number per hour.
+> **[Shraddha]** Let's look more closely at the first few steps. Here's one real day's readings. The model can't directly understand a graph, so we convert each day into 25 numbers.
 >
 > ⏵ **Space 1:** Stops on “Then a logarithm…”
 >
@@ -282,18 +264,18 @@ anything else). Without them, presenter windows still work on the same computer.
 >
 > ⏵ **Space 2:** Stops on “4. Split the day: shape and level”
 >
-> Then we split the day in two. Twenty-four numbers say when the city was busy, hour by hour: that's the shape. One says how loud the whole day was compared with that station's usual day: the level.
+> Twenty-four numbers show how active the city was during each hour. This is called the shape. One more number shows how loud the entire day was compared with that station's usual activity. This is called the level.
 >
 > ⏵ **Space 3:** Ends on “24 + 1 = 25 numbers per day”
 >
-> So each day becomes 25 numbers. Every station is different, some by a motorway, some in a basement; the shape is what makes them comparable.
+> So each day becomes 25 numbers. Every station is different, so looking at the daily shape helps us compare their activity patterns.
 >
 > ⏭ **Then Space:** next slide, *A hundred trees vote*
 
 ### 14 · A HUNDRED TREES VOTE — `[VIDEO C4]`
 > 🎬 **On screen:** The clip plays by itself: one real tree and its first question. It stops on “yes: mostly weekends / no: mostly weekdays”.
 >
-> **[Shraddha]** The next box is the model: a random forest. Here's one real tree from Brussels. Its first question: at six in the morning, was the ground still no busier than the rest of the day? Yes leads mostly to weekends; no, mostly to weekdays.
+> **[Shraddha]** The next step is the Random Forest. It uses 100 decision trees, and each tree asks a series of simple yes-or-no questions. For example, at six in the morning, was the ground still quiet compared with the rest of the day? If yes, that might point towards a weekend.
 >
 > ⏵ **Space 1:** The grove grows: “A hundred trees, each from a random slice of days”
 >
@@ -301,11 +283,11 @@ anything else). Without them, presenter windows still work on the same computer.
 >
 > ⏵ **Space 2:** The trees vote: the tally fills in, “97 of 100 say weekday”
 >
-> Then they vote. On a Wednesday the model never saw, 97 of the 100 trees say weekday.
+> Here's a real Wednesday from Brussels that the model hadn't seen before. 97 out of 100 trees correctly say it's a weekday,
 >
 > ⏵ **Space 3:** Ends on “But only 5 say Wednesday…”
 >
-> But only 5 say Wednesday. They agree it's a working day; they split on which one. Weekday or weekend is easy; the exact day is much harder.
+> but they don't all agree on which weekday it is. Only 5 say Wednesday. Weekday or weekend is easy; the exact day is much harder.
 >
 > ⏭ **Then Space:** next slide, *Graded only on weeks it never saw*
 
@@ -313,10 +295,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > 🎬 **On screen:** A still: the calendar of weeks, each shade one round's hidden weeks.
 > ⏭ **Then Space:** next slide, *How one guess is made*
 >
-> **[Shraddha]** And the last box: grading. We never grade it on a week it studied. Monday
-> and Tuesday are near-twins, so we hide **whole weeks**, five rounds. And we score it so
-> that always guessing "weekday" gets 50, not five out of seven: **balanced accuracy**.
-> Aadit, how did it do?
+> **[Shraddha]** The final step is testing the model. We never test it on weeks it has already learned from. Monday and Tuesday can have very similar patterns, so we keep entire weeks together and test using five different splits. We also use balanced accuracy, so a model that always predicts weekday doesn't get an unfair score of around 71%. Instead, it gets 50%. Aadit, how did it do?
 
 ### 16 · HOW ONE GUESS IS MADE — `[DIAGRAM guess, 3 presses]` *(forest.json)*
 > 🎬 **On screen:** The day's 25 numbers → 100 trees.
@@ -324,13 +303,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** The two answers: “Which day? Friday. Wrong” and “Weekday or weekend? Weekday. Right”
 > ⏭ **Then Space:** next slide, *What the model looks at*
 >
-> **[Shraddha]** So how does one guess actually happen? Take a day the model has never seen:
-> **Wednesday 15 January 2020**, in Brussels. Its 25 numbers go in: 24 for the shape of the
-> day, one for its level. *(Next)* Each of the hundred trees asks its own few yes/no
-> questions and casts **one vote**. These are the real votes: 31 Friday, 25 Tuesday, 23
-> Monday, only 5 Wednesday, and 3 for the weekend. *(Next)* So the exact-day guess is
-> **Friday: wrong**. But **97 of 100 trees agree it's a weekday: right**. That's this model
-> in one day: sure about the weekend, unsure which weekday. Aadit, what does it look at?
+> **[Shraddha]** So how does the model actually make a prediction? Let's take a day it hasn't seen before: Wednesday, 15 January 2020, in Brussels. We give the model its 25 numbers: 24 describing the day's shape and one showing its overall level. (Next) Each of the 100 trees asks its own yes-or-no questions and gives one vote. These are the actual votes: 31 for Friday, 25 for Tuesday, 23 for Monday, only 5 for Wednesday, and 3 for the weekend. (Next) So the model predicts Friday, which is wrong. But 97 out of 100 trees agree that it's a weekday, which is correct. This shows that the model is much better at identifying weekdays and weekends than telling the exact weekday. Aadit, what does the model look at?
 
 ### 17 · WHAT THE MODEL LOOKS AT — `[DIAGRAM importance, 2 presses]` *(ml.json)*
 > 🎬 **On screen:** 25 grey bars: how much each number helps.
@@ -438,11 +411,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > 🎬 **On screen:** A still: three things that didn't work.
 > ⏭ **Then Space:** next slide, *Now scale it*
 >
-> **[Shraddha]** Three honest ones. Lockdown didn't make weekdays look like Sundays: only
-> about a quarter were called weekend; it looked like no day the model had heard. Our
-> shape-plus-level split doesn't beat raw hourly numbers; it's about as good, and easier to
-> compare. And all of this is one season, with national holidays only. So: what happens
-> with years?
+> **[Shraddha]** There were also a few things that didn't work as expected. During lockdowns, weekdays didn't simply start looking like Sundays. Only about a quarter were classified as weekends; many looked different from any day the model had learned. Our shape-and-level features also didn't perform better than using the raw hourly readings, although they gave us a simpler way to compare stations. And the original dataset covers only one season and uses national holidays. So what happens when we use data from more years?
 
 ### 25 · NOW SCALE IT — `[STATIC method card]` *(R15–R17 · 2019–26 · 33 cities)*
 > 🎬 **On screen:** A still: 33 cities, 7 years, the ordinary days.
@@ -459,10 +428,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > 🎬 **On screen:** A still: the learning curve from 100 days to all of them, and 96% for the week.
 > ⏭ **Then Space:** next slide, *Everything we built*
 >
-> **[Shraddha]** The obvious bet: seven years makes it much smarter. Weekend or not:
-> **97%**. But the exact day climbs from **38%** at 100 days to **57%** with all of them,
-> and flattens. One model for all 33 cities together: worse in every city. A Tuesday just
-> sounds like a Thursday. Show it the **week around** the day instead: **96%**.
+> **[Shraddha]** We might expect seven years of data to make the model much better. For weekday versus weekend classification, it reaches 97%. But exact-day accuracy only increases from 38% with 100 days of data to 57% with all the data, and then improvement slows down. Training one model on all 33 cities together actually performs worse in every city. This is because a Tuesday can sound different from one city to another. But when we give the model the full week around a day instead of just that day, accuracy reaches 96%.
 
 ### 27 · EVERYTHING WE BUILT — `[DIAGRAM sitemap, 3 presses]`
 > 🎬 **On screen:** Data (2019–20, every night) → Python and the GitHub Action.
@@ -505,14 +471,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** Saved in git → the website, and the “built once on a laptop” line
 > ⏭ **Then Space:** next slide, *City Pulse: every night*
 >
-> **[Shraddha]** So how does a website know what the ground did last night? Follow the
-> boxes. The seismometers record all day; EarthScope publishes their spectra about two days
-> later; and every morning at six, a **GitHub Action** wakes up and downloads the new days.
-> *(Next)* Two models score each day: the **frozen** one, trained on one year and never
-> changed, and a **learner** that guesses a day first and only then studies it. *(Next)*
-> The answers are saved in the repository, Vercel publishes them, and the globe, Ask and
-> City Pulse read them. Ask's seven-year models are built once on a laptop and saved the
-> same way. Here it is running.
+> **[Shraddha]** So how does the website get information about what happened the previous day? Let's follow the steps. Seismometers record vibrations throughout the day. EarthScope makes the data available about two days later. Every morning at six, a GitHub Action automatically downloads the latest available data. (Next) Two models then analyse each day: one is a fixed model trained on one year of data, which stays unchanged. The other is a learning model that makes a prediction first and then learns from that day. (Next) The results are saved in the GitHub repository and published through Vercel, where the globe, Ask and City Pulse pages can use them. The seven-year models in Ask are trained separately on a laptop and saved in the same way. Let's see it running.
 
 ### 31 · CITY PULSE: EVERY NIGHT — `[LIVE today.html, 3 steps]` *(fallback: still)*
 > 🎬 **On screen:** Live City Pulse: the newest day, city by city.
@@ -520,14 +479,7 @@ anything else). Without them, presenter windows still work on the same computer.
 > ⏵ **Space 2:** The page reloads at the predictions board
 > ⏭ **Then Space:** next slide, *Guess the day*
 >
-> **[Shraddha]** Here it is running: **City Pulse**. Every night it shows yesterday, city by
-> city: what the model guessed **before** it was told, and whether it was right. *(Next →
-> the learning card)* Further down, the learner from the diagram: frozen and learning, side by
-> side. Does learning help? We wrote the test down before writing the code, and our own guess
-> is *probably not much*, because more data already flattened. The verdict comes in January;
-> until then these numbers say *interim*. *(Next → the predictions board)* And the
-> **predictions board**: forecasts committed to the repository before the day, with the
-> result filled in after. Aradhya, one more page.
+> **[Shraddha]** Here it is: City Pulse. Every night, it shows the previous day's results for each city, including what the model predicted and whether it was correct. (Next → the learning card) Further down, we can see the fixed model and the learning model side by side. Does learning from more data actually help? We prepared a test before writing the code. Based on our earlier results, we don't expect a huge improvement because accuracy had already started to level off. The final result will be available in January, so these are still early results. (Next → the predictions board) Finally, the predictions board shows predictions saved in the repository before the actual day, with the real results added afterwards. Aradhya, one more page.
 
 ### 32 · GUESS THE DAY — `[LIVE game.html]` *(fallback: still)*
 > 🎬 **On screen:** The live game: one real day's line. Tap a day with one finger to guess; the model's answer appears.
