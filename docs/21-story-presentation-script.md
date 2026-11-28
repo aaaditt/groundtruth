@@ -98,8 +98,10 @@ line always says what the next press will do. The whole talk is
 every speaker steers it from their own presenter window.
 
 1. Open `/talk/` on the sharing laptop and press **Present online** on the start screen. The
-   address becomes `/talk/?room=CODE` (a random 12-letter code), and the start screen shows the
-   presenter link `/talk/?presenter&room=CODE` with a copy button. Send it to the speakers.
+   address becomes `/talk/?room=CODE` (a random 12-letter code), and the start screen gets a
+   **Copy presenter link** button (the link itself is never shown there, because anyone who
+   sees it can move the deck; it is printed at the bottom of your presenter window). Send it
+   to the speakers privately, not in the call's chat.
 2. Each speaker opens the link on a laptop or a phone. A green dot means it can hear the deck,
    amber means it is in the room but the deck is silent, and red means it has no connection.
    The window shows the slide's script, what the next press does, the clock, and Back / Next.

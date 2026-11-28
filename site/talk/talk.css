@@ -151,6 +151,7 @@ body.presenter { padding-bottom: 140px; }
 #pdot.live { background: #4cc38a; }          /* hearing the deck */
 #pdot.lost { background: #f5c26b; }          /* in the room, but the deck is silent */
 #pdot.off { background: #e5484d; }           /* no connection at all */
+#plink { margin: 28px 0 0; font: 400 16px var(--mono); color: #6b7380; user-select: all; word-break: break-all; }
 #pbuttons { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 16px; padding: 16px 44px 24px;
   background: #161b21; border-top: 1px solid #2a323c; }
 #pbuttons button { flex: 1; padding: 26px 0; font: 500 30px var(--text); border: 0; cursor: pointer;

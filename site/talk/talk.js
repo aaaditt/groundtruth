@@ -821,7 +821,6 @@ function sendState() {
 // if two speakers press at the same moment, the deck moves once, not twice.
 function onLink(m) {
   if (m.type === "hello") return sendState();
-  if (m.goto != null) return go(m.goto);
   if (m.type !== "cmd" || !started) return sendState();
   if (m.at !== pos()) return sendState();
   if (m.cmd === "next") next(); else if (m.cmd === "back") back();
@@ -1071,7 +1070,9 @@ function roomSetup() {
   if (Link.room) {
     $("mkroom").hidden = true;
     $("copyroom").hidden = false;
-    $("roomtext").textContent = `Presenter link: ${link()}`;
+    // never print the link here: the audience may see this screen once it is shared, and
+    // anyone with the link can move the deck. Copy it, or read it in the presenter window.
+    $("roomtext").textContent = "Online.";
     $("copyroom").addEventListener("click", () => {
       navigator.clipboard.writeText(link()).then(() => { $("copyroom").textContent = "Copied"; }, () => {});
     });
@@ -1095,15 +1096,18 @@ function presenter() {
   const draw = () => {
     const fresh = Date.now() - lastHeard < 8000;
     $("pdot").className = Link.status === "off" ? "off" : fresh ? "live" : "lost";
-    const where = Link.room ? `room ${Link.room}` : "this computer only";
+    const where = Link.room ? "online" : "this computer only";
     $("pstate").textContent = !deck || !fresh
       ? `Looking for the deck (${where}, ${Link.status})`
       : !deck.started ? `Deck is on its start screen (${where})`
       : `Deck on slide ${deck.i + 1}${deck.k ? `.${deck.k}` : ""}: ${deck.waiting ? "waiting for a press" : "playing to the next stop"}`;
     renderNotes();
   };
+  // anyone in the room can send; only believe a slide number that exists
+  const ok = (m) => Number.isInteger(m.i) && m.i >= 0 && m.i < BEATS.length && Number.isInteger(m.k) && m.k >= 0
+    && Number.isFinite(m.elapsed);
   Link.on((m) => {
-    if (m.type !== "state") return;
+    if (m.type !== "state" || !ok(m)) return;
     deck = m; lastHeard = Date.now();
     cur = m.i; step = m.k || 0; started = m.started;
     t0 = m.started ? Date.now() - m.elapsed : null;
@@ -1117,6 +1121,11 @@ function presenter() {
     if (k === "ArrowLeft" || k === "PageUp" || k === "Backspace") { e.preventDefault(); press("back"); }
   });
   // a clicked button lets go of the keyboard, or the next Space would press it a second time
+  // the link for the other speakers, shown only here (never on the shared deck)
+  if (Link.room) {
+    $("plink").hidden = false;
+    $("plink").textContent = `Presenter link: ${location.origin}${location.pathname}?presenter&room=${Link.room}`;
+  }
   $("pnext").addEventListener("click", (e) => { e.currentTarget.blur(); press("next"); });
   $("pback").addEventListener("click", (e) => { e.currentTarget.blur(); press("back"); });
   Link.connect();
