@@ -1105,7 +1105,7 @@ async function main() {
   Link.on(onLink);
   roomSetup();
   Link.connect();
-  setInterval(sendState, 3000);        // a heartbeat: presenters know the deck is still there
+  Link.every(3000, sendState);         // a heartbeat: presenters know the deck is still there
 }
 
 // The start screen's "Present online": make a room code, put it in the address, and show
@@ -1141,7 +1141,7 @@ function presenter() {
   cur = 0;
   const press = (cmd) => { if (deck) Link.send({ type: "cmd", cmd, at: `${deck.i}.${deck.k}` }); };
   const draw = () => {
-    const fresh = Date.now() - lastHeard < 8000;
+    const fresh = Date.now() - lastHeard < 12000;
     $("pdot").className = Link.status === "off" ? "off" : fresh ? "live" : "lost";
     const where = Link.room ? "online" : "this computer only";
     $("pstate").textContent = !deck || !fresh
@@ -1178,6 +1178,6 @@ function presenter() {
   Link.connect();
   Link.send({ type: "hello" });        // the same-computer road answers at once
   draw();
-  setInterval(draw, 1000);
+  Link.every(1000, draw);
 }
 main();

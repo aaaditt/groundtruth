@@ -39,18 +39,55 @@ const Link = (() => {
 
   // Join the Supabase room. Needs vendor/supabase-*.js (the global `supabase`) and the
   // project's address and publishable key in remote-config.json.
+  //
+  // Staying connected: Chrome slows down timers in background tabs (a presenter looking at
+  // the Meet tab, the deck behind another window). Supabase's keep-alive ping then arrives
+  // late, the server drops the connection, and the dot goes amber. So the ping runs in a
+  // Web Worker (`worker: true`, not slowed down), and if the room is ever lost we rejoin by
+  // ourselves: after an error, when the tab comes back to the front, and when the network
+  // comes back.
+  let client = null, retry = null;
+  function rejoin(delay) {
+    clearTimeout(retry);
+    retry = setTimeout(join, delay);
+  }
+  function join() {
+    if (!client) return;
+    if (remote) { client.removeChannel(remote); remote = null; }
+    setStatus("connecting");
+    const ch = client.channel(`talk:${room}`, { config: { broadcast: { self: false } } });
+    ch.on("broadcast", { event: "deck" }, ({ payload }) => deliver(payload));
+    ch.subscribe((s) => {
+      if (ch !== remote) return;                       // an old channel we already replaced
+      if (s === "SUBSCRIBED") setStatus("online");
+      else { setStatus("connecting"); rejoin(2000); }   // TIMED_OUT, CHANNEL_ERROR, CLOSED
+    });
+    remote = ch;
+  }
   async function connect() {
     if (!room) return;
     let cfg = {};
     try { cfg = await (await fetch("remote-config.json", { cache: "no-cache" })).json(); } catch (e) { /* no file */ }
     if (!cfg.url || !cfg.key || !window.supabase) { setStatus("off"); return; }
-    const client = window.supabase.createClient(cfg.url, cfg.key, { auth: { persistSession: false } });
-    remote = client.channel(`talk:${room}`, { config: { broadcast: { self: false } } });
-    remote.on("broadcast", { event: "deck" }, ({ payload }) => deliver(payload));
-    remote.subscribe((s) => {
-      // SUBSCRIBED = in the room. The library rejoins by itself after a drop.
-      setStatus(s === "SUBSCRIBED" ? "online" : s === "CLOSED" ? "off" : "connecting");
+    client = window.supabase.createClient(cfg.url, cfg.key, {
+      auth: { persistSession: false },
+      realtime: { worker: true, heartbeatIntervalMs: 15000 },
     });
+    join();
+    document.addEventListener("visibilitychange", () => { if (!document.hidden && status !== "online") rejoin(0); });
+    addEventListener("online", () => rejoin(0));
+  }
+
+  // A timer that keeps time in a background tab: a tiny Web Worker ticks, the page runs fn.
+  // (A plain setInterval in a hidden tab can be held back to once a minute.)
+  function every(ms, fn) {
+    try {
+      const src = `setInterval(() => postMessage(0), ${ms | 0});`;
+      const w = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
+      w.onmessage = fn;
+      return;
+    } catch (e) { /* no workers: fall back */ }
+    setInterval(fn, ms);
   }
 
   return {
@@ -65,6 +102,7 @@ const Link = (() => {
       if (remote) remote.send({ type: "broadcast", event: "deck", payload: msg }).catch(() => {});
     },
     connect,
+    every,
     makeRoom() {                      // a fresh code: 12 letters and digits, hard to guess
       const a = new Uint8Array(12);
       crypto.getRandomValues(a);
