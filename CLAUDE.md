@@ -125,6 +125,8 @@ and the time-travel globe (Result 15, `src/history.py`, `groundtruth/history.py`
   (`sendState`, also every 3 s). Transport: BroadcastChannel (same computer) plus Supabase
   Realtime Broadcast, with the vendored `vendor/supabase-2.119.2.js` (no CDN) and only the
   publishable key in `remote-config.json` (tested). The room code lives in the URL, never in the repo.
+  Keep-alive runs in a Web Worker (`realtime: { worker: true }`) and the room rejoins itself on
+  error, tab focus and network return: background tabs throttle timers and dropped the link.
 - **Data provenance**: `src/sources_export.py` writes `site/data/sources.json` (each
   network's name and DOI from the FDSN registry, plus the four datasets). The research
   map, the globe panel and the talk's sources slide read it; rerun it when stations change.
