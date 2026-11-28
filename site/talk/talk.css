@@ -132,6 +132,9 @@ body.dark #trace .all { stroke: #1a2230; } body.dark #trace .done { stroke: #eef
 #notes .say { margin: 0 0 10px; color: #8a94a3; }
 #notes .say.now { color: #f5f1eb; border-left: 4px solid #f5993c; padding-left: 14px; margin-left: -18px; }
 #notes .say.done { color: #4f5763; }
+#notes .press { margin: 4px 0 18px; font: 500 19px var(--mono); color: #6b7380; }
+#notes .press.now { color: #f5993c; }         /* the press you make when you finish the lit part */
+#notes .press.done { color: #3f4650; }
 #notes .next { margin-top: 14px; font: 400 20px var(--mono); color: #aab3c0; }
 #blackout { position: fixed; inset: 0; background: #000; z-index: 30; }
 #start { position: fixed; inset: 0; z-index: 40; background: var(--paper); display: flex; flex-direction: column;

@@ -187,12 +187,33 @@ def test_remote_config_never_holds_a_secret_key():
     assert cfg["url"] == "" or re.fullmatch(r"https://[a-z0-9]+\.supabase\.co", cfg["url"])
 
 
-def test_clip_lines_are_the_script_split_by_stops(deck):
-    """Talk over the clips (docs/21): each clip's "say" is its notes cut at the stops, one
-    part per stretch of the clip, with no word added or lost."""
+WORDS_PER_SECOND = 2.0      # calm speech is about 2.5; below 2 a stretch of the clip goes silent
+
+
+def test_every_stretch_of_every_clip_has_words(deck):
+    """Talk over the clips, never after them (docs/21). Each clip's "say" has one part per
+    stretch between stops, the notes are those parts joined, and every stretch that ends at
+    a stop has enough words to cover it (so no animation plays in silence)."""
+    with open(os.path.join(TALK, "media", "cues.json"), encoding="utf-8") as f:
+        stops = json.load(f)
     for b in deck["beats"]:
         if b["kind"] != "video" or b.get("backup"):
             continue
         assert "say" in b, f"{b['id']}: no 'say' lines"
         assert len(b["say"]) == len(b["presses"]) + 1, b["id"]
         assert " ".join(" ".join(b["say"]).split()) == " ".join(b["notes"].split()), b["id"]
+        prev = 0.0
+        for k, q in enumerate(stops[b["video"]["clip"]]):
+            need = WORDS_PER_SECOND * (q["at"] - prev)
+            got = len(b["say"][k].split())
+            assert got >= need, f"{b['id']} part {k + 1}: {got} words for {q['at'] - prev:.1f} s of clip"
+            prev = q["at"]
+
+
+def test_every_press_is_marked_in_the_script(deck):
+    """The presenter window shows the script with each press inside it: a clip's "say" parts,
+    or a still/live slide's notes cut at its "(Next...)" markers, one per press."""
+    for b in deck["beats"]:
+        if b["kind"] == "video" or not b["presses"]:
+            continue
+        assert len(re.findall(r"\(Next[^)]*\)", b["notes"])) == len(b["presses"]), b["id"]

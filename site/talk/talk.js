@@ -990,17 +990,30 @@ function renderNotes() {
   kids.push(el("h3", {}, `${cur + 1}. ${b.title}, ${b.speaker}, about ${b.seconds} s`));
   // practice cues (slides.json): what is on screen, and what the next press does
   if (b.screen) kids.push(el("p", { class: "cue" }, `On screen: ${b.screen}`));
-  // a clip: talk while it plays. slides.json "say" splits the words by the clip's stops;
-  // the line for the stretch playing now is lit, the ones already said are dimmed
-  if (b.say) {
-    kids.push(el("p", { class: "cue" }, "Talk while it plays: start now, press when you finish the lit line."));
-    b.say.forEach((t, k) => kids.push(el("p", { class: k === step ? "say now" : k < step ? "say done" : "say" }, t)));
-  } else kids.push(el("p", {}, b.notes));
+  // the script with every press inside it: words, then PRESS (what it does), then the words
+  // for after it. A clip's parts are slides.json "say" (one per stretch between its stops:
+  // talk while it plays); a still or live slide's notes are cut at their "(Next...)" marks.
+  // The part for right now is lit, the ones already said are dimmed.
   const presses = b.presses || [];
-  const nextPress = step < presses.length ? `Press ${step + 1} of ${presses.length}: ${presses[step]}`
-    : nb ? `Next press: next slide, ${nb.title} (${nb.speaker})` : "Last slide.";
-  kids.push(el("p", { class: "next" }, nextPress));
+  const parts = b.say || b.notes.split(/\s*\(Next[^)]*\)\s*/);
+  const cls = (k) => (k === step ? " now" : k < step ? " done" : "");
+  if (b.say) kids.push(el("p", { class: "cue" }, "Clip: start talking the moment it starts."));
+  if (parts.length === presses.length + 1) {
+    parts.forEach((t, k) => {
+      kids.push(el("p", { class: `say${cls(k)}` }, t));
+      if (k < presses.length) kids.push(el("p", { class: `press${cls(k)}` }, `⏵ PRESS: ${presses[k]}`));
+    });
+  } else kids.push(el("p", { class: "say now" }, b.notes));
+  kids.push(el("p", { class: `press${cls(presses.length)}` },
+    nb ? `⏭ PRESS: next slide, ${nb.title} (${nb.speaker})` : "Last slide."));
   box.replaceChildren(...kids);
+  // keep the lit part in view, but only scroll when the place in the script changes
+  const where = `${cur}.${step}`;
+  if (where !== renderNotes.at) {
+    renderNotes.at = where;
+    const now = box.querySelector(".say.now");
+    if (now && isPresenter) now.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
 }
 let t0 = null;
 const clockText = () => { if (!t0) return "0:00"; const sec = Math.floor((Date.now() - t0) / 1000);
