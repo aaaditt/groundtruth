@@ -85,16 +85,13 @@ function box(g, x, y, w, h, title, lines = [], tone = "", kicker = "") {
 }
 
 // the studies before ours, verified against each paper's abstract (docs/02, "Papers")
+// (the talk shows three; all seven papers, and what each gave this project: docs/22)
 const LIT = [
   { lane: "Describe a city's noise", papers: [
-    ["2009", "Groos & Ritter", "Bucharest", "daily and weekly cycles,", "sorted by source"],
     ["2017", "Díaz et al.", "Barcelona", "traced to traffic, the", "metro and crowds"]] },
-  { lane: "Measure the lockdown", papers: [
-    ["2020", "Lecocq et al.", "268 stations, worldwide", "human noise fell by", "up to half"],
-    ["2021", "Cannata et al.", "eastern Sicily", "noise tracked phone", "mobility data"],
+  { lane: "Measure the pandemic", papers: [
     ["2021", "Nimiya et al.", "Tokyo, 2017–2021", "weekdays and Sundays", "recovered differently"]] },
-  { lane: "Remove it, or map it", papers: [
-    ["2022", "Yang et al.", "Long Beach", "deep learning strips city", "noise to see earthquakes"],
+  { lane: "Map it street by street", papers: [
     ["2025", "Liu et al.", "San Jose, 50 km of fibre", "maps activity street", "by street"]] },
 ];
 function arrow(g, id, pts, dashed = false) {
@@ -993,7 +990,12 @@ function renderNotes() {
   kids.push(el("h3", {}, `${cur + 1}. ${b.title}, ${b.speaker}, about ${b.seconds} s`));
   // practice cues (slides.json): what is on screen, and what the next press does
   if (b.screen) kids.push(el("p", { class: "cue" }, `On screen: ${b.screen}`));
-  kids.push(el("p", {}, b.notes));
+  // a clip: talk while it plays. slides.json "say" splits the words by the clip's stops;
+  // the line for the stretch playing now is lit, the ones already said are dimmed
+  if (b.say) {
+    kids.push(el("p", { class: "cue" }, "Talk while it plays: start now, press when you finish the lit line."));
+    b.say.forEach((t, k) => kids.push(el("p", { class: k === step ? "say now" : k < step ? "say done" : "say" }, t)));
+  } else kids.push(el("p", {}, b.notes));
   const presses = b.presses || [];
   const nextPress = step < presses.length ? `Press ${step + 1} of ${presses.length}: ${presses[step]}`
     : nb ? `Next press: next slide, ${nb.title} (${nb.speaker})` : "Last slide.";
